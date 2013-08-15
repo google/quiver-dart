@@ -1,0 +1,4 @@
+name: quiver
+description: A set of utility libraries for Dart
+dev_dependencies:
+  unittest: any
