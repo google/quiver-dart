@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library listy.cycle_test;
+library quiver.iterables.cycle_test;
 
 import 'package:unittest/unittest.dart';
 import 'package:quiver/iterables.dart';
@@ -22,10 +22,14 @@ main() {
 
     test("should create an empty iterable given an empty iterable", () {
       expect(cycle([]), []);
+      expect(cycle([]).isEmpty, true);
+      expect(cycle([]).isNotEmpty, false);
     });
 
     test("should cycle its argument", () {
       expect(cycle([1, 2, 3]).take(7), [1, 2, 3, 1, 2, 3, 1]);
+      expect(cycle([1, 2, 3]).isEmpty, false);
+      expect(cycle([1, 2, 3]).isNotEmpty, true);
     });
 
   });

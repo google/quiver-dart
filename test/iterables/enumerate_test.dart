@@ -12,29 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.iterables.count_test;
+library quiver.iterables.enumerate_test;
 
 import 'package:unittest/unittest.dart';
 import 'package:quiver/iterables.dart';
 
 main() {
-  group('count', () {
+  group('enumerate', () {
 
-    test("should create an infinite sequence starting from 0 given no args", () {
-      expect(count().first, 0);
-      expect(count().take(5), [0, 1, 2, 3, 4]);
+    test("should add indices to its argument", () {
+      var e = enumerate(['a', 'b', 'c']);
+      expect(e.map((v) => v.index), [0, 1, 2]);
+      expect(e.map((v) => v.value), ['a', 'b', 'c']);
     });
 
-    test("should create an infinite sequence starting from start", () {
-      expect(count(3).first, 3);
-      expect(count(3).take(5), [3, 4, 5, 6, 7]);
-    });
-
-    test("should create an infinite sequence stepping by step", () {
-      expect(count(3, 2).first, 3);
-      expect(count(3, 2).take(5), [3, 5, 7, 9, 11]);
-      expect(count(3.5, 2).first, 3.5);
-      expect(count(3.5, .5).take(5), [3.5, 4, 4.5, 5, 5.5]);
+    test("should return an empty iterable given an empty iterable", () {
+      expect(enumerate([]), []);
     });
 
   });

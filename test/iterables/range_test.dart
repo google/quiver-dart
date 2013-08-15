@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library listy.range_test;
+library quiver.iterables.range_test;
 
 import 'package:unittest/unittest.dart';
 import 'package:quiver/iterables.dart';

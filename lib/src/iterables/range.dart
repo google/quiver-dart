@@ -20,11 +20,11 @@ part of quiver.iterables;
  * If only one argument is provided, [start_or_stop] is the upper bound for the
  * sequence. If two or more arguments are provided, [stop] is the upper bound.
  *
- * The sequence of ints starts at 0 if one argument is provided, or
- * [start_or_stop] if two or more arguments are provided. The sequence
- * increments by 1, or [step] is provided. [step] can be negative, in which case
- * the sequence counts down from the starting point and [stop] must be less than
- * the starting point so that it becomes the lower bound.
+ * The sequence starts at 0 if one argument is provided, or [start_or_stop] if
+ * two or more arguments are provided. The sequence increments by 1, or [step]
+ * if provided. [step] can be negative, in which case the sequence counts down
+ * from the starting point and [stop] must be less than the starting point so
+ * that it becomes the lower bound.
  */
 Iterable<num> range(num start_or_stop, [num stop, num step]) =>
     new _Range(start_or_stop, stop, step);
@@ -38,15 +38,15 @@ class _Range extends IterableBase<num> {
         step = (_step == null) ? 1 : _step
   {
     if (step == 0) {
-      throw new ArgumentError("step cennot be 0");
+      throw new ArgumentError("step cannot be 0");
     }
     if ((step > 0) && (stop < start)) {
       throw new ArgumentError("if step is positive,"
-          " max must be greater than min");
+          " stop must be greater than start");
     }
     if ((step < 0) && (stop > start)) {
       throw new ArgumentError("if step is negative,"
-          " max must be less than min");
+          " stop must be less than start");
     }
   }
 
@@ -55,7 +55,6 @@ class _Range extends IterableBase<num> {
 
 class _RangeIterator implements Iterator<num> {
   final num _stop, _step;
-  final bool _ascend;
   num _value;
   bool _hasNext;
   bool _inRange;
@@ -63,7 +62,6 @@ class _RangeIterator implements Iterator<num> {
   _RangeIterator(num start, num stop, this._step)
       : _value = start,
         _stop = stop,
-        _ascend = (start < stop),
         _hasNext = true,
         _inRange = false;
 
@@ -71,7 +69,7 @@ class _RangeIterator implements Iterator<num> {
 
   bool moveNext() {
     if (_hasNext && _inRange) _value += _step;
-    _inRange = _hasNext = _ascend ? (_value < _stop) : (_value > _stop);
+    _inRange = _hasNext = (_step > 0) ? (_value < _stop) : (_value > _stop);
     return _hasNext;
   }
 }

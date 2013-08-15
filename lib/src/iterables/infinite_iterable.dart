@@ -15,8 +15,8 @@
 part of quiver.iterables;
 
 /**
- * An [Iterable] base class that throws [UnsupportedError] for methods that
- * would require the Iterable to terminate.
+ * A base class for [Iterable]s of infinite length that throws
+ * [UnsupportedError] for methods that would require the Iterable to terminate.
  */
 abstract class InfiniteIterable<T> extends IterableBase<T> {
   bool get isEmpty => false;
