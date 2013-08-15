@@ -1,0 +1,7 @@
+name: quiver
+version: 0.1.0
+author: Dart Authors <misc@dartlang.org>
+description: A set of utility libraries for Dart
+homepage: https://github.com/google/quiver-dart
+dev_dependencies:
+  unittest: any
