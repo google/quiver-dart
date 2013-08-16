@@ -25,7 +25,10 @@ main() {
     });
 
     test("should merge empty iterables into empty iterable", () {
-      for (int i = 1; i <= 10; i++) {
+      expect(merge([[]]), []);
+      expect(merge([[], []]), []);
+      expect(merge([[], [], []]), []);
+      for (int i = 4; i <= 10; i++) {
         expect(merge(new List.filled(i, const [])), []);
       }
     });
