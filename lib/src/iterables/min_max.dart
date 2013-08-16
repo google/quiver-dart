@@ -22,7 +22,7 @@ part of quiver.iterables;
  * [Comparable.compare] is used. If [i] contains null elements, an exception
  * will be thrown.
  */
-Object max(Iterable i, [Comparator compare = Comparable.compare]) =>
+dynamic max(Iterable i, [Comparator compare = Comparable.compare]) =>
     i.reduce((a, b) => compare(a, b) > 0 ? a : b);
 
 /**
@@ -33,7 +33,7 @@ Object max(Iterable i, [Comparator compare = Comparable.compare]) =>
  * [Comparable.compare] is used. If [i] contains null elements, an exception
  * will be thrown.
  */
-Object min(Iterable i, [Comparator compare = Comparable.compare]) =>
+dynamic min(Iterable i, [Comparator compare = Comparable.compare]) =>
     i.reduce((a, b) => compare(a, b) < 0 ? a : b);
 
 /**
