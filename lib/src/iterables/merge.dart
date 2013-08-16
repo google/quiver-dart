@@ -21,8 +21,10 @@ part of quiver.iterables;
  * function. It will not check for this condition or sort the iterables.
  *
  * The compare function must act as a [Comparator]. If [compare] is omitted,
- * [Comparable.compare] is used. If either [a] or [b] contains null elements,
- * an exception will be thrown.
+ * [Comparable.compare] is used.
+ *
+ * If any of the [iterables] contain null elements, an exception will be
+ * thrown.
  */
 Iterable merge(Iterable<Iterable> iterables,
                [Comparator compare = Comparable.compare]) =>
@@ -47,9 +49,9 @@ class _IteratorPeeker {
   final Iterator _iterator;
   bool _hasCurrent;
 
-  _IteratorPeeker(Iterator iterator) :
-    _iterator = iterator,
-    _hasCurrent = iterator.moveNext();
+  _IteratorPeeker(Iterator iterator)
+      : _iterator = iterator,
+        _hasCurrent = iterator.moveNext();
 
   moveNext() {
     _hasCurrent = _iterator.moveNext();
@@ -63,15 +65,20 @@ class _MergeIterator implements Iterator {
   final Comparator _compare;
   var _current;
 
-  _MergeIterator(List<Iterator> iterators, this._compare) :
-    _peekers = iterators.map((i) => new _IteratorPeeker(i)).toList();
+  _MergeIterator(List<Iterator> iterators, this._compare)
+      : _peekers = iterators.map((i) => new _IteratorPeeker(i)).toList();
 
   bool moveNext() {
-    // Pick the peeker that's peeking at the smallest element
-    _IteratorPeeker minIter = _peekers
-      .where((p) => p._hasCurrent)
-      .fold(null, (min, p) =>
-          min == null || _compare(p.current, min.current) < 0 ? p : min);
+    // Pick the peeker that's peeking at the puniest piece
+    _IteratorPeeker minIter = null;
+    for (var p in _peekers) {
+      if (p._hasCurrent) {
+        if (minIter == null || _compare(p.current, minIter.current) < 0) {
+          minIter = p;
+        }
+      }
+    }
+
     if (minIter == null) {
       return false;
     }
