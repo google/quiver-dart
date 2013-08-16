@@ -79,14 +79,8 @@ class _MultiPattern extends Pattern {
  * string, not a substring.
  */
 bool matchesFull(Pattern pattern, String str) {
-  var iter = pattern.allMatches(str).iterator;
-  if (iter.moveNext()) {
-    var match = iter.current;
-    return match.start == 0
-        && match.end == str.length
-        && !iter.moveNext();
-  }
-  return false;
+  var match = pattern.matchAsPrefix(str);
+  return match != null && match.end == str.length;
 }
 
 bool _hasMatch(Iterable<Match> matches) => matches.iterator.moveNext();
