@@ -20,6 +20,7 @@ part 'src/iterables/count.dart';
 part 'src/iterables/cycle.dart';
 part 'src/iterables/enumerate.dart';
 part 'src/iterables/infinite_iterable.dart';
+part 'src/iterables/merge.dart';
 part 'src/iterables/min_max.dart';
 part 'src/iterables/range.dart';
 part 'src/iterables/zip.dart';
