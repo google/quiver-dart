@@ -14,8 +14,11 @@
 
 part of quiver.pattern;
 
+// TODO(justin): add more detailed documentation and explain how matching
+// differs or is similar to globs in Python and various shells.
 /**
- * A [Pattern] that matches against path strings with wildcards.
+ * A [Pattern] that matches against filesystem path-like strings with
+ * wildcards.
  *
  * The pattern matches strings as follows:
  *   * The whole string must match, not a substring
