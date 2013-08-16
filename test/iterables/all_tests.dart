@@ -17,6 +17,7 @@ library quiver.iterables.all_tests;
 import 'count_test.dart' as count;
 import 'cycle_test.dart' as cycle;
 import 'enumerate_test.dart' as enumerate;
+import 'merge_test.dart' as merge;
 import 'range_test.dart' as range;
 import 'zip_test.dart' as zip;
 
@@ -24,6 +25,7 @@ main() {
   count.main();
   cycle.main();
   enumerate.main();
+  merge.main();
   range.main();
   zip.main();
 }
