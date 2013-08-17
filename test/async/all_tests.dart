@@ -14,11 +14,13 @@
 
 library quiver.async.all_tests;
 
+import 'countdown_timer_test.dart' as countdown_timer;
 import 'future_group_test.dart' as future_group;
 import 'iteration_test.dart' as iteration;
 import 'stream_router_test.dart' as stream_router;
 
 main() {
+  countdown_timer.main();
   future_group.main();
   iteration.main();
   stream_router.main();

@@ -36,6 +36,9 @@ them to complete.
 `StreamRouter` splits a Stream into mulltiple streams based on a set of
 predicates.
 
+`CountdownTimer` is a simple countdown timer that fires events in configurable
+increments.
+
 `doWhileAsync` and `reduceAsync` perform async computations on the elements of
 on Iterables, waiting for the computation to complete before processing the
 next element.
