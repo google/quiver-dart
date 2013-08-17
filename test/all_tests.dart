@@ -16,8 +16,10 @@ library quiver.all_tests;
 
 import 'async/all_tests.dart' as async;
 import 'iterables/all_tests.dart' as iterables;
+import 'pattern/all_tests.dart' as pattern;
 
 main() {
   async.main();
   iterables.main();
+  pattern.main();
 }
