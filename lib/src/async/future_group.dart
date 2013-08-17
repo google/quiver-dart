@@ -14,7 +14,13 @@
 
 part of quiver.async;
 
-/** A future that waits until all added [Future]s complete. */
+/**
+ * A collection of [Future]s that signals when all added Futures complete. New
+ * Futures can be added to the group as long as it hasn't completed.
+ *
+ * FutureGroup is useful for managing a set of async tasks that may spawn new
+ * async tasks as they execute.
+ */
 class FutureGroup<E> {
   static const _FINISHED = -1;
 
@@ -29,8 +35,8 @@ class FutureGroup<E> {
   /**
    * Wait for [task] to complete.
    *
-   * If this group has already been marked as completed, you'll get a
-   * [StateError].
+   * If this group has already been marked as completed, a [StateError] will be
+   * thrown.
    *
    * If this group has a [failedTask], new tasks will be ignored, because the
    * error has already been signaled.
@@ -59,7 +65,10 @@ class FutureGroup<E> {
 
   /**
    * A Future that complets with a List of the values from all the added
-   * Futures, when they have all completed.
+   * tasks, when they have all completed.
+   *
+   * If any task fails, this Future will receive the error. Only the first
+   * error will be sent to the Future.
    */
   Future<List<E>> get future => _completer.future;
 }
