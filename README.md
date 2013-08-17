@@ -8,7 +8,7 @@ A set of utility libraries for Dart
 `count`, `cycle`, `enumerate`, `merge`, `range`, and  `zip` create, transform,
 or combine Iterables in different ways, similar to Python's itertools.
 
-`min`,`max`, and `extent` retreive the minimum and maximum elements from an
+`min`, `max`, and `extent` retreive the minimum and maximum elements from an
 iterable.
 
 ## pattern.dart
@@ -33,3 +33,8 @@ them to complete.
 `doWhileAsync` and `reduceAsync` perform async computations on the elements of
 on Iterables, waiting for the computation to complete before processing the
 next element.
+
+## io.dart
+
+`visitDirectory` is a recursive directory lister that conditionally recurses
+into sub-directories based on the result of a handler function.
