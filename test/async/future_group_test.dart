@@ -20,7 +20,7 @@ import 'package:unittest/unittest.dart';
 import 'package:quiver/async.dart';
 
 main() {
-  group('future_group', () {
+  group('FutureGroup', () {
 
     test('should complete when all added futures are complete', () {
       var group = new FutureGroup();

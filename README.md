@@ -33,6 +33,9 @@ have completed. Allows adding new Futures as long as it hasn't completed yet.
 Useful when async tasks can spwn new async tasks and you need to wait for all of
 them to complete.
 
+`StreamRouter` splits a Stream into mulltiple streams based on a set of
+predicates.
+
 `doWhileAsync` and `reduceAsync` perform async computations on the elements of
 on Iterables, waiting for the computation to complete before processing the
 next element.

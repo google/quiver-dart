@@ -18,3 +18,4 @@ import 'dart:async';
 
 part 'src/async/future_group.dart';
 part 'src/async/iteration.dart';
+part 'src/async/stream_router.dart';
