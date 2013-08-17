@@ -21,11 +21,14 @@ pattern.dart container utilities for work with `Pattern`s and `RegExp`s.
 
 `matchesFull` returns true if a Pattern matches an entire String.
 
+`escapeRegex` escapes special regex characters in a String so that it can be
+used as a literal match inside of a RegExp.
+
 ## async.dart
 
 Utilities for working with Futures, Streams and async computations.
 
-`FutureGroup` is collection of Futures that signals when all it's child futures
+`FutureGroup` is collection of Futures that signals when all its child futures
 have completed. Allows adding new Futures as long as it hasn't completed yet.
 Useful when async tasks can spwn new async tasks and you need to wait for all of
 them to complete.
