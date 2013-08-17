@@ -4,6 +4,6 @@ author: Dart Authors <misc@dartlang.org>
 description: A set of utility libraries for Dart
 homepage: https://github.com/google/quiver-dart
 dependencies:
-  path: any
+  path: ">=0.6.17+2 <0.7.0"
 dev_dependencies:
   unittest: any
