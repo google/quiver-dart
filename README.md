@@ -5,11 +5,11 @@ A set of utility libraries for Dart
 
 ## iterables.dart
 
-Functions for transforming Iterables in different ways, similar to Python's
-itertools.
+`count`, `cycle`, `enumerate`, `merge`, `range`, and  `zip` create, transform,
+or combine Iterables in different ways, similar to Python's itertools.
 
-These include `count`, `cycle`, `enumerate`, `range`, `zip`, `min`, `max`, and
-`extent`.
+`min`,`max`, and `extent` retreive the minimum and maximum elements from an
+iterable.
 
 ## pattern.dart
 
@@ -30,4 +30,6 @@ have completed. Allows adding new Futures as long as it hasn't completed yet.
 Useful when async tasks can spwn new async tasks and you need to wait for all of
 them to complete.
 
-`doWhileAsync` and `reduceAsync` perform async computations on Iterables.
+`doWhileAsync` and `reduceAsync` perform async computations on the elements of
+on Iterables, waiting for the computation to complete before processing the
+next element.
