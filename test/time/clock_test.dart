@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.iterables.merge_test;
+library quiver.time.clock_test;
 
 import 'package:unittest/unittest.dart';
 import 'package:quiver/time.dart';

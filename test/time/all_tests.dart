@@ -12,18 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.all_tests;
+library quiver.time.all_tests;
 
-import 'async/all_tests.dart' as async;
-import 'io_test.dart' as io;
-import 'iterables/all_tests.dart' as iterables;
-import 'pattern/all_tests.dart' as pattern;
-import 'time/all_tests.dart' as time;
+import 'clock_test.dart' as clock;
 
 main() {
-  async.main();
-  io.main();
-  iterables.main();
-  pattern.main();
-  time.main();
+  clock.main();
 }
