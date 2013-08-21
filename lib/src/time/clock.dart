@@ -44,52 +44,84 @@ class Clock {
   DateTime now() => _time();
 
   /// Returns the point in time [Duration] amount of time ago.
-  DateTime ago(Duration duration) => now().subtract(duration);
+  DateTime agoBy(Duration duration) => now().subtract(duration);
 
   /// Returns the point in time [Duration] amount of time from now.
-  DateTime fromNow(Duration duration) => now().add(duration);
+  DateTime fromNowBy(Duration duration) => now().add(duration);
+
+  /// Returns the point in time that's given amount of time ago. The
+  /// amount of time is the sum of individual parts. Parts are compatible with
+  /// ones defined in [Duration].
+  DateTime ago({int days: 0,
+                int hours: 0,
+                int minutes: 0,
+                int seconds: 0,
+                int milliseconds: 0,
+                int microseconds: 0}) =>
+      agoBy(new Duration(days: days,
+                         hours: hours,
+                         minutes: minutes,
+                         seconds: seconds,
+                         milliseconds: milliseconds,
+                         microseconds: microseconds));
+
+  /// Returns the point in time that's given amount of time from now. The
+  /// amount of time is the sum of individual parts. Parts are compatible with
+  /// ones defined in [Duration].
+  DateTime fromNow({int days: 0,
+                int hours: 0,
+                int minutes: 0,
+                int seconds: 0,
+                int milliseconds: 0,
+                int microseconds: 0}) =>
+      fromNowBy(new Duration(days: days,
+                         hours: hours,
+                         minutes: minutes,
+                         seconds: seconds,
+                         milliseconds: milliseconds,
+                         microseconds: microseconds));
 
   /// Return the point in time [micros] microseconds ago.
-  DateTime microsAgo(int micros) => ago(new Duration(microseconds: micros));
+  DateTime microsAgo(int micros) => ago(microseconds: micros);
 
   /// Return the point in time [micros] microseconds from now.
-  DateTime microsFromNow(int micros) => microsAgo(-micros);
+  DateTime microsFromNow(int micros) => fromNow(microseconds: micros);
 
   /// Return the point in time [millis] milliseconds ago.
-  DateTime millisAgo(int millis) => ago(new Duration(milliseconds: millis));
+  DateTime millisAgo(int millis) => ago(milliseconds: millis);
 
   /// Return the point in time [millis] milliseconds from now.
-  DateTime millisFromNow(int millis) => millisAgo(-millis);
+  DateTime millisFromNow(int millis) => fromNow(milliseconds: millis);
 
   /// Return the point in time [seconds] ago.
-  DateTime secondsAgo(int seconds) => ago(new Duration(seconds: seconds));
+  DateTime secondsAgo(int seconds) => ago(seconds: seconds);
 
   /// Return the point in time [seconds] from now.
-  DateTime secondsFromNow(int seconds) => secondsAgo(-seconds);
+  DateTime secondsFromNow(int seconds) => fromNow(seconds: seconds);
 
   /// Return the point in time [minutes] ago.
-  DateTime minutesAgo(int minutes) => ago(new Duration(minutes: minutes));
+  DateTime minutesAgo(int minutes) => ago(minutes: minutes);
 
   /// Return the point in time [minutes] from now.
-  DateTime minutesFromNow(int minutes) => minutesAgo(-minutes);
+  DateTime minutesFromNow(int minutes) => fromNow(minutes: minutes);
 
   /// Return the point in time [hours] ago.
-  DateTime hoursAgo(int hours) => ago(new Duration(hours: hours));
+  DateTime hoursAgo(int hours) => ago(hours: hours);
 
   /// Return the point in time [hours] from now.
-  DateTime hoursFromNow(int hours) => hoursAgo(-hours);
+  DateTime hoursFromNow(int hours) => fromNow(hours: hours);
 
   /// Return the point in time [days] ago.
-  DateTime daysAgo(int days) => ago(new Duration(days: days));
+  DateTime daysAgo(int days) => ago(days: days);
 
   /// Return the point in time [days] from now.
-  DateTime daysFromNow(int days) => daysAgo(-days);
+  DateTime daysFromNow(int days) => fromNow(days: days);
 
   /// Return the point in time [weeks] ago.
-  DateTime weeksAgo(int weeks) => ago(new Duration(days: 7 * weeks));
+  DateTime weeksAgo(int weeks) => ago(days: 7 * weeks);
 
   /// Return the point in time [weeks] from now.
-  DateTime weeksFromNow(int weeks) => weeksAgo(-weeks);
+  DateTime weeksFromNow(int weeks) => fromNow(days: 7 * weeks);
 
   /// Return the point in time [months] ago on the same date.
   DateTime monthsAgo(int months) {
