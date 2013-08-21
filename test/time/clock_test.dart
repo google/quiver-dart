@@ -21,8 +21,17 @@ main() {
   group('clock', () {
     var subject = new Clock.fixed(new DateTime(2013));
 
-    test("should return time based on system time and not fail", () {
-      expect(new Clock(), isNotNull);
+    test("should return a non-null value from system clock", () {
+      expect(new Clock().now(), isNotNull);
+    });
+
+    // This test may be flaky on certain systems. I ran it over 10 million
+    // cycles on my machine without any failures, but that's no guarantee.
+    test("should be close enough to system clock", () {
+      var testValue = new Clock().now();
+      var now = new DateTime.now();
+      // I picked 2ms because 1ms was starting to get flaky.
+      expect(now.difference(testValue).inMilliseconds.abs(), lessThan(2));
     });
 
     test("should return time provided by custom TimeFunction", () {
