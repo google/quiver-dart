@@ -14,55 +14,31 @@
 
 part of quiver.time;
 
-/// Provides current time
-abstract class TimeProvider {
-  DateTime call();
-}
-
-class _SystemTimeProvider implements TimeProvider {
-  const _SystemTimeProvider();
-  DateTime call() => new DateTime.now();
-}
-
-/// Same as [TimeProvider] but in the form of a function.
+/// Returns current time.
 typedef DateTime TimeFunction();
 
-/// Time provider that gets time from a function.
-class FunctionTimeProvider implements TimeProvider {
-  final TimeFunction _timeFunction;
-  FunctionTimeProvider(DateTime this._timeFunction());
-  DateTime call() => _timeFunction();
-}
-
-/// Always returns time provided by user. Useful in unit-tests.
-class FixedTimeProvider implements TimeProvider {
-  DateTime time;
-  FixedTimeProvider(this.time);
-  DateTime call() => time;
-}
-
-/// Uses system clock to obtain current time
-const TimeProvider SYSTEM_TIME = const _SystemTimeProvider();
-
-/// Provides points in time relative to the current point in time. The current
-/// point in time is defined by a [TimeProvider] (see constructors for how to
-/// supply time providers).
+/// Provides points in time relative to the current point in time, for example:
+/// now, 2 days ago, 4 weeks from now, etc.
+///
+/// This class is designed with testability in mind. The current point in time
+/// (or [now()]) is defined by a [TimeFunction]. By supplying your own time
+/// function or by using fixed clock (see constructors), you can control
+/// exactly what time a [Clock] returns and base your test expectations on
+/// that. See specific constructors for how to supply time functions.
 class Clock {
 
-  final TimeProvider _time;
+  final TimeFunction _time;
 
   /// Creates [Clock] based on the system clock.
-  Clock() : _time = SYSTEM_TIME;
+  Clock() : _time = (() => new DateTime.now());
 
-  /// Creates [Clock] based on user-defined [TypeProvider].
+  /// Creates [Clock] based on user-defined [TimeFunction]. For example, in
+  /// unit-tests you might want to control what time it is now and set date and
+  /// time expectations.
   Clock.custom(this._time);
 
-  /// Creates [Clock] that uses the time provided by the user as the current
-  /// time.
-  Clock.fixed(DateTime time) : _time = new FixedTimeProvider(time);
-
-  /// Create [Clock] that gets time from a function.
-  Clock.fromFunc(TimeFunction func) : _time = new FunctionTimeProvider(func);
+  /// Creates [Clock] that returns fixed [time] value. Useful in unit-tests.
+  Clock.fixed(DateTime time) : _time = (() => time);
 
   /// Returns current time.
   DateTime now() => _time();

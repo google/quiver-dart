@@ -25,22 +25,17 @@ main() {
       expect(new Clock(), isNotNull);
     });
 
-    test("should return time provided by custom TimeProvider", () {
-      var fixedTimeProvider = new FixedTimeProvider(new DateTime(2013));
-      var fixedClock = new Clock.custom(fixedTimeProvider);
+    test("should return time provided by custom TimeFunction", () {
+      var time = new DateTime(2013);
+      var fixedClock = new Clock.custom(() => time);
       expect(fixedClock.now(), new DateTime(2013));
 
-      fixedTimeProvider.time = new DateTime(2014);
+      time = new DateTime(2014);
       expect(fixedClock.now(), new DateTime(2014));
     });
 
     test("should return fixed time", () {
       expect(new Clock.fixed(new DateTime(2013)).now(), new DateTime(2013));
-    });
-
-    test("should return time provided by custom TimeFunction", () {
-      expect(new Clock.fromFunc(() => new DateTime(2013)).now(),
-          new DateTime(2013));
     });
 
     test("should return time Duration ago", () {
