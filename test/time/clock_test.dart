@@ -23,20 +23,25 @@ main() {
 
     test("should return a non-null value from system clock", () {
       expect(new Clock().now(), isNotNull);
+      expect(SYSTEM_CLOCK.now(), isNotNull);
     });
 
     // This test may be flaky on certain systems. I ran it over 10 million
     // cycles on my machine without any failures, but that's no guarantee.
     test("should be close enough to system clock", () {
-      var testValue = new Clock().now();
-      var now = new DateTime.now();
       // I picked 2ms because 1ms was starting to get flaky.
-      expect(now.difference(testValue).inMilliseconds.abs(), lessThan(2));
+      var epsilon = 2;
+      expect(new DateTime.now().difference(
+          new Clock().now()).inMilliseconds.abs(),
+              lessThan(epsilon));
+      expect(new DateTime.now().difference(
+          SYSTEM_CLOCK.now()).inMilliseconds.abs(),
+              lessThan(epsilon));
     });
 
     test("should return time provided by custom TimeFunction", () {
       var time = new DateTime(2013);
-      var fixedClock = new Clock.custom(() => time);
+      var fixedClock = new Clock(() => time);
       expect(fixedClock.now(), new DateTime(2013));
 
       time = new DateTime(2014);
