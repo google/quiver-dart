@@ -17,7 +17,8 @@ part of quiver.time;
 /// Returns current time.
 typedef DateTime TimeFunction();
 
-DateTime _systemTime() => new DateTime.now();
+/// Return current system time.
+DateTime systemTime() => new DateTime.now();
 
 /// A predefined instance of [Clock] that's based on system clock.
 const SYSTEM_CLOCK = const Clock();
@@ -41,7 +42,7 @@ class Clock {
   /// Custom [timeFunc] can be useful in unit-tests. For example, you might
   /// want to control what time it is now and set date and time expectations in
   /// your test cases.
-  const Clock([TimeFunction timeFunc = _systemTime]) : _time = timeFunc;
+  const Clock([TimeFunction timeFunc = systemTime]) : _time = timeFunc;
 
   /// Creates [Clock] that returns fixed [time] value. Useful in unit-tests.
   Clock.fixed(DateTime time) : _time = (() => time);
