@@ -1,6 +1,8 @@
 name: quiver
-version: 0.5.0
-author: Dart Authors <misc@dartlang.org>
+version: 0.6.0
+authors:
+- Justin Fagnani <justinfagnani@google.com>
+- Yegor Jbanov <yjbanov@google.com>
 description: A set of utility libraries for Dart
 homepage: https://github.com/google/quiver-dart
 dependencies:
