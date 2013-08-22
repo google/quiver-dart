@@ -21,6 +21,8 @@ part of quiver.async;
  * timer you can get the [remaining] and [elapsed] time, or [cancel] the timer.
  */
 class CountdownTimer extends Stream<CountdownTimer> {
+  static const _THRESHOLD_MS = 4;
+
   final Duration _duration;
   final Duration _increment;
   final Stopwatch _stopwatch;
@@ -31,7 +33,8 @@ class CountdownTimer extends Stream<CountdownTimer> {
       : _duration = duration,
         _increment = increment,
         _stopwatch = new Stopwatch(),
-        _controller = new StreamController<CountdownTimer>.broadcast() {
+        _controller = new StreamController<CountdownTimer>.broadcast(
+            sync: true) {
     _timer = new Timer.periodic(increment, _tick);
     _stopwatch.start();
   }
@@ -55,7 +58,8 @@ class CountdownTimer extends Stream<CountdownTimer> {
   _tick(Timer timer) {
     var t = remaining;
     _controller.add(this);
-    if (t.inMicroseconds <= 0) {
+    // timers may have a 4ms resolution
+    if (t.inMilliseconds < _THRESHOLD_MS) {
       cancel();
     }
   }

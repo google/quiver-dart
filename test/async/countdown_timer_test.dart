@@ -27,20 +27,17 @@ main() {
       int round100(i) => (i / 100).round();
 
       var stopwatch = new Stopwatch()..start();
-      var countdown = new CountdownTimer(
+      var timings = new CountdownTimer(
           new Duration(milliseconds: 500),
           new Duration(milliseconds: 100))
-          .map((c) => round100(c.remaining.inMilliseconds));
-      return Future.wait([
-          countdown.toList(),
-          countdown.map((t) => t + round100(stopwatch.elapsedMilliseconds))
-              .toList()])
-          .then((l) {
-            // the ticks should be 4 .. 0
-            expect(l[0], [4, 3, 2, 1, 0]);
-            // they should come roughly every 100ms
-            expect(l[1], [5, 5, 5, 5, 5]);
-          });
+          .map((c) => [c.remaining.inMilliseconds,
+              stopwatch.elapsedMilliseconds]);
+      timings.toList().then((list) {
+        // the ticks should be 4 .. 0
+        expect(list.map((t) => round100(t[0])), [4, 3, 2, 1, 0]);
+        // they should come roughly every 100ms
+        expect(list.map((t) => round100(t[0] + t[1])), [5, 5, 5, 5, 5]);
+      });
     });
   });
 }
