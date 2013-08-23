@@ -35,6 +35,21 @@ or combine Iterables in different ways, similar to Python's itertools.
 `min`, `max`, and `extent` retreive the minimum and maximum elements from an
 iterable.
 
+## mirrors.dart
+
+`getTypeName` returns the name of a Type instance.
+
+`implements` and `classImplements` determine if an instance or ClassMirror,
+respectively, implement the interface represented by a Type instance. They
+implement the behavior of `is` for mirrors, except for generics.
+
+`getMemberMirror` searches though a ClassMirror and its class hierarchy for
+a member. This makes up for the fact that `ClassMirror.members` doesn't
+contain members from interfaces or superclasses.
+
+`Method` wraps an InstanceMirror and Symbol to create a callable that invokes
+a method on the instance. It in effect closurizes a method reflectively.
+
 ## pattern.dart
 
 pattern.dart container utilities for work with `Pattern`s and `RegExp`s.
