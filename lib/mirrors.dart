@@ -23,26 +23,21 @@ Symbol getTypeName(Type t) => reflectClass(t).qualifiedName;
 
 
 /**
- * Walks the class hierarchy of [o] to search for a superclass or interface
- * [type].
+ * Returns true if [o] implements [type].
  */
 bool implements(Object o, Type type) =>
     classImplements(reflect(o).type, getTypeName(type));
 
 /**
- * Walks the class hierarchy of the ClassMirror [m] to search for a superclass
- * or interface with the qualified name [name].
+ * Returns true if [m], its superclasses or interfaces have the qualified name
+ * [name].
  */
 bool classImplements(ClassMirror m, Symbol name) {
   if (m == null) return false;
-  if (m.qualifiedName == name) {
-    return true;
-  }
+  if (m.qualifiedName == name) return true;
   if (m.qualifiedName == const Symbol('dart.core.Object')) return false;
   if (classImplements(m.superclass, name)) return true;
-  for (ClassMirror i in m.superinterfaces) {
-    if (classImplements(i, name)) return true;
-  }
+  if (m.superinterfaces.any((i) => classImplements(i, name))) return true;
   return false;
 }
 
@@ -84,7 +79,7 @@ class Method { // implements Function
   dynamic noSuchMethod(Invocation i) {
     if (i.isMethod && i.memberName == const Symbol('call')) {
       if (i.namedArguments != null && i.namedArguments.isNotEmpty) {
-        // this will fail until named argument support is implements
+        // this will fail until named argument support is implemented
         return mirror.invoke(symbol, i.positionalArguments, i.namedArguments)
             .reflectee;
       }
