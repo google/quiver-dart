@@ -17,6 +17,7 @@ library quiver.all_tests;
 import 'async/all_tests.dart' as async;
 import 'io_test.dart' as io;
 import 'iterables/all_tests.dart' as iterables;
+import 'mirrors_test.dart' as mirrors;
 import 'pattern/all_tests.dart' as pattern;
 import 'time/all_tests.dart' as time;
 
@@ -24,6 +25,7 @@ main() {
   async.main();
   io.main();
   iterables.main();
+  mirrors.main();
   pattern.main();
   time.main();
 }
