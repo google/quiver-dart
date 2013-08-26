@@ -24,3 +24,8 @@ part 'src/iterables/merge.dart';
 part 'src/iterables/min_max.dart';
 part 'src/iterables/range.dart';
 part 'src/iterables/zip.dart';
+part 'src/iterables/delegates/iterable.dart';
+part 'src/iterables/delegates/list.dart';
+part 'src/iterables/delegates/map.dart';
+part 'src/iterables/delegates/queue.dart';
+part 'src/iterables/delegates/set.dart';
