@@ -23,8 +23,10 @@ import 'package:quiver/async.dart';
 /**
  * Converts a [Stream] of byte lists to a [String].
  */
-Future<String> byteStreamToString(Stream<List<int>> stream) =>
-    stream.transform(UTF8.decoder).join();
+Future<String> byteStreamToString(Stream<List<int>> stream,
+    {Encoding encoding: UTF8}) {
+  return stream.transform(encoding.decoder).join();
+}
 
 /**
  * Gets the full path of [path] by using [File.fullPathSync].
