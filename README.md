@@ -22,6 +22,11 @@ increments.
 on Iterables, waiting for the computation to complete before processing the
 next element.
 
+## collection.dart
+
+`Multimap` is an associative collection that maps keys to collections of
+values.
+
 ## io.dart
 
 `visitDirectory` is a recursive directory lister that conditionally recurses
