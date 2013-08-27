@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
+part of quiver.collection;
 
 /**
  * This class allows to implement [Set] methods by delegating to a given
@@ -32,7 +32,7 @@ part of quiver.iterables;
 class DelegatedSet<E> extends DelegatedIterable<E> implements Set<E> {
   final Set<E> _delegate;
 
-  DelegatedSet(this._delegate) : super(this._delegate);
+  DelegatedSet(Set<E> _delegate) : _delegate = _delegate, super(_delegate);
 
   void add(E value) => _delegate.add(value);
 

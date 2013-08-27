@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
+part of quiver.collection;
 
 /**
  * This class allows to implement [Iterable] methods by delegating to a given

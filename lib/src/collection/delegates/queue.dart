@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
+part of quiver.collection;
 
 /**
  * This class allows to implement [Queue] methods by delegating to a given
@@ -32,7 +32,7 @@ part of quiver.iterables;
 class DelegatedQueue<E> extends DelegatedIterable<E> implements Queue<E> {
   final Queue<E> _delegate;
 
-  DelegatedQueue(this._delegate) : super(this._delegate);
+  DelegatedQueue(Queue<E> _delegate) : _delegate = _delegate, super(_delegate);
 
   void add(E value) => _delegate.add(value);
 

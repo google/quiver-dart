@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
+part of quiver.collection;
 
 /**
  * This class allows to implement [List] methods by delegating to a given
@@ -32,7 +32,7 @@ part of quiver.iterables;
 class DelegatedList<E> extends DelegatedIterable<E> implements List<E> {
   final List<E> _delegate;
 
-  DelegatedList(this._delegate) : super(this._delegate);
+  DelegatedList(List<E> _delegate) : _delegate = _delegate, super(_delegate);
 
   E operator [](int index) => _delegate[index];
 
