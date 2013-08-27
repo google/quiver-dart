@@ -15,6 +15,7 @@
 library quiver.io;
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:quiver/async.dart';
@@ -23,7 +24,7 @@ import 'package:quiver/async.dart';
  * Converts a [Stream] of byte lists to a [String].
  */
 Future<String> byteStreamToString(Stream<List<int>> stream) =>
-    stream.transform(new StringDecoder()).join();
+    stream.transform(UTF8.decoder).join();
 
 /**
  * Gets the full path of [path] by using [File.fullPathSync].
