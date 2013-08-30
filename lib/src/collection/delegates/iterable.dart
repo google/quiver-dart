@@ -19,7 +19,7 @@ part of quiver.collection;
  * [Iterable].
  * For instance you can create a FruitIterable like this :
  *
- *     class FruitIterable extends DelegatedIterable<Fruit> {
+ *     class FruitIterable extends DelegatingIterable<Fruit> {
  *       final List<Fruit> fruits;
  *       FruitIterable() : this._([]);
  *       FruitIterable._(List<Fruit> fruits) :
@@ -29,10 +29,10 @@ part of quiver.collection;
  *       // custom methods
  *     }
  */
-class DelegatedIterable<E> implements Iterable<E> {
+class DelegatingIterable<E> implements Iterable<E> {
   final Iterable<E> _delegate;
 
-  DelegatedIterable(this._delegate);
+  DelegatingIterable(this._delegate);
 
   bool any(bool test(element)) => _delegate.any(test);
 

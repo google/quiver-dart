@@ -20,67 +20,67 @@ import 'package:quiver/collection.dart';
 import 'package:unittest/unittest.dart';
 
 void main() {
-  group('DelegatedSet', () {
-    DelegatedSet<String> delegatedSet;
+  group('DelegatingSet', () {
+    DelegatingSet<String> delegatingSet;
     setUp((){
-      delegatedSet = new DelegatedSet<String>(
+      delegatingSet = new DelegatingSet<String>(
           new LinkedHashSet<String>.from(['a', 'b', 'cc']));
     });
     test('add', () {
-      delegatedSet.add('d');
-      expect(delegatedSet, equals(['a', 'b', 'cc', 'd']));
-      delegatedSet.add('d');
-      expect(delegatedSet, equals(['a', 'b', 'cc', 'd']));
+      delegatingSet.add('d');
+      expect(delegatingSet, equals(['a', 'b', 'cc', 'd']));
+      delegatingSet.add('d');
+      expect(delegatingSet, equals(['a', 'b', 'cc', 'd']));
     });
     test('addAll', () {
-      delegatedSet.addAll(['d', 'e']);
-      expect(delegatedSet, equals(['a', 'b', 'cc', 'd', 'e']));
+      delegatingSet.addAll(['d', 'e']);
+      expect(delegatingSet, equals(['a', 'b', 'cc', 'd', 'e']));
     });
     test('clear', () {
-      delegatedSet.clear();
-      expect(delegatedSet, equals([]));
+      delegatingSet.clear();
+      expect(delegatingSet, equals([]));
     });
     test('containsAll', () {
-      expect(delegatedSet.containsAll(['a', 'cc']), isTrue);
-      expect(delegatedSet.containsAll(['a', 'c']), isFalse);
+      expect(delegatingSet.containsAll(['a', 'cc']), isTrue);
+      expect(delegatingSet.containsAll(['a', 'c']), isFalse);
     });
     // skip because :
     // Test failed: Caught type 'LinkedHashSet<String>' is not a subtype of type
     // 'HashSet<String>' of 'result'.
     skip_test('difference', () {
-      expect(delegatedSet.difference(new Set<String>.from(['a', 'cc'])),
+      expect(delegatingSet.difference(new Set<String>.from(['a', 'cc'])),
           equals(['b']));
-      expect(delegatedSet.difference(new Set<String>.from(['cc'])),
+      expect(delegatingSet.difference(new Set<String>.from(['cc'])),
           equals(['a', 'b']));
     });
     test('intersection', () {
-      expect(delegatedSet.intersection(new Set<String>.from(['a', 'dd'])),
+      expect(delegatingSet.intersection(new Set<String>.from(['a', 'dd'])),
           equals(['a']));
-      expect(delegatedSet.intersection(new Set<String>.from(['e'])),
+      expect(delegatingSet.intersection(new Set<String>.from(['e'])),
           equals([]));
     });
     test('remove', () {
-      expect(delegatedSet.remove('b'), isTrue);
-      expect(delegatedSet, equals(['a', 'cc']));
+      expect(delegatingSet.remove('b'), isTrue);
+      expect(delegatingSet, equals(['a', 'cc']));
     });
     test('removeAll', () {
-      delegatedSet.removeAll(['a', 'cc']);
-      expect(delegatedSet, equals(['b']));
+      delegatingSet.removeAll(['a', 'cc']);
+      expect(delegatingSet, equals(['b']));
     });
     test('removeWhere', () {
-      delegatedSet.removeWhere((e) => e.length == 1);
-      expect(delegatedSet, equals(['cc']));
+      delegatingSet.removeWhere((e) => e.length == 1);
+      expect(delegatingSet, equals(['cc']));
     });
     test('retainAll', () {
-      delegatedSet.retainAll(['a', 'cc', 'd']);
-      expect(delegatedSet, equals(['a', 'cc']));
+      delegatingSet.retainAll(['a', 'cc', 'd']);
+      expect(delegatingSet, equals(['a', 'cc']));
     });
     test('retainWhere', () {
-      delegatedSet.retainWhere((e) => e.length == 1);
-      expect(delegatedSet, equals(['a', 'b']));
+      delegatingSet.retainWhere((e) => e.length == 1);
+      expect(delegatingSet, equals(['a', 'b']));
     });
     test('union', () {
-      expect(delegatedSet.union(
+      expect(delegatingSet.union(
           new LinkedHashSet<String>.from(['a', 'cc', 'd'])),
           equals(['a', 'b', 'cc', 'd']));
     });

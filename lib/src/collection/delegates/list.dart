@@ -19,7 +19,7 @@ part of quiver.collection;
  * [List].
  * For instance you can create a FruitList like this :
  *
- *     class FruitList extends DelegatedList<Fruit> {
+ *     class FruitList extends DelegatingList<Fruit> {
  *       final List<Fruit> fruits;
  *       FruitList() : this._([]);
  *       FruitList._(List<Fruit> fruits) :
@@ -29,10 +29,10 @@ part of quiver.collection;
  *       // custom methods
  *     }
  */
-class DelegatedList<E> extends DelegatedIterable<E> implements List<E> {
+class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
   final List<E> _delegate;
 
-  DelegatedList(List<E> _delegate) : _delegate = _delegate, super(_delegate);
+  DelegatingList(List<E> _delegate) : _delegate = _delegate, super(_delegate);
 
   E operator [](int index) => _delegate[index];
 

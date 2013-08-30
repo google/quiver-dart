@@ -19,7 +19,7 @@ part of quiver.collection;
  * [Queue].
  * For instance you can create a FruitQueue like this :
  *
- *     class FruitQueue extends DelegatedQueue<Fruit> {
+ *     class FruitQueue extends DelegatingQueue<Fruit> {
  *       final Queue<Fruit> fruits;
  *       FruitQueue() : this._(new Queue<Fruit>());
  *       FruitQueue._(Queue<Fruit> fruits) :
@@ -29,10 +29,10 @@ part of quiver.collection;
  *       // custom methods
  *     }
  */
-class DelegatedQueue<E> extends DelegatedIterable<E> implements Queue<E> {
+class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
   final Queue<E> _delegate;
 
-  DelegatedQueue(Queue<E> _delegate) : _delegate = _delegate, super(_delegate);
+  DelegatingQueue(Queue<E> _delegate) : _delegate = _delegate, super(_delegate);
 
   void add(E value) => _delegate.add(value);
 

@@ -18,114 +18,114 @@ import 'package:quiver/collection.dart';
 import 'package:unittest/unittest.dart';
 
 void main() {
-  group('DelegatedList', () {
-    DelegatedList<String> delegatedList;
+  group('DelegatingList', () {
+    DelegatingList<String> delegatingList;
     setUp((){
-      delegatedList = new DelegatedList(['a', 'b', 'cc']);
+      delegatingList = new DelegatingList(['a', 'b', 'cc']);
     });
     test('[]', () {
-      expect(delegatedList[0], equals('a'));
-      expect(delegatedList[1], equals('b'));
-      expect(delegatedList[2], equals('cc'));
-      expect(() => delegatedList[3], throws);
+      expect(delegatingList[0], equals('a'));
+      expect(delegatingList[1], equals('b'));
+      expect(delegatingList[2], equals('cc'));
+      expect(() => delegatingList[3], throws);
     });
     test('[]=', () {
-      delegatedList[0] = 'd';
-      expect(delegatedList, equals(['d', 'b', 'cc']));
+      delegatingList[0] = 'd';
+      expect(delegatingList, equals(['d', 'b', 'cc']));
     });
     test('add', () {
-      delegatedList.add('d');
-      expect(delegatedList, equals(['a', 'b', 'cc', 'd']));
+      delegatingList.add('d');
+      expect(delegatingList, equals(['a', 'b', 'cc', 'd']));
     });
     test('addAll', () {
-      delegatedList.addAll(['d', 'e']);
-      expect(delegatedList, equals(['a', 'b', 'cc', 'd', 'e']));
+      delegatingList.addAll(['d', 'e']);
+      expect(delegatingList, equals(['a', 'b', 'cc', 'd', 'e']));
     });
     test('asMap', () {
-      expect(delegatedList.asMap(), equals({0: 'a', 1: 'b', 2: 'cc'}));
+      expect(delegatingList.asMap(), equals({0: 'a', 1: 'b', 2: 'cc'}));
     });
     test('clear', () {
-      delegatedList.clear();
-      expect(delegatedList, equals([]));
+      delegatingList.clear();
+      expect(delegatingList, equals([]));
     });
     test('fillRange', () {
-      delegatedList.fillRange(0, 2);
-      expect(delegatedList, equals([null, null, 'cc']));
-      delegatedList.fillRange(0, 2, 'd');
-      expect(delegatedList, equals(['d', 'd', 'cc']));
+      delegatingList.fillRange(0, 2);
+      expect(delegatingList, equals([null, null, 'cc']));
+      delegatingList.fillRange(0, 2, 'd');
+      expect(delegatingList, equals(['d', 'd', 'cc']));
     });
     test('getRange', () {
-      expect(delegatedList.getRange(1, 2), equals(['b']));
-      expect(delegatedList.getRange(1, 3), equals(['b', 'cc']));
+      expect(delegatingList.getRange(1, 2), equals(['b']));
+      expect(delegatingList.getRange(1, 3), equals(['b', 'cc']));
     });
     test('indexOf', () {
-      expect(delegatedList.indexOf('b'), equals(1));
-      expect(delegatedList.indexOf('a', 1), equals(-1));
-      expect(delegatedList.indexOf('cc', 1), equals(2));
+      expect(delegatingList.indexOf('b'), equals(1));
+      expect(delegatingList.indexOf('a', 1), equals(-1));
+      expect(delegatingList.indexOf('cc', 1), equals(2));
     });
     test('insert', () {
-      delegatedList.insert(1, 'd');
-      expect(delegatedList, equals(['a', 'd', 'b', 'cc']));
+      delegatingList.insert(1, 'd');
+      expect(delegatingList, equals(['a', 'd', 'b', 'cc']));
     });
     test('insertAll', () {
-      delegatedList.insertAll(1, ['d', 'e']);
-      expect(delegatedList, equals(['a', 'd', 'e', 'b', 'cc']));
+      delegatingList.insertAll(1, ['d', 'e']);
+      expect(delegatingList, equals(['a', 'd', 'e', 'b', 'cc']));
     });
     test('lastIndexOf', () {
-      expect(delegatedList.lastIndexOf('b'), equals(1));
-      expect(delegatedList.lastIndexOf('a', 1), equals(0));
-      expect(delegatedList.lastIndexOf('cc', 1), equals(-1));
+      expect(delegatingList.lastIndexOf('b'), equals(1));
+      expect(delegatingList.lastIndexOf('a', 1), equals(0));
+      expect(delegatingList.lastIndexOf('cc', 1), equals(-1));
     });
     test('set length', () {
-      delegatedList.length = 2;
-      expect(delegatedList, equals(['a', 'b']));
+      delegatingList.length = 2;
+      expect(delegatingList, equals(['a', 'b']));
     });
     test('remove', () {
-      delegatedList.remove('b');
-      expect(delegatedList, equals(['a', 'cc']));
+      delegatingList.remove('b');
+      expect(delegatingList, equals(['a', 'cc']));
     });
     test('removeAt', () {
-      delegatedList.removeAt(1);
-      expect(delegatedList, equals(['a', 'cc']));
+      delegatingList.removeAt(1);
+      expect(delegatingList, equals(['a', 'cc']));
     });
     test('removeLast', () {
-      delegatedList.removeLast();
-      expect(delegatedList, equals(['a', 'b']));
+      delegatingList.removeLast();
+      expect(delegatingList, equals(['a', 'b']));
     });
     test('removeRange', () {
-      delegatedList.removeRange(1, 2);
-      expect(delegatedList, equals(['a', 'cc']));
+      delegatingList.removeRange(1, 2);
+      expect(delegatingList, equals(['a', 'cc']));
     });
     test('removeWhere', () {
-      delegatedList.removeWhere((e) => e.length == 1);
-      expect(delegatedList, equals(['cc']));
+      delegatingList.removeWhere((e) => e.length == 1);
+      expect(delegatingList, equals(['cc']));
     });
     test('replaceRange', () {
-      delegatedList.replaceRange(1, 2, ['d', 'e']);
-      expect(delegatedList, equals(['a', 'd', 'e', 'cc']));
+      delegatingList.replaceRange(1, 2, ['d', 'e']);
+      expect(delegatingList, equals(['a', 'd', 'e', 'cc']));
     });
     test('retainWhere', () {
-      delegatedList.retainWhere((e) => e.length == 1);
-      expect(delegatedList, equals(['a', 'b']));
+      delegatingList.retainWhere((e) => e.length == 1);
+      expect(delegatingList, equals(['a', 'b']));
     });
     test('reversed', () {
-      expect(delegatedList.reversed, equals(['cc', 'b', 'a']));
+      expect(delegatingList.reversed, equals(['cc', 'b', 'a']));
     });
     test('setAll', () {
-      delegatedList.setAll(1, ['d', 'e']);
-      expect(delegatedList, equals(['a', 'd', 'e']));
+      delegatingList.setAll(1, ['d', 'e']);
+      expect(delegatingList, equals(['a', 'd', 'e']));
     });
     test('setRange', () {
-      delegatedList.setRange(1, 3, ['d', 'e']);
-      expect(delegatedList, equals(['a', 'd', 'e']));
+      delegatingList.setRange(1, 3, ['d', 'e']);
+      expect(delegatingList, equals(['a', 'd', 'e']));
     });
     test('sort', () {
-      delegatedList.sort((a,b) => b.codeUnitAt(0) - a.codeUnitAt(0));
-      expect(delegatedList, equals(['cc', 'b', 'a']));
+      delegatingList.sort((a,b) => b.codeUnitAt(0) - a.codeUnitAt(0));
+      expect(delegatingList, equals(['cc', 'b', 'a']));
     });
     test('sublist', () {
-      expect(delegatedList.sublist(1), equals(['b', 'cc']));
-      expect(delegatedList.sublist(1, 2), equals(['b']));
+      expect(delegatingList.sublist(1), equals(['b', 'cc']));
+      expect(delegatingList.sublist(1, 2), equals(['b']));
     });
   });
 }

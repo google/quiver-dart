@@ -19,7 +19,7 @@ part of quiver.collection;
  * [Map].
  * For instance you can create a FruitMap like this :
  *
- *     class FruitMap extends DelegatedMap<String, Fruit> {
+ *     class FruitMap extends DelegatingMap<String, Fruit> {
  *       final Map<String, Fruit> fruits;
  *       FruitMap() : this._(new Map<String, Fruit>());
  *       FruitMap._(Map<String, Fruit> fruits) :
@@ -29,10 +29,10 @@ part of quiver.collection;
  *       // custom methods
  *     }
  */
-class DelegatedMap<K, V> implements Map<K, V> {
+class DelegatingMap<K, V> implements Map<K, V> {
   final Map<K, V> _delegate;
 
-  DelegatedMap(this._delegate);
+  DelegatingMap(this._delegate);
 
   V operator [](Object key) => _delegate[key];
 

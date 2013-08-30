@@ -20,43 +20,43 @@ import 'package:quiver/collection.dart';
 import 'package:unittest/unittest.dart';
 
 void main() {
-  group('DelegatedQueue', () {
-    DelegatedQueue<String> delegatedQueue;
+  group('DelegatingQueue', () {
+    DelegatingQueue<String> delegatingQueue;
     setUp((){
-      delegatedQueue = new DelegatedQueue<String>(
+      delegatingQueue = new DelegatingQueue<String>(
           new Queue<String>.from(['a', 'b', 'cc']));
     });
     test('add', () {
-      delegatedQueue.add('d');
-      expect(delegatedQueue, equals(['a', 'b', 'cc', 'd']));
+      delegatingQueue.add('d');
+      expect(delegatingQueue, equals(['a', 'b', 'cc', 'd']));
     });
     test('addAll', () {
-      delegatedQueue.addAll(['d', 'e']);
-      expect(delegatedQueue, equals(['a', 'b', 'cc', 'd', 'e']));
+      delegatingQueue.addAll(['d', 'e']);
+      expect(delegatingQueue, equals(['a', 'b', 'cc', 'd', 'e']));
     });
     test('addFirst', () {
-      delegatedQueue.addFirst('d');
-      expect(delegatedQueue, equals(['d', 'a', 'b', 'cc']));
+      delegatingQueue.addFirst('d');
+      expect(delegatingQueue, equals(['d', 'a', 'b', 'cc']));
     });
     test('addLast', () {
-      delegatedQueue.addLast('d');
-      expect(delegatedQueue, equals(['a', 'b', 'cc', 'd']));
+      delegatingQueue.addLast('d');
+      expect(delegatingQueue, equals(['a', 'b', 'cc', 'd']));
     });
     test('clear', () {
-      delegatedQueue.clear();
-      expect(delegatedQueue, equals([]));
+      delegatingQueue.clear();
+      expect(delegatingQueue, equals([]));
     });
     test('remove', () {
-      expect(delegatedQueue.remove('b'), isTrue);
-      expect(delegatedQueue, equals(['a', 'cc']));
+      expect(delegatingQueue.remove('b'), isTrue);
+      expect(delegatingQueue, equals(['a', 'cc']));
     });
     test('removeFirst', () {
-      expect(delegatedQueue.removeFirst(), 'a');
-      expect(delegatedQueue, equals(['b', 'cc']));
+      expect(delegatingQueue.removeFirst(), 'a');
+      expect(delegatingQueue, equals(['b', 'cc']));
     });
     test('removeLast', () {
-      expect(delegatedQueue.removeLast(), 'cc');
-      expect(delegatedQueue, equals(['a', 'b']));
+      expect(delegatingQueue.removeLast(), 'cc');
+      expect(delegatingQueue, equals(['a', 'b']));
     });
   });
 }

@@ -19,7 +19,7 @@ part of quiver.collection;
  * [Set].
  * For instance you can create a FruitSet like this :
  *
- *     class FruitSet extends DelegatedSet<Fruit> {
+ *     class FruitSet extends DelegatingSet<Fruit> {
  *       final Set<Fruit> fruits;
  *       FruitSet() : this._(new Set<Fruit>());
  *       FruitSet._(Set<Fruit> fruits) :
@@ -29,10 +29,10 @@ part of quiver.collection;
  *       // custom methods
  *     }
  */
-class DelegatedSet<E> extends DelegatedIterable<E> implements Set<E> {
+class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
   final Set<E> _delegate;
 
-  DelegatedSet(Set<E> _delegate) : _delegate = _delegate, super(_delegate);
+  DelegatingSet(Set<E> _delegate) : _delegate = _delegate, super(_delegate);
 
   void add(E value) => _delegate.add(value);
 
