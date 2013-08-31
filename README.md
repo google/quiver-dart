@@ -25,7 +25,8 @@ next element.
 ## collection.dart
 
 `Multimap` is an associative collection that maps keys to collections of
-values.
+values. `BiMap` is a bi-directional map and provides an inverse view, allowing
+lookup of key by value.
 
 ## io.dart
 
