@@ -20,63 +20,78 @@ import 'package:unittest/unittest.dart';
 void main() {
   group('DelegatingMap', () {
     DelegatingMap<String, int> delegatingMap;
+
     setUp((){
       delegatingMap = new DelegatingMap({'a': 1, 'bb': 2});
     });
+
     test('[]', () {
       expect(delegatingMap['a'], equals(1));
       expect(delegatingMap['bb'], equals(2));
       expect(delegatingMap['c'], isNull);
     });
+
     test('[]=', () {
       delegatingMap['a'] = 3;
       delegatingMap['c'] = 4;
       expect(delegatingMap, equals({'a': 3, 'bb': 2, 'c': 4}));
     });
+
     test('addAll', () {
       delegatingMap.addAll({'a': 3, 'c': 4});
       expect(delegatingMap, equals({'a': 3, 'bb': 2, 'c': 4}));
     });
+
     test('clear', () {
       delegatingMap.clear();
       expect(delegatingMap, equals({}));
     });
+
     test('containsKey', () {
       expect(delegatingMap.containsKey('a'), isTrue);
       expect(delegatingMap.containsKey('b'), isFalse);
     });
+
     test('containsValue', () {
       expect(delegatingMap.containsValue(1), isTrue);
       expect(delegatingMap.containsValue('b'), isFalse);
     });
+
     test('forEach', () {
       final s = new StringBuffer();
       delegatingMap.forEach((k,v) => s.write('$k$v'));
       expect(s.toString(), equals('a1bb2'));
     });
+
     test('isEmpty', () {
       expect(delegatingMap.isEmpty, isFalse);
       expect(new DelegatingMap({}).isEmpty, isTrue);
     });
+
     test('isNotEmpty', () {
       expect(delegatingMap.isNotEmpty, isTrue);
       expect(new DelegatingMap({}).isNotEmpty, isFalse);
     });
+
     test('keys', () {
       expect(delegatingMap.keys, equals(['a','bb']));
     });
+
     test('length', () {
       expect(delegatingMap.length, equals(2));
       expect(new DelegatingMap({}).length, equals(0));
     });
+
     test('putIfAbsent', () {
       expect(delegatingMap.putIfAbsent('c', () => 4), equals(4));
       expect(delegatingMap.putIfAbsent('c', () => throw ''), equals(4));
     });
+
     test('remove', () {
       expect(delegatingMap.remove('a'), equals(1));
       expect(delegatingMap, equals({'bb': 2}));
     });
+
     test('values', () {
       expect(delegatingMap.values, equals([1, 2]));
     });

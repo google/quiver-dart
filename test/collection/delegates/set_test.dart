@@ -22,28 +22,34 @@ import 'package:unittest/unittest.dart';
 void main() {
   group('DelegatingSet', () {
     DelegatingSet<String> delegatingSet;
+
     setUp((){
       delegatingSet = new DelegatingSet<String>(
           new LinkedHashSet<String>.from(['a', 'b', 'cc']));
     });
+
     test('add', () {
       delegatingSet.add('d');
       expect(delegatingSet, equals(['a', 'b', 'cc', 'd']));
       delegatingSet.add('d');
       expect(delegatingSet, equals(['a', 'b', 'cc', 'd']));
     });
+
     test('addAll', () {
       delegatingSet.addAll(['d', 'e']);
       expect(delegatingSet, equals(['a', 'b', 'cc', 'd', 'e']));
     });
+
     test('clear', () {
       delegatingSet.clear();
       expect(delegatingSet, equals([]));
     });
+
     test('containsAll', () {
       expect(delegatingSet.containsAll(['a', 'cc']), isTrue);
       expect(delegatingSet.containsAll(['a', 'c']), isFalse);
     });
+
     // skip because :
     // Test failed: Caught type 'LinkedHashSet<String>' is not a subtype of type
     // 'HashSet<String>' of 'result'.
@@ -53,32 +59,39 @@ void main() {
       expect(delegatingSet.difference(new Set<String>.from(['cc'])),
           equals(['a', 'b']));
     });
+
     test('intersection', () {
       expect(delegatingSet.intersection(new Set<String>.from(['a', 'dd'])),
           equals(['a']));
       expect(delegatingSet.intersection(new Set<String>.from(['e'])),
           equals([]));
     });
+
     test('remove', () {
       expect(delegatingSet.remove('b'), isTrue);
       expect(delegatingSet, equals(['a', 'cc']));
     });
+
     test('removeAll', () {
       delegatingSet.removeAll(['a', 'cc']);
       expect(delegatingSet, equals(['b']));
     });
+
     test('removeWhere', () {
       delegatingSet.removeWhere((e) => e.length == 1);
       expect(delegatingSet, equals(['cc']));
     });
+
     test('retainAll', () {
       delegatingSet.retainAll(['a', 'cc', 'd']);
       expect(delegatingSet, equals(['a', 'cc']));
     });
+
     test('retainWhere', () {
       delegatingSet.retainWhere((e) => e.length == 1);
       expect(delegatingSet, equals(['a', 'b']));
     });
+
     test('union', () {
       expect(delegatingSet.union(
           new LinkedHashSet<String>.from(['a', 'cc', 'd'])),

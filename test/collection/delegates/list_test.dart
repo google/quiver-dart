@@ -20,109 +20,135 @@ import 'package:unittest/unittest.dart';
 void main() {
   group('DelegatingList', () {
     DelegatingList<String> delegatingList;
+
     setUp((){
       delegatingList = new DelegatingList(['a', 'b', 'cc']);
     });
+
     test('[]', () {
       expect(delegatingList[0], equals('a'));
       expect(delegatingList[1], equals('b'));
       expect(delegatingList[2], equals('cc'));
       expect(() => delegatingList[3], throws);
     });
+
     test('[]=', () {
       delegatingList[0] = 'd';
       expect(delegatingList, equals(['d', 'b', 'cc']));
     });
+
     test('add', () {
       delegatingList.add('d');
       expect(delegatingList, equals(['a', 'b', 'cc', 'd']));
     });
+
     test('addAll', () {
       delegatingList.addAll(['d', 'e']);
       expect(delegatingList, equals(['a', 'b', 'cc', 'd', 'e']));
     });
+
     test('asMap', () {
       expect(delegatingList.asMap(), equals({0: 'a', 1: 'b', 2: 'cc'}));
     });
+
     test('clear', () {
       delegatingList.clear();
       expect(delegatingList, equals([]));
     });
+
     test('fillRange', () {
       delegatingList.fillRange(0, 2);
       expect(delegatingList, equals([null, null, 'cc']));
       delegatingList.fillRange(0, 2, 'd');
       expect(delegatingList, equals(['d', 'd', 'cc']));
     });
+
     test('getRange', () {
       expect(delegatingList.getRange(1, 2), equals(['b']));
       expect(delegatingList.getRange(1, 3), equals(['b', 'cc']));
     });
+
     test('indexOf', () {
       expect(delegatingList.indexOf('b'), equals(1));
       expect(delegatingList.indexOf('a', 1), equals(-1));
       expect(delegatingList.indexOf('cc', 1), equals(2));
     });
+
     test('insert', () {
       delegatingList.insert(1, 'd');
       expect(delegatingList, equals(['a', 'd', 'b', 'cc']));
     });
+
     test('insertAll', () {
       delegatingList.insertAll(1, ['d', 'e']);
       expect(delegatingList, equals(['a', 'd', 'e', 'b', 'cc']));
     });
+
     test('lastIndexOf', () {
       expect(delegatingList.lastIndexOf('b'), equals(1));
       expect(delegatingList.lastIndexOf('a', 1), equals(0));
       expect(delegatingList.lastIndexOf('cc', 1), equals(-1));
     });
+
     test('set length', () {
       delegatingList.length = 2;
       expect(delegatingList, equals(['a', 'b']));
     });
+
     test('remove', () {
       delegatingList.remove('b');
       expect(delegatingList, equals(['a', 'cc']));
     });
+
     test('removeAt', () {
       delegatingList.removeAt(1);
       expect(delegatingList, equals(['a', 'cc']));
     });
+
     test('removeLast', () {
       delegatingList.removeLast();
       expect(delegatingList, equals(['a', 'b']));
     });
+
     test('removeRange', () {
       delegatingList.removeRange(1, 2);
       expect(delegatingList, equals(['a', 'cc']));
     });
+
     test('removeWhere', () {
       delegatingList.removeWhere((e) => e.length == 1);
       expect(delegatingList, equals(['cc']));
     });
+
     test('replaceRange', () {
       delegatingList.replaceRange(1, 2, ['d', 'e']);
       expect(delegatingList, equals(['a', 'd', 'e', 'cc']));
     });
+
     test('retainWhere', () {
       delegatingList.retainWhere((e) => e.length == 1);
       expect(delegatingList, equals(['a', 'b']));
     });
+
     test('reversed', () {
       expect(delegatingList.reversed, equals(['cc', 'b', 'a']));
     });
+
     test('setAll', () {
       delegatingList.setAll(1, ['d', 'e']);
       expect(delegatingList, equals(['a', 'd', 'e']));
     });
+
     test('setRange', () {
       delegatingList.setRange(1, 3, ['d', 'e']);
       expect(delegatingList, equals(['a', 'd', 'e']));
     });
+
     test('sort', () {
       delegatingList.sort((a,b) => b.codeUnitAt(0) - a.codeUnitAt(0));
       expect(delegatingList, equals(['cc', 'b', 'a']));
     });
+
     test('sublist', () {
       expect(delegatingList.sublist(1), equals(['b', 'cc']));
       expect(delegatingList.sublist(1, 2), equals(['b']));

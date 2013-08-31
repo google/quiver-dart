@@ -22,38 +22,47 @@ import 'package:unittest/unittest.dart';
 void main() {
   group('DelegatingQueue', () {
     DelegatingQueue<String> delegatingQueue;
+
     setUp((){
       delegatingQueue = new DelegatingQueue<String>(
           new Queue<String>.from(['a', 'b', 'cc']));
     });
+
     test('add', () {
       delegatingQueue.add('d');
       expect(delegatingQueue, equals(['a', 'b', 'cc', 'd']));
     });
+
     test('addAll', () {
       delegatingQueue.addAll(['d', 'e']);
       expect(delegatingQueue, equals(['a', 'b', 'cc', 'd', 'e']));
     });
+
     test('addFirst', () {
       delegatingQueue.addFirst('d');
       expect(delegatingQueue, equals(['d', 'a', 'b', 'cc']));
     });
+
     test('addLast', () {
       delegatingQueue.addLast('d');
       expect(delegatingQueue, equals(['a', 'b', 'cc', 'd']));
     });
+
     test('clear', () {
       delegatingQueue.clear();
       expect(delegatingQueue, equals([]));
     });
+
     test('remove', () {
       expect(delegatingQueue.remove('b'), isTrue);
       expect(delegatingQueue, equals(['a', 'cc']));
     });
+
     test('removeFirst', () {
       expect(delegatingQueue.removeFirst(), 'a');
       expect(delegatingQueue, equals(['b', 'cc']));
     });
+
     test('removeLast', () {
       expect(delegatingQueue.removeLast(), 'cc');
       expect(delegatingQueue, equals(['a', 'b']));
