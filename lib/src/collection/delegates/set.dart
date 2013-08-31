@@ -15,8 +15,7 @@
 part of quiver.collection;
 
 /**
- * This class allows to implement [Set] methods by delegating to a given
- * [Set].
+ * An implementation of [Set] that delegates all methods to another [Set].
  * For instance you can create a FruitSet like this :
  *
  *     class FruitSet extends DelegatingSet<Fruit> {

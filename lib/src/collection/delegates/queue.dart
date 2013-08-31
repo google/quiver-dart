@@ -15,8 +15,7 @@
 part of quiver.collection;
 
 /**
- * This class allows to implement [Queue] methods by delegating to a given
- * [Queue].
+ * An implementation of [Queue] that delegates all methods to another [Queue].
  * For instance you can create a FruitQueue like this :
  *
  *     class FruitQueue extends DelegatingQueue<Fruit> {

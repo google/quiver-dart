@@ -15,7 +15,7 @@
 part of quiver.collection;
 
 /**
- * This class allows to implement [Iterable] methods by delegating to a given
+ * An implementation of [Iterable] that delegates all methods to another
  * [Iterable].
  * For instance you can create a FruitIterable like this :
  *

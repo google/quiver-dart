@@ -15,8 +15,7 @@
 part of quiver.collection;
 
 /**
- * This class allows to implement [Map] methods by delegating to a given
- * [Map].
+ * An implementation of [Map] that delegates all methods to another [Map].
  * For instance you can create a FruitMap like this :
  *
  *     class FruitMap extends DelegatingMap<String, Fruit> {

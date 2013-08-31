@@ -15,8 +15,7 @@
 part of quiver.collection;
 
 /**
- * This class allows to implement [List] methods by delegating to a given
- * [List].
+ * An implementation of [List] that delegates all methods to another [List].
  * For instance you can create a FruitList like this :
  *
  *     class FruitList extends DelegatingList<Fruit> {
