@@ -20,74 +20,70 @@ part of quiver.collection;
  * For instance you can create a FruitIterable like this :
  *
  *     class FruitIterable extends DelegatingIterable<Fruit> {
- *       final List<Fruit> fruits;
- *       FruitIterable() : this._([]);
- *       FruitIterable._(List<Fruit> fruits) :
- *         this.fruits = fruits,
- *         super(fruits);
+ *       final Iterable<Fruit> _fruits = [];
+ *
+ *       Iterable<Fruit> get delegate => _fruits;
  *
  *       // custom methods
  *     }
  */
-class DelegatingIterable<E> implements Iterable<E> {
-  final Iterable<E> _delegate;
+abstract class DelegatingIterable<E> implements Iterable<E> {
+  Iterable<E> get delegate;
 
-  DelegatingIterable(this._delegate);
+  bool any(bool test(element)) => delegate.any(test);
 
-  bool any(bool test(element)) => _delegate.any(test);
+  bool contains(Object element) => delegate.contains(element);
 
-  bool contains(Object element) => _delegate.contains(element);
+  elementAt(int index) => delegate.elementAt(index);
 
-  elementAt(int index) => _delegate.elementAt(index);
+  bool every(bool test(element)) => delegate.every(test);
 
-  bool every(bool test(element)) => _delegate.every(test);
+  Iterable expand(Iterable f(element)) => delegate.expand(f);
 
-  Iterable expand(Iterable f(element)) => _delegate.expand(f);
-
-  get first => _delegate.first;
+  get first => delegate.first;
 
   firstWhere(bool test(element), {orElse()}) =>
-      _delegate.firstWhere(test, orElse: orElse);
+      delegate.firstWhere(test, orElse: orElse);
 
   fold(initialValue, combine(previousValue, element)) =>
-      _delegate.fold(initialValue, combine);
+      delegate.fold(initialValue, combine);
 
-  void forEach(void f(element)) => _delegate.forEach(f);
+  void forEach(void f(element)) => delegate.forEach(f);
 
-  bool get isEmpty => _delegate.isEmpty;
+  bool get isEmpty => delegate.isEmpty;
 
-  bool get isNotEmpty => _delegate.isNotEmpty;
+  bool get isNotEmpty => delegate.isNotEmpty;
 
-  Iterator get iterator => _delegate.iterator;
+  Iterator get iterator => delegate.iterator;
 
-  String join([String separator = ""]) => _delegate.join(separator);
+  String join([String separator = ""]) => delegate.join(separator);
 
-  get last => _delegate.last;
+  get last => delegate.last;
 
   lastWhere(bool test(element), {orElse()}) =>
-      _delegate.lastWhere(test, orElse: orElse);
+      delegate.lastWhere(test, orElse: orElse);
 
-  int get length => _delegate.length;
+  int get length => delegate.length;
 
-  Iterable map(f(element)) => _delegate.map(f);
+  Iterable map(f(element)) => delegate.map(f);
 
-  reduce(combine(value, element)) => _delegate.reduce(combine);
+  reduce(combine(value, element)) => delegate.reduce(combine);
 
-  get single => _delegate.single;
+  get single => delegate.single;
 
-  singleWhere(bool test(element)) => _delegate.singleWhere(test);
+  singleWhere(bool test(element)) => delegate.singleWhere(test);
 
-  Iterable skip(int n) => _delegate.skip(n);
+  Iterable skip(int n) => delegate.skip(n);
 
-  Iterable skipWhile(bool test(value)) => _delegate.skipWhile(test);
+  Iterable skipWhile(bool test(value)) => delegate.skipWhile(test);
 
-  Iterable take(int n) => _delegate.take(n);
+  Iterable take(int n) => delegate.take(n);
 
-  Iterable takeWhile(bool test(value)) => _delegate.takeWhile(test);
+  Iterable takeWhile(bool test(value)) => delegate.takeWhile(test);
 
-  List toList({bool growable: true}) => _delegate.toList(growable: growable);
+  List toList({bool growable: true}) => delegate.toList(growable: growable);
 
-  Set toSet() => _delegate.toSet();
+  Set toSet() => delegate.toSet();
 
-  Iterable where(bool test(element)) => _delegate.where(test);
+  Iterable where(bool test(element)) => delegate.where(test);
 }

@@ -17,12 +17,20 @@ library quiver.collection.delegates.map_test;
 import 'package:quiver/collection.dart';
 import 'package:unittest/unittest.dart';
 
+class MyMap extends DelegatingMap<String, int> {
+  final Map<String, int> _delegate;
+
+  MyMap(this._delegate);
+
+  Map<String, int> get delegate => _delegate;
+}
+
 void main() {
   group('DelegatingMap', () {
     DelegatingMap<String, int> delegatingMap;
 
     setUp((){
-      delegatingMap = new DelegatingMap({'a': 1, 'bb': 2});
+      delegatingMap = new MyMap({'a': 1, 'bb': 2});
     });
 
     test('[]', () {
@@ -65,12 +73,12 @@ void main() {
 
     test('isEmpty', () {
       expect(delegatingMap.isEmpty, isFalse);
-      expect(new DelegatingMap({}).isEmpty, isTrue);
+      expect(new MyMap({}).isEmpty, isTrue);
     });
 
     test('isNotEmpty', () {
       expect(delegatingMap.isNotEmpty, isTrue);
-      expect(new DelegatingMap({}).isNotEmpty, isFalse);
+      expect(new MyMap({}).isNotEmpty, isFalse);
     });
 
     test('keys', () {
@@ -79,7 +87,7 @@ void main() {
 
     test('length', () {
       expect(delegatingMap.length, equals(2));
-      expect(new DelegatingMap({}).length, equals(0));
+      expect(new MyMap({}).length, equals(0));
     });
 
     test('putIfAbsent', () {

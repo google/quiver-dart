@@ -19,33 +19,29 @@ part of quiver.collection;
  * For instance you can create a FruitQueue like this :
  *
  *     class FruitQueue extends DelegatingQueue<Fruit> {
- *       final Queue<Fruit> fruits;
- *       FruitQueue() : this._(new Queue<Fruit>());
- *       FruitQueue._(Queue<Fruit> fruits) :
- *         this.fruits = fruits,
- *         super(fruits);
+ *       final Queue<Fruit> _fruits = new Queue<Fruit>();
+ *
+ *       Queue<Fruit> get delegate => _fruits;
  *
  *       // custom methods
  *     }
  */
-class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
-  final Queue<E> _delegate;
+abstract class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
+  Queue<E> get delegate;
 
-  DelegatingQueue(Queue<E> _delegate) : _delegate = _delegate, super(_delegate);
+  void add(E value) => delegate.add(value);
 
-  void add(E value) => _delegate.add(value);
+  void addAll(Iterable<E> iterable) => delegate.addAll(iterable);
 
-  void addAll(Iterable<E> iterable) => _delegate.addAll(iterable);
+  void addFirst(E value) => delegate.addFirst(value);
 
-  void addFirst(E value) => _delegate.addFirst(value);
+  void addLast(E value) => delegate.addLast(value);
 
-  void addLast(E value) => _delegate.addLast(value);
+  void clear() => delegate.clear();
 
-  void clear() => _delegate.clear();
+  bool remove(Object object) => delegate.remove(object);
 
-  bool remove(Object object) => _delegate.remove(object);
+  E removeFirst() => delegate.removeFirst();
 
-  E removeFirst() => _delegate.removeFirst();
-
-  E removeLast() => _delegate.removeLast();
+  E removeLast() => delegate.removeLast();
 }

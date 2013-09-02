@@ -19,12 +19,20 @@ import 'dart:collection' show LinkedHashSet;
 import 'package:quiver/collection.dart';
 import 'package:unittest/unittest.dart';
 
+class MySet extends DelegatingSet<String> {
+  final Set<String> _delegate;
+
+  MySet(this._delegate);
+
+  Set<String> get delegate => _delegate;
+}
+
 void main() {
   group('DelegatingSet', () {
     DelegatingSet<String> delegatingSet;
 
     setUp((){
-      delegatingSet = new DelegatingSet<String>(
+      delegatingSet = new MySet(
           new LinkedHashSet<String>.from(['a', 'b', 'cc']));
     });
 

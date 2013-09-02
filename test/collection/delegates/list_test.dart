@@ -17,12 +17,20 @@ library quiver.collection.delegates.list_test;
 import 'package:quiver/collection.dart';
 import 'package:unittest/unittest.dart';
 
+class MyList extends DelegatingList<String> {
+  final List<String> _delegate;
+
+  MyList(this._delegate);
+
+  List<String> get delegate => _delegate;
+}
+
 void main() {
   group('DelegatingList', () {
     DelegatingList<String> delegatingList;
 
     setUp((){
-      delegatingList = new DelegatingList(['a', 'b', 'cc']);
+      delegatingList = new MyList(['a', 'b', 'cc']);
     });
 
     test('[]', () {

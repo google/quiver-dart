@@ -17,12 +17,20 @@ library quiver.collection.delegates.iterable_test;
 import 'package:quiver/collection.dart';
 import 'package:unittest/unittest.dart';
 
+class MyIterable extends DelegatingIterable<String> {
+  final Iterable<String> _delegate;
+
+  MyIterable(this._delegate);
+
+  Iterable<String> get delegate => _delegate;
+}
+
 void main() {
   group('DelegatingIterable', () {
     DelegatingIterable<String> delegatingIterable;
 
     setUp((){
-      delegatingIterable = new DelegatingIterable(['a', 'b', 'cc']);
+      delegatingIterable = new MyIterable(['a', 'b', 'cc']);
     });
 
     test('any', () {
@@ -71,12 +79,12 @@ void main() {
 
     test('isEmpty', () {
       expect(delegatingIterable.isEmpty, isFalse);
-      expect(new DelegatingIterable([]).isEmpty, isTrue);
+      expect(new MyIterable([]).isEmpty, isTrue);
     });
 
     test('isNotEmpty', () {
       expect(delegatingIterable.isNotEmpty, isTrue);
-      expect(new DelegatingIterable([]).isNotEmpty, isFalse);
+      expect(new MyIterable([]).isNotEmpty, isFalse);
     });
 
     test('forEach', () {
@@ -123,7 +131,7 @@ void main() {
 
     test('single', () {
       expect(() => delegatingIterable.single, throws);
-      expect(new DelegatingIterable(['a']).single, equals('a'));
+      expect(new MyIterable(['a']).single, equals('a'));
     });
 
     test('singleWhere', () {

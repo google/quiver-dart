@@ -19,77 +19,73 @@ part of quiver.collection;
  * For instance you can create a FruitList like this :
  *
  *     class FruitList extends DelegatingList<Fruit> {
- *       final List<Fruit> fruits;
- *       FruitList() : this._([]);
- *       FruitList._(List<Fruit> fruits) :
- *         this.fruits = fruits,
- *         super(fruits);
+ *       final List<Fruit> _fruits = [];
+ *
+ *       List<Fruit> get delegate => _fruits;
  *
  *       // custom methods
  *     }
  */
-class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
-  final List<E> _delegate;
+abstract class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
+  List<E> get delegate;
 
-  DelegatingList(List<E> _delegate) : _delegate = _delegate, super(_delegate);
-
-  E operator [](int index) => _delegate[index];
+  E operator [](int index) => delegate[index];
 
   void operator []=(int index, E value) {
-    _delegate[index] = value;
+    delegate[index] = value;
   }
 
-  void add(E value) => _delegate.add(value);
+  void add(E value) => delegate.add(value);
 
-  void addAll(Iterable<E> iterable) => _delegate.addAll(iterable);
+  void addAll(Iterable<E> iterable) => delegate.addAll(iterable);
 
-  Map<int, E> asMap() => _delegate.asMap();
+  Map<int, E> asMap() => delegate.asMap();
 
-  void clear() => _delegate.clear();
+  void clear() => delegate.clear();
 
   void fillRange(int start, int end, [E fillValue]) =>
-      _delegate.fillRange(start, end, fillValue);
+      delegate.fillRange(start, end, fillValue);
 
-  Iterable<E> getRange(int start, int end) => _delegate.getRange(start, end);
+  Iterable<E> getRange(int start, int end) => delegate.getRange(start, end);
 
-  int indexOf(E element, [int start = 0]) => _delegate.indexOf(element, start);
+  int indexOf(E element, [int start = 0]) => delegate.indexOf(element, start);
 
-  void insert(int index, E element) => _delegate.insert(index, element);
+  void insert(int index, E element) => delegate.insert(index, element);
 
   void insertAll(int index, Iterable<E> iterable) =>
-      _delegate.insertAll(index, iterable);
+      delegate.insertAll(index, iterable);
 
   int lastIndexOf(E element, [int start]) =>
-      _delegate.lastIndexOf(element, start);
+      delegate.lastIndexOf(element, start);
 
   void set length(int newLength) {
-    _delegate.length = newLength;
+    delegate.length = newLength;
   }
 
-  bool remove(Object value) => _delegate.remove(value);
+  bool remove(Object value) => delegate.remove(value);
 
-  E removeAt(int index) => _delegate.removeAt(index);
+  E removeAt(int index) => delegate.removeAt(index);
 
-  E removeLast() => _delegate.removeLast();
+  E removeLast() => delegate.removeLast();
 
-  void removeRange(int start, int end) => _delegate.removeRange(start, end);
+  void removeRange(int start, int end) => delegate.removeRange(start, end);
 
-  void removeWhere(bool test(E element)) => _delegate.removeWhere(test);
+  void removeWhere(bool test(E element)) => delegate.removeWhere(test);
 
   void replaceRange(int start, int end, Iterable<E> iterable) =>
-      _delegate.replaceRange(start, end, iterable);
+      delegate.replaceRange(start, end, iterable);
 
-  void retainWhere(bool test(E element)) => _delegate.retainWhere(test);
+  void retainWhere(bool test(E element)) => delegate.retainWhere(test);
 
-  Iterable<E> get reversed => _delegate.reversed;
+  Iterable<E> get reversed => delegate.reversed;
 
   void setAll(int index, Iterable<E> iterable) =>
-      _delegate.setAll(index, iterable);
+      delegate.setAll(index, iterable);
 
   void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0])
-      => _delegate.setRange(start, end, iterable, skipCount);
+      => delegate.setRange(start, end, iterable, skipCount);
 
-  void sort([int compare(E a, E b)]) => _delegate.sort(compare);
+  void sort([int compare(E a, E b)]) => delegate.sort(compare);
 
-  List<E> sublist(int start, [int end]) => _delegate.sublist(start, end);
+  List<E> sublist(int start, [int end]) => delegate.sublist(start, end);
 }

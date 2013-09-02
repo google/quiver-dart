@@ -19,13 +19,20 @@ import 'dart:collection' show Queue;
 import 'package:quiver/collection.dart';
 import 'package:unittest/unittest.dart';
 
+class MyQueue extends DelegatingQueue<String> {
+  final Queue<String> _delegate;
+
+  MyQueue(this._delegate);
+
+  Queue<String> get delegate => _delegate;
+}
+
 void main() {
   group('DelegatingQueue', () {
     DelegatingQueue<String> delegatingQueue;
 
     setUp((){
-      delegatingQueue = new DelegatingQueue<String>(
-          new Queue<String>.from(['a', 'b', 'cc']));
+      delegatingQueue = new MyQueue(new Queue<String>.from(['a', 'b', 'cc']));
     });
 
     test('add', () {

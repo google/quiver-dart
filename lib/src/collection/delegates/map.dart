@@ -19,47 +19,43 @@ part of quiver.collection;
  * For instance you can create a FruitMap like this :
  *
  *     class FruitMap extends DelegatingMap<String, Fruit> {
- *       final Map<String, Fruit> fruits;
- *       FruitMap() : this._(new Map<String, Fruit>());
- *       FruitMap._(Map<String, Fruit> fruits) :
- *         this.fruits = fruits,
- *         super(fruits);
+ *       final Map<String, Fruit> _fruits = {};
+ *
+ *       Map<String, Fruit> get delegate => _fruits;
  *
  *       // custom methods
  *     }
  */
-class DelegatingMap<K, V> implements Map<K, V> {
-  final Map<K, V> _delegate;
+abstract class DelegatingMap<K, V> implements Map<K, V> {
+  Map<K, V> get delegate;
 
-  DelegatingMap(this._delegate);
-
-  V operator [](Object key) => _delegate[key];
+  V operator [](Object key) => delegate[key];
 
   void operator []=(K key, V value) {
-    _delegate[key] = value;
+    delegate[key] = value;
   }
 
-  void addAll(Map<K, V> other) => _delegate.addAll(other);
+  void addAll(Map<K, V> other) => delegate.addAll(other);
 
-  void clear() => _delegate.clear();
+  void clear() => delegate.clear();
 
-  bool containsKey(Object key) => _delegate.containsKey(key);
+  bool containsKey(Object key) => delegate.containsKey(key);
 
-  bool containsValue(Object value) => _delegate.containsValue(value);
+  bool containsValue(Object value) => delegate.containsValue(value);
 
-  void forEach(void f(K key, V value)) => _delegate.forEach(f);
+  void forEach(void f(K key, V value)) => delegate.forEach(f);
 
-  bool get isEmpty => _delegate.isEmpty;
+  bool get isEmpty => delegate.isEmpty;
 
-  bool get isNotEmpty => _delegate.isNotEmpty;
+  bool get isNotEmpty => delegate.isNotEmpty;
 
-  Iterable<K> get keys => _delegate.keys;
+  Iterable<K> get keys => delegate.keys;
 
-  int get length => _delegate.length;
+  int get length => delegate.length;
 
-  V putIfAbsent(K key, V ifAbsent()) => _delegate.putIfAbsent(key, ifAbsent);
+  V putIfAbsent(K key, V ifAbsent()) => delegate.putIfAbsent(key, ifAbsent);
 
-  V remove(Object key) => _delegate.remove(key);
+  V remove(Object key) => delegate.remove(key);
 
-  Iterable<V> get values => _delegate.values;
+  Iterable<V> get values => delegate.values;
 }

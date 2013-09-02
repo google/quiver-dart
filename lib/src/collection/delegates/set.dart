@@ -19,41 +19,37 @@ part of quiver.collection;
  * For instance you can create a FruitSet like this :
  *
  *     class FruitSet extends DelegatingSet<Fruit> {
- *       final Set<Fruit> fruits;
- *       FruitSet() : this._(new Set<Fruit>());
- *       FruitSet._(Set<Fruit> fruits) :
- *         this.fruits = fruits,
- *         super(fruits);
+ *       final Set<Fruit> _fruits = new Set<Fruit>();
+ *
+ *       Set<Fruit> get delegate => _fruits;
  *
  *       // custom methods
  *     }
  */
-class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
-  final Set<E> _delegate;
+abstract class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
+  Set<E> get delegate;
 
-  DelegatingSet(Set<E> _delegate) : _delegate = _delegate, super(_delegate);
+  void add(E value) => delegate.add(value);
 
-  void add(E value) => _delegate.add(value);
+  void addAll(Iterable<E> elements) => delegate.addAll(elements);
 
-  void addAll(Iterable<E> elements) => _delegate.addAll(elements);
+  void clear() => delegate.clear();
 
-  void clear() => _delegate.clear();
+  bool containsAll(Iterable<Object> other) => delegate.containsAll(other);
 
-  bool containsAll(Iterable<Object> other) => _delegate.containsAll(other);
+  Set<E> difference(Set<E> other) => delegate.difference(other);
 
-  Set<E> difference(Set<E> other) => _delegate.difference(other);
+  Set<E> intersection(Set<Object> other) => delegate.intersection(other);
 
-  Set<E> intersection(Set<Object> other) => _delegate.intersection(other);
+  bool remove(Object value) => delegate.remove(value);
 
-  bool remove(Object value) => _delegate.remove(value);
+  void removeAll(Iterable<Object> elements) => delegate.removeAll(elements);
 
-  void removeAll(Iterable<Object> elements) => _delegate.removeAll(elements);
+  void removeWhere(bool test(E element)) => delegate.removeWhere(test);
 
-  void removeWhere(bool test(E element)) => _delegate.removeWhere(test);
+  void retainAll(Iterable<Object> elements) => delegate.retainAll(elements);
 
-  void retainAll(Iterable<Object> elements) => _delegate.retainAll(elements);
+  void retainWhere(bool test(E element)) => delegate.retainWhere(test);
 
-  void retainWhere(bool test(E element)) => _delegate.retainWhere(test);
-
-  Set<E> union(Set<E> other) => _delegate.union(other);
+  Set<E> union(Set<E> other) => delegate.union(other);
 }
