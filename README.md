@@ -74,3 +74,41 @@ used as a literal match inside of a RegExp.
 example: now, 2 days ago, 4 weeks from now, etc. For tesability, use Clock
 rather than other ways of accessing time, like `new DateTime()`, so that you
 can use a fake time function in your tests to control time.
+
+## strings.dart
+
+`isBlank` checks if a string is `null`, empty or made of whitespace characters.
+
+`flip` flips the order of characters in a string.
+
+`nullToEmpty` turns `null` to empty string, and returns non-empty strings
+unchanged.
+
+`emptyToNull` turns empty string to `null`, and returns non-empty strings
+unchanged.
+
+`repeat` concatenates a string to itself a given number of times, for example:
+
+`repeat('la ', 3) => 'la la la '`
+
+It can also repeat in reverse, for example:
+
+`repeat(' og', -3) => 'go go go '`
+
+`loop` allows you to loop through characters in a string starting and ending at
+arbitrary indices. Out of bounds indices allow you to wrap around the string,
+supporting a number of use-cases, including:
+
+### Rotating
+`loop('lohel', -3, 2) => 'hello'`
+
+### Repeating
+Like `repeat`, but with better character-level control, e.g.:
+`loop('la ', 0, 8) => 'la la la'  // no tailing space`
+
+### Tailing
+`loop('/path/to/some/file.txt', -3) => 'txt'`
+
+### Reversing
+`loop('top', 3, 0) => 'pot'`
+
