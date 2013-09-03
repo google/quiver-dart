@@ -14,11 +14,15 @@
 
 library quiver.strings;
 
-/// Returns [true] if [s] is either null, empty or is solely made of whitespace
-/// characters (as defined by [String.trim].
+/**
+ * Returns [true] if [s] is either null, empty or is solely made of whitespace
+ * characters (as defined by [String.trim].
+ */
 bool isBlank(String s) => s == null || s.trim().isEmpty;
 
-/// Returns a string with characters from the given [s] in reverse order.
+/**
+ * Returns a string with characters from the given [s] in reverse order.
+ */
 String flip(String s) {
   if (s == null || s == '') return s;
   StringBuffer sb = new StringBuffer();
@@ -29,18 +33,24 @@ String flip(String s) {
   return sb.toString();
 }
 
-/// If [s] is [null] returns empty string, otherwise returns [s] as is.
+/**
+ * If [s] is [null] returns empty string, otherwise returns [s] as is.
+ */
 String nullToEmpty(String s) => s == null ? '' : s;
 
-/// If [s] is an empty string returns [null], otherwise returns [s] as is.
+/**
+ * If [s] is an empty string returns [null], otherwise returns [s] as is.
+ */
 String emptyToNull(String s) => s == '' ? null : s;
 
-/// Concatenates [s] to itself a given number of [times]. Empty and null
-/// strings will always result in empty and null strings respectively no matter
-/// how many [times] they are [repeat]ed.
-///
-/// If [times] is negative, returns the [flip]ped string repeated given number
-/// of [times].
+/**
+ * Concatenates [s] to itself a given number of [times]. Empty and null
+ * strings will always result in empty and null strings respectively no matter
+ * how many [times] they are [repeat]ed.
+ *
+ * If [times] is negative, returns the [flip]ped string repeated given number
+ * of [times].
+ */
 String repeat(String s, int times) {
   if (s == null || s == '') return s;
   if (times < 0) {
@@ -51,26 +61,28 @@ String repeat(String s, int times) {
   return sink.toString();
 }
 
-/// Loops over [s] and returns traversed characters. Takes arbitrary [from] and
-/// [to] indices. Works as a substitute for [String.substring], except it never
-/// throws [RangeError]. Supports negative indices. Think of an index as a
-/// coordinate in an infinite in both directions vector filled with repeating
-/// string [s], whose 0-th coordinate coincides with the 0-th character in [s].
-/// Then [loop] returns the sub-vector defined by the interval ([from], [to]).
-/// [from] is inclusive. [to] is exclusive.
-///
-/// This method throws exceptions on [null] and empty strings.
-///
-/// If [to] is omitted or is [null] the traversing ends at the end of the loop.
-///
-/// If [to] < [from], traverses [s] in the opposite direction.
-///
-/// For example:
-///
-/// loop('Hello, World!', 7) == 'World!'
-/// loop('ab', 6) == 'ababab'
-/// loop('test.txt', -3) == 'txt'
-/// loop('ldwor', -3, 2) == 'world'
+/**
+ * Loops over [s] and returns traversed characters. Takes arbitrary [from] and
+ * [to] indices. Works as a substitute for [String.substring], except it never
+ * throws [RangeError]. Supports negative indices. Think of an index as a
+ * coordinate in an infinite in both directions vector filled with repeating
+ * string [s], whose 0-th coordinate coincides with the 0-th character in [s].
+ * Then [loop] returns the sub-vector defined by the interval ([from], [to]).
+ * [from] is inclusive. [to] is exclusive.
+ *
+ * This method throws exceptions on [null] and empty strings.
+ *
+ * If [to] is omitted or is [null] the traversing ends at the end of the loop.
+ *
+ * If [to] < [from], traverses [s] in the opposite direction.
+ *
+ * For example:
+ *
+ * loop('Hello, World!', 7) == 'World!'
+ * loop('ab', 6) == 'ababab'
+ * loop('test.txt', -3) == 'txt'
+ * loop('ldwor', -3, 2) == 'world'
+ */
 String loop(String s, int from, [int to]) {
   if (to != null && to < from) {
     return loop(flip(s), -from, -to);
