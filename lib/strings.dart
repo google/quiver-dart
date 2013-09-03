@@ -84,6 +84,9 @@ String repeat(String s, int times) {
  * loop('ldwor', -3, 2) == 'world'
  */
 String loop(String s, int from, [int to]) {
+  if (s == null || s == '') {
+    throw new ArgError('Input string cannot be null or empty');
+  }
   if (to != null && to < from) {
     return loop(flip(s), -from, -to);
   }
