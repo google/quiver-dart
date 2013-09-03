@@ -20,6 +20,7 @@ import 'io_test.dart' as io;
 import 'iterables/all_tests.dart' as iterables;
 import 'mirrors_test.dart' as mirrors;
 import 'pattern/all_tests.dart' as pattern;
+import 'strings_test.dart' as strings;
 import 'time/all_tests.dart' as time;
 
 main() {
@@ -29,5 +30,6 @@ main() {
   iterables.main();
   mirrors.main();
   pattern.main();
+  strings.main();
   time.main();
 }
