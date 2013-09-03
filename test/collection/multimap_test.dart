@@ -33,8 +33,8 @@ void main() {
     });
 
     test('should not be empty after adding', () {
-      Multimap map = new ListMultimap();
-      map.add('k', 'v');
+      Multimap map = new ListMultimap()
+        ..add('k', 'v');
       expect(map.isEmpty, false);
       expect(map.isNotEmpty, true);
     });
