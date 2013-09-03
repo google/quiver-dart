@@ -20,13 +20,7 @@ bool isBlank(String s) => s == null || s.trim().isEmpty;
 
 /// Returns a string with characters from the given [s] in reverse order.
 String flip(String s) {
-  if (s == null) {
-    return null;
-  }
-  if (s == '') {
-    // Avoid creating unnecessary objects.
-    return '';
-  }
+  if (s == null || s == '') return s;
   StringBuffer sb = new StringBuffer();
   var runes = s.runes;
   for (int i = runes.length - 1; i >= 0; i--) {
@@ -42,9 +36,7 @@ String flip(String s) {
 /// If [times] is negative, returns the [flip]ped string repeated given number
 /// of [times].
 String repeat(String s, int times) {
-  if (s == null) {
-    return null;
-  }
+  if (s == null || s == '') return s;
   if (times < 0) {
     return repeat(flip(s), -times);
   }
