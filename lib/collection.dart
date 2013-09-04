@@ -19,6 +19,10 @@ library quiver.collection;
 
 import 'dart:collection';
 import 'package:unmodifiable_collection/unmodifiable_collection.dart' as uc;
-import 'package:quiver/iterables.dart';
 
 part 'src/collection/multimap.dart';
+part 'src/collection/delegates/iterable.dart';
+part 'src/collection/delegates/list.dart';
+part 'src/collection/delegates/map.dart';
+part 'src/collection/delegates/queue.dart';
+part 'src/collection/delegates/set.dart';
