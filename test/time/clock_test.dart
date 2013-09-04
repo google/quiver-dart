@@ -19,7 +19,7 @@ import 'package:quiver/time.dart';
 
 Clock from(int y, int m, int d) => new Clock.fixed(new DateTime(y, m, d));
 
-expectDate(DateTime date, int y, int m, int d) {
+expectDate(DateTime date, int y, [int m = 1, int d = 1]) {
   expect(date, new DateTime(y, m, d));
 }
 
@@ -141,35 +141,25 @@ main() {
     });
 
     test("should return time days ago", () {
-      expect(subject.daysAgo(10),
-          new DateTime(2012, 12, 22));
+      expectDate(subject.daysAgo(10), 2012, 12, 22);
     });
 
     test("should return time days from now", () {
-      expect(subject.daysFromNow(3),
-          new DateTime(2013, 1, 4));
+      expectDate(subject.daysFromNow(3), 2013, 1, 4);
     });
 
     test("should return time months ago on the same date", () {
-      expect(subject.monthsAgo(1),
-          new DateTime(2012, 12, 1));
-      expect(subject.monthsAgo(2),
-          new DateTime(2012, 11, 1));
-      expect(subject.monthsAgo(3),
-          new DateTime(2012, 10, 1));
-      expect(subject.monthsAgo(4),
-          new DateTime(2012, 9, 1));
+      expectDate(subject.monthsAgo(1), 2012, 12, 1);
+      expectDate(subject.monthsAgo(2), 2012, 11, 1);
+      expectDate(subject.monthsAgo(3), 2012, 10, 1);
+      expectDate(subject.monthsAgo(4), 2012, 9, 1);
     });
 
     test("should return time months from now on the same date", () {
-      expect(subject.monthsFromNow(1),
-          new DateTime(2013, 2, 1));
-      expect(subject.monthsFromNow(2),
-          new DateTime(2013, 3, 1));
-      expect(subject.monthsFromNow(3),
-          new DateTime(2013, 4, 1));
-      expect(subject.monthsFromNow(4),
-          new DateTime(2013, 5, 1));
+      expectDate(subject.monthsFromNow(1), 2013, 2, 1);
+      expectDate(subject.monthsFromNow(2), 2013, 3, 1);
+      expectDate(subject.monthsFromNow(3), 2013, 4, 1);
+      expectDate(subject.monthsFromNow(4), 2013, 5, 1);
     });
 
     test("should go from 2013-05-31 to 2012-11-30", () {
@@ -197,41 +187,25 @@ main() {
     });
 
     test("should return time years ago on the same date", () {
-      expect(subject.yearsAgo(1),
-          new DateTime(2012, 1, 1));  // leap year
-      expect(subject.yearsAgo(2),
-          new DateTime(2011, 1, 1));
-      expect(subject.yearsAgo(3),
-          new DateTime(2010, 1, 1));
-      expect(subject.yearsAgo(4),
-          new DateTime(2009, 1, 1));
-      expect(subject.yearsAgo(5),
-          new DateTime(2008, 1, 1));  // leap year
-      expect(subject.yearsAgo(6),
-          new DateTime(2007, 1, 1));
-      expect(subject.yearsAgo(30),
-          new DateTime(1983, 1, 1));
-      expect(subject.yearsAgo(2013),
-          new DateTime(0, 1, 1));
+      expectDate(subject.yearsAgo(1), 2012, 1, 1);  // leap year
+      expectDate(subject.yearsAgo(2), 2011, 1, 1);
+      expectDate(subject.yearsAgo(3), 2010, 1, 1);
+      expectDate(subject.yearsAgo(4), 2009, 1, 1);
+      expectDate(subject.yearsAgo(5), 2008, 1, 1);  // leap year
+      expectDate(subject.yearsAgo(6), 2007, 1, 1);
+      expectDate(subject.yearsAgo(30), 1983, 1, 1);
+      expectDate(subject.yearsAgo(2013), 0, 1, 1);
     });
 
     test("should return time years from now on the same date", () {
-      expect(subject.yearsFromNow(1),
-          new DateTime(2014, 1, 1));
-      expect(subject.yearsFromNow(2),
-          new DateTime(2015, 1, 1));
-      expect(subject.yearsFromNow(3),
-          new DateTime(2016, 1, 1));
-      expect(subject.yearsFromNow(4),
-          new DateTime(2017, 1, 1));
-      expect(subject.yearsFromNow(5),
-          new DateTime(2018, 1, 1));
-      expect(subject.yearsFromNow(6),
-          new DateTime(2019, 1, 1));
-      expect(subject.yearsFromNow(30),
-          new DateTime(2043, 1, 1));
-      expect(subject.yearsFromNow(1000),
-          new DateTime(3013, 1, 1));
+      expectDate(subject.yearsFromNow(1), 2014, 1, 1);
+      expectDate(subject.yearsFromNow(2), 2015, 1, 1);
+      expectDate(subject.yearsFromNow(3), 2016, 1, 1);
+      expectDate(subject.yearsFromNow(4), 2017, 1, 1);
+      expectDate(subject.yearsFromNow(5), 2018, 1, 1);
+      expectDate(subject.yearsFromNow(6), 2019, 1, 1);
+      expectDate(subject.yearsFromNow(30), 2043, 1, 1);
+      expectDate(subject.yearsFromNow(1000), 3013, 1, 1);
     });
 
   });
