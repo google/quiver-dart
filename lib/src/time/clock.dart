@@ -23,6 +23,18 @@ DateTime systemTime() => new DateTime.now();
 /// A predefined instance of [Clock] that's based on system clock.
 const SYSTEM_CLOCK = const Clock();
 
+/// Days in a month. This array uses 1-based month numbers, i.e. January is
+/// the 1-st element in the array, not the 0-th.
+const _DAYS_IN_MONTH =
+    const [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+int _daysInMonth(int year, int month) =>
+    (month == DateTime.FEBRUARY && _isLeapYear(year))
+    ? 29 : _DAYS_IN_MONTH[month];
+
+bool _isLeapYear(int year) =>
+    (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
+
 /// Provides points in time relative to the current point in time, for example:
 /// now, 2 days ago, 4 weeks from now, etc.
 ///
@@ -133,10 +145,13 @@ class Clock {
   /// Return the point in time [months] ago on the same date.
   DateTime monthsAgo(int months) {
     var time = now();
+    var m = (time.month - months - 1) % 12 + 1;
+    var y = time.year - (months + 12 - time.month) ~/ 12;
+    var d = time.day.clamp(1, _daysInMonth(y, m));
     return new DateTime(
-        time.year,
-        time.month - months,
-        time.day,
+        y,
+        m,
+        d,
         time.hour,
         time.minute,
         time.second,
@@ -145,7 +160,21 @@ class Clock {
   }
 
   /// Return the point in time [months] from now on the same date.
-  DateTime monthsFromNow(int months) => monthsAgo(-months);
+  DateTime monthsFromNow(int months) {
+    var time = now();
+    var m = (time.month + months - 1) % 12 + 1;
+    var y = time.year + (months + time.month - 1) ~/ 12;
+    var d = time.day.clamp(1, _daysInMonth(y, m));
+    return new DateTime(
+        y,
+        m,
+        d,
+        time.hour,
+        time.minute,
+        time.second,
+        time.millisecond
+    );
+  }
 
   /// Return the point in time [years] ago on the same date.
   DateTime yearsAgo(int years) {
