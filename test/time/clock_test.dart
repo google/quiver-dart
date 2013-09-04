@@ -17,9 +17,19 @@ library quiver.time.clock_test;
 import 'package:unittest/unittest.dart';
 import 'package:quiver/time.dart';
 
+Clock from(int y, int m, int d) => new Clock.fixed(new DateTime(y, m, d));
+
+expectDate(DateTime date, int y, int m, int d) {
+  expect(date, new DateTime(y, m, d));
+}
+
 main() {
   group('clock', () {
-    var subject = new Clock.fixed(new DateTime(2013));
+    Clock subject;
+
+    setUp(() {
+      subject = new Clock.fixed(new DateTime(2013));
+    });
 
     test("should return a non-null value from system clock", () {
       expect(new Clock().now(), isNotNull);
@@ -160,6 +170,30 @@ main() {
           new DateTime(2013, 4, 1, 0, 0, 0, 0));
       expect(subject.monthsFromNow(4),
           new DateTime(2013, 5, 1, 0, 0, 0, 0));
+    });
+
+    test("should go from 2013-05-31 to 2012-11-30", () {
+      expectDate(from(2013, 5, 31).monthsAgo(6), 2012, 11, 30);
+    });
+
+    test("should go from 2013-03-31 to 2013-02-28 (common year)", () {
+      expectDate(from(2013, 3, 31).monthsAgo(1), 2013, 2, 28);
+    });
+
+    test("should go from 2013-05-31 to 2013-02-28 (common year)", () {
+      expectDate(from(2013, 5, 31).monthsAgo(3), 2013, 2, 28);
+    });
+
+    test("should go from 2004-03-31 to 2004-02-29 (leap year)", () {
+      expectDate(from(2004, 3, 31).monthsAgo(1), 2004, 2, 29);
+    });
+
+    test("should go from 2013-03-31 to 2013-06-30", () {
+      expectDate(from(2013, 3, 31).monthsFromNow(3), 2013, 6, 30);
+    });
+
+    test("should go from 2003-12-31 to 2004-02-29 (common to leap)", () {
+      expectDate(from(2003, 12, 31).monthsFromNow(2), 2004, 2, 29);
     });
 
     test("should return time years ago on the same date", () {
