@@ -186,6 +186,22 @@ main() {
       expectDate(from(2003, 12, 31).monthsFromNow(2), 2004, 2, 29);
     });
 
+    test("should go from 2004-02-29 to 2003-02-28 by year", () {
+      expectDate(from(2004, 2, 29).yearsAgo(1), 2003, 2, 28);
+    });
+
+    test("should go from 2004-02-29 to 2003-02-28 by month", () {
+      expectDate(from(2004, 2, 29).monthsAgo(12), 2003, 2, 28);
+    });
+
+    test("should go from 2004-02-29 to 2005-02-28 by year", () {
+      expectDate(from(2004, 2, 29).yearsFromNow(1), 2005, 2, 28);
+    });
+
+    test("should go from 2004-02-29 to 2005-02-28 by month", () {
+      expectDate(from(2004, 2, 29).monthsFromNow(12), 2005, 2, 28);
+    });
+
     test("should return time years ago on the same date", () {
       expectDate(subject.yearsAgo(1), 2012, 1, 1);  // leap year
       expectDate(subject.yearsAgo(2), 2011, 1, 1);

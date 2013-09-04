@@ -179,10 +179,12 @@ class Clock {
   /// Return the point in time [years] ago on the same date.
   DateTime yearsAgo(int years) {
     var time = now();
+    var y = time.year - years;
+    var d = time.day.clamp(1, _daysInMonth(y, time.month));
     return new DateTime(
-        time.year - years,
+        y,
         time.month,
-        time.day,
+        d,
         time.hour,
         time.minute,
         time.second,
