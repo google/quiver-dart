@@ -39,8 +39,8 @@ main() {
     // This test may be flaky on certain systems. I ran it over 10 million
     // cycles on my machine without any failures, but that's no guarantee.
     test("should be close enough to system clock", () {
-      // I picked 2ms because 1ms was starting to get flaky.
-      var epsilon = 2;
+      // At 10ms the test doesn't seem to be flaky.
+      var epsilon = 10;
       expect(new DateTime.now().difference(
           new Clock().now()).inMilliseconds.abs(),
               lessThan(epsilon));
