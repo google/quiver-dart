@@ -59,10 +59,16 @@ abstract class Multimap<K, V> {
   void addAll(Multimap<K, V> other);
 
   /**
+   * Removes the association between the given [key] and [value]. Returns
+   * `true` if the association existed, `false` otherwise.
+   */
+  bool remove(Object key, V value);
+
+  /**
    * Removes the association for the given [key]. Returns the value for
    * [key] in the multimap or null if [key] is not in the multimap.
    */
-  Iterable<V> remove(Object key);
+  Iterable<V> removeAll(Object key);
 
   /**
    * Removes all data from the multimap.
@@ -126,8 +132,11 @@ abstract class _BaseMultimap<K, V> implements Multimap<K, V> {
    }
 
   void addAll(Multimap<K, V> other) => other.forEach((k, v) => add(k, v));
-
-  Iterable<V> remove(Object key) => _map.remove(key);
+  bool remove(Object key, V value) {
+    if (!_map.containsKey(key)) return false;
+    return (_map[key] as dynamic).remove(value);
+  }
+  Iterable<V> removeAll(Object key) => _map.remove(key);
   void clear() => _map.clear();
   void forEachKey(void f(key, value)) => _map.forEach(f);
 
@@ -163,7 +172,7 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V> {
     (_map[key] as List).addAll(values);
   }
 
-  List<V> remove(Object key) => _map.remove(key);
+  List<V> removeAll(Object key) => _map.remove(key);
 
   Map<K, List<V>> toMap() => new uc.UnmodifiableMapView(_map);
 }
@@ -186,7 +195,7 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V> {
     (_map[key] as Set).addAll(values);
   }
 
-  Set<V> remove(Object key) => _map.remove(key);
+  Set<V> removeAll(Object key) => _map.remove(key);
 
   Map<K, Set<V>> toMap() => new uc.UnmodifiableMapView(_map);
 }
