@@ -161,12 +161,23 @@ void main() {
       expect(map.containsValue('v1'), true);
     });
 
+    test('should remove specified key-value associations', () {
+      Multimap map = new ListMultimap()
+        ..add('k1', 'v1')
+        ..add('k1', 'v2')
+        ..add('k2', 'v3');
+      expect(map.remove('k1', 'v0'), false);
+      expect(map.remove('k1', 'v1'), true);
+      expect(map['k1'], ['v2']);
+      expect(map.containsKey('k2'), true);
+    });
+
     test('should remove all values for a key', () {
       Multimap map = new ListMultimap()
         ..add('k1', 'v1')
         ..add('k1', 'v2')
         ..add('k2', 'v3');
-      expect(map.remove('k1'), ['v1', 'v2']);
+      expect(map.removeAll('k1'), ['v1', 'v2']);
       expect(map.containsKey('k1'), false);
       expect(map['k1'], null);
       expect(map.containsKey('k2'), true);
@@ -362,12 +373,23 @@ void main() {
       expect(map.containsValue('v1'), true);
     });
 
+    test('should remove specified key-value associations', () {
+      Multimap map = new SetMultimap()
+        ..add('k1', 'v1')
+        ..add('k1', 'v2')
+        ..add('k2', 'v3');
+      expect(map.remove('k1', 'v0'), false);
+      expect(map.remove('k1', 'v1'), true);
+      expect(map['k1'], ['v2']);
+      expect(map.containsKey('k2'), true);
+    });
+
     test('should remove all values for a key', () {
       Multimap map = new SetMultimap()
         ..add('k1', 'v1')
         ..add('k1', 'v2')
         ..add('k2', 'v3');
-      expect(map.remove('k1'), unorderedEquals(['v1', 'v2']));
+      expect(map.removeAll('k1'), unorderedEquals(['v1', 'v2']));
       expect(map.containsKey('k1'), false);
       expect(map['k1'], null);
       expect(map.containsKey('k2'), true);
