@@ -22,6 +22,15 @@ increments.
 on Iterables, waiting for the computation to complete before processing the
 next element.
 
+## cache.dart
+
+`Cache` is a semi-persistent, asynchronously accessed, mapping of keys to
+values. Caches are similar to Maps, except that the cache implementation might
+store values in a remote system, so all operations are asynchronous, and caches
+might have eviction policies.
+
+`MapCache` is a Cache implementation backed by a Map.
+
 ## collection.dart
 
 `Multimap` is an associative collection that maps keys to collections of
