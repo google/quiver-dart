@@ -15,6 +15,7 @@
 library quiver.all_tests;
 
 import 'async/all_tests.dart' as async;
+import 'cache/map_cache_test.dart' as cache;
 import 'collection/all_tests.dart' as collection;
 import 'io_test.dart' as io;
 import 'iterables/all_tests.dart' as iterables;
@@ -25,6 +26,7 @@ import 'time/all_tests.dart' as time;
 
 main() {
   async.main();
+  cache.main();
   collection.main();
   io.main();
   iterables.main();

@@ -21,7 +21,7 @@ part of quiver.cache;
  * The loader function should either return a value synchronously or a [Future]
  * which completes with the value asynchronously.
  */
-typedef dynamic Loader<K, V>(K key);
+typedef dynamic Loader<K>(K key);
 
 /**
  * A semi-persistent mapping of keys to values.
@@ -35,15 +35,17 @@ abstract class Cache<K, V> {
   /**
    * Returns the value associated with [key].
    */
-  Future<V> get(K key, {Loader<K, V> ifAbsent});
+  Future<V> get(K key, {Loader<K> ifAbsent});
 
   /**
-   * Sets the value associated with [key].
+   * Sets the value associated with [key]. The Future completes with null when
+   * the operation is complete.
    */
   Future set(K key, V value);
 
   /**
-   * Removes the value associated with [key].
+   * Removes the value associated with [key]. The Future completes with null
+   * when the operation is complete.
    */
   Future invalidate(K key);
 }

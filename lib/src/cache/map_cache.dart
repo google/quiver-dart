@@ -27,7 +27,7 @@ class MapCache<K, V> implements Cache<K, V> {
   MapCache({Map<K, V> map})
       : _map = map != null ? map : new HashMap<K, V>();
 
-  Future<V> get(K key, {Loader<K, V> ifAbsent}) {
+  Future<V> get(K key, {Loader<K> ifAbsent}) {
     if (!_map.containsKey(key) && ifAbsent != null) {
       var valOrFuture = ifAbsent(key);
       if (valOrFuture is Future) {
