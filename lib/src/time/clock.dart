@@ -35,6 +35,23 @@ int _daysInMonth(int year, int month) =>
 bool _isLeapYear(int year) =>
     (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
 
+/// Takes a [date] that may be outside the allowed range of dates for a given
+/// [month] in a given [year] and returns the closest date that is within the
+/// allowed range.
+///
+/// For example:
+///
+/// February 31, 2013 => February 28, 2013
+///
+/// When jumping from month to month or from leap year to common year we may
+/// end up in a month that has fewer days than the month we are jumping from.
+/// In that case it is impossible to preserve the exact date. So we "clamp" the
+/// date value to fit within the month. For example, jumping from March 31 one
+/// month back takes us to February 28 (or 29 during a leap year), as February
+/// doesn't have 31-st date.
+int _clampDate(int date, int year, int month) =>
+    date.clamp(1, _daysInMonth(year, month));
+
 /// Provides points in time relative to the current point in time, for example:
 /// now, 2 days ago, 4 weeks from now, etc.
 ///
@@ -147,7 +164,7 @@ class Clock {
     var time = now();
     var m = (time.month - months - 1) % 12 + 1;
     var y = time.year - (months + 12 - time.month) ~/ 12;
-    var d = time.day.clamp(1, _daysInMonth(y, m));
+    var d = _clampDate(time.day, y, m);
     return new DateTime(
         y,
         m,
@@ -164,7 +181,7 @@ class Clock {
     var time = now();
     var m = (time.month + months - 1) % 12 + 1;
     var y = time.year + (months + time.month - 1) ~/ 12;
-    var d = time.day.clamp(1, _daysInMonth(y, m));
+    var d = _clampDate(time.day, y, m);
     return new DateTime(
         y,
         m,
@@ -180,7 +197,7 @@ class Clock {
   DateTime yearsAgo(int years) {
     var time = now();
     var y = time.year - years;
-    var d = time.day.clamp(1, _daysInMonth(y, time.month));
+    var d = _clampDate(time.day, y, time.month);
     return new DateTime(
         y,
         time.month,
