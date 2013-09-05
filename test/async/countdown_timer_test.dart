@@ -18,26 +18,49 @@ import 'dart:async';
 
 import 'package:unittest/unittest.dart';
 import 'package:quiver/async.dart';
+import 'package:quiver/async/testing.dart';
+import 'package:quiver/time/testing.dart';
 
 main() {
 
   group('CountdownTimer', () {
 
     test('should countdown', () {
-      int round100(i) => (i / 100).round();
+      int _now = 0;
 
-      var stopwatch = new Stopwatch()..start();
+      var stopwatch = new FakeStopwatch(() => _now, 1000000);
+      var timer = new FakeTimer();
+
       var timings = new CountdownTimer(
           new Duration(milliseconds: 500),
-          new Duration(milliseconds: 100))
-          .map((c) => [c.remaining.inMilliseconds,
-              stopwatch.elapsedMilliseconds]);
-      timings.toList().then((list) {
-        // the ticks should be 4 .. 0
-        expect(list.map((t) => round100(t[0])), [4, 3, 2, 1, 0]);
-        // they should come roughly every 100ms
-        expect(list.map((t) => round100(t[0] + t[1])), [5, 5, 5, 5, 5]);
+          new Duration(milliseconds: 100),
+          stopwatch: stopwatch,
+          createTimerPeriodic: timer.create)
+          .map((c) => c.remaining.inMilliseconds);
+      var future = timings.toList().then((list) {
+        expect(list, [400, 300, 200, 100, 0]);
       });
+
+      expect(timer.duration.inMilliseconds, 100);
+
+      new Future(() {
+        _now = 100000;
+        timer.callback(timer);
+      }).then((_) {
+        _now = 200000;
+        timer.callback(timer);
+      }).then((_) {
+        _now = 300000;
+        timer.callback(timer);
+      }).then((_) {
+        _now = 400000;
+        timer.callback(timer);
+      }).then((_) {
+        _now = 500000;
+        timer.callback(timer);
+      });
+
+      return future;
     });
   });
 }
