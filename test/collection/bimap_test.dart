@@ -46,9 +46,9 @@ main() {
     });
 
     test('should throw when adding a null key or value via its inverse', () {
-      expect(() => map.inverse[null] = v1,
+      expect(() => map.inverse[null] = k1,
              throwsA(new isInstanceOf<ArgumentError>()));
-      expect(() => map.inverse[k1] = null,
+      expect(() => map.inverse[v1] = null,
              throwsA(new isInstanceOf<ArgumentError>()));
     });
 
