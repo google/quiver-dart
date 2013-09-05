@@ -15,7 +15,8 @@
 part of quiver.async;
 
 /**
- * A simple countdown timer that fires events in configurable increments.
+ * A simple countdown timer that fires events in regular increments until a
+ * duration has passed.
  *
  * CountdownTimer implements [Stream] and sends itself as the event. From the
  * timer you can get the [remaining] and [elapsed] time, or [cancel] the timer.
@@ -29,13 +30,24 @@ class CountdownTimer extends Stream<CountdownTimer> {
   final StreamController<CountdownTimer> _controller;
   Timer _timer;
 
-  CountdownTimer(Duration duration, Duration increment)
+  /**
+   * Creates a new [CountdownTimer] that fires events in increments of
+   * [increment], until the [duration] has passed.
+   *
+   * [stopwatch] and [createTimerPeriodic] are for testing purposes. If you're
+   * using CountdownTimer and need to control time in a test, pass mocks or
+   * fakes. See [FakeTimer] and [FakeStopwatch].
+   */
+  CountdownTimer(Duration duration, Duration increment, {
+    Stopwatch stopwatch, CreateTimerPeriodic createTimerPeriodic})
       : _duration = duration,
         _increment = increment,
-        _stopwatch = new Stopwatch(),
+        _stopwatch = stopwatch == null ? new Stopwatch() : stopwatch,
         _controller = new StreamController<CountdownTimer>.broadcast(
             sync: true) {
-    _timer = new Timer.periodic(increment, _tick);
+    _timer = createTimerPeriodic == null
+        ? new Timer.periodic(increment, _tick)
+        : createTimerPeriodic(increment, _tick);
     _stopwatch.start();
   }
 
