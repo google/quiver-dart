@@ -1,7 +1,10 @@
 quiver-dart
 ===========
 
-A set of utility libraries for Dart
+Quiver is a set of utility libraries for Dart that makes using many Dart
+libraries easier and more convenient, or adds additional functionality.
+
+# Main Libraries
 
 ## async.dart
 
@@ -15,12 +18,16 @@ them to complete.
 `StreamRouter` splits a Stream into mulltiple streams based on a set of
 predicates.
 
-`CountdownTimer` is a simple countdown timer that fires events in configurable
+`CountdownTimer` is a simple countdown timer that fires events in regular
 increments.
 
 `doWhileAsync` and `reduceAsync` perform async computations on the elements of
 on Iterables, waiting for the computation to complete before processing the
 next element.
+
+`CreateTimer` and `CreateTimerPeriodic` are typedefs that are useful for
+passing Timer factories to classes and functions, increasing the testability of
+code that depends on Timer.
 
 ## cache.dart
 
@@ -78,13 +85,6 @@ pattern.dart container utilities for work with `Pattern`s and `RegExp`s.
 `escapeRegex` escapes special regex characters in a String so that it can be
 used as a literal match inside of a RegExp.
 
-## time.dart
-
-`Clock` provides points in time relative to the current point in time, for
-example: now, 2 days ago, 4 weeks from now, etc. For tesability, use Clock
-rather than other ways of accessing time, like `new DateTime()`, so that you
-can use a fake time function in your tests to control time.
-
 ## strings.dart
 
 `isBlank` checks if a string is `null`, empty or made of whitespace characters.
@@ -109,16 +109,36 @@ It can also repeat in reverse, for example:
 arbitrary indices. Out of bounds indices allow you to wrap around the string,
 supporting a number of use-cases, including:
 
-### Rotating
+###### Rotating
 `loop('lohel', -3, 2) => 'hello'`
 
-### Repeating
+###### Repeating
 Like `repeat`, but with better character-level control, e.g.:
 `loop('la ', 0, 8) => 'la la la'  // no tailing space`
 
-### Tailing
+###### Tailing
 `loop('/path/to/some/file.txt', -3) => 'txt'`
 
-### Reversing
+###### Reversing
 `loop('top', 3, 0) => 'pot'`
 
+## time.dart
+
+`Clock` provides points in time relative to the current point in time, for
+example: now, 2 days ago, 4 weeks from now, etc. For tesability, use Clock
+rather than other ways of accessing time, like `new DateTime()`, so that you
+can use a fake time function in your tests to control time.
+
+`Now` is a typedef for functions that return the current time in microseconds,
+since Clock deals in DateTime which only have millisecond accuracy.
+
+# Testing Libraries
+
+## async/testing.dart
+
+`FakeTimer` is a Timer that captures its duration and callback for use in tests.
+
+## time/testing.dart
+
+`FakeStopwatch` is a Stopwatch that uses a provided `now()` function to get the
+current time.
