@@ -82,12 +82,12 @@ main() {
       expect(method(3), 5);
     });
 
-    test('should throw with named arguments', () {
+    test('should be callable with named arguments', () {
       // this test will fail when named argument support is added
       var i = [1, 2];
       var mirror = reflect(i);
       var method = new Method(mirror, const Symbol('toList'));
-      expect(() => method(growable: false), throws);
+      expect(method(growable: false), [1, 2]);
     });
 
   });
