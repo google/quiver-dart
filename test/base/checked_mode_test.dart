@@ -12,28 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.all_tests;
+library quiver.base.checked_mode_test;
 
-import 'async/all_tests.dart' as async;
-import 'base/all_tests.dart' as base;
-import 'cache/map_cache_test.dart' as cache;
-import 'collection/all_tests.dart' as collection;
-import 'io_test.dart' as io;
-import 'iterables/all_tests.dart' as iterables;
-import 'mirrors_test.dart' as mirrors;
-import 'pattern/all_tests.dart' as pattern;
-import 'strings_test.dart' as strings;
-import 'time/all_tests.dart' as time;
+import 'package:unittest/unittest.dart';
+import 'package:quiver/base.dart';
 
 main() {
-  async.main();
-  base.main();
-  cache.main();
-  collection.main();
-  io.main();
-  iterables.main();
-  mirrors.main();
-  pattern.main();
-  strings.main();
-  time.main();
+  test('isCheckedMode', () {
+    expect(isCheckedMode, isTrue);
+  });
 }
