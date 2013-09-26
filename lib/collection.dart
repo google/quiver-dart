@@ -18,7 +18,6 @@
 library quiver.collection;
 
 import 'dart:collection';
-import 'package:unmodifiable_collection/unmodifiable_collection.dart' as uc;
 
 part 'src/collection/bimap.dart';
 part 'src/collection/multimap.dart';

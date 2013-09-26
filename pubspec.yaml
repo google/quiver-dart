@@ -12,6 +12,5 @@ environment:
   sdk: '>=0.7.2 <0.8.0'
 dependencies:
   path: '>=0.7.2 <0.8.0'
-  unmodifiable_collection: '>=0.7.2 <0.8.0'
 dev_dependencies:
   unittest: '>=0.7.2 <0.8.0'
