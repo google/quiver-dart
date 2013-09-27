@@ -15,7 +15,10 @@
 library quiver.collection.all_tests;
 
 import 'bimap_test.dart' as bimap;
+import 'listed_test.dart' as listed;
+import 'mapped_test.dart' as mapped;
 import 'multimap_test.dart' as multimap;
+import 'setted_test.dart' as setted;
 import 'delegates/iterable_test.dart' as iterable;
 import 'delegates/list_test.dart' as list;
 import 'delegates/map_test.dart' as map;
@@ -24,10 +27,13 @@ import 'delegates/set_test.dart' as set;
 
 main() {
   bimap.main();
+  mapped.main();
   multimap.main();
   iterable.main();
   list.main();
+  listed.main();
   map.main();
   queue.main();
   set.main();
+  setted.main();
 }
