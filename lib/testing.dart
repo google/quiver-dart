@@ -12,13 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.base.checked_mode_test;
+/**
+ * Testing support.
+ */
+library quiver.testing;
 
-import 'package:unittest/unittest.dart';
-import 'package:quiver/base.dart';
-
-main() {
-  test('isCheckedMode', () {
-    expect(isCheckedMode, isTrue);
-  });
-}
+part 'src/testing/checked_mode.dart';

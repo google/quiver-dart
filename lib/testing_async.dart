@@ -12,26 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.base;
-
 /**
- * Whether the current environment is doing runtime type checks.
+ * Testing support for dart:async.
  */
-bool get isCheckedMode {
-  if (_isCheckedMode == null) _isCheckedMode = _checkForCheckedMode();
+library quiver.testing.async;
 
-  return _isCheckedMode;
-}
+import 'dart:async';
 
-bool _isCheckedMode = null;
-
-bool _checkForCheckedMode() {
-  Object sentinal = new Object();
-  try {
-    String string = 1;
-    throw sentinal;
-  } catch (e) {
-    if (e == sentinal) return false;
-  }
-  return true;
-}
+part 'src/testing/async/async.dart';

@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.async.testing;
-
-import 'dart:async';
+part of quiver.testing.async;
 
 /**
  * A [Timer] implementation that stores its duration and callback for access

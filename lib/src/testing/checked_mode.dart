@@ -12,9 +12,26 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Dart language extensions and utilities.
- */
-library quiver.base;
+part of quiver.testing;
 
-part 'src/base/checked_mode.dart';
+/**
+ * Asserts that the current runtime has checked mode enabled.
+ */
+void assertCheckedMode() {
+  if (_isCheckedMode == null) _isCheckedMode = _checkForCheckedMode();
+
+  assert (_isCheckedMode);
+}
+
+bool _isCheckedMode = null;
+
+bool _checkForCheckedMode() {
+  Object sentinal = new Object();
+  try {
+    String string = 1;
+    throw sentinal;
+  } catch (e) {
+    if (e == sentinal) return false;
+  }
+  return true;
+}

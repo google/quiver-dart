@@ -12,10 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.base.all_tests;
-
-import 'checked_mode_test.dart' as checked_mode;
+library quiver.testing.all_tests;
 
 main() {
-  checked_mode.main();
 }
