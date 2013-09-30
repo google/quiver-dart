@@ -13,8 +13,10 @@
 // limitations under the License.
 
 /**
- * Testing support.
+ * Testing support for dart:async.
  */
-library quiver.testing;
+library quiver.testing.async;
 
-part 'src/testing/checked_mode.dart';
+import 'dart:async';
+
+part 'src/async/async.dart';

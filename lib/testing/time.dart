@@ -13,10 +13,8 @@
 // limitations under the License.
 
 /**
- * Testing support for dart:async.
+ * Testing support for dart:core time functionality.
  */
-library quiver.testing.async;
+library quiver.testing.time;
 
-import 'dart:async';
-
-part 'src/testing/async/async.dart';
+part 'src/time/time.dart';
