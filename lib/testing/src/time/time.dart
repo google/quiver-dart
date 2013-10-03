@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.time.testing;
+part of quiver.testing.time;
 
 /**
  * Returns the current test time in microseconds.
