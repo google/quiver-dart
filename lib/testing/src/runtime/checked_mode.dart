@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.testing;
+part of quiver.testing.runtime;
 
 /**
  * Asserts that the current runtime has checked mode enabled.
  *
- * Otherwise, throws [StateError}.
+ * Otherwise, throws [StateError].
  */
 void assertCheckedMode() {
   if (_isCheckedMode == null) _isCheckedMode = _checkForCheckedMode();
