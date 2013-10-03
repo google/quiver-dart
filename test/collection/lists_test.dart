@@ -12,19 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Collection classes and related utilities.
- */
-library quiver.collection;
+library quiver.collection.lists_test;
 
-import 'dart:collection';
-import 'dart:math';
+import 'package:quiver/collection.dart';
+import 'package:unittest/unittest.dart';
 
-part 'src/collection/bimap.dart';
-part 'src/collection/multimap.dart';
-part 'src/collection/delegates/iterable.dart';
-part 'src/collection/delegates/list.dart';
-part 'src/collection/delegates/map.dart';
-part 'src/collection/delegates/queue.dart';
-part 'src/collection/delegates/set.dart';
-part 'src/collection/lists.dart';
+main() {
+  group('Shuffle', () {
+    test('should shuffle a list', () {
+      List originalList = [1,2,3,4,5];
+      List list = new List.from(originalList);
+      shuffle(list);
+      expect(list, isNot(equals(originalList)));
+      expect(list, hasLength(originalList.length));
+      for (var i in originalList) {
+        expect(list, contains(i));
+      }
+    });
+  });
+}

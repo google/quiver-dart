@@ -12,19 +12,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+part of quiver.collection;
+
 /**
- * Collection classes and related utilities.
+ * Shuffles a list using the
+ * [modern Knuth shuffle](http://en.wikipedia.org/wiki/Knuth_shuffle#The_modern_algorithm).
+ * The list is modified, and the list is returned for convenience.
  */
-library quiver.collection;
-
-import 'dart:collection';
-import 'dart:math';
-
-part 'src/collection/bimap.dart';
-part 'src/collection/multimap.dart';
-part 'src/collection/delegates/iterable.dart';
-part 'src/collection/delegates/list.dart';
-part 'src/collection/delegates/map.dart';
-part 'src/collection/delegates/queue.dart';
-part 'src/collection/delegates/set.dart';
-part 'src/collection/lists.dart';
+List shuffle(final List list) {
+  Random rand = new Random();
+  
+  for (int i = list.length - 1; i > 0; i--) {
+    int j = rand.nextInt(i+1);
+    var temp = list[i];
+    list[i] = list[j];
+    list[j] = temp; 
+  }
+  
+  return list;
+}
