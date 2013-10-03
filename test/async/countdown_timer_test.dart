@@ -18,8 +18,8 @@ import 'dart:async';
 
 import 'package:unittest/unittest.dart';
 import 'package:quiver/async.dart';
-import 'package:quiver/async/testing.dart';
-import 'package:quiver/time/testing.dart';
+import 'package:quiver/testing/async.dart';
+import 'package:quiver/testing/time.dart';
 
 main() {
 
