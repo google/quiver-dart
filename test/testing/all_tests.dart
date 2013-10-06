@@ -12,28 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.all_tests;
-
-import 'async/all_tests.dart' as async;
-import 'cache/map_cache_test.dart' as cache;
-import 'collection/all_tests.dart' as collection;
-import 'io_test.dart' as io;
-import 'iterables/all_tests.dart' as iterables;
-import 'mirrors_test.dart' as mirrors;
-import 'pattern/all_tests.dart' as pattern;
-import 'strings_test.dart' as strings;
-import 'testing/all_tests.dart' as testing;
-import 'time/all_tests.dart' as time;
+library quiver.testing.all_tests;
 
 main() {
-  async.main();
-  cache.main();
-  collection.main();
-  io.main();
-  iterables.main();
-  mirrors.main();
-  pattern.main();
-  strings.main();
-  testing.main();
-  time.main();
+  // No tests for the testing library yet.
 }
