@@ -21,6 +21,7 @@ import 'delegates/list_test.dart' as list;
 import 'delegates/map_test.dart' as map;
 import 'delegates/queue_test.dart' as queue;
 import 'delegates/set_test.dart' as set;
+import 'lists_test.dart' as lists;
 
 main() {
   bimap.main();
@@ -30,4 +31,5 @@ main() {
   map.main();
   queue.main();
   set.main();
+  lists.main();
 }
