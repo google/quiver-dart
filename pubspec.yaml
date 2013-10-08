@@ -9,7 +9,7 @@ description: A set of utility libraries for Dart
 homepage: https://github.com/google/quiver-dart
 documentation: http://google.github.io/quiver-dart/docs/
 environment:
-  sdk: '>=0.7.2 <0.8.0'
+  sdk: '>=0.7.2'
 dependencies:
   path: '>=0.7.2 <0.8.0'
 dev_dependencies:
