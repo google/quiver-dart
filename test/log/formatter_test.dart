@@ -12,12 +12,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.log.all_tests;
+library quiver.log.formatter_test;
 
-import 'appender_test.dart' as appender;
-import 'formatter_test.dart' as formatter;
+import 'package:intl/intl.dart';
+import 'package:logging/logging.dart';
+import 'package:quiver/log.dart';
+import 'package:unittest/unittest.dart';
 
 main() {
-  appender.main();
-  formatter.main();
+  group('CommonLogFormatter', (){
+     test('correctly formats LogRecord', (){
+       LogRecord record =
+           new LogRecord(Level.INFO, 'formatted message!', 'root');
+       var dateFormat = new DateFormat("MMyy H:m:s.S");
+       expect(COMMON_LOG_FORMATTER.format(record),
+           'INFO ${dateFormat.format(record.time)} 0 root formatted message!');
+     });
+  });
 }
