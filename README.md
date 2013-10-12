@@ -52,8 +52,6 @@ might have eviction policies.
 values. `BiMap` is a bi-directional map and provides an inverse view, allowing
 lookup of key by value.
 
-`shuffle` randomly shuffles a List.
-
 [quiver.collection]: http://google.github.io/quiver-dart/docs/quiver.collection.html
 
 ## [quiver.io][]

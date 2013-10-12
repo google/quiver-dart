@@ -18,7 +18,6 @@
 library quiver.collection;
 
 import 'dart:collection';
-import 'dart:math';
 
 part 'src/collection/bimap.dart';
 part 'src/collection/multimap.dart';
@@ -27,4 +26,3 @@ part 'src/collection/delegates/list.dart';
 part 'src/collection/delegates/map.dart';
 part 'src/collection/delegates/queue.dart';
 part 'src/collection/delegates/set.dart';
-part 'src/collection/lists.dart';
