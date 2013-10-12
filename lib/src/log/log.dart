@@ -41,7 +41,7 @@ abstract class Appender<T> {
   /**
    * Each appender should implement this method to perform custom log output.
    */
-  append(T o);
+  void append(T o);
 
   /**
    * Terminate this Appender and cancel all logging subscriptions.
@@ -107,7 +107,7 @@ class ConsoleAppender extends Appender<String>{
    */
   ConsoleAppender(StringFormatter formatter) : super(formatter);
 
-  append(String msg) => print(msg);
+  void append(String msg) => print(msg);
 }
 
 /**
@@ -122,5 +122,5 @@ class InMemoryListAppender extends Appender<String>{
    */
   InMemoryListAppender(StringFormatter formatter) : super(formatter);
 
-  append(String msg)  => messages.add(msg);
+  void append(String msg)  => messages.add(msg);
 }
