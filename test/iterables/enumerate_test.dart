@@ -30,5 +30,47 @@ main() {
       expect(enumerate([]), []);
     });
 
+    test("should add indices to its argument", () {
+      var e = enumerate(['a', 'b', 'c']);
+      expect(e.map((v) => v.index), [0, 1, 2]);
+      expect(e.map((v) => v.index), [0, 1, 2], reason:
+          'should enumerate to the same values a second time');
+    });
+
+    test("first", () {
+      var e = enumerate(['a', 'b', 'c']);
+      expect(e.first.value, 'a');
+      expect(e.first.index, 0);
+      expect(e.first.value, 'a');
+    });
+
+    test("last", () {
+      var e = enumerate(['a', 'b', 'c']);
+      expect(e.last.value, 'c');
+      expect(e.last.index, 2);
+      expect(e.last.value, 'c');
+    });
+
+    test("single", () {
+      var e = enumerate(['a']);
+      expect(e.single.value, 'a');
+      expect(e.single.index, 0);
+      expect(e.single.value, 'a');
+
+      expect(() => enumerate([1, 2]).single, throws);
+    });
+
+    test("length", () {
+      expect(enumerate([7, 8, 9]).length, 3);
+    });
+
+    test("elementAt", () {
+      var list = ['a', 'b', 'c'];
+      var e = enumerate(list);
+      for (int i = 2; i >= 0; i--) {
+        expect(e.elementAt(i).value, list[i]);
+        expect(e.elementAt(i).index, i);
+      }
+    });
   });
 }
