@@ -32,7 +32,8 @@ bool _isCheckedMode = null;
 bool _checkForCheckedMode() {
   Object sentinal = new Object();
   try {
-    String string = 1;
+    var i = 1 as dynamic;
+    String string = i;
     throw sentinal;
   } catch (e) {
     if (e == sentinal) return false;

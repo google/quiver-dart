@@ -164,8 +164,9 @@ abstract class _BaseMultimap<K, V> implements Multimap<K, V> {
   }
 
   Iterable<V> removeAll(Object key) {
-    var values = _map.remove(key);
-    var retValues = _create();
+    // Cast to dynamic to remove warnings
+    var values = _map.remove(key) as dynamic;
+    var retValues = _create() as dynamic;
     if (values != null) {
       retValues.addAll(values);
       values.clear();
@@ -557,7 +558,11 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V> implements List<V> {
 
   void setRange(int start, int end, Iterable<V> iterable, [int skipCount = 0]) {
     _syncDelegate();
-    (_delegate as List).setRange(start, end, iterable, skipCount);
+  }
+
+  void shuffle() {
+    _syncDelegate();
+    (_delegate as List).shuffle();
   }
 
   void sort([int compare(V a, V b)]) {
