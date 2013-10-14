@@ -156,15 +156,19 @@ since Clock deals in DateTime which only have millisecond accuracy.
 
 # Testing Libraries
 
-## [quiver.async.testing][]
+The Quiver testing libraries are intended to be used in testing code, not
+production code. It currently consists of fake implementations of some Quiver
+interfaces.
+
+## [quiver.testing.async][]
 
 `FakeTimer` is a Timer that captures its duration and callback for use in tests.
 
-[quiver.async.testing]: http://google.github.io/quiver-dart/docs/quiver.async.testing.html
+[quiver.testing.async]: http://google.github.io/quiver-dart/docs/quiver.testing.async.html
 
-## [quiver.time.testing][]
+## [quiver.testing.time][]
 
 `FakeStopwatch` is a Stopwatch that uses a provided `now()` function to get the
 current time.
 
-[quiver.time.testing]: http://google.github.io/quiver-dart/docs/quiver.time.testing.html
+[quiver.testing.time]: http://google.github.io/quiver-dart/docs/quiver.testing.time.html
