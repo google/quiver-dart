@@ -16,6 +16,10 @@ part of quiver.collection;
 
 /**
  * An associative container that maps a key to multiple values.
+ *
+ * Key lookups return mutable collections that are views of the multimap.
+ * Updates to the multimap are reflected in these collections and similarly,
+ * modifications to the returned collections are reflected in the multimap.
  */
 abstract class Multimap<K, V> {
   /**
@@ -34,8 +38,10 @@ abstract class Multimap<K, V> {
   bool containsKey(Object key);
 
   /**
-   * Returns the values for the given [key] or null if [key] is not
-   * in the multimap.
+   * Returns the values for the given [key]. An empty iterable is returned if
+   * [key] is not mapped. The returned collection is a view on the multimap.
+   * Updates to the collection modify the multimap and likewise, modifications
+   * to the multimap are reflected in the returned collection.
    */
   Iterable<V> operator [](Object key);
 
@@ -65,8 +71,8 @@ abstract class Multimap<K, V> {
   bool remove(Object key, V value);
 
   /**
-   * Removes the association for the given [key]. Returns the value for
-   * [key] in the multimap or null if [key] is not in the multimap.
+   * Removes the association for the given [key]. Returns the collection of
+   * removed values, or an empty iterable if [key] was unmapped.
    */
   Iterable<V> removeAll(Object key);
 
