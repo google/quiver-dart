@@ -310,6 +310,22 @@ void main() {
       expect(values, []);
     });
 
+    test('should return an empty iterable on removeAll of unmapped key', () {
+      Multimap map = new ListMultimap();
+      var removed = map.removeAll('k1');
+      expect(removed, []);
+    });
+
+    test('should be uncoupled from the iterable returned by removeAll', () {
+      Multimap map = new ListMultimap()
+        ..add('k1', 'v1');
+      var removed = map.removeAll('k1');
+      removed.add('v2');
+      map.add('k1', 'v3');
+      expect(removed, ['v1', 'v2']);
+      expect(map['k1'], ['v3']);
+    });
+
     test('should clear the map', () {
       Multimap map = new ListMultimap()
         ..add('k1', 'v1')
@@ -675,6 +691,22 @@ void main() {
       Set values = map['k1'];
       expect(map.removeAll('k1'), ['v1']);
       expect(values, []);
+    });
+
+    test('should return an empty iterable on removeAll of unmapped key', () {
+      Multimap map = new SetMultimap();
+      var removed = map.removeAll('k1');
+      expect(removed, []);
+    });
+
+    test('should be uncoupled from the iterable returned by removeAll', () {
+      Multimap map = new SetMultimap()
+        ..add('k1', 'v1');
+      var removed = map.removeAll('k1');
+      removed.add('v2');
+      map.add('k1', 'v3');
+      expect(removed, unorderedEquals(['v1', 'v2']));
+      expect(map['k1'], ['v3']);
     });
 
     test('should clear the map', () {
