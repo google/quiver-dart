@@ -35,8 +35,14 @@ abstract class Appender<T> {
    * Attaches a logger to this appender
    */
   attachLogger(Logger logger) =>
-    _subscriptions.add(logger.onRecord.listen((LogRecord r) =>
-        append(formatter.format(r))));
+    _subscriptions.add(logger.onRecord.listen((LogRecord r) {
+      try {
+        append(formatter.format(r));
+      } catch(e) {
+        //will keep the logger from downing the app, how best to notify the
+        //app here?
+      }
+     }));
 
   /**
    * Each appender should implement this method to perform custom log output.
