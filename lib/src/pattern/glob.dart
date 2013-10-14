@@ -45,7 +45,7 @@ class Glob implements Pattern {
 
   String toString() => pattern;
 
-  int get hashcode => pattern.hashCode;
+  int get hashCode => pattern.hashCode;
 
   bool operator==(other) => other is Glob && pattern == other.pattern;
 }
