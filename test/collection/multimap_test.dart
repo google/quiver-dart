@@ -316,7 +316,7 @@ void main() {
       expect(removed, []);
     });
 
-    test('should be uncoupled from the iterable returned by removeALl', () {
+    test('should be uncoupled from the iterable returned by removeAll', () {
       Multimap map = new ListMultimap()
         ..add('k1', 'v1');
       var removed = map.removeAll('k1');
@@ -699,7 +699,7 @@ void main() {
       expect(removed, []);
     });
 
-    test('should be uncoupled from the iterable returned by removeALl', () {
+    test('should be uncoupled from the iterable returned by removeAll', () {
       Multimap map = new SetMultimap()
         ..add('k1', 'v1');
       var removed = map.removeAll('k1');
