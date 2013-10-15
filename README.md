@@ -48,6 +48,8 @@ might have eviction policies.
 
 ## [quiver.collection][]
 
+`Optional` is a way to represent optional values without allowing [null].
+
 `Multimap` is an associative collection that maps keys to collections of
 values. `BiMap` is a bi-directional map and provides an inverse view, allowing
 lookup of key by value.

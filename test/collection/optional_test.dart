@@ -22,15 +22,15 @@ main() {
   group('Optional', () {
     test('absent should be not present and not gettable', () {
       expect(new Optional<int>.absent().isPresent, isFalse);
-      expect(() => new Optional<int>.absent().get, throws);
+      expect(() => new Optional<int>.absent().value, throws);
     });
 
     test('of should return value', () {
-      expect(new Optional<int>.of(7).get, 7);
+      expect(new Optional<int>.of(7).value, 7);
     });
 
     test('fromNullable should allow present or absent', () {
-      expect(new Optional<int>.fromNullable(7).get, 7);
+      expect(new Optional<int>.fromNullable(7).value, 7);
       expect(new Optional<int>.fromNullable(null).isPresent, isFalse);
     });
 
@@ -78,11 +78,11 @@ main() {
       expect(new Optional<int>.of(7), isNot(equals(new Optional<int>.of(8))));
     });
 
-    test('toString should give the generic type', () {
-      expect(new Optional<int>.of(7).toString(), equals('Optional<int>.of(7)'));
+    test('toString should show the value or absent', () {
+      expect(new Optional<int>.of(7).toString(), equals('Optional { value: 7 }'));
       expect(
           new Optional<int>.fromNullable(null).toString(),
-          equals('Optional.absent()'));
+          equals('Optional { absent }'));
     });
   });
 }
