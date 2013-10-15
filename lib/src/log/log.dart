@@ -37,7 +37,7 @@ abstract class Appender<T> {
   attachLogger(Logger logger) =>
     _subscriptions.add(logger.onRecord.listen((LogRecord r) {
       try {
-        append(formatter.format(r));
+        append(r, formatter);
       } catch(e) {
         //will keep the logger from downing the app, how best to notify the
         //app here?
@@ -47,7 +47,7 @@ abstract class Appender<T> {
   /**
    * Each appender should implement this method to perform custom log output.
    */
-  void append(T o);
+  void append(LogRecord record, Formatter<T> formatter);
 
   /**
    * Terminate this Appender and cancel all logging subscriptions.
@@ -55,78 +55,62 @@ abstract class Appender<T> {
   void stop() => _subscriptions.forEach((s) => s.cancel());
 }
 
-//TODO(bendera): If we ever get generic functions/methods maybe we can
-//replace the formatter class with a typedef.
 /**
- * Formatter interface. A
+ * Formatter accepts a [LogRecord] and returns a T
  */
-abstract class Formatter<T> {
-  //TODO(bendera): wasnt sure if formatter should be const, but it seems like
-  //if we intend for them to eventually be only functions then it make sense.
-  const Formatter();
-
-  /**
-   * Formats a given [LogRecord] returning type T as a result
-   */
-  T format(LogRecord record);
-}
-
-/**
- * A base class for Formatters which return strings.
- */
-abstract class StringFormatter extends Formatter<String>{
-  const StringFormatter();
-}
-
+typedef T Formatter<T>(LogRecord record);
 
 /**
  * Formats log messages using a simple pattern
  */
-class CommonLogFormatter extends StringFormatter {
-  static final DateFormat _dateFormat = new DateFormat("MMyy HH:Mm:ss.S");
+class BasicLogFormatter {
+  static final DateFormat _dateFormat = new DateFormat("MMyy HH:mm:ss.S");
 
-  const CommonLogFormatter();
+  const BasicLogFormatter();
   /**
    * Formats a [LogRecord] using the following pattern:
    *
-   * level MMyy HH:MM:ss.S sequence loggerName message
+   * MMyy HH:MM:ss.S level sequence loggerName message
    */
-  String format(LogRecord record) => "${record.level} "
+  String call(LogRecord record) =>
       "${_dateFormat.format(record.time)} "
+      "${record.level} "
       "${record.sequenceNumber} "
       "${record.loggerName} "
       "${record.message}";
 }
 
 /**
- * Default instance of the CommonLogFormatter
+ * Default instance of the BasicLogFormatter
  */
-const COMMON_LOG_FORMATTER = const CommonLogFormatter();
+const BASIC_LOG_FORMATTER = const BasicLogFormatter();
 
 /**
  * Appends string messages to the console using print function
  */
-class ConsoleAppender extends Appender<String>{
+class PrintAppender extends Appender<String>{
 
   /**
-   * Returns a new ConsoleAppender with the given [StringFormatter]
+   * Returns a new ConsoleAppender with the given [Formatter<String>]
    */
-  ConsoleAppender(StringFormatter formatter) : super(formatter);
+  PrintAppender(Formatter<String> formatter) : super(formatter);
 
-  void append(String msg) => print(msg);
+  void append(LogRecord record, Formatter<String> formatter) =>
+      print(formatter(record));
 }
 
 /**
  * Appends string messages to the messages list. Note that this logger does not
  * ever truncate so only use for diagnostics or short lived applications.
  */
-class InMemoryListAppender extends Appender<String>{
-  final List<String> messages = [];
+class InMemoryListAppender extends Appender<Object>{
+  final List<Object> messages = [];
 
   /**
-   * Returns a new InMemoryListAppender with the given [StringFormatter]
+   * Returns a new InMemoryListAppender with the given [Formatter<String>]
    */
-  InMemoryListAppender(StringFormatter formatter) : super(formatter);
+  InMemoryListAppender(Formatter<Object> formatter) : super(formatter);
 
-  void append(String msg)  => messages.add(msg);
+  void append(LogRecord record, Formatter<Object> formatter) =>
+      messages.add(formatter(record));
 }
