@@ -20,13 +20,13 @@ import 'package:quiver/log.dart';
 import 'package:unittest/unittest.dart';
 
 main() {
-  group('CommonLogFormatter', (){
+  group('BasicLogFormatter', (){
      test('correctly formats LogRecord', (){
        LogRecord record =
            new LogRecord(Level.INFO, 'formatted message!', 'root');
-       var dateFormat = new DateFormat("MMyy H:m:s.S");
-       expect(COMMON_LOG_FORMATTER.format(record),
-           'INFO ${dateFormat.format(record.time)} 0 root formatted message!');
+       var dateFormat = new DateFormat("MMyy HH:mm:ss.S");
+       expect(BASIC_LOG_FORMATTER.call(record),
+           '${dateFormat.format(record.time)} INFO 0 root formatted message!');
      });
   });
 }
