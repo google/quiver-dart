@@ -96,14 +96,6 @@ class Optional<T> {
   T get orNull => _value;
 
   /**
-   * Gets the Optional value as a Set.
-   *
-   * The Set has exactly one or zero elements.
-   */
-  Set<T> get asSet =>
-    _value == null ? new Set<T>() : new Set.from([_value]);
-
-  /**
    * Transforms the Optional value.
    *
    * If the Optional is [absent()], returns [absent()] without applying the transformer.

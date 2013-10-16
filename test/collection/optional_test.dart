@@ -60,11 +60,6 @@ main() {
       expect(new Optional<int>.fromNullable(null).orNull, isNull);
     });
 
-    test('asSet should return set with value or empty set', () {
-      expect(new Optional<int>.fromNullable(7).asSet, equals(new Set.from([7])));
-      expect(new Optional<int>.fromNullable(null).asSet, equals(new Set.from([])));
-    });
-
     test('transform should return transformed value or absent', () {
       expect(
           new Optional<int>.fromNullable(7).transform((a) => a + 1),
