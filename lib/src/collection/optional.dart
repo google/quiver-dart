@@ -53,7 +53,7 @@ class Optional<T> {
   /**
    * Gets the Optional value.
    *
-   * Throws [StateError] if [_value] is null.
+   * Throws [StateError] if [value] is null.
    */
   T get value {
     if (this._value == null) throw new StateError('get called on absent Optional.');
@@ -109,12 +109,12 @@ class Optional<T> {
   }
 
   /**
-   * Delegates to the underlying [_value] hashCode.
+   * Delegates to the underlying [value] hashCode.
    */
   int get hashCode => _value.hashCode;
 
   /**
-   * Delegates to the underlying [_value] operator==.
+   * Delegates to the underlying [value] operator==.
    */
   bool operator==(o) => o is Optional && o._value == _value;
 
