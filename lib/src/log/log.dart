@@ -55,15 +55,26 @@ abstract class Appender<T> {
   void stop() => _subscriptions.forEach((s) => s.cancel());
 }
 
+typedef T Formatter<T>(LogRecord record);
+
 /**
  * Formatter accepts a [LogRecord] and returns a T
  */
-typedef T Formatter<T>(LogRecord record);
+abstract class FormatterBase<T> {
+  //TODO(bendera): wasnt sure if formatter should be const, but it seems like
+  //if we intend for them to eventually be only functions then it make sense.
+  const FormatterBase();
+
+  /**
+   * Formats a given [LogRecord] returning type T as a result
+   */
+  T call(LogRecord record);
+}
 
 /**
  * Formats log messages using a simple pattern
  */
-class BasicLogFormatter {
+class BasicLogFormatter implements FormatterBase<String>{
   static final DateFormat _dateFormat = new DateFormat("MMyy HH:mm:ss.S");
 
   const BasicLogFormatter();

@@ -43,6 +43,6 @@ class SimpleLogger implements Logger {
   dynamic noSuchMethod(Invocation i) {}
 }
 
-class SimpleStringFormatter {
+class SimpleStringFormatter implements FormatterBase<String>{
   String call(LogRecord record) => "Formatted ${record.message}";
 }
