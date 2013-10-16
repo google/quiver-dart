@@ -27,7 +27,7 @@ class Optional<T> {
   /**
    * Constructs an empty Optional.
    */
-  factory Optional.absent() => new Optional<T>.fromNullable(null);
+  const Optional.absent() : _value = null;
 
   /**
    * Constructs an Optional of the given [_value].
@@ -43,7 +43,7 @@ class Optional<T> {
    *
    * If [_value] is null, returns [absent()].
    */
-  Optional.fromNullable(this._value);
+  const Optional.fromNullable(this._value);
 
   /**
    * Whether the Optional contains a value.
