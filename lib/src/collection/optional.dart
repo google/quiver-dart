@@ -62,27 +62,19 @@ class Optional<T> {
 
   /**
    * Executes a function if the Optional value is present.
-   *
-   * Optionally, also takes a function to execute if the Optional value is absent.
    */
-  void ifPresent(void ifPresent(T value), {void ifAbsent()}) {
+  void ifPresent(void ifPresent(T value)) {
     if (isPresent) {
       ifPresent(_value);
-    } else if (ifAbsent != null) {
-      ifAbsent();
     }
   }
 
   /**
    * Execution a function if the Optional value is absent.
-   *
-   * Optionally, also takes a function to execute if the Optional value is present.
    */
-  void ifAbsent(void ifAbsent(), {void ifPresent(T value)}) {
+  void ifAbsent(void ifAbsent()) {
     if (!isPresent) {
       ifAbsent();
-    } else if (ifPresent != null) {
-      ifPresent(_value);
     }
   }
 

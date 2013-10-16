@@ -37,32 +37,12 @@ main() {
       expect(value, 7);
     });
 
-    test('isPresent should execute ifAbsent only if absent', () {
-      int value;
-      new Optional<int>.absent().ifPresent(
-          (v) { value = v; }, ifAbsent: () { value = 9; });
-      expect(value, 9);
-      new Optional<int>.of(7).ifPresent(
-          (v) { value = v; }, ifAbsent: () { value = 9; });
-      expect(value, 7);
-    });
-
     test('isAbsent should execute only if absent', () {
       int value;
       new Optional<int>.of(7).ifAbsent(() { value = 7; });
       expect(value, null);
       new Optional<int>.absent().ifAbsent(() { value = 7; });
       expect(value, 7);
-    });
-
-    test('isAbsent should execute ifPresent only if present', () {
-      int value;
-      new Optional<int>.absent().ifAbsent(
-          () { value = 7; }, ifPresent: (v) { value = v; });
-      expect(value, 7);
-      new Optional<int>.of(8).ifAbsent(
-          () { value = 9; }, ifPresent: (v) { value = v; });
-      expect(value, 8);
     });
 
     test('fromNullable should allow present or absent', () {
