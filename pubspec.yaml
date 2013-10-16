@@ -12,5 +12,7 @@ environment:
   sdk: '>=0.7.2 <0.8.0'
 dependencies:
   path: '>=0.7.2 <0.8.0'
+  logging: '>=0.7.2 <0.8.0'
+  intl: '>=0.7.2 <0.8.0'
 dev_dependencies:
   unittest: '>=0.7.2 <0.8.0'
