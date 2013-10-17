@@ -52,7 +52,7 @@ class CountdownTimer extends Stream<CountdownTimer> {
   }
 
   StreamSubscription<CountdownTimer> listen(void onData(CountdownTimer event), {
-      void onError(error), void onDone(), bool cancelOnError}) =>
+      Function onError, void onDone(), bool cancelOnError}) =>
           _controller.stream.listen(onData, onError: onError, onDone: onDone);
 
   Duration get elapsed => _stopwatch.elapsed;
