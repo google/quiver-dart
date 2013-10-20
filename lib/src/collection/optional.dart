@@ -30,20 +30,20 @@ class Optional<T> {
   const Optional.absent() : _value = null;
 
   /**
-   * Constructs an Optional of the given [_value].
+   * Constructs an Optional of the given [value].
    *
-   * Throws [ArgumentError] if [_value] is null.
+   * Throws [ArgumentError] if [value] is null.
    */
-  Optional.of(this._value) {
+  Optional.of(T value) : this._value = value {
     if (this._value == null) throw new ArgumentError('Must not be null.');
   }
 
   /**
-   * Constructs an Optional of the given [_value].
+   * Constructs an Optional of the given [value].
    *
-   * If [_value] is null, returns [absent()].
+   * If [value] is null, returns [absent()].
    */
-  const Optional.fromNullable(this._value);
+  const Optional.fromNullable(T value) : this._value = value;
 
   /**
    * Whether the Optional contains a value.
@@ -91,7 +91,7 @@ class Optional<T> {
   }
 
   /**
-   * Gets the Optional value, or [null] if there us none.
+   * Gets the Optional value, or [null] if there is none.
    */
   T get orNull => _value;
 
