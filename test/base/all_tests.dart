@@ -12,22 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.collection.all_tests;
+library quiver.base.all_tests;
 
-import 'bimap_test.dart' as bimap;
-import 'multimap_test.dart' as multimap;
-import 'delegates/iterable_test.dart' as iterable;
-import 'delegates/list_test.dart' as list;
-import 'delegates/map_test.dart' as map;
-import 'delegates/queue_test.dart' as queue;
-import 'delegates/set_test.dart' as set;
+import 'optional_test.dart' as optional;
 
 main() {
-  bimap.main();
-  multimap.main();
-  iterable.main();
-  list.main();
-  map.main();
-  queue.main();
-  set.main();
+  optional.main();
 }
