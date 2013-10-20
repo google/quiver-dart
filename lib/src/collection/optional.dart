@@ -102,10 +102,10 @@ class Optional<T> {
    *
    * The transformer must not return [null]. If it does, an [ArgumentError] is thrown.
    */
-  Optional transform(T transformer(T value)) {
+  Optional transform(dynamic transformer(T value)) {
     return _value == null
-        ? new Optional<T>.absent()
-        : new Optional<T>.of(transformer(_value));
+        ? new Optional.absent()
+        : new Optional.of(transformer(_value));
   }
 
   /**
