@@ -50,7 +50,7 @@ main() {
     var testDir;
 
     setUp(() {
-      testDir = new Directory('').createTempSync();
+      testDir = Directory.systemTemp.createTempSync();
       testPath = testDir.path;
     });
 

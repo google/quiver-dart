@@ -18,6 +18,7 @@
 library quiver.collection;
 
 import 'dart:collection';
+import 'dart:math';
 
 part 'src/collection/bimap.dart';
 part 'src/collection/multimap.dart';

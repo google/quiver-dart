@@ -85,7 +85,7 @@ abstract class DelegatingList<E> extends DelegatingIterable<E> implements List<E
   void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0])
       => delegate.setRange(start, end, iterable, skipCount);
 
-  void shuffle() => delegate.shuffle();
+  void shuffle([Random random]) => delegate.shuffle(random);
 
   void sort([int compare(E a, E b)]) => delegate.sort(compare);
 
