@@ -29,7 +29,7 @@ part of quiver.collection;
 abstract class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
   Set<E> get delegate;
 
-  void add(E value) => delegate.add(value);
+  bool add(E value) => delegate.add(value);
 
   void addAll(Iterable<E> elements) => delegate.addAll(elements);
 
@@ -40,6 +40,8 @@ abstract class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> 
   Set<E> difference(Set<E> other) => delegate.difference(other);
 
   Set<E> intersection(Set<Object> other) => delegate.intersection(other);
+
+  E lookup(Object object) => delegate.lookup(object);
 
   bool remove(Object value) => delegate.remove(value);
 

@@ -226,7 +226,7 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V> {
 class SetMultimap<K, V> extends _BaseMultimap<K, V> {
   SetMultimap() : super();
   Set<V> _create() => new Set<V>();
-  void _add(Set<V> iterable, V value) => iterable.add(value);
+  void _add(Set<V> iterable, V value) { iterable.add(value); }
   void _addAll(Set<V> iterable, Iterable<V> value) => iterable.addAll(value);
   void _clear(Set<V> iterable) => iterable.clear();
   bool _remove(Set<V> iterable, V value) => iterable.remove(value);
@@ -566,9 +566,9 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V> implements List<V> {
     _syncDelegate();
   }
 
-  void shuffle() {
+  void shuffle([Random random]) {
     _syncDelegate();
-    (_delegate as List).shuffle();
+    (_delegate as List).shuffle(random);
   }
 
   void sort([int compare(V a, V b)]) {
@@ -586,10 +586,11 @@ class _WrappedSet<K, V> extends _WrappedIterable<K, V> implements Set<V> {
   _WrappedSet(Map<K, Iterable<V>> map, K key, Iterable<V> delegate) :
       super(map, key, delegate);
 
-  void add(V value) {
+  bool add(V value) {
     var wasEmpty = _delegate.isEmpty;
-    (_delegate as Set).add(value);
+    bool wasAdded = (_delegate as Set).add(value);
     if (wasEmpty) _addToMap();
+    return wasAdded;
   }
 
   void addAll(Iterable<V> elements) {
@@ -617,6 +618,10 @@ class _WrappedSet<K, V> extends _WrappedIterable<K, V> implements Set<V> {
   Set<V> intersection(Set<Object> other) {
     _syncDelegate();
     return (_delegate as Set).intersection(other);
+  }
+
+  void lookup(Object object) {
+    return (_delegate as Set).lookup(object);
   }
 
   bool remove(Object value) {
