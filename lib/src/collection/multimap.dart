@@ -620,7 +620,7 @@ class _WrappedSet<K, V> extends _WrappedIterable<K, V> implements Set<V> {
     return (_delegate as Set).intersection(other);
   }
 
-  void lookup(Object object) {
+  V lookup(Object object) {
     return (_delegate as Set).lookup(object);
   }
 

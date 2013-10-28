@@ -47,9 +47,7 @@ expectGlob(String pattern, { List<String> matches, List<String> nonMatches}) {
   var glob = new Glob(pattern);
   for (var str in matches) {
     expect(glob.hasMatch(str), true);
-    var m = new List.from(glob.allMatches(str));
-    expect(m.length, 1);
-    expect(m[0].str, str);
+    expect(glob.allMatches(str).map((m) => m.input), [str]);
   }
   for (var str in nonMatches) {
     expect(glob.hasMatch(str), false);

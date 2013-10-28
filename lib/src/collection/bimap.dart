@@ -101,7 +101,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
     if (key == null) throw new ArgumentError("null key");
     if (value == null) throw new ArgumentError("null value");
     var oldValue = _map[key];
-    if (oldValue == value) return;
+    if (oldValue == value) return value;
     if (inverse.containsKey(value)) {
       if (!replace) throw new ArgumentError("Mapping for $value exists");
       _map.remove(_inverse[value]);
