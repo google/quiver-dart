@@ -67,9 +67,9 @@ main() {
   group('getMemberMirror', () {
     test('should return a member of a class', () {
       var mirror = reflect(new Foo()).type;
-      expect(getMemberMirror(mirror, const Symbol('toString')),
+      expect(getDeclaration(mirror, const Symbol('toString')),
           new isInstanceOf<MethodMirror>());
-      expect(getMemberMirror(mirror, const Symbol('a')),
+      expect(getDeclaration(mirror, const Symbol('a')),
           new isInstanceOf<VariableMirror>());
     });
   });

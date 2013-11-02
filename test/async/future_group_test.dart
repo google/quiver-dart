@@ -30,11 +30,11 @@ main() {
 
       group.add(completer1.future);
 
-      runAsync(() {
+      scheduleMicrotask(() {
         expect(completed, false);
         group.add(completer2.future);
         completer1.complete(1);
-        runAsync(() {
+        scheduleMicrotask(() {
           expect(completed, false);
           completer2.complete(2);
           expect(completed, false);
