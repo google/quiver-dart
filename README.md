@@ -56,7 +56,7 @@ lookup of key by value.
 
 ## [quiver.core][]
 
-`Optional` is a way to represent optional values without allowing [null].
+`Optional` is a way to represent optional values without allowing `null`.
 
 [quiver.core]: http://google.github.io/quiver-dart/docs/quiver.core.html
 
