@@ -35,11 +35,11 @@ code that depends on Timer.
 
 [quiver.async]: http://google.github.io/quiver-dart/docs/quiver.async.html
 
-## [quiver.base][]
+## [quiver.core][]
 
 `Optional` is a way to represent optional values without allowing [null].
 
-[quiver.base]: http://google.github.io/quiver-dart/docs/quiver.base.html
+[quiver.core]: http://google.github.io/quiver-dart/docs/quiver.core.html
 
 ## [quiver.cache][]
 
