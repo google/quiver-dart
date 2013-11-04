@@ -35,12 +35,6 @@ code that depends on Timer.
 
 [quiver.async]: http://google.github.io/quiver-dart/docs/quiver.async.html
 
-## [quiver.core][]
-
-`Optional` is a way to represent optional values without allowing [null].
-
-[quiver.core]: http://google.github.io/quiver-dart/docs/quiver.core.html
-
 ## [quiver.cache][]
 
 `Cache` is a semi-persistent, asynchronously accessed, mapping of keys to
@@ -59,6 +53,12 @@ values. `BiMap` is a bi-directional map and provides an inverse view, allowing
 lookup of key by value.
 
 [quiver.collection]: http://google.github.io/quiver-dart/docs/quiver.collection.html
+
+## [quiver.core][]
+
+`Optional` is a way to represent optional values without allowing [null].
+
+[quiver.core]: http://google.github.io/quiver-dart/docs/quiver.core.html
 
 ## [quiver.io][]
 
