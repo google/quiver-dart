@@ -63,8 +63,9 @@ into sub-directories based on the result of a handler function.
 
 ## [quiver.iterables][]
 
-`count`, `cycle`, `enumerate`, `merge`, `range`, and  `zip` create, transform,
-or combine Iterables in different ways, similar to Python's itertools.
+`concat`, `count`, `cycle`, `enumerate`, `merge`, `range`, and  `zip` create,
+transform, or combine Iterables in different ways, similar to Python's
+itertools.
 
 `min`, `max`, and `extent` retreive the minimum and maximum elements from an
 iterable.

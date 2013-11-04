@@ -12,16 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.iterables;
+part of quiver.iterables;
 
-import 'dart:collection';
-
-part 'src/iterables/concat.dart';
-part 'src/iterables/count.dart';
-part 'src/iterables/cycle.dart';
-part 'src/iterables/enumerate.dart';
-part 'src/iterables/infinite_iterable.dart';
-part 'src/iterables/merge.dart';
-part 'src/iterables/min_max.dart';
-part 'src/iterables/range.dart';
-part 'src/iterables/zip.dart';
+/**
+ * Returns the concatentation of the input iterables.
+ *
+ * The returned iterable is a lazily-evaluated view on the input iterables.
+ */
+Iterable concat(Iterable<Iterable> iterables) => iterables.expand((x) => x);
