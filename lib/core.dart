@@ -12,10 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.base.all_tests;
+/**
+ * Simple code with broad use cases.
+ */
+library quiver.core;
 
-import 'optional_test.dart' as optional;
-
-main() {
-  optional.main();
-}
+part 'src/core/optional.dart';

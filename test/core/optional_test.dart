@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.base.optional_test;
+library quiver.core.optional_test;
 
-import 'package:quiver/base.dart';
+import 'package:quiver/core.dart';
 import 'package:unittest/matcher.dart';
 import 'package:unittest/unittest.dart';
 
