@@ -31,7 +31,7 @@ Future<String> byteStreamToString(Stream<List<int>> stream,
 /**
  * Gets the full path of [path] by using [File.fullPathSync].
  */
-String getFullPath(path) => new File(path).fullPathSync();
+String getFullPath(path) => new File(path).resolveSymbolicLinksSync();
 
 /**
  * Lists the sub-directories and files of this Directory, optionally recursing

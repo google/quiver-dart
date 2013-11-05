@@ -48,18 +48,18 @@ bool classImplements(ClassMirror m, Symbol name) {
  * Note that it's not possible to tell if there's an implementation via
  * noSuchMethod().
  */
-Mirror getMemberMirror(ClassMirror classMirror, Symbol name) {
-  if (classMirror.members.containsKey(name)) {
-    return classMirror.members[name];
+DeclarationMirror getDeclaration(ClassMirror classMirror, Symbol name) {
+  if (classMirror.declarations.containsKey(name)) {
+    return classMirror.declarations[name];
   }
   if (classMirror.superclass != null) {
-    var mirror = getMemberMirror(classMirror.superclass, name);
+    var mirror = getDeclaration(classMirror.superclass, name);
     if (mirror != null) {
       return mirror;
     }
   }
   for (ClassMirror supe in classMirror.superinterfaces) {
-    var mirror = getMemberMirror(supe, name);
+    var mirror = getDeclaration(supe, name);
     if (mirror != null) {
       return mirror;
     }

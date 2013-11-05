@@ -56,10 +56,10 @@ class FutureGroup<E> {
         _pending = _FINISHED;
         _completer.complete(results);
       }
-    }, onError: (e) {
+    }, onError: (e, s) {
       if (_failedTask != null) return;
       _failedTask = task;
-      _completer.completeError(e, getAttachedStackTrace(e));
+      _completer.completeError(e, s);
     });
   }
 

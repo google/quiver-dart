@@ -84,13 +84,13 @@ main() {
         } else if (e is Directory) {
           results.add("dir: ${e.path}");
         } else if (e is Link) {
-          results.add("link: ${e.path}, ${(e as Link).targetSync()}");
+          results.add("link: ${e.path}, ${e.targetSync()}");
         } else {
           throw "bad";
         }
         return new Future.value(true);
       }).then(expectAsync1((_) {
-        var testPathFull = new File(testPath).fullPathSync();
+        var testPathFull = new File(testPath).absolute.path;
         var expectation = [
          "file: $testPath/file_target",
          "dir: $testPath/dir_target",
