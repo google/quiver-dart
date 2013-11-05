@@ -61,4 +61,41 @@ main() {
     });
 
   });
+
+  group('forEachAsync', () {
+
+    test('should schedule one outstanding task by default', () {
+      int pending = 0;
+      var results = [];
+      return forEachAsync([1, 2, 3], (i) {
+        pending ++;
+        if (pending > 1) fail("too many pending tasks");
+        results.add(i);
+        return new Future(() { pending--; });
+      }).then((_) {
+        expect(results, [1, 2, 3]);
+      });
+    });
+
+    test('should schedule maxTasks tasks', () {
+      int pending = 0;
+      int maxPending = 0;
+      var results = [];
+      return forEachAsync([1, 2, 3, 4], (i) {
+        pending ++;
+        if (pending > 3) fail("too many pending tasks");
+        if (pending > maxPending) maxPending = pending;
+        results.add(i);
+        return new Future(() { pending--; });
+      }, maxTasks: 3).then((_) {
+        expect(results, [1, 2, 3, 4]);
+        expect(maxPending, 3);
+      });
+    });
+
+    test('should validate maxTasks', () {
+      expect(() => forEachAsync([], (i) {}, maxTasks: null), throws);
+      expect(() => forEachAsync([], (i) {}, maxTasks: 0), throws);
+    });
+  });
 }
