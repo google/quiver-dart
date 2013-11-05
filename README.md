@@ -25,9 +25,9 @@ predicates.
 `CountdownTimer` is a simple countdown timer that fires events in regular
 increments.
 
-`doWhileAsync` and `reduceAsync` perform async computations on the elements of
-on Iterables, waiting for the computation to complete before processing the
-next element.
+`doWhileAsync`, `reduceAsync` and `forEachAsync` perform async computations on
+the elements of on Iterables, waiting for the computation to complete before
+processing the next element.
 
 `CreateTimer` and `CreateTimerPeriodic` are typedefs that are useful for
 passing Timer factories to classes and functions, increasing the testability of
