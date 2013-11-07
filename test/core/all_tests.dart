@@ -14,8 +14,10 @@
 
 library quiver.core.all_tests;
 
+import 'hash_test.dart' as hash;
 import 'optional_test.dart' as optional;
 
 main() {
+  hash.main();
   optional.main();
 }
