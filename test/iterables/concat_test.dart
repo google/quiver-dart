@@ -38,6 +38,16 @@ main() {
     test('should throw if any input is null', () {
       expect(() => concat([[1, 2], null, [3, 4]]).toList(), throws);
     });
+
+    test('should reflectchanges in the inputs', () {
+      var a = [1, 2];
+      var b = [4, 5];
+      var ab = concat([a, b]);
+      expect(ab, [1, 2, 4, 5]);
+      a.add(3);
+      b.add(6);
+      expect(ab, [1, 2, 3, 4, 5, 6]);
+    });
   });
 }
 
