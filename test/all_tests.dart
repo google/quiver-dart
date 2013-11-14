@@ -14,6 +14,8 @@
 
 library quiver.all_tests;
 
+import 'package:unittest/compact_vm_config.dart';
+
 import 'async/all_tests.dart' as async;
 import 'cache/map_cache_test.dart' as cache;
 import 'collection/all_tests.dart' as collection;
@@ -27,6 +29,7 @@ import 'testing/all_tests.dart' as testing;
 import 'time/all_tests.dart' as time;
 
 main() {
+  useCompactVMConfiguration();
   async.main();
   cache.main();
   collection.main();
