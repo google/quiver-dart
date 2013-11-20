@@ -21,10 +21,10 @@ part 'src/core/hash.dart';
 part 'src/core/optional.dart';
 
 /**
- * Returns the first of the given parameters that is not `null`, if any are,
- * otherwise throws an [ArgumentError].
+ * Returns the first non-null argument. If all arguments are null, throws
+ * an [ArgumentError].
  *
- * Note: if [o1] ]is an [Optional], this can be accomplished with `o1.or(o2)`.
+ * Note: if [o1] is an [Optional], this can be accomplished with `o1.or(o2)`.
  */
 Object firstNonNull(o1, o2, [o3, o4]) {
   if (o1 != null) return o1;
