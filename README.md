@@ -68,6 +68,11 @@ lookup of key by value.
 
 `Optional` is a way to represent optional values without allowing `null`.
 
+`firstNonNull` returns its first non-null argument.
+
+`hashObjects`, `hash2`, `hash3`, and `hash4` generate high-quality hashCodes for
+a list of objects, or 2, 3, or 4 arguments respectively.
+
 [quiver.core]: http://google.github.io/quiver-dart/docs/quiver.core.html
 
 ## [quiver.io][]
