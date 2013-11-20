@@ -19,3 +19,17 @@ library quiver.core;
 
 part 'src/core/hash.dart';
 part 'src/core/optional.dart';
+
+/**
+ * Returns the first non-null argument. If all arguments are null, throws
+ * an [ArgumentError].
+ *
+ * Note: if [o1] is an [Optional], this can be accomplished with `o1.or(o2)`.
+ */
+Object firstNonNull(o1, o2, [o3, o4]) {
+  if (o1 != null) return o1;
+  if (o2 != null) return o2;
+  if (o3 != null) return o3;
+  if (o4 != null) return o4;
+  throw new ArgumentError('All arguments were null');
+}
