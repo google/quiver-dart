@@ -26,6 +26,10 @@ class IndexedValue<V> {
   final V value;
 
   IndexedValue(this.index, this.value);
+
+  operator ==(o) => o is IndexedValue && o.index == index && o.value == value;
+  int get hashCode => index * 31 + value.hashCode;
+  String toString() => '($index, $value)';
 }
 
 /**

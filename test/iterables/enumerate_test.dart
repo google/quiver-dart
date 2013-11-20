@@ -72,5 +72,16 @@ main() {
         expect(e.elementAt(i).index, i);
       }
     });
+
+    test("equals and hashcode", () {
+      var list = ['a', 'b', 'c'];
+      var e1 = enumerate(list);
+      var e2 = enumerate(list);
+      for (int i = 0; i < 2; i++) {
+        expect(e1.elementAt(i), e2.elementAt(i));
+        expect(e1.elementAt(i).hashCode, e1.elementAt(i).hashCode);
+        expect(identical(e1.elementAt(i), e2.elementAt(i)), isFalse);
+      }
+    });
   });
 }
