@@ -145,4 +145,43 @@ main() {
       expect(() => loop('', 6, 8), throws);
     });
   });
+
+  group('equalsIgnoreCase', () {
+    test('should return true for equal Strings', () {
+      expect(equalsIgnoreCase('abc', 'abc'), isTrue);
+    });
+
+    test('should return true for case-insensitivly equal Strings', () {
+      expect(equalsIgnoreCase('abc', 'AbC'), isTrue);
+    });
+
+    test('should return true for nulls', () {
+      expect(equalsIgnoreCase(null, null), isTrue);
+    });
+
+    test('should return false for unequal Strings', () {
+      expect(equalsIgnoreCase('abc', 'bcd'), isFalse);
+    });
+
+    test('should return false if one is null', () {
+      expect(equalsIgnoreCase('abc', null), isFalse);
+      expect(equalsIgnoreCase(null, 'abc'), isFalse);
+    });
+
+  });
+
+  group('compareIgnoreCase', () {
+    test('should return 0 for case-insensitivly equal Strings', () {
+      expect(compareIgnoreCase('abc', 'abc'), 0);
+      expect(compareIgnoreCase('abc', 'AbC'), 0);
+    });
+
+    test('should return compare unequal Strings correctly', () {
+      expect(compareIgnoreCase('abc', 'abd'), lessThan(0));
+      expect(compareIgnoreCase('abc', 'abD'), lessThan(0));
+      expect(compareIgnoreCase('abd', 'abc'), greaterThan(0));
+      expect(compareIgnoreCase('abD', 'abc'), greaterThan(0));
+    });
+
+  });
 }
