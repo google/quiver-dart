@@ -111,3 +111,19 @@ void _repeat(StringBuffer sink, String s, int times) {
     sink.write(s);
   }
 }
+
+/**
+ * Returns `true` if [a] and [b] are equal after being converted to lower case,
+ * or are both null.
+ */
+bool equalsIgnoreCase(String a, String b) =>
+    (a == null && b == null) ||
+    (a != null && b != null && a.toLowerCase() == b.toLowerCase());
+
+/**
+ * Compares [a] and [b] after converting to lower case.
+ *
+ * Both [a] and [b] must not be null.
+ */
+int compareIgnoreCase(String a, String b) =>
+    a.toLowerCase().compareTo(b.toLowerCase());
