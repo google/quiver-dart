@@ -129,6 +129,10 @@ used as a literal match inside of a RegExp.
 
 `isBlank` checks if a string is `null`, empty or made of whitespace characters.
 
+`equalsIgnoreCase` checks if two strings are equal, ignoring case.
+
+`compareIgnoreCase` compares two strings, ignoring case.
+
 `flip` flips the order of characters in a string.
 
 `nullToEmpty` turns `null` to empty string, and returns non-empty strings
