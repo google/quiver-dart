@@ -18,37 +18,37 @@ import 'package:quiver/collection.dart';
 import 'package:unittest/unittest.dart';
 
 main() {
-  group('listEquals', () {
+  group('listsEqual', () {
     test('return true for equal lists', () {
-      expect(listEquals(null, null), isTrue);
-      expect(listEquals([], []), isTrue);
-      expect(listEquals([1], [1]), isTrue);
-      expect(listEquals(['a', 'b'], ['a', 'b']), isTrue);
+      expect(listsEqual(null, null), isTrue);
+      expect(listsEqual([], []), isTrue);
+      expect(listsEqual([1], [1]), isTrue);
+      expect(listsEqual(['a', 'b'], ['a', 'b']), isTrue);
     });
 
     test('return false for non-equal lists', () {
-      expect(listEquals(null, []), isFalse);
-      expect(listEquals([], null), isFalse);
-      expect(listEquals([1], [2]), isFalse);
-      expect(listEquals([1], []), isFalse);
-      expect(listEquals([], [1]), isFalse);
+      expect(listsEqual(null, []), isFalse);
+      expect(listsEqual([], null), isFalse);
+      expect(listsEqual([1], [2]), isFalse);
+      expect(listsEqual([1], []), isFalse);
+      expect(listsEqual([], [1]), isFalse);
     });
   });
 
   group('listMap', () {
     test('return true for equal maps', () {
-      expect(mapEquals(null, null), isTrue);
-      expect(mapEquals({}, {}), isTrue);
-      expect(mapEquals({'a': 1}, {'a': 1}), isTrue);
+      expect(mapsEqual(null, null), isTrue);
+      expect(mapsEqual({}, {}), isTrue);
+      expect(mapsEqual({'a': 1}, {'a': 1}), isTrue);
     });
 
     test('return false for non-equal maps', () {
-      expect(mapEquals(null, {}), isFalse);
-      expect(mapEquals({}, null), isFalse);
-      expect(mapEquals({'a': 1}, {'a': 2}), isFalse);
-      expect(mapEquals({'a': 1}, {'b': 1}), isFalse);
-      expect(mapEquals({'a': 1}, {'a': 1, 'b': 2}), isFalse);
-      expect(mapEquals({'a': 1, 'b': 2}, {'a': 1}), isFalse);
+      expect(mapsEqual(null, {}), isFalse);
+      expect(mapsEqual({}, null), isFalse);
+      expect(mapsEqual({'a': 1}, {'a': 2}), isFalse);
+      expect(mapsEqual({'a': 1}, {'b': 1}), isFalse);
+      expect(mapsEqual({'a': 1}, {'a': 1, 'b': 2}), isFalse);
+      expect(mapsEqual({'a': 1, 'b': 2}, {'a': 1}), isFalse);
     });
   });
 }

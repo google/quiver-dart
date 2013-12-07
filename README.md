@@ -58,7 +58,7 @@ might have eviction policies.
 
 ## [quiver.collection][]
 
-`listEquals` and `mapEquals` check collections for equality.
+`listsEqual` and `mapsEqual` check collections for equality.
 
 `Multimap` is an associative collection that maps keys to collections of
 values. `BiMap` is a bi-directional map and provides an inverse view, allowing
