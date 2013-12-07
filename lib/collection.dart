@@ -27,3 +27,42 @@ part 'src/collection/delegates/list.dart';
 part 'src/collection/delegates/map.dart';
 part 'src/collection/delegates/queue.dart';
 part 'src/collection/delegates/set.dart';
+
+/**
+ * Checks [List]s [a] and [b] for equality.
+ *
+ * Returns true [a] and [b] are both null, or they are the same length and every
+ * element of [a] is equal to the corresponding element at the same index in
+ * [b].
+ */
+bool listEquals(List a, List b) {
+  if (a == b) return true;
+  if (a == null || b == null) return false;
+  if (a.length != b.length) return false;
+
+  for (int i = 0; i < a.length; i++) {
+    if (a[i] != b[i]) return false;
+  }
+
+  return true;
+}
+
+/**
+ * Checks [Map]s [a] and [b] for equality.
+ *
+ * Returns true [a] and [b] are both null, or they are the same length and every
+ * key `k` in [a] exists in [b] and the values `a[k] == b[k]`.
+ */
+bool mapEquals(Map a, Map b) {
+  if (a == b) return true;
+  if (a == null || b == null) return false;
+  if (a.length != b.length) return false;
+
+  for (var k in a.keys) {
+    var bValue = b[k];
+    if (!b.containsKey(k)) return false;
+    if (bValue != a[k]) return false;
+  }
+
+  return true;
+}
