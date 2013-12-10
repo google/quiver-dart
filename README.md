@@ -155,18 +155,13 @@ It can also repeat in reverse, for example:
 arbitrary indices. Out of bounds indices allow you to wrap around the string,
 supporting a number of use-cases, including:
 
-###### Rotating
-`loop('lohel', -3, 2) => 'hello'`
-
-###### Repeating
-Like `repeat`, but with better character-level control, e.g.:
+  * Rotating: `loop('lohel', -3, 2) => 'hello'`
+  * Repeating, like `repeat`, but with better character-level control, e.g.:
 `loop('la ', 0, 8) => 'la la la'  // no tailing space`
+  * Tailing: `loop('/path/to/some/file.txt', -3) => 'txt'`
+  * Reversing: `loop('top', 3, 0) => 'pot'`
 
-###### Tailing
-`loop('/path/to/some/file.txt', -3) => 'txt'`
-
-###### Reversing
-`loop('top', 3, 0) => 'pot'`
+`padLeft` and `padRight` pad strings to a given width.
 
 [quiver.strings]: http://google.github.io/quiver-dart/docs/quiver.strings.html
 
