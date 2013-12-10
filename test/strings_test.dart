@@ -166,6 +166,34 @@ main() {
     test('should handle null and empty inputs', () {
       expect(padLeft(null, 4, '012345'), '0123');
       expect(padLeft('', 4, '012345'), '0123');
+      expect(padLeft(null, 4, '012'), '0120');
+      expect(padLeft('', 4, '012'), '0120');
+    });
+
+  });
+
+  group('padRight', () {
+    test('should return the input if length greater than width', () {
+      expect(padRight('abc', 2, '0'), 'abc');
+      expect(padRight('abc', 3, '0'), 'abc');
+    });
+
+    test('should pad on the right if length less than width', () {
+      expect(padRight('abc', 4, '0'), 'abc0');
+      expect(padRight('abc', 6, '0'), 'abc000');
+    });
+
+    test('should use multi-character fills', () {
+      expect(padRight('abc', 4, '012345'), 'abc5');
+      expect(padRight('abc', 6, '012345'), 'abc345');
+      expect(padRight('abc', 8, '012'), 'abc12012');
+    });
+
+    test('should handle null and empty inputs', () {
+      expect(padRight(null, 4, '012345'), '2345');
+      expect(padRight('', 4, '012345'), '2345');
+      expect(padRight(null, 4, '012'), '2012');
+      expect(padRight('', 4, '012'), '2012');
     });
 
   });

@@ -114,19 +114,39 @@ void _repeat(StringBuffer sink, String s, int times) {
 
 /**
  * Returns a [String] of length [width] padded on the left with characters from
- * [fill] if [input.length] is less than [width]. [fill] is repeated if
- * necssary to pad.
+ * [fill] if `input.length` is less than [width]. [fill] is repeated if
+ * neccessary to pad.
  *
- * Returns [input] if [input.length] is equal to or greater than width. [input]
- * can be `null`.
+ * Returns [input] if `input.length` is equal to or greater than width. [input]
+ * can be `null` and is treated as an empty string.
  */
 String padLeft(String input, int width, String fill) {
   if (fill == null || fill.length == 0) {
     throw new ArgumentError('fill cannot be null or empty');
   }
-  if (input == null) return loop(fill, 0, width);
+  if (input == null || input.length == 0) return loop(fill, 0, width);
   if (input.length >= width) return input;
   return loop(fill, 0, width - input.length) + input;
+}
+
+/**
+ * Returns a [String] of length [width] padded on the right with characters from
+ * [fill] if `input.length` is less than [width]. Characters are selected from
+ * [fill] starting at the end, so that the last character in [fill] is the last
+ * character in the result. [fill] is repeated if neccessary to pad.
+ *
+ * Returns [input] if `input.length` is equal to or greater than width. [input]
+ * can be `null` and is treated as an empty string.
+ */
+String padRight(String input, int width, String fill) {
+  if (fill == null || fill.length == 0) {
+    throw new ArgumentError('fill cannot be null or empty');
+  }
+  if (input == null || input.length == 0) {
+    return loop(fill, -width, 0);
+  }
+  if (input.length >= width) return input;
+  return input + loop(fill, input.length - width, 0);
 }
 
 /**
