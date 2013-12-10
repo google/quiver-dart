@@ -146,6 +146,30 @@ main() {
     });
   });
 
+  group('padLeft', () {
+    test('should return the input if length greater than width', () {
+      expect(padLeft('abc', 2, '0'), 'abc');
+      expect(padLeft('abc', 3, '0'), 'abc');
+    });
+
+    test('should pad on the left if length less than width', () {
+      expect(padLeft('abc', 4, '0'), '0abc');
+      expect(padLeft('abc', 6, '0'), '000abc');
+    });
+
+    test('should use multi-character fills', () {
+      expect(padLeft('abc', 4, '012345'), '0abc');
+      expect(padLeft('abc', 6, '012345'), '012abc');
+      expect(padLeft('abc', 8, '012'), '01201abc');
+    });
+
+    test('should handle null and empty inputs', () {
+      expect(padLeft(null, 4, '012345'), '0123');
+      expect(padLeft('', 4, '012345'), '0123');
+    });
+
+  });
+
   group('equalsIgnoreCase', () {
     test('should return true for equal Strings', () {
       expect(equalsIgnoreCase('abc', 'abc'), isTrue);

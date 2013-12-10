@@ -16,7 +16,7 @@ library quiver.strings;
 
 /**
  * Returns [true] if [s] is either null, empty or is solely made of whitespace
- * characters (as defined by [String.trim].
+ * characters (as defined by [String.trim]).
  */
 bool isBlank(String s) => s == null || s.trim().isEmpty;
 
@@ -110,6 +110,23 @@ void _repeat(StringBuffer sink, String s, int times) {
   for (int i = 0; i < times; i++) {
     sink.write(s);
   }
+}
+
+/**
+ * Returns a [String] of length [width] padded on the left with characters from
+ * [fill] if [input.length] is less than [width]. [fill] is repeated if
+ * necssary to pad.
+ *
+ * Returns [input] if [input.length] is equal to or greater than width. [input]
+ * can be `null`.
+ */
+String padLeft(String input, int width, String fill) {
+  if (fill == null || fill.length == 0) {
+    throw new ArgumentError('fill cannot be null or empty');
+  }
+  if (input == null) return loop(fill, 0, width);
+  if (input.length >= width) return input;
+  return loop(fill, 0, width - input.length) + input;
 }
 
 /**
