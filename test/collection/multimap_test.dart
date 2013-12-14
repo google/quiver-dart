@@ -365,6 +365,9 @@ void main() {
         ..add('k2', 'v3');
       Map map = mmap.toMap();
       expect(map.keys, unorderedEquals(['k1', 'k2']));
+      expect(map.values, hasLength(2));
+      expect(map.values, anyElement(unorderedEquals(['v1', 'v2'])));
+      expect(map.values, anyElement(unorderedEquals(['v3'])));
       expect(map['k1'], ['v1', 'v2']);
       expect(map['k2'], ['v3']);
     });

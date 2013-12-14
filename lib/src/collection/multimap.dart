@@ -86,14 +86,14 @@ abstract class Multimap<K, V> {
    *
    * It is an error to add or remove keys from the map during iteration.
    */
-  void forEachKey(void f(key, value));
+  void forEachKey(void f(K key, Iterable<V> value));
 
   /**
    * Applies [f] to each {key, value} pair of the multimap.
    *
    * It is an error to add or remove keys from the map during iteration.
    */
-  void forEach(void f(key, value));
+  void forEach(void f(K key, V value));
 
   /**
    * The keys of [this].
@@ -160,7 +160,17 @@ abstract class _BaseMultimap<K, V> implements Multimap<K, V> {
     _addAll(_map[key], values);
   }
 
-  void addAll(Multimap<K, V> other) => other.forEach((k, v) => add(k, v));
+  /**
+   * Adds all associations of [other] to this multimap.
+   *
+   * The operation is equivalent to doing `this[key] = value` for each key
+   * and associated value in other. It iterates over [other], which must
+   * therefore not change during the iteration.
+   *
+   * This implementation iterates through each key of [other] and adds the
+   * associated values to this instance via [addValues].
+   */
+  void addAll(Multimap<K, V> other) => other.forEachKey(addValues);
 
   bool remove(Object key, V value) {
     if (!_map.containsKey(key)) return false;
@@ -185,9 +195,9 @@ abstract class _BaseMultimap<K, V> implements Multimap<K, V> {
     _map.clear();
   }
 
-  void forEachKey(void f(key, value)) => _map.forEach(f);
+  void forEachKey(void f(K key, Iterable<V> value)) => _map.forEach(f);
 
-  void forEach(void f(key, value)) {
+  void forEach(void f(K key, V value)) {
     _map.forEach((K key, Iterable<V> values) {
       values.forEach((V value) => f(key, value));
     });
@@ -195,7 +205,7 @@ abstract class _BaseMultimap<K, V> implements Multimap<K, V> {
 
   Iterable<K> get keys => _map.keys;
   Iterable<V> get values => _map.values.expand((x) => x);
-  Map<K, Iterable<V>> toMap() => new _WrappedMap(this);
+  Iterable<Iterable<V>> get _groupedValues => _map.values;
   int get length => _map.length;
   bool get isEmpty => _map.isEmpty;
   bool get isNotEmpty => _map.isNotEmpty;
@@ -216,7 +226,7 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V> {
       new _WrappedList(_map, key, iterable);
   List<V> operator [](Object key) => super[key];
   List<V> removeAll(Object key) => super.removeAll(key);
-  Map<K, List<V>> toMap() => super.toMap();
+  Map<K, List<V>> toMap() => new _WrappedMap<K, V, List<V>>(this);
 }
 
 /**
@@ -234,41 +244,41 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V> {
       new _WrappedSet(_map, key, iterable);
   Set<V> operator [](Object key) => super[key];
   Set<V> removeAll(Object key) => super.removeAll(key);
-  Map<K, Set<V>> toMap() => super.toMap();
+  Map<K, Set<V>> toMap() => new _WrappedMap<K, V, Set<V>>(this);
 }
 
 /**
  * A [Map] that delegates its operations to an underlying multimap.
  */
-class _WrappedMap<K, V> implements Map<K, V> {
+class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   final _BaseMultimap<K, V> _multimap;
 
   _WrappedMap(this._multimap);
 
-  V operator [](Object key) => _multimap[key];
+  C operator [](Object key) => _multimap[key];
 
-  void operator []=(K key, V value) {
+  void operator []=(K key, C value) {
     throw new UnsupportedError("Insert unsupported on map view");
   }
 
-  void addAll(Map<K, V> other) {
+  void addAll(Map<K, C> other) {
     throw new UnsupportedError("Insert unsupported on map view");
   }
 
-  V putIfAbsent(K key, V ifAbsent()) {
+  C putIfAbsent(K key, C ifAbsent()) {
     throw new UnsupportedError("Insert unsupported on map view");
   }
 
   void clear() => _multimap.clear();
   bool containsKey(Object key) => _multimap.containsKey(key);
   bool containsValue(Object value) => _multimap.containsValue(value);
-  void forEach(void f(K key, V value)) => _multimap.forEach(f);
+  void forEach(void f(K key, Iterable<V> value)) => _multimap.forEachKey(f);
   bool get isEmpty => _multimap.isEmpty;
   bool get isNotEmpty => _multimap.isNotEmpty;
   Iterable<K> get keys => _multimap.keys;
   int get length => _multimap.length;
-  V remove(Object key) => _multimap.removeAll(key);
-  Iterable<V> get values => _multimap.values;
+  C remove(Object key) => _multimap.removeAll(key);
+  Iterable<C> get values => _multimap._groupedValues;
 }
 
 /**
