@@ -16,29 +16,31 @@ part of quiver.iterables;
 
 /**
  * Returns the maximum value in [i], according to the order specified by the
- * [compare] function.
+ * [compare] function, or `null` if [i] is empty.
  *
  * The compare function must act as a [Comparator]. If [compare] is omitted,
  * [Comparable.compare] is used. If [i] contains null elements, an exception
  * will be thrown.
+ *
  */
 dynamic max(Iterable i, [Comparator compare = Comparable.compare]) =>
-    i.reduce((a, b) => compare(a, b) > 0 ? a : b);
+    i.isEmpty ? null : i.reduce((a, b) => compare(a, b) > 0 ? a : b);
 
 /**
  * Returns the minimum value in [i], according to the order specified by the
- * [compare] function.
+ * [compare] function, or `null` if [i] is empty.
  *
  * The compare function must act as a [Comparator]. If [compare] is omitted,
  * [Comparable.compare] is used. If [i] contains null elements, an exception
  * will be thrown.
  */
 dynamic min(Iterable i, [Comparator compare = Comparable.compare]) =>
-    i.reduce((a, b) => compare(a, b) < 0 ? a : b);
+    i.isEmpty ? null : i.reduce((a, b) => compare(a, b) < 0 ? a : b);
 
 /**
  * Returns the minimum and maximum values in [i], according to the order
- * specified by the [compare] function, in an [Extent] instance.
+ * specified by the [compare] function, in an [Extent] instance. Always returns
+ * an [Extent], but [Extent.min] and [Extent.max] may be `null` if [i] is empty.
  *
  * The compare function must act as a [Comparator]. If [compare] is omitted,
  * [Comparable.compare] is used. If [i] contains null elements, an exception
@@ -54,8 +56,8 @@ Extent extent(Iterable i, [Comparator compare = Comparable.compare]) {
   var max = iterator.current;
   var min = iterator.current;
   while (iterator.moveNext()) {
-    if (compare(max, iterator.current) > 0) max = iterator.current;
-    if (compare(min, iterator.current) < 0) min= iterator.current;
+    if (compare(max, iterator.current) < 0) max = iterator.current;
+    if (compare(min, iterator.current) > 0) min = iterator.current;
   }
   return new Extent(min, max);
 }
