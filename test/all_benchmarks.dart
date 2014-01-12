@@ -3,7 +3,7 @@ library quiver.benchmark.all_benchmarks;
 import 'package:benchmark_harness/benchmark_harness.dart';
 
 import 'benchmark_harness/quiver_benchmark.dart';
-import 'benchmark_harness/iterables.dart' as iterables;
+import 'benchmark_harness/iterables/all_benchmarks.dart' as iterables;
 
 void main() {
   List<BenchmarkBase> allBenchmarks = new List();
