@@ -39,8 +39,7 @@ part of quiver.iterables;
  *      void main() {
  *        var employeeHeads =
  *            groupJoin(departments, employees,
- *                      innerKey: (dpt) => dpt.name,
- *                      outerKey: (emp) => emp.departmentName);
+ *                      on: (dept, emp) => dept.name == emp.departmentName);
  *        for (var grp in employeeHeads) {
  *          print("${grp.key.name} (Ph: ${grp.key.contact})");
  *          for (var emp in grp) {
@@ -62,14 +61,10 @@ part of quiver.iterables;
  */
 Iterable<Group> groupJoin(Iterable innerIterable,
                           Iterable outerIterable,
-                          { dynamic innerKey(var value),
-                            dynamic outerKey(var value)
-                          }) {
-  if (innerKey == null)
-    innerKey = (x) => x;
-  if (outerKey == null)
-    outerKey = (x) => x;
-  return new _GroupJoin(innerIterable, outerIterable, innerKey, outerKey);
+                          { bool on(innerElement, outerElement) }) {
+  if (on == null)
+    on = (x,y) => x == y;
+  return new _GroupJoin(innerIterable, outerIterable, on);
 }
 
 /**
@@ -80,10 +75,8 @@ Iterable<Group> groupJoin(Iterable innerIterable,
  */
 Iterable<InnerJoinResult> innerJoin(Iterable innerIterable,
                                     Iterable outerIterable,
-                                    { dynamic innerKey(var value),
-                                      dynamic outerKey(var value)
-                                    }) {
-  var grpJoin = groupJoin(innerIterable, outerIterable, innerKey: innerKey, outerKey: outerKey);
+                                    { bool on(innerElement, outerElement) }) {
+  var grpJoin = groupJoin(innerIterable, outerIterable, on: on);
   return grpJoin
       .where((grp) => grp.values.isNotEmpty)
       .expand((grp) => grp.values.map((v) => new InnerJoinResult(grp.key, v)));
@@ -115,10 +108,8 @@ class InnerJoinResult<E1,E2> {
  */
 Iterable<OuterJoinResult> leftOuterJoin(Iterable innerIterable,
                                         Iterable outerIterable,
-                                        { dynamic innerKey(var value),
-                                          dynamic outerKey(var value)
-                                        }) {
-  var grpJoin = groupJoin(innerIterable, outerIterable, innerKey: innerKey, outerKey: outerKey);
+                                        { bool on(innerElement, outerElement)}) {
+  var grpJoin = groupJoin(innerIterable, outerIterable, on: on);
   return grpJoin
       .expand((grp) {
         if (grp.values.isEmpty) {
@@ -143,57 +134,44 @@ class OuterJoinResult<E1,E2> {
   String toString() => "OuterJoinResult($left, $right)";
 }
 
-class _GroupJoin<E1,E2,K>
-extends Object with IterableMixin<Group<E1,E2>> {
-  final List<_Tuple<K,E1>> _innerKeyedIterable;
-  final Iterable<_Tuple<K,E2>> _outerKeyedIterable;
+typedef bool Predicate<E1,E2>(E1 innervalue, E2 outerValue);
 
-  _GroupJoin(Iterable<E1> innerIterable,
-             Iterable<E2> outerIterable,
-             K innerKey(E1 innerElement),
-             K outerKey(E2 innerElement)) :
-    _innerKeyedIterable = new List.from(new _TupleZip(innerIterable.map(innerKey),
-                                                      innerIterable),
-                                        growable: false),
-    _outerKeyedIterable = new _TupleZip(outerIterable.map(outerKey),
-                                        outerIterable);
+class _GroupJoin<E1,E2>
+extends Object with IterableMixin<Group<E1,E2>> {
+  final Iterable<E1> _innerIterable;
+  final Iterable<E2> _outerIterable;
+  final Predicate<E1,E2> _on;
+
+  _GroupJoin(Iterable<E1> this._innerIterable,
+             Iterable<E2> this._outerIterable,
+             bool this._on(E1 innerElement, E2 outerElement));
 
   Iterator<Group<E1,E2>> get iterator =>
-      new _GroupJoinIterator(_innerKeyedIterable, _outerKeyedIterable);
+     new _GroupJoinIterator(_innerIterable, _outerIterable, _on);
 }
 
-class _GroupJoinIterator<E1,E2,K> implements Iterator<Group<E1,E2>> {
-  final List<_Tuple<K,E1>> _innerKeyedIterable;
-  final Iterable<_Tuple<K,E2>> _outerKeyedIterable;
+class _GroupJoinIterator<E1,E2> implements Iterator<Group<E1,E2>> {
+  final Iterator<E1> _innerIterator;
+  final Iterable<E2> _outerIterable;
 
-  int _keyIdx;
-  Set<K> _seenKeys;
+  final Predicate<E1,E2> _on;
   Group<E1,E2> _current;
 
-  _GroupJoinIterator(this._innerKeyedIterable, this._outerKeyedIterable) :
-    _seenKeys = new Set<K>(),
-    _keyIdx = -1,
+  _GroupJoinIterator(innerIterable, this._outerIterable, this._on) :
+    _innerIterator = innerIterable.iterator,
     _current = null;
 
   Group<E1,E2> get current => _current;
 
   bool moveNext() {
-    var keyPair;
-    while (++_keyIdx < _innerKeyedIterable.length) {
-      keyPair = _innerKeyedIterable[_keyIdx];
-      if (!_seenKeys.contains(keyPair.$1)) {
-        break;
-      }
-    }
-    if (keyPair == null) {
+    bool hasNext = _innerIterator.moveNext();
+    if (hasNext) {
+      var key = _innerIterator.current;
+      _current =
+          new Group(key, _outerIterable.where((v) => _on(key, v)));
+    } else {
       _current = null;
-      return false;
     }
-    var grpKey = keyPair.$2;
-    var grpValues = _outerKeyedIterable
-        .where((p) => p.$1 == keyPair.$1)
-        .map((p) => p.$2);
-    _current = new Group(grpKey, grpValues);
-    return true;
+    return hasNext;
   }
 }

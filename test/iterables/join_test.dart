@@ -22,8 +22,8 @@ testGroupJoin() {
              isEmpty);
     });
 
-    test("should default the inner key to the identity function", () {
-      expect(groupJoin([1,2,3,4,5], [2,4,6,8,8], outerKey: (x) => x ~/ 2),
+    test("should group according to the result of on", () {
+      expect(groupJoin([1,2,3,4,5], [2,4,6,8,8], on: (x,y) => x * 2 == y),
              [ new Group(1, [2]),
                new Group(2, [4]),
                new Group(3, [6]),
@@ -32,24 +32,13 @@ testGroupJoin() {
              ]);
     });
 
-    test("should default the outer key to the identity function", () {
-      expect(groupJoin([1,2,3,4,5], [2,4,6,8,8], innerKey: (x) => x * 2),
-            [ new Group(1, [2]),
-              new Group(2, [4]),
-              new Group(3, [6]),
-              new Group(4, [8,8]),
-              new Group(5, [])
-            ]);
-    });
-
-    test("should group by the values of the inner and outer keys", () {
+    test("should group according to the result of on", () {
       expect(groupJoin([1, 2, 3, 4, 5, 6], [ [1,2], [1,3], [1,4], [1,5], [1,6],
                                              [2,3], [2,4], [2,5], [2,6],
                                              [3,4], [3,5], [3,6],
                                              [4,5], [4,6],
                                              [5,6]],
-                       innerKey: (x) => x * 2,
-                       outerKey: (x) => x[0] + x[1]),
+                       on : (x,y) => 2 * x == y[0] + y[1]),
              [ new Group(1, []),
                new Group(2, [[1,3]]),
                new Group(3, [[1,5], [2,4]]),
