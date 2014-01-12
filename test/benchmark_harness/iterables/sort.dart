@@ -1,4 +1,4 @@
-library quiver.iterables.sort_benchmark;
+library quiver.iterables.sort_benchmarks;
 
 import 'package:benchmark_harness/benchmark_harness.dart';
 import 'package:quiver/iterables.dart';

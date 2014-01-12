@@ -1,4 +1,4 @@
-library quiver.benchmark.all_benchmarks;
+library quiver.all_benchmarks;
 
 import 'package:benchmark_harness/benchmark_harness.dart';
 

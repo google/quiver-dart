@@ -1,6 +1,6 @@
-library quiver.iterables.benchmarks.count;
+library quiver.iterables.count_benchmarks;
 
-import '../../../lib/iterables.dart' as iterables;
+import 'package:quiver/iterables.dart' as iterables;
 
 import 'package:benchmark_harness/benchmark_harness.dart';
 

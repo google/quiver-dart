@@ -1,4 +1,4 @@
-library quiver.benchmarking;
+library quiver.benchmark_harness;
 
 
 import 'dart:async';

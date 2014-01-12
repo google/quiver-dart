@@ -1,4 +1,4 @@
-library quiver.iterables.groupby_benchmark;
+library quiver.iterables.groupby_benchmarks;
 
 import 'package:quiver/iterables.dart' as iterables;
 import 'package:benchmark_harness/benchmark_harness.dart';
