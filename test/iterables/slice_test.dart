@@ -27,6 +27,10 @@ main() {
              [0,3,6,9]);
     });
 
+    test("slice should throw with a bad start", () {
+      expect(() => slice([], -1), throws);
+    });
+
     test("slice should throw if start < stop", () {
       expect(() => slice([], 8, 5), throws);
     });

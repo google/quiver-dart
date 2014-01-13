@@ -10,8 +10,10 @@ Iterable slice(Iterable iterable, int start_or_stop, [int stop, int step=1]) {
     start = 0;
     stop = start_or_stop;
   }
+  if (start < 0)
+    throw new ArgumentError("start must be a positive integer");
   if (stop < start)
-    throw new ArgumentError("Start must at least stop or greater");
+    throw new ArgumentError("stop must be at least start or greater");
   return new _Slice(iterable, start, stop, step);
 }
 
