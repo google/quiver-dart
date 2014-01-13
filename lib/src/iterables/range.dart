@@ -54,22 +54,21 @@ class _Range extends IterableBase<num> {
 }
 
 class _RangeIterator implements Iterator<num> {
-  final num _stop, _step;
+  final num _start, _stop, _step;
   num _value;
   bool _hasNext;
-  bool _inRange;
 
   _RangeIterator(num start, num stop, this._step)
-      : _value = start,
+      : _value = null,
+        _start = start,
         _stop = stop,
-        _hasNext = true,
-        _inRange = false;
+        _hasNext = true;
 
-  num get current => _inRange ? _value : null;
+  num get current => _value;
 
   bool moveNext() {
-    if (_hasNext && _inRange) _value += _step;
-    _inRange = _hasNext = (_step > 0) ? (_value < _stop) : (_value > _stop);
+    if (_hasNext) _value = (_value == null) ? _start : _value + _step;
+    _hasNext = (_step > 0) ? (_value < _stop) : (_value > _stop);
     return _hasNext;
   }
 }

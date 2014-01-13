@@ -46,11 +46,11 @@ main() {
       expect(range(0, -10, -3), [0, -3, -6, -9]);
     });
 
-    test("should throw with a bad range", () {
+    test("should throw if start > stop", () {
       expect(() => range(10, 0), throws);
     });
 
-    test("should throw with a bad step", () {
+    test("should throw if step < 0", () {
       expect(() => range(0, 10, -1), throws);
     });
   });
