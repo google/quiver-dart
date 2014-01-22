@@ -43,7 +43,8 @@ processing the next element.
 passing Timer factories to classes and functions, increasing the testability of
 code that depends on Timer.
 
-`enumerateStream` is a Stream version  of `enumerate` from [quiver.iterables].
+`enumerate` is a Stream version of the method of the same name from 
+[quiver.iterables].
 
 [quiver.async]: http://google.github.io/quiver-dart/docs/quiver.async.html
 
