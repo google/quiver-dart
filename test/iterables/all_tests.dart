@@ -18,6 +18,7 @@ import 'concat_test.dart' as concat;
 import 'count_test.dart' as count;
 import 'cycle_test.dart' as cycle;
 import 'enumerate_test.dart' as enumerate;
+import 'join_test.dart' as join;
 import 'merge_test.dart' as merge;
 import 'range_test.dart' as range;
 import 'zip_test.dart' as zip;
@@ -27,6 +28,7 @@ main() {
   count.main();
   cycle.main();
   enumerate.main();
+  join.main();
   merge.main();
   range.main();
   zip.main();
