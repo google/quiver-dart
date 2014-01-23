@@ -57,7 +57,7 @@ main() {
     expect(() => li.elementAt(5), throws, reason: "index > length");
   });
 
-  test("should be able to get a view on a particular index", () {
+  test("should be able to get a node at a particular index", () {
     LinkedList<int> li = new LinkedList.from([0,1,2,3,4,5]);
     var node = li.nodeAt(3);
     expect(node.value, 3, reason: "node value");

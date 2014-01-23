@@ -1,108 +1,31 @@
 part of quiver.collection;
 
-class _ListNode<T> {
+class ListNode<T> {
+  bool _removed = false;
   LinkedList<T> _list;
   T value;
-  _ListNode<T> _next;
-  _ListNode<T> _prev;
+  ListNode<T> _next;
+  ListNode<T> _prev;
 
-  _ListNode(LinkedList<T> this._list, T this.value);
+  ListNode(LinkedList<T> this._list, T this.value);
 
-  bool get isLast => _next is _LastSentinel;
-  bool get isFirst => _prev is _HeadSentinel;
+  bool get isLast => _next is _ListSentinel;
+  bool get isFirst => _prev is _ListSentinel;
 
-  void unlink() {
+  void _unlink() {
     _next = null;
     _prev = null;
     _list = null;
   }
 
-  void link(_ListNode<T> prev, _ListNode<T> next) {
-    this.prev = prev;
-    this.next = next;
+  void _link(ListNode prev, ListNode next) {
+    assert(prev != null);
+    assert(next != null);
+    prev._next = this;
+    this._prev = prev;
+    next._prev = this;
+    this._next = next;
   }
-
-  LinkedList<T> get list => _list;
-
-  _ListNode<T> get next => _next;
-  void set next(_ListNode<T> node) {
-    assert(node != null);
-    this._next = node;
-    node._prev = this;
-  }
-
-  _ListNode<T> get prev => _prev;
-  void set prev(_ListNode<T> node) {
-    assert(node != null);
-    this._prev = node;
-    if (node != null) {
-      node._next = this;
-    }
-  }
-
-  String toString() => "ListNode($value)";
-}
-
-class _HeadSentinel extends _ListNode {
-  _HeadSentinel(LinkedList list) : super(list, null);
-
-  _ListNode _next;
-  get next => _next;
-  set next(_ListNode node) {
-    assert(node != null);
-    _next = node;
-    node._prev = this;
-  }
-
-  get prev => null;
-  set prev(_ListNode value) {
-    assert(false);
-  }
-
-  String toString() => "__HEAD__";
-
-}
-
-class _LastSentinel extends _ListNode {
-  _LastSentinel(LinkedList list) : super(list, null);
-
-  get prev => _prev;
-  set prev(_ListNode node) {
-    assert(node != null);
-    _prev = node;
-    node._next = this;
-  }
-
-  get next => null;
-  set next(_ListNode value) {
-    assert(false);
-  }
-
-  String toString() => "__LAST__";
-}
-
-/**
- * A view on a node in a list.
- */
-class ListNodeView<T> {
-  _ListNode<T> _node;
-  bool _removed = false;
-
-  LinkedList get list => _node.list;
-  ListNodeView<T> get next {
-    if (_node.isLast)
-      return null;
-    return new ListNodeView._(_node.next);
-  }
-
-  ListNodeView<T> get prev {
-    if (_node.isFirst)
-      return null;
-    return new ListNodeView._(_node.prev);
-  }
-
-  T get value => _node.value;
-  set value(T value) => _node.value = value;
 
   /**
    * Insert a value into the list after `this`
@@ -112,7 +35,7 @@ class ListNodeView<T> {
     if (_removed) {
       throw new StateError("Cannot insert after remove node");
     }
-    _node.list._insertAfter(_node, value);
+    list._insertAfter(this, value);
   }
 
   /**
@@ -123,7 +46,7 @@ class ListNodeView<T> {
     if (_removed) {
       throw new StateError("Cannot insert before removed node");
     }
-    _node.list._insertAfter(_node.prev, value);
+    list._insertAfter(prev, value);
   }
 
   /**
@@ -137,7 +60,54 @@ class ListNodeView<T> {
     list.remove(this);
   }
 
-  ListNodeView._(_ListNode<T> this._node);
+  LinkedList<T> get list => _list;
+
+  /**
+   * The next node in the list
+   */
+  ListNode<T> get next => isLast ? null : _next;
+  /**
+   * The previous node in the list
+   */
+  ListNode<T> get prev => isFirst ? null : _prev;
+
+  bool operator ==(Object other) => other is ListNode && other.value == value;
+  int get hashCode => value.hashCode;
+
+  String toString() => "ListNode($value)";
+}
+
+class _ListSentinel implements ListNode {
+  bool _removed = false;
+  Object value = null;
+
+  LinkedList _list;
+  ListNode _prev;
+  ListNode _next;
+  _ListSentinel(LinkedList this._list);
+
+  LinkedList get list => _list;
+
+  ListNode get prev => _prev;
+  ListNode get next => _next;
+
+  bool get isLast => _next is _ListSentinel;
+  bool get isFirst => _prev is _ListSentinel;
+
+  bool operator ==(Object other) =>
+      other is _ListSentinel
+      && other.prev == prev
+      && other.next == next;
+
+  //Should not be able to call any of these methods
+  insertBefore(var value) =>throw new AssertionError();
+  insertAfter(var value) => throw new AssertionError();
+  remove() => throw new AssertionError();
+  void _unlink() => throw new AssertionError();
+  void _link(ListNode next, ListNode prev) => throw new AssertionError();
+
+
+  String toString() => _prev == null ? "__HEAD__" : "__LAST__";
 }
 
 /**
@@ -145,15 +115,17 @@ class ListNodeView<T> {
  * [LinkedListEntry] from the `dart:collection` library.
  */
 class LinkedList<T> extends IterableBase<T> {
-  _ListNode<T> _lastsentinel;
-  _ListNode<T> _headsentinel;
+  ListNode<T> _headsentinel;
+  ListNode<T> _lastsentinel;
+
   int _length;
   int _modificationCount;
 
   LinkedList() {
-    _headsentinel = new _HeadSentinel(this);
-    _lastsentinel = new _LastSentinel(this);
-    _headsentinel.next = _lastsentinel;
+    _headsentinel = new _ListSentinel(this);
+    _lastsentinel = new _ListSentinel(this);
+    _lastsentinel._prev = _headsentinel;
+    _headsentinel._next = _lastsentinel;
     _length = 0;
     _modificationCount = 0;
   }
@@ -169,23 +141,17 @@ class LinkedList<T> extends IterableBase<T> {
   /**
    * Add a value to the end of the list.
    */
-  void add(T value) {
-    _insertAfter(_lastsentinel.prev, value);
-  }
+  void add(T value) => _insertAfter(_lastsentinel.prev, value);
 
   /**
    * Add all the values in the iterable to the end of the list.
    */
-  void addAll(Iterable<T> values) {
-    values.forEach(add);
-  }
+  void addAll(Iterable<T> values) => values.forEach(add);
 
   /**
    * Add a value to the start of a list
    */
-  void addFirst(T value) {
-    _insertAfter(_headsentinel, value);
-  }
+  void addFirst(T value) => _insertAfter(_headsentinel, value);
 
   /**
    * Remove the value at the head of the list and return its value.
@@ -207,89 +173,85 @@ class LinkedList<T> extends IterableBase<T> {
     return _unlink(_lastsentinel.prev);
   }
 
-  _nodeAt(int i) {
+  /**
+   * Return a view on the node at the given index into the list.
+   */
+  ListNode<T> nodeAt(int i) {
     if (i < 0 || i >= _length) {
       throw new RangeError.range(i, 0, _length - 1);
     }
     var _curr = _headsentinel;
-    while (i-- >= 0 && _curr is! _LastSentinel)
-      _curr = _curr.next;
+    while (i-- >= 0 && _curr != _lastsentinel)
+      _curr = _curr._next;
     return _curr;
-  }
-
-  /**
-   * Return a view on the node at the given index into the list.
-   */
-  ListNodeView<T> nodeAt(int i) {
-    return new ListNodeView._(_nodeAt(i));
   }
 
   /**
    * Remove the node, given the
    */
-  void remove(ListNodeView<T> node) {
+  void remove(ListNode<T> node) {
     if (node._removed) {
       throw new StateError("Already removed");
     }
     node._removed = true;
-    _unlink(node._node);
+    _unlink(node);
   }
 
   /**
    * Insert a value at the given index in the list.
    */
   void insert(int i, T value) {
-    _insertAfter(_nodeAt(i), value);
+    _insertAfter(nodeAt(i), value);
   }
 
   /**
    * Insert a value after the viewed node.
    * Throws a [StateError] if the node has previously been removed from the list.
    */
-  T insertAfter(ListNodeView<T> node, T value) {
+  T insertAfter(ListNode<T> node, T value) {
     if (node._removed) {
       throw new StateError("Cannot insert after a removed node");
     }
-    return _insertAfter(node._node, value);
+    return _insertAfter(node, value);
   }
 
   /**
    * Insert a value before the viewed node.
    * Throws a [StateError] if the node has been removed from the list.
    */
-  T insertBefore(ListNodeView<T> node, T value) {
+  T insertBefore(ListNode<T> node, T value) {
     if (node._removed) {
       throw new StateError("Cannot insert before a removed node");
     }
-    return _insertAfter(node._node._prev, value);
+    return _insertAfter(node._prev, value);
   }
 
-  _insertAfter(_ListNode<T> node, T value) {
+  _insertAfter(ListNode<T> node, T value) {
     _modificationCount++;
-    var insertNode = new _ListNode<T>(this, value);
-    insertNode.link(node, node.next);
+    var insertNode = new ListNode<T>(this, value);
+    insertNode._link(node, node._next);
     _length++;
   }
 
-  T _unlink(_ListNode<T> node) {
+  T _unlink(ListNode<T> node) {
     _modificationCount++;
-    node._prev.next = node.next;
-    node.unlink();
+    node._prev._next = node._next;
+    node._unlink();
     _length--;
     return node.value;
   }
 
   void clear() {
     _modificationCount++;
-    var curr = _headsentinel.next;
+    var curr = _headsentinel._next;
     assert(curr.isFirst);
-    while (curr.next.isLast) {
+    while (!curr._next.isLast) {
       //unlink so GC can collect.
       var next = curr.next;
-      curr.unlink();
+      curr._unlink();
       curr = next;
     }
-    _headsentinel.next = _lastsentinel;
+    _headsentinel._next = _lastsentinel;
     _length = 0;
   }
 
@@ -323,7 +285,7 @@ class LinkedList<T> extends IterableBase<T> {
 class _LinkedListIterator<T> implements Iterator<T> {
   LinkedList<T> _list;
   int _modificationCount;
-  _ListNode<T> _currNode;
+  ListNode<T> _currNode;
 
   _LinkedListIterator(LinkedList<T> list) :
     _list = list,
@@ -333,16 +295,16 @@ class _LinkedListIterator<T> implements Iterator<T> {
   T get current => _currNode.value;
 
   bool moveNext() {
-    if (_currNode is _LastSentinel)
+    if (_currNode == _list._lastsentinel)
       return false;
     if (_currNode.isLast) {
-      _currNode = _currNode.next;
+      _currNode = _currNode._next;
       return false;
     }
     if (_modificationCount != _list._modificationCount) {
       throw new ConcurrentModificationError("List changed while iterating");
     }
-    _currNode = _currNode.next;
+    _currNode = _currNode._next;
     return true;
 
   }
