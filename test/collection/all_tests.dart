@@ -15,6 +15,7 @@
 library quiver.collection.all_tests;
 
 import 'bimap_test.dart' as bimap;
+import 'linkedlist_test.dart' as linkedlist;
 import 'multimap_test.dart' as multimap;
 import 'delegates/iterable_test.dart' as iterable;
 import 'delegates/list_test.dart' as list;
@@ -24,6 +25,7 @@ import 'delegates/set_test.dart' as set;
 
 main() {
   bimap.main();
+  linkedlist.main();
   multimap.main();
   iterable.main();
   list.main();

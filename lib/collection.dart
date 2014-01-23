@@ -21,6 +21,7 @@ import 'dart:collection';
 import 'dart:math';
 
 part 'src/collection/bimap.dart';
+part 'src/collection/linkedlist.dart';
 part 'src/collection/multimap.dart';
 part 'src/collection/delegates/iterable.dart';
 part 'src/collection/delegates/list.dart';
