@@ -1,7 +1,6 @@
 part of quiver.collection;
 
 class ListNode<T> {
-  bool _removed = false;
   LinkedList<T> _list;
   T value;
   ListNode<T> _next;
@@ -31,10 +30,8 @@ class ListNode<T> {
    * Insert a value into the list after `this`
    * Throws a [StateError] if the node has previously been removed from this list.
    */
-  void insertAfter(T value) {
-    if (_removed) {
-      throw new StateError("Cannot insert after remove node");
-    }
+  void append(T value) {
+    if (_list == null) throw new StateError("Cannot insert after remove node");
     list._insertAfter(this, value);
   }
 
@@ -42,10 +39,8 @@ class ListNode<T> {
    * Insert a value in the list before `this`.
    * Throws a [StateError] if the node has previously been removed from the list.
    */
-  void insertBefore(T value) {
-    if (_removed) {
-      throw new StateError("Cannot insert before removed node");
-    }
+  void prepend(T value) {
+    if (_list == null) throw new StateError("Cannot insert before removed node");
     list._insertAfter(prev, value);
   }
 
@@ -54,9 +49,7 @@ class ListNode<T> {
    * Throws a [StateError] if the node has previously been removed from the list.
    */
   void remove() {
-    if (_removed) {
-      throw new StateError("Already removed");
-    }
+    if (_list == null) throw new StateError("Already removed");
     list.remove(this);
   }
 
@@ -100,12 +93,11 @@ class _ListSentinel implements ListNode {
       && other.next == next;
 
   //Should not be able to call any of these methods
-  insertBefore(var value) =>throw new AssertionError();
-  insertAfter(var value) => throw new AssertionError();
+  append(var value) =>throw new AssertionError();
+  prepend(var value) => throw new AssertionError();
   remove() => throw new AssertionError();
   void _unlink() => throw new AssertionError();
   void _link(ListNode next, ListNode prev) => throw new AssertionError();
-
 
   String toString() => _prev == null ? "__HEAD__" : "__LAST__";
 }
@@ -158,8 +150,7 @@ class LinkedList<T> extends IterableBase<T> {
    * Throws a [StateError] if the list is empty.
    */
   T removeFirst() {
-    if (_lastsentinel.isFirst)
-      throw new StateError("No elements");
+    if (isEmpty) throw new StateError("No elements");
     return _unlink(_headsentinel.next);
   }
 
@@ -168,8 +159,7 @@ class LinkedList<T> extends IterableBase<T> {
    * Throws a [StateError] if the list is empty.
    */
   T removeLast() {
-    if (_headsentinel.isLast)
-      return throw new StateError("No elements");
+    if (isEmpty) throw new StateError("No elements");
     return _unlink(_lastsentinel.prev);
   }
 
@@ -181,7 +171,7 @@ class LinkedList<T> extends IterableBase<T> {
       throw new RangeError.range(i, 0, _length - 1);
     }
     var _curr = _headsentinel;
-    while (i-- >= 0 && _curr != _lastsentinel)
+    while (i-- >= 0)
       _curr = _curr._next;
     return _curr;
   }
@@ -190,10 +180,9 @@ class LinkedList<T> extends IterableBase<T> {
    * Remove the node, given the
    */
   void remove(ListNode<T> node) {
-    if (node._removed) {
+    if (node._list == null) {
       throw new StateError("Already removed");
     }
-    node._removed = true;
     _unlink(node);
   }
 
@@ -209,9 +198,8 @@ class LinkedList<T> extends IterableBase<T> {
    * Throws a [StateError] if the node has previously been removed from the list.
    */
   T insertAfter(ListNode<T> node, T value) {
-    if (node._removed) {
+    if (node._list == null)
       throw new StateError("Cannot insert after a removed node");
-    }
     return _insertAfter(node, value);
   }
 
@@ -220,9 +208,8 @@ class LinkedList<T> extends IterableBase<T> {
    * Throws a [StateError] if the node has been removed from the list.
    */
   T insertBefore(ListNode<T> node, T value) {
-    if (node._removed) {
+    if (node._list == null)
       throw new StateError("Cannot insert before a removed node");
-    }
     return _insertAfter(node._prev, value);
   }
 
@@ -244,9 +231,7 @@ class LinkedList<T> extends IterableBase<T> {
   void clear() {
     _modificationCount++;
     var curr = _headsentinel._next;
-    assert(curr.isFirst);
     while (!curr._next.isLast) {
-      //unlink so GC can collect.
       var next = curr.next;
       curr._unlink();
       curr = next;
@@ -258,26 +243,18 @@ class LinkedList<T> extends IterableBase<T> {
   bool get isEmpty => _headsentinel.isLast;
 
   T get first {
-    if (_lastsentinel.isFirst) {
-      throw new StateError("No elements");
-    }
+    if (isEmpty) throw new StateError("No elements");
     return _headsentinel.next.value;
   }
 
   T get last {
-    if (_headsentinel.isLast) {
-      throw new StateError("No elements");
-    }
+    if (isEmpty) throw new StateError("No elements");
     return _lastsentinel.prev.value;
   }
 
   T get single {
-    if (_headsentinel.isLast) {
-      throw new StateError("No elements");
-    }
-    if (_length > 1) {
-      throw new StateError("Too many elements");
-    }
+    if (isEmpty) throw new StateError("No elements");
+    if (_length > 1) throw new StateError("Too many elements");
     return _headsentinel.next.value;
   }
 }

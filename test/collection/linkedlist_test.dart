@@ -88,14 +88,13 @@ main() {
     l.insertAfter(node, 3);
     expect(l, [0,1,2,3,4,5]);
 
-    node.insertAfter(9);
+    node.append(9);
     expect(l, [0,1,2,9,3,4,5], reason: "insert from node");
     expect(l.length, 7);
 
-
     node.remove();
     expect(() => l.insertAfter(node, 44), throws, reason: "node already removed");
-    expect(() => node.insertAfter(44), throws, reason: "node already removed");
+    expect(() => node.prepend(44), throws, reason: "node already removed");
   });
 
   test("should be able to insert a value before a particular node", () {
@@ -104,13 +103,13 @@ main() {
     l.insertBefore(node, 2);
     expect(l, [0,1,2,3,4,5]);
 
-    node.insertBefore(9);
+    node.prepend(9);
     expect(l, [0,1,2,9,3,4,5], reason: "insert from node");
     expect(l.length, 7);
 
     node.remove();
     expect(() => l.insertBefore(node, 44), throws, reason: "node already removed");
-    expect(() => node.insertBefore(44), throws, reason: "node already removed");
+    expect(() => node.prepend(44), throws, reason: "node already removed");
   });
 
   test("should be able to clear the list", () {
