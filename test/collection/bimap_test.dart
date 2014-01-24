@@ -153,16 +153,18 @@ main() {
 
     test('should not contain removed mappings', () {
       map[k1] = v1;
-      map.remove(k1);
+      var r = map.remove(k1);
       expect(map.containsKey(k1), false);
       expect(map.inverse.containsKey(v1), false);
+      expect(r, v1, reason: "removed value from map");
     });
 
     test('should not contain mappings removed from its inverse', () {
       map[k1] = v1;
-      map.inverse.remove(v1);
+      var r = map.inverse.remove(v1);
       expect(map.containsKey(k1), false);
       expect(map.inverse.containsKey(v1), false);
+      expect(r, k1, reason: "removed value from map");
     });
 
     test('should be empty after clear', () {
@@ -226,31 +228,35 @@ main() {
     });
 
     test('should add mappings via putIfAbsent if absent', () {
-      map.putIfAbsent(k1, () => v1);
+      var r = map.putIfAbsent(k1, () => v1);
       expect(map[k1], v1);
       expect(map.inverse[v1], k1);
+      expect(r, v1, reason: "added value to map");
     });
 
     test('should add mappings via inverse.putIfAbsent if absent', () {
-      map.inverse.putIfAbsent(v1, () => k1);
+      var r = map.inverse.putIfAbsent(v1, () => k1);
       expect(map[k1], v1);
       expect(map.inverse[v1], k1);
+      expect(r, k1, reason: "added value to map");
     });
 
     test('should not add mappings via putIfAbsent if present', () {
       map[k1] = v1;
-      map.putIfAbsent(k1, () => v2);
+      var r = map.putIfAbsent(k1, () => v2);
       expect(map[k1], v1);
       expect(map.inverse[v1], k1);
       expect(map.inverse.containsKey(v2), false);
+      expect(r, v1, reason: "existing value in map");
     });
 
     test('should not add mappings via inverse.putIfAbsent if present', () {
       map[k1] = v1;
-      map.inverse.putIfAbsent(v1, () => k2);
+      var r = map.inverse.putIfAbsent(v1, () => k2);
       expect(map[k1], v1);
       expect(map.containsKey(k2), false);
       expect(map.inverse[v1], k1);
+      expect(r, k1, reason: "existing value in map");
     });
 
     test('should contain mappings added from another map', () {
