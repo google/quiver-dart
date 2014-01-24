@@ -44,4 +44,8 @@ abstract class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue
   E removeFirst() => delegate.removeFirst();
 
   E removeLast() => delegate.removeLast();
+
+  void removeWhere(bool test(E element)) => delegate.removeWhere(test);
+
+  void retainWhere(bool test(E element)) => delegate.retainWhere(test);
 }
