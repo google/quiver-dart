@@ -191,7 +191,7 @@ abstract class _BaseMultimap<K, V> implements Multimap<K, V> {
   }
 
   void clear() {
-    _map.forEach((K key, V value) => _clear(value));
+    _map.forEach((K key, Iterable<V> value) => _clear(value));
     _map.clear();
   }
 
