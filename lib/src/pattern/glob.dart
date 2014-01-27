@@ -37,9 +37,7 @@ class Glob implements Pattern {
 
   Iterable<Match> allMatches(String str) => regex.allMatches(str);
 
-  Match matchAsPrefix(String string, [int start = 0]) {
-    return regex.matchAsPrefix(string, start);
-  }
+  Match matchAsPrefix(String string, [int start = 0]) => regex.matchAsPrefix(string, start);
 
   bool hasMatch(String str) => regex.hasMatch(str);
 
