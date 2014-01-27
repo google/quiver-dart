@@ -18,6 +18,7 @@ import 'concat_test.dart' as concat;
 import 'count_test.dart' as count;
 import 'cycle_test.dart' as cycle;
 import 'enumerate_test.dart' as enumerate;
+import 'groupby_test.dart' as groupby;
 import 'merge_test.dart' as merge;
 import 'min_max_test.dart' as min_max;
 import 'range_test.dart' as range;
@@ -28,6 +29,7 @@ main() {
   count.main();
   cycle.main();
   enumerate.main();
+  groupby.main();
   merge.main();
   min_max.main();
   range.main();
