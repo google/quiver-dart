@@ -15,10 +15,8 @@
 library quiver.async;
 
 import 'dart:async';
-import 'package:quiver/iterables.dart' show IndexedValue;
 
 part 'src/async/countdown_timer.dart';
-part 'src/async/enumerate.dart';
 part 'src/async/future_group.dart';
 part 'src/async/iteration.dart';
 part 'src/async/stream_router.dart';

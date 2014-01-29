@@ -130,6 +130,13 @@ used as a literal match inside of a RegExp.
 
 [quiver.pattern]: http://google.github.io/quiver-dart/docs/quiver.pattern.html
 
+## [quiver.streams][]
+
+`Stream` versions of [quiver.iterables][] methods.  Currently only 
+`enumerate` is supported.
+
+[quiver.streams]: http://google.github.io/quiver-dart/docs/quiver.streams.html
+
 ## [quiver.strings][]
 
 `isBlank` checks if a string is `null`, empty or made of whitespace characters.

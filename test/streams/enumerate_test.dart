@@ -12,13 +12,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.async;
+library quiver.streams.enumerate_test;
 
-/**
- * Returns a [Stream] of [IndexedValue]s where the nth value holds the nth
- * element of [stream] and its index.
- */
-Stream<IndexedValue> enumerate(Stream stream) {
-  var index = 0;
-  return stream.map((value) => new IndexedValue(index++, value));
+import 'dart:async';
+
+import 'package:unittest/unittest.dart';
+import 'package:quiver/streams.dart';
+
+main() {
+  group('enumerate', () {
+
+    test('should add indices to its argument', () {
+      var controller = new StreamController<String>();
+      var enumerated = enumerate(controller.stream);
+      enumerated.toList().then((e) {
+        expect(e.map((v) => v.index), [0, 1, 2]);
+        expect(e.map((v) => v.value), ['a', 'b', 'c']);
+      });
+      ['a', 'b', 'c'].forEach(controller.add);
+      return controller.close();
+    });
+  });
 }
