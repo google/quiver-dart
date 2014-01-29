@@ -43,9 +43,6 @@ processing the next element.
 passing Timer factories to classes and functions, increasing the testability of
 code that depends on Timer.
 
-`enumerate` is a Stream version of the method of the same name from 
-[quiver.iterables].
-
 [quiver.async]: http://google.github.io/quiver-dart/docs/quiver.async.html
 
 ## [quiver.cache][]
