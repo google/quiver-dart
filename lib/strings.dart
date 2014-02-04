@@ -159,8 +159,8 @@ String padRight(String input, int width, String fill) {
  *
  * Returns [input] if `input.length` is equal to or greater than width. [input]
  * can be `null` and is treated as an empty string.  If there are an odd number
- * of characters to pad, then the left will be padded with one more than the
- * right.
+ * of characters to pad, then the right will be padded with one more than the
+ * left.
  */
 String center(String input, int width, String fill, [String rightFill]) {
   if (fill == null || fill.length == 0) {
@@ -172,7 +172,7 @@ String center(String input, int width, String fill, [String rightFill]) {
     throw new ArgumentError('rightFill cannot be empty');
   }
   if(input == null) input = '';
-  var leftWidth = input.length + (1 + width - input.length) ~/ 2;
+  var leftWidth = input.length + (width - input.length) ~/ 2;
   return padRight(
       padLeft(input, leftWidth, fill),
       width,

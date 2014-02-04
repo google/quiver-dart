@@ -210,13 +210,13 @@ main() {
     });
 
     test('should pad extra char on right for odd padding amount', () {
-      expect(center('abc', 4, '0'), '0abc');
-      expect(center('abc', 8, '0'), '000abc00');
+      expect(center('abc', 4, '0'), 'abc0');
+      expect(center('abc', 8, '0'), '00abc000');
     });
 
     test('should use multi-character fills', () {
       expect(center('abc', 7, '012345'), '01abc45');
-      expect(center('abc', 6, '012345'), '01abc5');
+      expect(center('abc', 6, '012345'), '0abc45');
       expect(center('abc', 9, '01'), '010abc101');
     });
 
@@ -228,8 +228,8 @@ main() {
     test('should handle null and empty inputs', () {
       expect(center(null, 4, '012345'), '0145');
       expect(center('', 4, '012345'), '0145');
-      expect(center(null, 5, '012345'), '01245');
-      expect(center('', 5, '012345'), '01245');
+      expect(center(null, 5, '012345'), '01345');
+      expect(center('', 5, '012345'), '01345');
     });
 
   });
