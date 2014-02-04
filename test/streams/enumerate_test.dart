@@ -25,12 +25,12 @@ main() {
     test('should add indices to its argument', () {
       var controller = new StreamController<String>();
       var enumerated = enumerate(controller.stream);
-      enumerated.toList().then((e) {
+      var expectation = enumerated.toList().then((e) {
         expect(e.map((v) => v.index), [0, 1, 2]);
         expect(e.map((v) => v.value), ['a', 'b', 'c']);
       });
       ['a', 'b', 'c'].forEach(controller.add);
-      return controller.close();
+      return Future.wait([controller.close(), expectation]);
     });
   });
 }
