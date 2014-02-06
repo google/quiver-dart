@@ -83,12 +83,9 @@ class HashBiMap<K, V> implements BiMap<K, V> {
     return _cached;
   }
 
-  V putIfAbsent(K key, V ifAbsent()) {
-    if (!_map.containsKey(key)) {
-      return _add(key, ifAbsent(), false);
-    }
-    return _map[key];
-  }
+  V putIfAbsent(K key, V ifAbsent()) =>  _map.containsKey(key)
+        ? _map[key]
+        : _add(key, ifAbsent(), false);
 
   V remove(Object key) {
     _inverse.remove(_map[key]);
