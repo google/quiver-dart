@@ -24,7 +24,7 @@ part 'src/async/stream_router.dart';
 /**
  * The signature of a one-shot [Timer] factory.
  */
-typedef Timer CreateTimer(void callback());
+typedef Timer CreateTimer(Duration duration, void callback());
 
 /**
  * Creates a new one-shot [Timer] using `new Timer(duration, callback)`.
