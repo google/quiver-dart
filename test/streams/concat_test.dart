@@ -102,11 +102,13 @@ main() {
       var badIteration = ['e', 'this should not get thrown']
           .map((message) => throw message);
       var concatenated = concat(badIteration);
-      var expectation = expectAsync0(() {
+      var completer = new Completer();
+      concatenated.listen(data.add, onError: errors.add,
+          onDone: completer.complete);
+      return completer.future.then((_) {
         expect(data, []);
         expect(errors, ['e']);
       });
-      concatenated.listen(data.add, onError: errors.add, onDone: expectation);
     });
   });
 }
