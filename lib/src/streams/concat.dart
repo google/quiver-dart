@@ -17,11 +17,23 @@ part of quiver.streams;
 /**
  * Returns the concatentation of the input streams.
  *
- * When the returned stream is listened to, [streams] is iterated through
- * asynchronously, forwarding all events for a given stream to the returned
- * stream before advancing the iterator to the next stream.  If advancing the
- * iterator throws an error, the returned stream ends immediately with that
- * error.
+ * When the returned stream is listened to, the [streams] are iterated through
+ * asynchronously, forwarding all events (both data and error) for the current
+ * stream to the returned stream before advancing the iterator and listening to
+ * the next stream.  If advancing the iterator throws an error, the returned
+ * stream ends immediately with that error.
+ *
+ * Pausing and resuming the returned stream's subscriptions will pause and
+ * resume the subscription of the current stream being listened to.
+ *
+ * Note: Events from pre-existing broadcast streams which occur before
+ * the stream is reached by the iteration will be dropped.
+ *
+ * Example:
+ *
+ *     concat(files.map((file) =>
+ *         file.openRead().transform(const LineSplitter())))
+ *
  */
 Stream concat(Iterable<Stream> streams) => new _ConcatStream(streams);
 
@@ -37,7 +49,7 @@ class _ConcatStream extends Stream {
        void onDone(),
        bool cancelOnError}) {
 
-    cancelOnError = identical(true, cancelOnError);
+    cancelOnError = true == cancelOnError;
     StreamSubscription currentSubscription;
     StreamController controller;
     Iterator iterator = _streams.iterator;
