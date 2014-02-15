@@ -1,4 +1,4 @@
-// Copyright 2013 Google Inc. All Rights Reserved.
+// Copyright 2014 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -39,10 +39,9 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   TreeSet._(this.comparator);
 
   /**
-   * Returns an Iterator that iterates over this tree, in reverse.
+   * Returns an [Iterator] that iterates over this tree, in reverse.
    */
   Iterator<V> get reversed;
-
 
   /**
    * Search the tree for the matching [object] or the [nearestOption]
@@ -60,20 +59,20 @@ class TreeSearch {
   /**
    * If result not found, always chose the smaler element
    */
-  static const LESS_THAN = const TreeSearch(1);
+  static const LESS_THAN = const TreeSearch._(1);
 
   /**
    * If result not found, chose the nearest based on comparison
    */
-  static const NEAREST = const TreeSearch(2);
+  static const NEAREST = const TreeSearch._(2);
 
   /**
    * If result not found, always chose the greater element
    */
-  static const GREATER_THAN = const TreeSearch(3);
+  static const GREATER_THAN = const TreeSearch._(3);
 
   final int _val;
-  const TreeSearch(this._val);
+  const TreeSearch._(this._val);
 }
 
 
@@ -814,7 +813,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
 class TreeIterator<V> implements BidirectionalIterator<V> {
 
   int _state;
-  AvlNode<V> _current;
+  TreeNode<V> _current;
 
   final int _modCountGuard;
   final TreeSet<V> _tree;
@@ -873,6 +872,12 @@ class TreeIterator<V> implements BidirectionalIterator<V> {
  * Private class used to track element insertions in the [TreeSet].
  */
 class AvlNode<V> extends TreeNode<V> {
+
+  AvlNode<V> left;
+  AvlNode<V> right;
+
+  //TODO(codefu): Remove need for [parent]; this is just an implementation note
+  AvlNode<V> parent;
 
   AvlNode({AvlNode left: null, AvlNode right: null,
       AvlNode parent: null, V object, this.balanceFactor: 0}) :
