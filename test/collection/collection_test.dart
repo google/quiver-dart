@@ -96,21 +96,27 @@ main() {
 
     test("Iterator", () {
       AvlTreeSet<num> tree = new TreeSet<num>();
-      List<num> expected = [10, 15, 20, 21, 30];
       tree.addAll([10, 20, 15, 21, 30, 20]);
 
-      var testList = new List.from(expected);
-      var it = tree.reversed;
-      while (it.moveNext()) {
-        expect(it.current, equals(testList.removeLast()));
-      }
-      expect(testList.length, equals(0));
-      testList = new List.from(expected);
-      it = tree.iterator;
+      var testList = new List.from([10, 15, 20, 21, 30]);
+      var it = tree.iterator;
       while (it.moveNext()) {
         expect(it.current, equals(testList.removeAt(0)));
       }
+      expect(it.current, isNull);
       expect(testList.length, equals(0));
+      expect((it..movePrevious()).current, equals(30));
+      expect((it..moveNext()).current, isNull);
+
+      testList = new List.from([30, 21, 20, 15, 10]);
+      it = tree.reversed;
+      while (it.moveNext()) {
+        expect(it.current, equals(testList.removeAt(0)));
+      }
+      expect(it.current, isNull);
+      expect(testList.length, equals(0));
+      expect((it..movePrevious()).current, equals(10));
+      expect((it..moveNext()).current, isNull);
     });
 
     test("Set Math", () {
@@ -276,15 +282,20 @@ main() {
       expect(it.current, isNull);
       expect(testList.length, equals(0));
 
+      // Test bidirectional iterators started beyond the tree
       it = tree.from(100);
       expect(it.current, isNull);
       it.moveNext();
       expect(it.current, isNull);
+      it.movePrevious();
+      expect(it.current, equals(30));
 
       it = tree.from(0, reversed: true);
       expect(it.current, isNull);
       it.moveNext();
       expect(it.current, isNull);
+      it.movePrevious();
+      expect(it.current, equals(10));
     });
   });
 }

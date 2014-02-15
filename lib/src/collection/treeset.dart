@@ -44,10 +44,11 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   Iterator<V> get reversed;
 
   /**
-   * Returns an [Iterator] that starts greater than or equal to [object] if
-   * [reversed] is false, or starts less than or equal if reversed is true.
+   * Returns an [BidirectionalIterator] that starts greater than or equal to
+   * [object] if [reversed] is false, or starts less than or equal if reversed
+   * is true.
    */
-  Iterator<V> from(V object, {bool reversed: false});
+  BidirectionalIterator<V> from(V object, {bool reversed: false});
 
   /**
    * Search the tree for the matching [object] or the [nearestOption]
@@ -753,22 +754,29 @@ class AvlTreeSet<V> extends TreeSet<V> {
   /**
    * See [IterableBase.iterator]
    */
-  Iterator<V> get iterator => new TreeIterator._(this, () => root.minimumNode);
+  BidirectionalIterator<V> get iterator =>
+      new TreeIterator._(this, () => root.minimumNode);
 
   /**
    * See [TreeSet.reversed]
    */
-  Iterator<V> get reversed => new TreeIterator._(this, () => root.maximumNode,
-      reversed: true);
+  BidirectionalIterator<V> get reversed =>
+      new TreeIterator._(this, () => root.maximumNode, reversed: true);
 
   /**
    * See [TreeSet.from]
    */
-  Iterator<V> from(V object, {bool reversed: false}) =>
-      new TreeIterator<V>._(this,
-          () => _searchNearest(object, reversed ?
-              TreeSearch.LESS_THAN : TreeSearch.GREATER_THAN),
-          reversed: reversed);
+  BidirectionalIterator<V> from(V object, {bool reversed: false}) {
+    TreeNode<V> found = _searchNearest(object, reversed ?
+        TreeSearch.LESS_THAN : TreeSearch.GREATER_THAN);
+    int state = TreeIterator.INIT;
+    if (found == null) {
+      // Fell off the list searching, make sure the iterator knows this
+      state = reversed ? TreeIterator.LEFT : TreeIterator.RIGHT;
+    }
+    return new TreeIterator<V>._(this, () => found,
+        reversed: reversed, state: state);
+  }
 
   /**
    * See [IterableBase.contains]
@@ -777,7 +785,6 @@ class AvlTreeSet<V> extends TreeSet<V> {
     AvlNode<V> x = _getNode(object as V);
     return x != null;
   }
-
 
   //
   // [Set] methods
@@ -828,7 +835,12 @@ class AvlTreeSet<V> extends TreeSet<V> {
 
 class TreeIterator<V> implements BidirectionalIterator<V> {
 
-  int _state;
+  static const INIT = -2;
+  static const LEFT = -1;
+  static const WALK = 0;
+  static const RIGHT = 1;
+
+  int state;
   TreeNode<V> _current;
 
   final int _modCountGuard;
@@ -836,13 +848,14 @@ class TreeIterator<V> implements BidirectionalIterator<V> {
   final bool reversed;
   Function init;
 
-  TreeIterator._(TreeSet<V> tree, this.init, {this.reversed: false}) :
+  TreeIterator._(TreeSet<V> tree, this.init,
+      {this.reversed: false, this.state: INIT}) :
     _modCountGuard = tree._modCount,
     _tree = tree {
-    _state = reversed ? 1 : -1;
   }
 
-  V get current => (_state != 0 || _current == null) ? null : _current.object;
+  V get current => (state != WALK || _current == null) ?
+      null : _current.object;
 
   bool moveNext() => reversed ? _movePrevious() : _moveNext();
   bool movePrevious() => reversed ? _moveNext() : _movePrevious();
@@ -851,36 +864,48 @@ class TreeIterator<V> implements BidirectionalIterator<V> {
     if (_modCountGuard != _tree._modCount) {
       throw new ConcurrentModificationError(_tree);
     }
-    if (_state == 1 || _tree.length == 0) return false;
-    if (_state == -1) {
-      _current = init();
-      _state = 0;
-      return true;
+    if (state == RIGHT || _tree.length == 0) return false;
+    switch(state) {
+      case INIT:
+        _current = init();
+        state = WALK;
+        return true;
+      case LEFT:
+        _current = _tree.root.minimumNode;
+        state = WALK;
+        return true;
+      case WALK:
+      default:
+        _current = _current.successor;
+        if (_current == null) {
+          state = RIGHT;
+        }
+        return state == WALK;
     }
-    _current = _current.successor;
-    if (_current == null) {
-      _state = 1;
-      return false;
-    }
-    return true;
   }
 
   bool _movePrevious() {
     if (_modCountGuard != _tree._modCount) {
       throw new ConcurrentModificationError(_tree);
     }
-    if (_state == -1 || _tree.length == 0) return false;
-    if (_state == 1) {
-      _current = init();
-      _state = 0;
-      return true;
+    if (state == LEFT || _tree.length == 0) return false;
+    switch(state) {
+      case INIT:
+        _current = init();
+        state = WALK;
+        return true;
+      case RIGHT:
+        _current = _tree.root.maximumNode;
+        state = WALK;
+        return true;
+      case WALK:
+      default:
+        _current = _current.predecessor;
+        if (_current == null) {
+          state = LEFT;
+        }
+        return state == WALK;
     }
-    _current = _current.predecessor;
-    if (_current == null) {
-      _state = -1;
-      return false;
-    }
-    return true;
   }
 }
 
