@@ -15,3 +15,4 @@
 library quiver.time;
 
 part 'src/time/clock.dart';
+part 'src/time/duration_unit_constants.dart';

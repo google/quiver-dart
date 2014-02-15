@@ -182,6 +182,12 @@ can use a fake time function in your tests to control time.
 `Now` is a typedef for functions that return the current time in microseconds,
 since Clock deals in DateTime which only have millisecond accuracy.
 
+`aMicrosecond`, `aMillisecond`, `aSecond`, `aMinute`, `anHour`, `aDay`, and 
+`aWeek` are unit duration constants to allow writing for example:
+
+* `aDay` vs. `const Duration(days: 1)`
+* `aSecond * 30` vs. `const Duration(seconds: 30)`
+
 [quiver.time]: http://google.github.io/quiver-dart/docs/quiver.time.html
 
 # Testing Libraries
