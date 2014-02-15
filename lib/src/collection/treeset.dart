@@ -28,7 +28,7 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   // Modification count to the tree, monotonically increasing
   int _modCount = 0;
 
-  TreeNode<V> get _root;
+  TreeNode<V> get root;
 
   /**
    * Create a new [TreeSet] with an ordering defined by [comparator].
@@ -42,6 +42,12 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
    * Returns an [Iterator] that iterates over this tree, in reverse.
    */
   Iterator<V> get reversed;
+
+  /**
+   * Returns an [Iterator] that starts greater than or equal to [object] if
+   * [reversed] is false, or starts less than or equal if reversed is true.
+   */
+  Iterator<V> from(V object, {bool reversed: false});
 
   /**
    * Search the tree for the matching [object] or the [nearestOption]
@@ -155,7 +161,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
 
   int length = 0;
 
-  AvlNode<V> _root;
+  AvlNode<V> root;
 
   AvlTreeSet({Comparator<V> comparator: Comparable.compare})
       : super._(comparator);
@@ -164,16 +170,16 @@ class AvlTreeSet<V> extends TreeSet<V> {
    * Add the element to the tree.
    */
   bool add(V element) {
-    if (_root == null) {
+    if (root == null) {
       AvlNode<V> node = new AvlNode<V>();
       node.object = element;
-      _root = node;
+      root = node;
       ++length;
       ++_modCount;
       return true;
     }
 
-    AvlNode<V> x = _root;
+    AvlNode<V> x = root;
     while (true) {
       int compare = comparator(element, x.object);
       if (compare == 0) {
@@ -282,7 +288,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
    */
   AvlNode<V> _getNode(V element) {
     if (element == null) return null;
-    AvlNode<V> x = _root;
+    AvlNode<V> x = root;
     while (x != null) {
       int compare = comparator(element, x.object);
       if (compare == 0) {
@@ -323,7 +329,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
     }
     y.parent = node.parent;
     if (y.parent == null) {
-      _root = y;
+      root = y;
     } else {
       if (node.parent.left == node) {
         node.parent.left = y;
@@ -360,7 +366,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
     }
     y.parent = node.parent;
     if (y.parent == null) {
-      _root = y;
+      root = y;
     } else {
       if (node.parent.left == node) {
         y.parent.left = y;
@@ -416,7 +422,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
 
   void clear() {
     length = 0;
-    _root = null;
+    root = null;
   }
 
   bool containsAll(Iterable<Object> items) {
@@ -460,8 +466,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
       } else {
         y = null;
       }
-      if (_root == node) {
-        _root = y;
+      if (root == node) {
+        root = y;
       } else if (node.parent.left == node) {
         node.parent.left = y;
         if (y == null) {
@@ -500,8 +506,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
       y.balanceFactor = node.balanceFactor;
 
       y.parent = node.parent;
-      if (_root == node) {
-        _root = y;
+      if (root == node) {
+        root = y;
       } else if (node.parent.left == node) {
         node.parent.left = y;
       } else {
@@ -657,8 +663,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
    * See [IterableBase.first]
    */
   V get first {
-    if (_root == null) return null;
-    AvlNode<V> min = _root.minimumNode;
+    if (root == null) return null;
+    AvlNode<V> min = root.minimumNode;
     return min != null ? min.object : null;
   }
 
@@ -666,8 +672,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
    * See [IterableBase.last]
    */
   V get last {
-    if (_root == null) return null;
-    AvlNode<V> max = _root.maximumNode;
+    if (root == null) return null;
+    AvlNode<V> max = root.maximumNode;
     return max != null ? max.object : null;
   }
 
@@ -675,9 +681,9 @@ class AvlTreeSet<V> extends TreeSet<V> {
    * See [Set.lookup]
    */
   V lookup(Object element) {
-    if (element == null || _root == null)
+    if (element == null || root == null)
       return null;
-    AvlNode<V> x = _root;
+    AvlNode<V> x = root;
     int compare = 0;
     while (x != null) {
       compare = comparator(element, x.object);
@@ -703,10 +709,10 @@ class AvlTreeSet<V> extends TreeSet<V> {
    * in order for this to return something that's meaningful.
    */
   AvlNode<V> _searchNearest(V element, TreeSearch option) {
-    if (element == null || _root == null) {
+    if (element == null || root == null) {
       return null;
     }
-    AvlNode<V> x = _root;
+    AvlNode<V> x = root;
     AvlNode<V> previous;
     int compare = 0;
     while (x != null) {
@@ -747,12 +753,22 @@ class AvlTreeSet<V> extends TreeSet<V> {
   /**
    * See [IterableBase.iterator]
    */
-  Iterator<V> get iterator => new TreeIterator._(this);
+  Iterator<V> get iterator => new TreeIterator._(this, () => root.minimumNode);
 
   /**
-   * See [IterableBase.revsered]
+   * See [TreeSet.reversed]
    */
-  Iterator<V> get reversed => new TreeIterator._(this, reversed: true);
+  Iterator<V> get reversed => new TreeIterator._(this, () => root.maximumNode,
+      reversed: true);
+
+  /**
+   * See [TreeSet.from]
+   */
+  Iterator<V> from(V object, {bool reversed: false}) =>
+      new TreeIterator<V>._(this,
+          () => _searchNearest(object, reversed ?
+              TreeSearch.LESS_THAN : TreeSearch.GREATER_THAN),
+          reversed: reversed);
 
   /**
    * See [IterableBase.contains]
@@ -818,8 +834,9 @@ class TreeIterator<V> implements BidirectionalIterator<V> {
   final int _modCountGuard;
   final TreeSet<V> _tree;
   final bool reversed;
+  Function init;
 
-  TreeIterator._(TreeSet<V> tree, {this.reversed: false}) :
+  TreeIterator._(TreeSet<V> tree, this.init, {this.reversed: false}) :
     _modCountGuard = tree._modCount,
     _tree = tree {
     _state = reversed ? 1 : -1;
@@ -836,7 +853,7 @@ class TreeIterator<V> implements BidirectionalIterator<V> {
     }
     if (_state == 1 || _tree.length == 0) return false;
     if (_state == -1) {
-      _current = _tree._root.minimumNode;
+      _current = init();
       _state = 0;
       return true;
     }
@@ -854,7 +871,7 @@ class TreeIterator<V> implements BidirectionalIterator<V> {
     }
     if (_state == -1 || _tree.length == 0) return false;
     if (_state == 1) {
-      _current = _tree._root.maximumNode;
+      _current = init();
       _state = 0;
       return true;
     }

@@ -254,5 +254,37 @@ main() {
           nearestOption: TreeSearch.GREATER_THAN);
       expect(val, equals(200));
     });
+
+    test("Iterator - from", () {
+      AvlTreeSet<num> tree = new TreeSet<num>();
+      tree.addAll([10, 15, 20, 21, 30]);
+
+      var testList = new List.from([20, 21, 30]);
+      var it = tree.from(19);
+      expect(it.current, isNull);
+      while (it.moveNext()) {
+        expect(it.current, equals(testList.removeAt(0)));
+      }
+      expect(it.current, isNull);
+      expect(testList.length, equals(0));
+      testList = new List.from([20, 15, 10]);
+      it = tree.from(20, reversed: true);
+      expect(it.current, isNull);
+      while (it.moveNext()) {
+        expect(it.current, equals(testList.removeAt(0)));
+      }
+      expect(it.current, isNull);
+      expect(testList.length, equals(0));
+
+      it = tree.from(100);
+      expect(it.current, isNull);
+      it.moveNext();
+      expect(it.current, isNull);
+
+      it = tree.from(0, reversed: true);
+      expect(it.current, isNull);
+      it.moveNext();
+      expect(it.current, isNull);
+    });
   });
 }
