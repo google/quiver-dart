@@ -231,7 +231,7 @@ main() {
     });
 
     test("NearestSearch", () {
-      TreeSet<num> tree = new TreeSet<num>.withComparator(
+      TreeSet<num> tree = new TreeSet<num>(comparator:
           (num left, num right) {
             return left - right;
           });
@@ -247,11 +247,11 @@ main() {
       expect(val, equals(100));
 
       val = tree.nearest(199,
-          nearestOption: TreeSearch.NEAREST_ROUNDED_DOWN);
+          nearestOption: TreeSearch.LESS_THAN);
       expect(val, equals(100));
 
       val = tree.nearest(101,
-          nearestOption: TreeSearch.NEAREST_ROUNDED_UP);
+          nearestOption: TreeSearch.GREATER_THAN);
       expect(val, equals(200));
     });
   });

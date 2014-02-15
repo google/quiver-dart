@@ -14,22 +14,6 @@
 
 part of quiver.collection;
 
-/**
- * [Iterator] that lets you move forward or backwards.
- */
-abstract class BidirectionalIterator<E> implements Iterator<E> {
-
-  /**
-   * Moves to the previous element. Returns true if [current] contains the
-   * previous element. Returns false, if no element was left.
-   *
-   * It is safe to invoke [movePrevious] even when the iterator is already
-   * positioned before the first element. In this case [movePrevious] has no
-   * effect.
-   */
-  bool movePrevious();
-}
-
 
 /**
  * A [Set] of items stored in a binary tree according to [comparator].
@@ -38,9 +22,8 @@ abstract class BidirectionalIterator<E> implements Iterator<E> {
 abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
 
   final Comparator<V> comparator;
-  int _count = 0;
 
-  int get length => _count;
+  int get length;
 
   // Modification count to the tree, monotonically increasing
   int _modCount = 0;
@@ -50,14 +33,8 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   /**
    * Create a new [TreeSet] with an ordering defined by [comparator].
    */
-  factory TreeSet.withComparator(Comparator<V> comparator) =>
-    new AvlTreeSet._withComparator(comparator);
-
-  /**
-   * Create a new [TreeSet] with natural ordering.
-   */
-  factory TreeSet() =>
-    new AvlTreeSet._withComparator(Comparable.compare);
+  factory TreeSet({Comparator<V> comparator: Comparable.compare}) =>
+    new AvlTreeSet(comparator: comparator);
 
   TreeSet._(this.comparator);
 
@@ -81,22 +58,22 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
 class TreeSearch {
 
   /**
-   * If result not found, always chose the lower element
+   * If result not found, always chose the smaler element
    */
-  static const NEAREST_ROUNDED_DOWN = const TreeSearch._(0);
+  static const LESS_THAN = const TreeSearch(1);
 
   /**
    * If result not found, chose the nearest based on comparison
    */
-  static const NEAREST = const TreeSearch._(1);
+  static const NEAREST = const TreeSearch(2);
 
   /**
-   * If result not found, always chose the higher element
+   * If result not found, always chose the greater element
    */
-  static const NEAREST_ROUNDED_UP = const TreeSearch._(2);
+  static const GREATER_THAN = const TreeSearch(3);
 
-  final int val;
-  const TreeSearch._(this.val);
+  final int _val;
+  const TreeSearch(this._val);
 }
 
 
@@ -105,20 +82,14 @@ class TreeSearch {
  */
 abstract class TreeNode<V> {
 
-  AvlNode<V> left;
-  AvlNode<V> right;
+  TreeNode<V> left;
+  TreeNode<V> right;
 
   //TODO(codefu): Remove need for [parent]; this is just an implementation note
-  AvlNode<V> parent;
+  TreeNode<V> parent;
   V object;
 
-  /**
-   * Empty tree node
-   */
-  TreeNode() : this.linked();
-
-  TreeNode.linked({this.left: null, this.right: null, this.parent: null,
-      this.object: null});
+  TreeNode({this.left, this.right, this.parent, this.object});
 
   /**
    *  Return the minimum node for the subtree
@@ -177,15 +148,18 @@ abstract class TreeNode<V> {
  * operations.
  *
  * Notes: Adapted from "Introduction to Algorithms", second edition,
- *        by Thomas H. Cormen, Charles E. leiserson,
+ *        by Thomas H. Cormen, Charles E. Leiserson,
  *           Ronald L. Rivest, Clifford Stein.
  *        chapter 13.2
  */
 class AvlTreeSet<V> extends TreeSet<V> {
 
+  int length = 0;
+
   AvlNode<V> _root;
 
-  AvlTreeSet._withComparator(comparator) : super._(comparator);
+  AvlTreeSet({Comparator<V> comparator: Comparable.compare})
+      : super._(comparator);
 
   /**
    * Add the element to the tree.
@@ -195,7 +169,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
       AvlNode<V> node = new AvlNode<V>();
       node.object = element;
       _root = node;
-      ++_count;
+      ++length;
       ++_modCount;
       return true;
     }
@@ -300,7 +274,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
         break; // out of loop, we're balanced
       }
     } // end of while (balancing)
-    _count++;
+    length++;
     return true;
   }
 
@@ -442,7 +416,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   void clear() {
-    _count = 0;
+    length = 0;
     _root = null;
   }
 
@@ -466,7 +440,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
     AvlNode<V> y, w;
 
     ++_modCount;
-    --_count;
+    --length;
 
     // note: if you read wikipedia, it states remove the node if its a leaf,
     // otherwise, replace it with its predecessor or successor. We're not.
@@ -748,9 +722,9 @@ class AvlTreeSet<V> extends TreeSet<V> {
       }
     }
 
-    if (option == TreeSearch.NEAREST_ROUNDED_UP) {
+    if (option == TreeSearch.GREATER_THAN) {
       return (compare < 0) ? previous : previous.successor;
-    } else if (option == TreeSearch.NEAREST_ROUNDED_DOWN) {
+    } else if (option == TreeSearch.LESS_THAN) {
       return (compare < 0) ? previous.predecessor : previous;
     }
     // Default: nearest absolute value
@@ -799,7 +773,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
    */
   Set<V> intersection(Set<Object> other) {
     /// Read [Set.intersection] carefully.
-    TreeSet<V> set = new TreeSet.withComparator(comparator);
+    TreeSet<V> set = new TreeSet(comparator: comparator);
     for (var target in this) {
       if (other.contains(target)) {
         set.add(target);
@@ -812,7 +786,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
    * See [Set.union]
    */
   Set<V> union(Set<V> other) =>
-      new TreeSet.withComparator(comparator)
+      new TreeSet(comparator: comparator)
           ..addAll(this)
           ..addAll(other);
 
@@ -821,7 +795,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
    */
   Set<V> difference(Set<V> other) {
     /// Read [Set.difference] carefully.
-    TreeSet<V> set = new TreeSet.withComparator(comparator);
+    TreeSet<V> set = new TreeSet(comparator: comparator);
     for (var target in this) {
       if (!other.contains(target)) {
         set.add(target);
@@ -900,11 +874,9 @@ class TreeIterator<V> implements BidirectionalIterator<V> {
  */
 class AvlNode<V> extends TreeNode<V> {
 
-  AvlNode() : this.linked();
-
-  AvlNode.linked({AvlNode left: null, AvlNode right: null,
+  AvlNode({AvlNode left: null, AvlNode right: null,
       AvlNode parent: null, V object, this.balanceFactor: 0}) :
-      super.linked(left: left, right: right, parent: parent, object: object);
+      super(left: left, right: right, parent: parent, object: object);
 
   int balanceFactor;
 
