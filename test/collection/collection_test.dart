@@ -51,4 +51,208 @@ main() {
       expect(mapsEqual({'a': 1, 'b': 2}, {'a': 1}), isFalse);
     });
   });
+  group("TreeSet", () {
+    test("Empty", () {
+      TreeSet<num> tree = new TreeSet<num>();
+      Iterator it = tree.iterator;
+      expect(it.moveNext(), isFalse);
+      expect(it.current, isNull);
+      expect(it.moveNext(), isFalse);
+      expect(it.current, isNull);
+
+      for (var item in tree) {
+        fail("this should not happend");
+      }
+
+      expect(tree.lookup(0), isNull);
+    });
+
+    test("Lookup", () {
+      AvlTreeSet<num> tree = new TreeSet<num>();
+      tree.addAll([10, 20, 15]);
+      expect(tree.lookup(10), equals(10));
+      expect(tree.lookup(15), equals(15));
+      expect(tree.lookup(20), equals(20));
+    });
+
+    test("Order", () {
+      AvlTreeSet<num> tree = new TreeSet<num>();
+      tree.add(10);
+      tree.add(20);
+      tree.add(15);
+
+      AvlNode ten = tree.getNode(10);
+      AvlNode twenty = tree.getNode(20);
+      AvlNode fifteen = tree.getNode(15);
+
+      expect(ten.predecessor, isNull);
+      expect(ten.successor, equals(fifteen));
+      expect(ten.successor.successor, equals(twenty));
+
+      expect(twenty.successor, isNull);
+      expect(twenty.predecessor, equals(fifteen));
+      expect(twenty.predecessor.predecessor, equals(ten));
+    });
+
+    test("Iterator", () {
+      AvlTreeSet<num> tree = new TreeSet<num>();
+      List<num> expected = [10, 15, 20, 21, 30];
+      tree.addAll([10, 20, 15, 21, 30, 20]);
+
+      var testList = new List.from(expected);
+      var it = tree.reversed;
+      while (it.moveNext()) {
+        expect(it.current, equals(testList.removeLast()));
+      }
+      expect(testList.length, equals(0));
+      testList = new List.from(expected);
+      it = tree.iterator;
+      while (it.moveNext()) {
+        expect(it.current, equals(testList.removeAt(0)));
+      }
+      expect(testList.length, equals(0));
+    });
+
+    test("Set Math", () {
+      AvlTreeSet<num> tree = new TreeSet<num>();
+      tree.addAll([10, 20, 15, 21, 30, 20]);
+      Set<num> testSet = new Set.from([10, 15, 18, 22]);
+      List<num> expectedUnion = [10, 15, 18, 20, 21, 22, 30];
+      List<num> expectedIntersection = [10, 15];
+      List<num> expectedDifference= [20, 21, 30];
+
+      expect(tree.union(testSet).toList(), equals(expectedUnion));
+      expect(tree.intersection(testSet).toList(), equals(expectedIntersection));
+      expect(tree.difference(testSet).toList(), equals(expectedDifference));
+    });
+
+    test("AVL-RightLeftRotation", () {
+      AvlTreeSet<num> tree = new TreeSet<num>();
+      tree.add(10);
+      tree.add(20);
+      tree.add(15);
+
+      AvlNode ten = tree.getNode(10);
+      AvlNode twenty = tree.getNode(20);
+      AvlNode fifteen = tree.getNode(15);
+
+      expect(ten.parent, equals(fifteen));
+      expect(ten.left, equals(null));
+      expect(ten.right, equals(null));
+      expect(ten.balanceFactor, equals(0));
+
+      expect(twenty.parent, equals(fifteen));
+      expect(twenty.left, equals(null));
+      expect(twenty.right, equals(null));
+      expect(twenty.balanceFactor, equals(0));
+
+      expect(fifteen.parent, equals(null));
+      expect(fifteen.left, equals(ten));
+      expect(fifteen.right, equals(twenty));
+      expect(fifteen.balanceFactor, equals(0));
+    });
+
+    test("AVL-LeftRightRotation", () {
+      AvlTreeSet<num> tree = new TreeSet<num>();
+      tree.add(30);
+      tree.add(10);
+      tree.add(20);
+
+      AvlNode thirty = tree.getNode(30);
+      AvlNode ten = tree.getNode(10);
+      AvlNode twenty = tree.getNode(20);
+
+      expect(thirty.parent, equals(twenty));
+      expect(thirty.left, equals(null));
+      expect(thirty.right, equals(null));
+      expect(thirty.balanceFactor, equals(0));
+
+      expect(ten.parent, equals(twenty));
+      expect(ten.left, equals(null));
+      expect(ten.right, equals(null));
+      expect(ten.balanceFactor, equals(0));
+
+      expect(twenty.parent, equals(null));
+      expect(twenty.left, equals(ten));
+      expect(twenty.right, equals(thirty));
+      expect(twenty.balanceFactor, equals(0));
+    });
+
+    test("AVL-LeftRotation", () {
+      AvlTreeSet<num> tree = new TreeSet<num>();
+      tree.add(1);
+      tree.add(2);
+      tree.add(3);
+
+      AvlNode one = tree.getNode(1);
+      AvlNode two = tree.getNode(2);
+      AvlNode three = tree.getNode(3);
+
+      expect(one.parent, equals(two));
+      expect(one.left, equals(null));
+      expect(one.right, equals(null));
+      expect(one.balanceFactor, equals(0));
+
+      expect(three.parent, equals(two));
+      expect(three.left, equals(null));
+      expect(three.right, equals(null));
+      expect(three.balanceFactor, equals(0));
+
+      expect(two.parent, equals(null));
+      expect(two.left, equals(one));
+      expect(two.right, equals(three));
+      expect(two.balanceFactor, equals(0));
+    });
+
+    test("AVL-RightRotation", () {
+      AvlTreeSet<num> tree = new TreeSet<num>();
+      tree.add(3);
+      tree.add(2);
+      tree.add(1);
+
+      AvlNode one = tree.getNode(1);
+      AvlNode two = tree.getNode(2);
+      AvlNode three = tree.getNode(3);
+
+      expect(one.parent, equals(two));
+      expect(one.left, equals(null));
+      expect(one.right, equals(null));
+      expect(one.balanceFactor, equals(0));
+
+      expect(three.parent, equals(two));
+      expect(three.left, equals(null));
+      expect(three.right, equals(null));
+      expect(three.balanceFactor, equals(0));
+
+      expect(two.parent, equals(null));
+      expect(two.left, equals(one));
+      expect(two.right, equals(three));
+      expect(two.balanceFactor, equals(0));
+    });
+
+    test("NearestSearch", () {
+      TreeSet<num> tree = new TreeSet<num>.withComparator(
+          (num left, num right) {
+            return left - right;
+          });
+      tree.add(300);
+      tree.add(200);
+      tree.add(100);
+
+      var val = tree.nearest(199);
+      expect(val, equals(200));
+      val = tree.nearest(201);
+      expect(val, equals(200));
+      val = tree.nearest(150);
+      expect(val, equals(100));
+
+      val = tree.nearest(199,
+          nearestOption: TreeSearch.NEAREST_ROUNDED_DOWN);
+      expect(val, equals(100));
+
+      val = tree.nearest(101,
+          nearestOption: TreeSearch.NEAREST_ROUNDED_UP);
+      expect(val, equals(200));
+    });
+  });
 }
