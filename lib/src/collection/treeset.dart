@@ -918,13 +918,15 @@ class AvlTreeSet<V> extends TreeSet<V> {
 }
 
 
+typedef bool _IteratorMove();
+
 /**
- * This iterator starts from a location in the set. Logically it doens't exist
- * so that moveNext() and movePrevious() is sane.
- * Example: Give [15, 20, 25, 30] and from(20). If the first call is
- * moveNext(), then current is 20. If the first call is movePrevious; 15.
+ * This iterator either starts at the beginning or end (see [TreeSet.iterator]
+ * and [TreeSet.reverseIterator]) or from an anchor point in the set (see
+ * [TreeSet.fromIterator]). When using fromIterator, the inital
+ * anchor point is included in the first movement (either [moveNext] or
+ * [movePrevious]) but can optionally be excluded in the constructor.
  */
-typedef bool IteratorMove();
 class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
 
   static const LEFT = -1;
@@ -937,16 +939,17 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
   final Object anchorObject;
   final bool inclusive;
 
-  IteratorMove _moveNext;
-  IteratorMove _movePrevious;
+  _IteratorMove _moveNext;
+  _IteratorMove _movePrevious;
 
   int state;
   _TreeNode<V> _current;
 
-  _AvlTreeIterator._(AvlTreeSet<V> tree,
-      {reversed: false, this.inclusive: true, this.anchorObject: null}) :
-    this.tree = tree, this._modCountGuard = tree._modCount,
-    this.reversed = reversed {
+  _AvlTreeIterator._(AvlTreeSet<V> tree, {reversed: false,
+    this.inclusive: true, this.anchorObject: null})
+      : this.tree = tree,
+        this._modCountGuard = tree._modCount,
+        this.reversed = reversed {
 
     if (anchorObject == null || tree.length == 0) {
       // If the anchor is far left or right, we're just a normal iterator.
@@ -1047,7 +1050,6 @@ class AvlNode<V> extends _TreeNode<V> {
   AvlNode<V> _parent;
   int _balanceFactor = 0;
 
-  /// These are exposed for testing only
   AvlNode<V> get left => _left;
   AvlNode<V> get right => _right;
   AvlNode<V> get parent => _parent;

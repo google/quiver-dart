@@ -61,7 +61,9 @@ might have eviction policies.
 `listsEqual` and `mapsEqual` check collections for equality.
 
 `Multimap` is an associative collection that maps keys to collections of
-values. `BiMap` is a bidirectional map and provides an inverse view, allowing
+values.
+
+`BiMap` is a bidirectional map and provides an inverse view, allowing
 lookup of key by value.
 
 `TreeSet` is a balanced binary tree that offers a bidirectional iterator,
