@@ -767,20 +767,20 @@ class AvlTreeSet<V> extends TreeSet<V> {
    * See [IterableBase.iterator]
    */
   BidirectionalIterator<V> get iterator =>
-      new AvlTreeIterator._(this);
+      new _AvlTreeIterator._(this);
 
   /**
    * See [TreeSet.reverseIterator]
    */
   BidirectionalIterator<V> get reverseIterator =>
-      new AvlTreeIterator._(this, reversed: true);
+      new _AvlTreeIterator._(this, reversed: true);
 
   /**
    * See [TreeSet.fromIterator]
    */
   BidirectionalIterator<V> fromIterator(V anchor,
       {bool reversed: false, bool inclusive: true}) =>
-    new AvlTreeIterator<V>._(this, anchorObject: anchor, reversed: reversed,
+    new _AvlTreeIterator<V>._(this, anchorObject: anchor, reversed: reversed,
         inclusive: inclusive);
 
   /**
@@ -925,7 +925,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
  * moveNext(), then current is 20. If the first call is movePrevious; 15.
  */
 typedef bool IteratorMove();
-class AvlTreeIterator<V> implements BidirectionalIterator<V> {
+class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
 
   static const LEFT = -1;
   static const WALK = 0;
@@ -943,7 +943,7 @@ class AvlTreeIterator<V> implements BidirectionalIterator<V> {
   int state;
   _TreeNode<V> _current;
 
-  AvlTreeIterator._(AvlTreeSet<V> tree,
+  _AvlTreeIterator._(AvlTreeSet<V> tree,
       {reversed: false, this.inclusive: true, this.anchorObject: null}) :
     this.tree = tree, this._modCountGuard = tree._modCount,
     this.reversed = reversed {
