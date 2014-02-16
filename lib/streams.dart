@@ -17,4 +17,5 @@ library quiver.streams;
 import 'dart:async';
 import 'package:quiver/iterables.dart' show IndexedValue;
 
+part 'src/streams/concat.dart';
 part 'src/streams/enumerate.dart';

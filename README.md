@@ -129,8 +129,8 @@ used as a literal match inside of a RegExp.
 
 ## [quiver.streams][]
 
-`Stream` versions of [quiver.iterables][] methods.  Currently only 
-`enumerate` is supported.
+`Stream` versions of [quiver.iterables][] methods.  Currently `enumerate` and 
+`concat` are supported.
 
 [quiver.streams]: http://google.github.io/quiver-dart/docs/quiver.streams.html
 
