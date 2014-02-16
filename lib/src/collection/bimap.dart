@@ -83,9 +83,12 @@ class HashBiMap<K, V> implements BiMap<K, V> {
     return _cached;
   }
 
-  V putIfAbsent(K key, V ifAbsent()) =>  _map.containsKey(key)
-        ? _map[key]
-        : _add(key, ifAbsent(), false);
+  V putIfAbsent(K key, V ifAbsent()) {
+    var value = _map[key];
+    if (value != null) return value;
+    if (!_map.containsKey(key)) return _add(key, ifAbsent(), false);
+    return null;
+  }
 
   V remove(Object key) {
     _inverse.remove(_map[key]);
@@ -102,7 +105,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
     if (value == null) throw new ArgumentError("null value");
     var oldValue = _map[key];
     if (oldValue == value) return value;
-    if (inverse.containsKey(value)) {
+    if (_inverse.containsKey(value)) {
       if (!replace) throw new ArgumentError("Mapping for $value exists");
       _map.remove(_inverse[value]);
     }
