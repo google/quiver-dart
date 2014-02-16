@@ -35,22 +35,34 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   TreeSet._(this.comparator);
 
   /**
-   * Returns an [Iterator] that iterates over this tree, in reverse.
+   * Returns an [BidirectionalIterator] that iterates over this tree.
+   */
+  BidirectionalIterator<V> get iterator;
+
+  /**
+   * Returns an [BidirectionalIterator] that iterates over this tree, in reverse.
    */
   BidirectionalIterator<V> get reverseIterator;
 
   /**
-   * Returns an [BidirectionalIterator] that starts greater than or equal to
-   * [object] if [reversed] is false, or starts less than or equal if reversed
-   * is true.
+   * Returns an [BidirectionalIterator] that starts at [anchor].
+   * By default, the iterator includes the anchor with the first movement;
+   * set [inclusive] to false if you want to exclude the anchor. Set [reversed]
+   * to true to change the direction of of moveNext and movePrevious.
+   *
+   * Note: This iterator allows you to walk the entire set. It does not present
+   * a subview.
    */
-  BidirectionalIterator<V> fromIterator(V object, {bool reversed: false});
+  BidirectionalIterator<V> fromIterator(V anchor,
+      {bool reversed: false, bool inclusive: true});
 
   /**
    * Search the tree for the matching [object] or the [nearestOption]
    * if missing.  See [TreeSearch].
    */
   V nearest(V object, {TreeSearch nearestOption: TreeSearch.NEAREST});
+
+  // TODO: toString or not toString, that is the question.
 }
 
 
@@ -82,24 +94,24 @@ class TreeSearch {
 /**
  * A node in the [TreeSet].
  */
-abstract class TreeNode<V> {
+abstract class _TreeNode<V> {
 
-  TreeNode<V> get left;
-  TreeNode<V> get right;
+  _TreeNode<V> get left;
+  _TreeNode<V> get right;
 
   //TODO(codefu): Remove need for [parent]; this is just an implementation note
-  TreeNode<V> get parent;
+  _TreeNode<V> get parent;
   V object;
 
   /**
    * TreeNodes are always allocated as leafs.
    */
-  TreeNode({this.object});
+  _TreeNode({this.object});
 
   /**
    *  Return the minimum node for the subtree
    */
-  TreeNode<V> get minimumNode {
+  _TreeNode<V> get minimumNode {
     var node = this;
     while (node.left != null) {
       node = node.left;
@@ -110,7 +122,7 @@ abstract class TreeNode<V> {
   /**
    *  Return the maximum node for the subtree
    */
-  TreeNode<V> get maximumNode {
+  _TreeNode<V> get maximumNode {
     var node = this;
     while (node.right != null) {
       node = node.right;
@@ -121,7 +133,7 @@ abstract class TreeNode<V> {
   /**
    *  Return the next greatest element (or null)
    */
-  TreeNode<V> get successor {
+  _TreeNode<V> get successor {
     var node = this;
     if (node.right != null) {
       return node.right.minimumNode;
@@ -135,12 +147,12 @@ abstract class TreeNode<V> {
   /**
    *  Return the next smaller element (or null)
    */
-  TreeNode<V> get predecessor {
+  _TreeNode<V> get predecessor {
     var node = this;
     if (node.left != null) {
       return node.left.maximumNode;
     }
-    while (node.parent != null && node.parent.left == node) {
+    while (node.parent != null && node.parent._left == node) {
       node = node.parent;
     }
     return node.parent;
@@ -159,12 +171,12 @@ abstract class TreeNode<V> {
  */
 class AvlTreeSet<V> extends TreeSet<V> {
 
-  int length = 0;
-
+  int _length = 0;
   AvlNode<V> _root;
-
   // Modification count to the tree, monotonically increasing
   int _modCount = 0;
+
+  int get length => _length;
 
   AvlTreeSet({Comparator<V> comparator: Comparable.compare})
       : super._(comparator);
@@ -176,7 +188,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
     if (_root == null) {
       AvlNode<V> node = new AvlNode<V>(object: element);
       _root = node;
-      ++length;
+      ++_length;
       ++_modCount;
       return true;
     }
@@ -187,18 +199,20 @@ class AvlTreeSet<V> extends TreeSet<V> {
       if (compare == 0) {
         return false;
       } else if (compare < 0) {
-        if (x.left == null) {
-          AvlNode<V> node = new AvlNode<V>(object: element, parent: x);
-          x.left = node;
-          x.balanceFactor -= 1;
+        if (x._left == null) {
+          AvlNode<V> node = new AvlNode<V>(object: element).._parent = x;
+          x
+              .._left = node
+              .._balanceFactor -= 1;
           break;
         }
         x = x.left;
       } else {
-        if (x.right == null) {
-          AvlNode<V> node = new AvlNode<V>(object: element, parent: x);
-          x.right = node;
-          x.balanceFactor += 1;
+        if (x._right == null) {
+          AvlNode<V> node = new AvlNode<V>(object: element).._parent = x;
+          x
+              .._right = node
+              .._balanceFactor += 1;
           break;
         }
         x = x.right;
@@ -216,68 +230,67 @@ class AvlTreeSet<V> extends TreeSet<V> {
     //  Single rotation when Parent & Child share signed balance,
     //  Double rotation when sign differs!
     AvlNode<V> node = x;
-    while (node.balanceFactor != 0 && node.parent != null) {
+    while (node._balanceFactor != 0 && node.parent != null) {
       // Find out which side of the parent we're on
-      if (node.parent.left == node) {
-        // Lefties are -1 since we hate lefties
-        node.parent.balanceFactor -= 1;
+      if (node.parent._left == node) {
+        node.parent._balanceFactor -= 1;
       } else {
-        node.parent.balanceFactor += 1;
+        node.parent._balanceFactor += 1;
       }
 
       node = node.parent;
-      if (node.balanceFactor == 2) {
+      if (node._balanceFactor == 2) {
         // Heavy on the right side - Test for which rotation to perform
-        if (node.right.balanceFactor == 1) {
+        if (node.right._balanceFactor == 1) {
           // Single (left) rotation; this will balance everything to zero
           _rotateLeft(node);
-          node.balanceFactor = node.parent.balanceFactor = 0;
+          node._balanceFactor = node.parent._balanceFactor = 0;
           node = node.parent;
         } else {
           // Double (Right/Left) rotation
           // node will now be old node.right.left
           _rotateRightLeft(node);
           node = node.parent; // Update to new parent (old grandchild)
-          if (node.balanceFactor == 1) {
-            node.right.balanceFactor = 0;
-            node.left.balanceFactor = -1;
-          } else if (node.balanceFactor == 0) {
-            node.right.balanceFactor = 0;
-            node.left.balanceFactor = 0;
+          if (node._balanceFactor == 1) {
+            node.right._balanceFactor = 0;
+            node.left._balanceFactor = -1;
+          } else if (node._balanceFactor == 0) {
+            node.right._balanceFactor = 0;
+            node.left._balanceFactor = 0;
           } else {
-            node.right.balanceFactor = 1;
-            node.left.balanceFactor = 0;
+            node.right._balanceFactor = 1;
+            node.left._balanceFactor = 0;
           }
-          node.balanceFactor = 0;
+          node._balanceFactor = 0;
         }
         break; // out of loop, we're balanced
-      } else if (node.balanceFactor == -2) {
+      } else if (node._balanceFactor == -2) {
         // Heavy on the left side - Test for which rotation to perform
-        if (node.left.balanceFactor == -1) {
+        if (node.left._balanceFactor == -1) {
           _rotateRight(node);
-          node.balanceFactor = node.parent.balanceFactor = 0;
+          node._balanceFactor = node.parent._balanceFactor = 0;
           node = node.parent;
         } else {
           // Double (Left/Right) rotation
           // node will now be old node.left.right
           _rotateLeftRight(node);
           node = node.parent;
-          if (node.balanceFactor == -1) {
-            node.right.balanceFactor = 1;
-            node.left.balanceFactor = 0;
-          } else if (node.balanceFactor == 0) {
-            node.right.balanceFactor = 0;
-            node.left.balanceFactor = 0;
+          if (node._balanceFactor == -1) {
+            node.right._balanceFactor = 1;
+            node.left._balanceFactor = 0;
+          } else if (node._balanceFactor == 0) {
+            node.right._balanceFactor = 0;
+            node.left._balanceFactor = 0;
           } else {
-            node.right.balanceFactor = 0;
-            node.left.balanceFactor = -1;
+            node.right._balanceFactor = 0;
+            node.left._balanceFactor = -1;
           }
-          node.balanceFactor = 0;
+          node._balanceFactor = 0;
         }
         break; // out of loop, we're balanced
       }
     } // end of while (balancing)
-    length++;
+    _length++;
     return true;
   }
 
@@ -321,22 +334,22 @@ class AvlTreeSet<V> extends TreeSet<V> {
     if (y == null) throw new AssertionError();
 
     // turn Y's right subtree(B) into N's left subtree.
-    node.left = y.right;
+    node._left = y.right;
     if (node.left != null) {
-      node.left.parent = node;
+      node.left._parent = node;
     }
-    y.parent = node.parent;
-    if (y.parent == null) {
+    y._parent = node.parent;
+    if (y._parent == null) {
       _root = y;
     } else {
-      if (node.parent.left == node) {
-        node.parent.left = y;
+      if (node.parent._left == node) {
+        node.parent._left = y;
       } else {
-        node.parent.right = y;
+        node.parent._right = y;
       }
     }
-    y.right = node;
-    node.parent = y;
+    y._right = node;
+    node._parent = y;
   }
 
   /**
@@ -358,22 +371,22 @@ class AvlTreeSet<V> extends TreeSet<V> {
     if (y == null) throw new AssertionError();
 
     // turn Y's left subtree(B) into N's right subtree.
-    node.right = y.left;
+    node._right = y.left;
     if (node.right != null) {
-      node.right.parent = node;
+      node.right._parent = node;
     }
-    y.parent = node.parent;
-    if (y.parent == null) {
+    y._parent = node.parent;
+    if (y._parent == null) {
       _root = y;
     } else {
-      if (node.parent.left == node) {
-        y.parent.left = y;
+      if (node.parent._left == node) {
+        y.parent._left = y;
       } else {
-        y.parent.right = y;
+        y.parent._right = y;
       }
     }
-    y.left = node;
-    node.parent = y;
+    y._left = node;
+    node._parent = y;
   }
 
   /**
@@ -419,7 +432,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   void clear() {
-    length = 0;
+    _length = 0;
     _root = null;
     ++_modCount;
   }
@@ -444,40 +457,40 @@ class AvlTreeSet<V> extends TreeSet<V> {
     AvlNode<V> y, w;
 
     ++_modCount;
-    --length;
+    --_length;
 
     // note: if you read wikipedia, it states remove the node if its a leaf,
     // otherwise, replace it with its predecessor or successor. We're not.
-    if (node.right == null || node.right.left == null) {
+    if (node._right == null || node.right._left == null) {
       // simple solutions
       if (node.right != null) {
         y = node.right;
-        y.parent = node.parent;
-        y.balanceFactor = node.balanceFactor - 1;
-        y.left = node.left;
+        y._parent = node.parent;
+        y._balanceFactor = node._balanceFactor - 1;
+        y._left = node.left;
         if (y.left != null) {
-          y.left.parent = y;
+          y.left._parent = y;
         }
       } else if (node.left != null) {
         y = node.left;
-        y.parent = node.parent;
-        y.balanceFactor = node.balanceFactor + 1;
+        y._parent = node.parent;
+        y._balanceFactor = node._balanceFactor + 1;
       } else {
         y = null;
       }
       if (_root == node) {
         _root = y;
-      } else if (node.parent.left == node) {
-        node.parent.left = y;
+      } else if (node.parent._left == node) {
+        node.parent._left = y;
         if (y == null) {
           // account for leaf deletions changing the balance
-          node.parent.balanceFactor += 1;
+          node.parent._balanceFactor += 1;
           y = node.parent; // start searching from here;
         }
       } else {
-        node.parent.right = y;
+        node.parent._right = y;
         if (y == null) {
-          node.parent.balanceFactor -= 1;
+          node.parent._balanceFactor -= 1;
           y = node.parent;
         }
       }
@@ -486,37 +499,37 @@ class AvlTreeSet<V> extends TreeSet<V> {
       // This node is not a leaf; we should find the successor node, swap
       //it with this* and then update the balance factors.
       y = node.successor;
-      y.left = node.left;
+      y._left = node.left;
       if (y.left != null) {
-        y.left.parent = y;
+        y.left._parent = y;
       }
 
       w = y.parent;
-      w.left = y.right;
+      w._left = y.right;
       if (w.left != null) {
-        w.left.parent = w;
+        w.left._parent = w;
       }
       // known: we're removing from the left
-      w.balanceFactor += 1;
+      w._balanceFactor += 1;
 
       // known due to test for n->r->l above
-      y.right = node.right;
-      y.right.parent = y;
-      y.balanceFactor = node.balanceFactor;
+      y._right = node.right;
+      y.right._parent = y;
+      y._balanceFactor = node._balanceFactor;
 
-      y.parent = node.parent;
+      y._parent = node.parent;
       if (_root == node) {
         _root = y;
-      } else if (node.parent.left == node) {
-        node.parent.left = y;
+      } else if (node.parent._left == node) {
+        node.parent._left = y;
       } else {
-        node.parent.right = y;
+        node.parent._right = y;
       }
     }
 
     // Safe to kill node now; its free to go.
-    node.balanceFactor = 0;
-    node.left = node.right = node.parent = null;
+    node._balanceFactor = 0;
+    node._left = node._right = node._parent = null;
     node.object = null;
 
     // Recalculate max values all the way to the top.
@@ -528,65 +541,65 @@ class AvlTreeSet<V> extends TreeSet<V> {
     // Re-balance to the top, ending early if OK
     node = w;
     while (node != null) {
-      if (node.balanceFactor == -1 || node.balanceFactor == 1) {
+      if (node._balanceFactor == -1 || node._balanceFactor == 1) {
         // The height of node hasn't changed; done!
         break;
       }
-      if (node.balanceFactor == 2) {
+      if (node._balanceFactor == 2) {
         // Heavy on the right side; figure out which rotation to perform
-        if (node.right.balanceFactor == -1) {
+        if (node.right._balanceFactor == -1) {
           _rotateRightLeft(node);
           node = node.parent; // old grand-child!
-          if (node.balanceFactor == 1) {
-            node.right.balanceFactor = 0;
-            node.left.balanceFactor = -1;
-          } else if (node.balanceFactor == 0) {
-            node.right.balanceFactor = 0;
-            node.left.balanceFactor = 0;
+          if (node._balanceFactor == 1) {
+            node.right._balanceFactor = 0;
+            node.left._balanceFactor = -1;
+          } else if (node._balanceFactor == 0) {
+            node.right._balanceFactor = 0;
+            node.left._balanceFactor = 0;
           } else {
-            node.right.balanceFactor = 1;
-            node.left.balanceFactor = 0;
+            node.right._balanceFactor = 1;
+            node.left._balanceFactor = 0;
           }
-          node.balanceFactor = 0;
+          node._balanceFactor = 0;
         } else {
           // single left-rotation
           _rotateLeft(node);
-          if (node.parent.balanceFactor == 0) {
-            node.parent.balanceFactor = -1;
-            node.balanceFactor = 1;
+          if (node.parent._balanceFactor == 0) {
+            node.parent._balanceFactor = -1;
+            node._balanceFactor = 1;
             break;
           } else {
-            node.parent.balanceFactor = 0;
-            node.balanceFactor = 0;
+            node.parent._balanceFactor = 0;
+            node._balanceFactor = 0;
             node = node.parent;
             continue;
           }
         }
-      } else if (node.balanceFactor == -2) {
+      } else if (node._balanceFactor == -2) {
         // Heavy on the left
-        if (node.left.balanceFactor == 1) {
+        if (node.left._balanceFactor == 1) {
           _rotateLeftRight(node);
           node = node.parent; // old grand-child!
-          if (node.balanceFactor == -1) {
-            node.right.balanceFactor = 1;
-            node.left.balanceFactor = 0;
-          } else if (node.balanceFactor == 0) {
-            node.right.balanceFactor = 0;
-            node.left.balanceFactor = 0;
+          if (node._balanceFactor == -1) {
+            node.right._balanceFactor = 1;
+            node.left._balanceFactor = 0;
+          } else if (node._balanceFactor == 0) {
+            node.right._balanceFactor = 0;
+            node.left._balanceFactor = 0;
           } else {
-            node.right.balanceFactor = 0;
-            node.left.balanceFactor = -1;
+            node.right._balanceFactor = 0;
+            node.left._balanceFactor = -1;
           }
-          node.balanceFactor = 0;
+          node._balanceFactor = 0;
         } else {
           _rotateRight(node);
-          if (node.parent.balanceFactor == 0) {
-            node.parent.balanceFactor = 1;
-            node.balanceFactor = -1;
+          if (node.parent._balanceFactor == 0) {
+            node.parent._balanceFactor = 1;
+            node._balanceFactor = -1;
             break;
           } else {
-            node.parent.balanceFactor = 0;
-            node.balanceFactor = 0;
+            node.parent._balanceFactor = 0;
+            node._balanceFactor = 0;
             node = node.parent;
             continue;
           }
@@ -599,9 +612,9 @@ class AvlTreeSet<V> extends TreeSet<V> {
         // we are taking away weight from one side or the other (thus
         // the balance changes in favor of the other side)
         if (node.parent.left == node) {
-          node.parent.balanceFactor += 1;
+          node.parent._balanceFactor += 1;
         } else {
-          node.parent.balanceFactor -= 1;
+          node.parent._balanceFactor -= 1;
         }
       }
       node = node.parent;
@@ -698,7 +711,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   V nearest(V object, {TreeSearch nearestOption: TreeSearch.NEAREST}) {
-    AvlNode<V> found = _searchNearest(object, nearestOption);
+    AvlNode<V> found = _searchNearest(object, option: nearestOption);
     return (found != null) ? found.object : null;
   }
 
@@ -707,7 +720,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
    * NOTE: [BinaryTree.comparator] needs to have finer granulatity than -1,0,1
    * in order for this to return something that's meaningful.
    */
-  AvlNode<V> _searchNearest(V element, TreeSearch option) {
+  AvlNode<V> _searchNearest(V element,
+      {TreeSearch option: TreeSearch.NEAREST}) {
     if (element == null || _root == null) {
       return null;
     }
@@ -753,28 +767,21 @@ class AvlTreeSet<V> extends TreeSet<V> {
    * See [IterableBase.iterator]
    */
   BidirectionalIterator<V> get iterator =>
-      new AvlTreeIterator._(this, () => _root.minimumNode);
+      new AvlTreeIterator._(this);
 
   /**
    * See [TreeSet.reverseIterator]
    */
   BidirectionalIterator<V> get reverseIterator =>
-      new AvlTreeIterator._(this, () => _root.maximumNode, reversed: true);
+      new AvlTreeIterator._(this, reversed: true);
 
   /**
-   * See [TreeSet.from]
+   * See [TreeSet.fromIterator]
    */
-  BidirectionalIterator<V> fromIterator(V object, {bool reversed: false}) {
-    TreeNode<V> found = _searchNearest(object, reversed ?
-        TreeSearch.LESS_THAN : TreeSearch.GREATER_THAN);
-    int state = AvlTreeIterator.INIT;
-    if (found == null) {
-      // Fell off the list searching, make sure the iterator knows this
-      state = reversed ? AvlTreeIterator.LEFT : AvlTreeIterator.RIGHT;
-    }
-    return new AvlTreeIterator<V>._(this, () => found,
-        reversed: reversed, state: state);
-  }
+  BidirectionalIterator<V> fromIterator(V anchor,
+      {bool reversed: false, bool inclusive: true}) =>
+    new AvlTreeIterator<V>._(this, anchorObject: anchor, reversed: reversed,
+        inclusive: inclusive);
 
   /**
    * See [IterableBase.contains]
@@ -911,45 +918,90 @@ class AvlTreeSet<V> extends TreeSet<V> {
 }
 
 
+/**
+ * This iterator starts from a location in the set. Logically it doens't exist
+ * so that moveNext() and movePrevious() is sane.
+ * Example: Give [15, 20, 25, 30] and from(20). If the first call is
+ * moveNext(), then current is 20. If the first call is movePrevious; 15.
+ */
+typedef bool IteratorMove();
 class AvlTreeIterator<V> implements BidirectionalIterator<V> {
 
-  static const INIT = -2;
   static const LEFT = -1;
   static const WALK = 0;
   static const RIGHT = 1;
 
-  int state;
-  TreeNode<V> _current;
-
-  final int _modCountGuard;
-  final AvlTreeSet<V> _tree;
   final bool reversed;
-  Function init;
+  final AvlTreeSet<V> tree;
+  final int _modCountGuard;
+  final Object anchorObject;
+  final bool inclusive;
 
-  AvlTreeIterator._(AvlTreeSet<V> tree, this.init,
-      {this.reversed: false, this.state: INIT}) :
-    _modCountGuard = tree._modCount,
-    _tree = tree {
+  IteratorMove _moveNext;
+  IteratorMove _movePrevious;
+
+  int state;
+  _TreeNode<V> _current;
+
+  AvlTreeIterator._(AvlTreeSet<V> tree,
+      {reversed: false, this.inclusive: true, this.anchorObject: null}) :
+    this.tree = tree, this._modCountGuard = tree._modCount,
+    this.reversed = reversed {
+
+    if (anchorObject == null || tree.length == 0) {
+      // If the anchor is far left or right, we're just a normal iterator.
+      state = reversed ? RIGHT : LEFT;
+      _moveNext = reversed ? _movePreviousNormal : _moveNextNormal;
+      _movePrevious = reversed ? _moveNextNormal : _movePreviousNormal;
+      return;
+    }
+
+    state = WALK;
+    // Else we've got an anchor we have to worry about initalizing from.
+    // This isn't known till the caller actually performs a previous/next.
+    _moveNext = () {
+      _current = tree._searchNearest(anchorObject, option: reversed ?
+          TreeSearch.LESS_THAN : TreeSearch.GREATER_THAN);
+      _moveNext = reversed ? _movePreviousNormal : _moveNextNormal;
+      _movePrevious = reversed ? _moveNextNormal : _movePreviousNormal;
+      if (_current == null) {
+        state = reversed ? LEFT : RIGHT;
+      } else  if (tree.comparator(_current.object, anchorObject) == 0 &&
+          !inclusive) {
+        _moveNext();
+      }
+      return state == WALK;
+    };
+
+    _movePrevious = () {
+      _current = tree._searchNearest(anchorObject, option: reversed ?
+          TreeSearch.GREATER_THAN : TreeSearch.LESS_THAN);
+      _moveNext = reversed ? _movePreviousNormal : _moveNextNormal;
+      _movePrevious = reversed ? _moveNextNormal : _movePreviousNormal;
+      if (_current == null) {
+        state = reversed ? RIGHT : LEFT;
+      } else if (tree.comparator(_current.object, anchorObject) == 0 &&
+          !inclusive) {
+        _movePrevious();
+      }
+      return state == WALK;
+    };
   }
 
   V get current => (state != WALK || _current == null) ?
       null : _current.object;
 
-  bool moveNext() => reversed ? _movePrevious() : _moveNext();
-  bool movePrevious() => reversed ? _moveNext() : _movePrevious();
+  bool moveNext() => _moveNext();
+  bool movePrevious() => _movePrevious();
 
-  bool _moveNext() {
-    if (_modCountGuard != _tree._modCount) {
-      throw new ConcurrentModificationError(_tree);
+  bool _moveNextNormal() {
+    if (_modCountGuard != tree._modCount) {
+      throw new ConcurrentModificationError(tree);
     }
-    if (state == RIGHT || _tree.length == 0) return false;
+    if (state == RIGHT || tree.length == 0) return false;
     switch(state) {
-      case INIT:
-        _current = init();
-        state = WALK;
-        return true;
       case LEFT:
-        _current = _tree._root.minimumNode;
+        _current = tree._root.minimumNode;
         state = WALK;
         return true;
       case WALK:
@@ -962,18 +1014,14 @@ class AvlTreeIterator<V> implements BidirectionalIterator<V> {
     }
   }
 
-  bool _movePrevious() {
-    if (_modCountGuard != _tree._modCount) {
-      throw new ConcurrentModificationError(_tree);
+  bool _movePreviousNormal() {
+    if (_modCountGuard != tree._modCount) {
+      throw new ConcurrentModificationError(tree);
     }
-    if (state == LEFT || _tree.length == 0) return false;
+    if (state == LEFT || tree.length == 0) return false;
     switch(state) {
-      case INIT:
-        _current = init();
-        state = WALK;
-        return true;
       case RIGHT:
-        _current = _tree._root.maximumNode;
+        _current = tree._root.maximumNode;
         state = WALK;
         return true;
       case WALK:
@@ -991,18 +1039,23 @@ class AvlTreeIterator<V> implements BidirectionalIterator<V> {
 /**
  * Private class used to track element insertions in the [TreeSet].
  */
-class AvlNode<V> extends TreeNode<V> {
+class AvlNode<V> extends _TreeNode<V> {
 
-  AvlNode<V> left;
-  AvlNode<V> right;
-  int balanceFactor = 0;
-
+  AvlNode<V> _left;
+  AvlNode<V> _right;
   //TODO(codefu): Remove need for [parent]; this is just an implementation note
-  AvlNode<V> parent;
+  AvlNode<V> _parent;
+  int _balanceFactor = 0;
 
-  AvlNode({AvlNode this.parent: null, V object}) :
+  /// These are exposed for testing only
+  AvlNode<V> get left => _left;
+  AvlNode<V> get right => _right;
+  AvlNode<V> get parent => _parent;
+  int get balance => _balanceFactor;
+
+  AvlNode({V object}) :
       super(object: object);
 
   String toString() =>
-    "(b:$balanceFactor o: $object l:${left != null} r:${right != null})";
+    "(b:$balance o: $object l:${left != null} r:${right != null})";
 }
