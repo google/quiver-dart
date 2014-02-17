@@ -22,6 +22,7 @@ import 'dart:math';
 
 part 'src/collection/bimap.dart';
 part 'src/collection/multimap.dart';
+part 'src/collection/treeset.dart';
 part 'src/collection/delegates/iterable.dart';
 part 'src/collection/delegates/list.dart';
 part 'src/collection/delegates/map.dart';

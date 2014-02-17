@@ -61,8 +61,13 @@ might have eviction policies.
 `listsEqual` and `mapsEqual` check collections for equality.
 
 `Multimap` is an associative collection that maps keys to collections of
-values. `BiMap` is a bi-directional map and provides an inverse view, allowing
+values.
+
+`BiMap` is a bidirectional map and provides an inverse view, allowing
 lookup of key by value.
+
+`TreeSet` is a balanced binary tree that offers a bidirectional iterator,
+the ability to iterate from an arbitrary anchor, and 'nearest' search.
 
 [quiver.collection]: http://google.github.io/quiver-dart/docs/quiver.collection.html
 
