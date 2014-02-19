@@ -13,7 +13,7 @@ API Docs can be found here: http://google.github.io/quiver-dart/docs/
 ## Installation
 
 Add Quiver to your project's pubspec.yaml file and run `pub get`.
-We reccomend the following version constraint:
+We recommend the following version constraint:
 
     dependencies:
       quiver: '>=0.13.0<0.14.0'
