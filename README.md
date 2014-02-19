@@ -173,7 +173,7 @@ supporting a number of use-cases, including:
   * Tailing: `loop('/path/to/some/file.txt', -3) => 'txt'`
   * Reversing: `loop('top', 3, 0) => 'pot'`
 
-`padLeft` and `padRight` pad strings to a given width.
+`padLeft`, `padRight`, and `center` pad strings to a given width.
 
 [quiver.strings]: http://google.github.io/quiver-dart/docs/quiver.strings.html
 

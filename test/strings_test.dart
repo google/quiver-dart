@@ -198,6 +198,37 @@ main() {
 
   });
 
+  group('center', () {
+    test('should return the input if length greater than width', () {
+      expect(center('abc', 2, '0'), 'abc');
+      expect(center('abc', 3, '0'), 'abc');
+    });
+
+    test('should pad equal chars on left and right for even padding count', () {
+      expect(center('abc', 5, '0'), '0abc0');
+      expect(center('abc', 9, '0'), '000abc000');
+    });
+
+    test('should pad extra char on right for odd padding amount', () {
+      expect(center('abc', 4, '0'), 'abc0');
+      expect(center('abc', 8, '0'), '00abc000');
+    });
+
+    test('should use multi-character fills', () {
+      expect(center('abc', 7, '012345'), '01abc45');
+      expect(center('abc', 6, '012345'), '0abc45');
+      expect(center('abc', 9, '01'), '010abc101');
+    });
+
+    test('should handle null and empty inputs', () {
+      expect(center(null, 4, '012345'), '0145');
+      expect(center('', 4, '012345'), '0145');
+      expect(center(null, 5, '012345'), '01345');
+      expect(center('', 5, '012345'), '01345');
+    });
+
+  });
+
   group('equalsIgnoreCase', () {
     test('should return true for equal Strings', () {
       expect(equalsIgnoreCase('abc', 'abc'), isTrue);
