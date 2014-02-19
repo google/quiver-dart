@@ -151,32 +151,26 @@ String padRight(String input, int width, String fill) {
 
 /**
  * Returns a [String] of length [width] padded with the same number of
- * characters on the left and right.  The left is padded with characters from
- * [fill], and the right also from [fill], unless [rightFill] is provided
- * and not null.  The right fill characters are selected starting at the end so
- * that the last character in the fill is the last character in the result. The
- * fills are repeated if neccessary to pad.
+ * characters on the left and right from [fill].  On the right, characters are
+ * selected from [fill] starting at the end so that the last character in [fill]
+ * is the last character in the result. [fill] is repeated if neccessary to pad.
  *
  * Returns [input] if `input.length` is equal to or greater than width. [input]
- * can be `null` and is treated as an empty string.  If there are an odd number
- * of characters to pad, then the right will be padded with one more than the
- * left.
+ * can be `null` and is treated as an empty string.
+ *
+ * If there are an odd number of characters to pad, then the right will be
+ * padded with one more than the left.
  */
-String center(String input, int width, String fill, [String rightFill]) {
+String center(String input, int width, String fill) {
   if (fill == null || fill.length == 0) {
     throw new ArgumentError('fill cannot be null or empty');
   }
-  if(rightFill == null) {
-    rightFill = fill;
-  } else if(rightFill.length == 0) {
-    throw new ArgumentError('rightFill cannot be empty');
-  }
-  if(input == null) input = '';
+  if (input == null) input = '';
   var leftWidth = input.length + (width - input.length) ~/ 2;
   return padRight(
       padLeft(input, leftWidth, fill),
       width,
-      rightFill);
+      fill);
 }
 
 /**

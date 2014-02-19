@@ -220,11 +220,6 @@ main() {
       expect(center('abc', 9, '01'), '010abc101');
     });
 
-    test('should use right fill when provided', () {
-      expect(center('abc', 5, '0', '1'), '0abc1');
-      expect(center('abc', 7, '012', '345'), '01abc45');
-    });
-
     test('should handle null and empty inputs', () {
       expect(center(null, 4, '012345'), '0145');
       expect(center('', 4, '012345'), '0145');
