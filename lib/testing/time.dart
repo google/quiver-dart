@@ -18,6 +18,7 @@
 library quiver.testing.time;
 
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:quiver/iterables.dart';
 import 'package:quiver/time.dart';
