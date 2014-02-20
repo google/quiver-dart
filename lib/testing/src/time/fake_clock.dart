@@ -70,11 +70,11 @@ class _FakeClock extends FakeClock {
   DateTime now() => _now;
 
   Future advance(Duration duration) {
-    if(duration.inMicroseconds < 0) {
+    if (duration.inMicroseconds < 0) {
       return new Future.error(
           new ArgumentError('Cannot call advance with negative duration'));
     }
-    if(_advancingTo != null) {
+    if (_advancingTo != null) {
       return new Future.error(
           new StateError('Cannot advance until previous advance is complete.'));
     }
@@ -84,14 +84,14 @@ class _FakeClock extends FakeClock {
   }
 
   void advanceSync(Duration duration) {
-    if(duration.inMicroseconds < 0) {
+    if (duration.inMicroseconds < 0) {
       throw new ArgumentError('Cannot call advance with negative duration');
     }
     _now = _now.add(duration);
   }
 
   Zone get zone {
-    if(_zone == null) {
+    if (_zone == null) {
       _zone = Zone.current.fork(specification: _zoneSpec);
     }
     return _zone;
@@ -157,7 +157,7 @@ class _FakeClock extends FakeClock {
       });
 
   _advanceTo(DateTime to) {
-    if(to.millisecondsSinceEpoch > _now.millisecondsSinceEpoch) {
+    if (to.millisecondsSinceEpoch > _now.millisecondsSinceEpoch) {
       _now = to;
     }
   }
@@ -174,7 +174,7 @@ class _FakeClock extends FakeClock {
 
   _scheduleTimer(Zone self, ZoneDelegate parent, Zone zone) {
 
-    if(!_waitingForTimer && _advancingTo != null) {
+    if (!_waitingForTimer && _advancingTo != null) {
       var next = _getNextTimer();
       var completeTimer = next != null ?
           self.bindCallback(() => _runTimer(next), runGuarded: true) :
@@ -205,7 +205,7 @@ class _FakeClock extends FakeClock {
   _runTimer(_FakeTimer timer) {
     assert(timer.isActive);
     _advanceTo(timer._nextCall);
-    if(timer._isPeriodic) {
+    if (timer._isPeriodic) {
       timer._callback(timer);
       timer._nextCall = timer._nextCall.add(timer._duration);
     } else {
