@@ -100,7 +100,6 @@ main() {
             expect(beforeCallCount, 1);
             expect(atCallCount, 1);
           });
-
         });
 
         test('should call timers at their scheduled time', () {
@@ -118,7 +117,6 @@ main() {
             expect(periodicCalledAt, [initialTime.add(advanceBy ~/ 2),
                 initialTime.add(advanceBy)]);
           });
-
         });
 
         test('should not call timers expiring after end time', () {
@@ -168,7 +166,6 @@ main() {
           return advanced.then((_) {
             expect(periodic, passedTimer);
           });
-
         });
 
         test('should call microtasks before advancing time', () {
@@ -269,7 +266,6 @@ main() {
           return advanced.then((_) {
             expect(callCount, 1);
           });
-
         });
 
         test('should work with Future.delayed', () {
@@ -288,12 +284,12 @@ main() {
           unit.zone.runGuarded(() {
             var timed = completer.future.timeout(advanceBy ~/ 2);
             new Timer(advanceBy, completer.complete);
-            unit.advance(advanceBy);
-            expect(timed, throwsA(new isInstanceOf<TimeoutException>()));
+            var advanced = unit.advance(advanceBy);
+            expect(Future.wait([advanced, timed]), throwsA(new isInstanceOf<TimeoutException>()));
           });
         });
 
-        // TODO: Pausing and resuming the periodic Stream doesn't work since
+        // TODO: Pausing and resuming the timeout Stream doesn't work since
         // it uses `new Stopwatch()`.
         test('should work with Stream.periodic', () {
           var events = <int> [];
@@ -312,8 +308,6 @@ main() {
 
         });
 
-        // TODO: Pausing and resuming the periodic Stream doesn't work since
-        // it uses `new Stopwatch()`.
         test('should work with Stream.timeout', () {
           var events = <int> [];
           var errors = [];

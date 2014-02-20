@@ -14,13 +14,18 @@
 
 part of quiver.testing.time;
 
+/// A fake clock which is manually advanced either asynchronously ([advance])
+/// or synchronously ([advanceSync]), to simulate the passage of time.
 abstract class FakeClock extends Clock {
 
   factory FakeClock({DateTime initialTime}) = _FakeClock;
 
   FakeClock._();
 
-  /// Simulate the asynchronous passage of [duration].
+  /// Simulate the asynchronous advancement of this clock by [duration].
+  ///
+  /// Important:  This should only be called when `Zone.current == zone`
+  /// (or possibly a fork of [zone]).
   ///
   /// If [duration] is negative, the returned future completes with an
   /// [ArgumentError].
@@ -32,25 +37,20 @@ abstract class FakeClock extends Clock {
   /// will not occur until some later turn of the event loop (after the
   /// microtask queue has been drained).
   ///
-  /// This should only be called when `Zone.current == zone` (or possibly
-  /// a fork of [zone]).
-  ///
   /// Timers created within [zone] which are scheduled to expire at or before
   /// the new time after the advancement will be run before the returned future
-  /// completes.  When these timers are run, `now()` will return a time not
-  /// before the scheduled expiration time of the timer, potentially later if
-  /// there were calls to `advanceSync`.
-  ///
-  ///
+  /// completes.  When these timers are run, `now()` will have been advanced
+  /// by the timer's specified duration, potentially more if there were calls
+  /// to [advanceSync] as well.
   Future advance(Duration duration);
 
-  /// Simulate the synchronous passage of [duration].
+  /// Simulate the synchronous advancement of this clock by [duration].
   ///
   /// If [duration] is negative, throws an ArgumentError.
   void advanceSync(Duration duration);
 
 
-  /// The valid zone in which to call [advance].  This zone implements
+  /// The valid zone in which to call [advance].  Implements
   /// [ZoneSpecification.createTimer] and
   /// [ZoneSpecification.createPeriodicTimer] to create timers which will be
   /// called during the completion of Futures returned from [advance].
@@ -71,10 +71,12 @@ class _FakeClock extends FakeClock {
 
   Future advance(Duration duration) {
     if(duration.inMicroseconds < 0) {
-      return new Future.error(new ArgumentError('Cannot call advance with negative duration'));
+      return new Future.error(
+          new ArgumentError('Cannot call advance with negative duration'));
     }
     if(_advancingTo != null) {
-      return new Future.error(new StateError('Cannot advance until previous advance is complete.'));
+      return new Future.error(
+          new StateError('Cannot advance until previous advance is complete.'));
     }
     _advancingTo = _now.add(duration);
     _advanceCompleter = new Completer();
@@ -166,7 +168,8 @@ class _FakeClock extends FakeClock {
 
   _createTimer(Duration duration, Function callback, bool isPeriodic) {
     var id = _nextTimerId++;
-    return _timers[id] = new _FakeTimer._(duration, callback, isPeriodic, this, id);
+    return _timers[id] =
+        new _FakeTimer._(duration, callback, isPeriodic, this, id);
   }
 
   _scheduleTimer(Zone self, ZoneDelegate parent, Zone zone) {
@@ -194,7 +197,8 @@ class _FakeClock extends FakeClock {
     return min(_timers.values.where((timer) =>
         timer._nextCall.millisecondsSinceEpoch <= _now.millisecondsSinceEpoch ||
         (_advancingTo != null &&
-         timer._nextCall.millisecondsSinceEpoch <= _advancingTo.millisecondsSinceEpoch)
+         timer._nextCall.millisecondsSinceEpoch <=
+         _advancingTo.millisecondsSinceEpoch)
     ), (timer1, timer2) => timer1._nextCall.compareTo(timer2._nextCall));
   }
 
@@ -203,10 +207,7 @@ class _FakeClock extends FakeClock {
     _advanceTo(timer._nextCall);
     if(timer._isPeriodic) {
       timer._callback(timer);
-      // Move forward by at least 1 microsecond to avoid infinite loop.
-      // TODO: Move forward more (e.g. 15 - 20 milliseconds) ?
-      var duration = new Duration(microseconds: math.max(timer._duration.inMicroseconds, 1));
-      timer._nextCall = timer._nextCall.add(duration);
+      timer._nextCall = timer._nextCall.add(timer._duration);
     } else {
       timer._callback();
       _timers.remove(timer._id);
@@ -226,8 +227,16 @@ class _FakeTimer implements Timer {
   final _FakeClock _clock;
   DateTime _nextCall;
 
-  _FakeTimer._(this._duration, this._callback, this._isPeriodic, this._clock, this._id) {
-    _nextCall = _clock.now().add(_duration.inMicroseconds.isNegative ? Duration.ZERO : _duration);
+  _FakeTimer._(this._duration, this._callback, this._isPeriodic, this._clock,
+      this._id) {
+    // TODO: Figure out how to handle nested or periodic timers with zero
+    // duration without getting into infinite loop.
+    // In browser JavaScript, timers can only run every 4 milliseconds once
+    // sufficiently nested:
+    //     http://www.w3.org/TR/html5/webappapis.html#timer-nesting-level
+    // What do the dart VM and dart2js timers do here?
+    _nextCall = _clock.now().add(_duration.inMicroseconds.isNegative ?
+        Duration.ZERO : _duration);
   }
 
   bool get isActive => _clock._timers.containsKey(_id);
