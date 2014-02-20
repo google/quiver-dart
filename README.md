@@ -198,6 +198,11 @@ interfaces.
 
 ## [quiver.testing.time][]
 
+`FakeClock` is a fake Clock which is manually advanced either asynchronously or 
+synchronously to simulate the passage of time.  It provides a Zone in which
+fake timers are created and handled in coordination with the advancement of the 
+clock.
+
 `FakeStopwatch` is a Stopwatch that uses a provided `now()` function to get the
 current time.
 
