@@ -14,6 +14,8 @@
 
 library quiver.testing.all_tests;
 
+import 'time/all_tests.dart' as time;
+
 main() {
-  // No tests for the testing library yet.
+  time.main();
 }
