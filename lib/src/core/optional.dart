@@ -56,7 +56,7 @@ class Optional<T> {
    * Throws [StateError] if [value] is null.
    */
   T get value {
-    if (this._value == null) throw new StateError('\'value\' called on absent Optional.');
+    if (this._value == null) throw new StateError('value called on absent Optional.');
     return _value;
   }
 
