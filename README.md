@@ -43,6 +43,12 @@ processing the next element.
 passing Timer factories to classes and functions, increasing the testability of
 code that depends on Timer.
 
+`settle` can complete a list of Futures having then completed or fail, then you
+can check their status and values
+
+`allCompleted` and `allRejected` can filter through a list of Futures to get
+only the ones that got the end result that you want.
+
 [quiver.async]: http://google.github.io/quiver-dart/docs/quiver.async.html
 
 ## [quiver.cache][]
