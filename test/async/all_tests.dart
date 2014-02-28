@@ -19,6 +19,7 @@ import 'create_timer_test.dart' as create_timer;
 import 'future_group_test.dart' as future_group;
 import 'iteration_test.dart' as iteration;
 import 'stream_router_test.dart' as stream_router;
+import 'settle_test.dart' as settle;
 
 main() {
   countdown_timer.main();
@@ -26,4 +27,5 @@ main() {
   future_group.main();
   iteration.main();
   stream_router.main();
+  settle.main();
 }
