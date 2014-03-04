@@ -24,7 +24,7 @@ main() {
       FutureWorker worker = new FutureWorker(1);
       SimpleJob job = new SimpleJob();
 
-      Future<String> future = worker.push(job.run);
+      Future<String> future = worker.add(job.run);
 
       expect(job.started, isTrue);
 
@@ -38,8 +38,8 @@ main() {
 
       SimpleJob secondJob = new SimpleJob();
 
-      worker.push(new SimpleJob().run);
-      worker.push(secondJob.run);
+      worker.add(new SimpleJob().run);
+      worker.add(secondJob.run);
 
       expect(secondJob.started, isFalse);
     });
@@ -50,8 +50,8 @@ main() {
       SimpleJob job = new SimpleJob();
       SimpleJob secondJob = new SimpleJob();
 
-      Future future = worker.push(job.run);
-      worker.push(secondJob.run);
+      Future future = worker.add(job.run);
+      worker.add(secondJob.run);
 
       expect(secondJob.started, isFalse);
 
@@ -68,8 +68,8 @@ main() {
       SimpleJob job = new SimpleJob();
       SimpleJob secondJob = new SimpleJob();
 
-      Future future = worker.push(job.run);
-      worker.push(secondJob.run);
+      Future future = worker.add(job.run);
+      worker.add(secondJob.run);
 
       expect(secondJob.started, isFalse);
 
@@ -86,8 +86,8 @@ main() {
       SimpleJob job = new SimpleJob();
       SimpleJob secondJob = new SimpleJob();
 
-      worker.push(job.run);
-      worker.push(secondJob.run);
+      worker.add(job.run);
+      worker.add(secondJob.run);
 
       job.completer.complete('one');
       secondJob.completer.complete('two');
@@ -101,8 +101,8 @@ main() {
       SimpleJob job = new SimpleJob();
       SimpleJob secondJob = new SimpleJob();
 
-      silentError(worker.push(job.run));
-      silentError(worker.push(secondJob.run));
+      silentError(worker.add(job.run));
+      silentError(worker.add(secondJob.run));
 
       return new Future.delayed(new Duration(milliseconds: 50), () {
         expect(secondJob.started, isTrue);

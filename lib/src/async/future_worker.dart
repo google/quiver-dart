@@ -21,7 +21,7 @@ typedef Future<T> FutureWorkerAction<T>();
  *
  * The purpouse of this class is to help when you need to impose some limit
  * for [Future] calls. You just need to initialize with the limit number of
- * workers, then you call [push] passing a function that returns a [Future]
+ * workers, then you call [add] passing a function that returns a [Future]
  * and with that the worker will manage to call this function when the poll
  * has space:
  *
@@ -42,9 +42,9 @@ typedef Future<T> FutureWorkerAction<T>();
  *     SimpleJob job2 = new SimpleJob();
  *     SimpleJob job3 = new SimpleJob();
  *
- *     Future future1 = worker.push(job1.run); // will call right way since the poll is free
- *     Future future2 = worker.push(job2.run); // same as before, still have space
- *     Future future3 = worker.push(job3.run); // will be queued and hold
+ *     Future future1 = worker.add(job1.run); // will call right way since the poll is free
+ *     Future future2 = worker.add(job2.run); // same as before, still have space
+ *     Future future3 = worker.add(job3.run); // will be queued and hold
  *
  *     job1.started; // true
  *     job2.started; // true
@@ -82,7 +82,7 @@ class FutureWorker {
 
   FutureWorker(this.limit, {this.timeout});
 
-  Future push(FutureWorkerAction worker) {
+  Future add(FutureWorkerAction worker) {
     if (_workingCount < limit) {
       return _runWorker(worker);
     } else {
@@ -123,7 +123,7 @@ class FutureWorker {
   void _processNext() {
     _FutureWorkerTask task = _queue.removeFirst();
 
-    task.complete(push(task.runner));
+    task.complete(add(task.runner));
   }
 
   Future _workerError(err) {
