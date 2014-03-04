@@ -17,7 +17,7 @@ part of quiver.async;
 typedef Future<T> FutureWorkerAction<T>();
 
 /**
- * Managers a [Future] worker poll
+ * Managers a [Future] worker poll.
  *
  * The purpouse of this class is to help when you need to impose some limit
  * for [Future] calls. You just need to initialize with the limit number of
@@ -111,11 +111,10 @@ class FutureWorker {
     return worker.then(_workerDone).catchError(_workerError);
   }
 
-  dynamic _workerDone(value) {
+  Object _workerDone(Object value) {
     _workingCount--;
 
-    if (_queue.length > 0)
-      _processNext();
+    if (_queue.length > 0) _processNext();
 
     return value;
   }
@@ -126,7 +125,7 @@ class FutureWorker {
     task.complete(add(task.runner));
   }
 
-  Future _workerError(err) {
+  Future _workerError(Object err) {
     _workerDone(null);
 
     return new Future.error(err);
