@@ -14,7 +14,7 @@
 
 part of quiver.async;
 
-typedef Future FutureWorkerAction();
+typedef Future<T> FutureWorkerAction<T>();
 
 /**
  * Managers a [Future] worker poll
