@@ -14,7 +14,7 @@
 
 part of quiver.async;
 
-typedef Future Worker();
+typedef Future FutureWorkerAction();
 
 /**
  * Managers a [Future] worker poll
@@ -50,16 +50,21 @@ typedef Future Worker();
  *     job2.started; // true
  *     job3.started; // false
  *
+ *     // let's complete one job, that way the queue will have a free space
  *     job1.completer.complete(null);
  *
+ *     // and with that, after the microtasks propagate, the previous queued job3
+ *     // is going to start running
  *     new Future.microtask(() {
  *       job3.started; // true
  *     });
  *
+ *     // let's hook on the future returned when the job was enqueued
  *     future3.then((value) {
  *       value; // done, after the job3 completes
  *     });
  *
+ *     // fire!
  *     job3.completer.complete('done');
  *
  * You probably going to use it when you wanna limit calls for a server and stuff
@@ -73,11 +78,11 @@ class FutureWorker {
   int limit;
   Duration timeout;
   int _workingCount = 0;
-  Queue<_FutureWorkerTask> _queue = new Queue<_FutureWorkerTask>();
+  final Queue<_FutureWorkerTask> _queue = new Queue<_FutureWorkerTask>();
 
   FutureWorker(this.limit, {this.timeout});
 
-  Future push(Worker worker) {
+  Future push(FutureWorkerAction worker) {
     if (_workingCount < limit) {
       return _runWorker(worker);
     } else {
@@ -85,13 +90,13 @@ class FutureWorker {
     }
   }
 
-  Future _runWorker(Worker worker) {
+  Future _runWorker(FutureWorkerAction worker) {
     _workingCount++;
 
     return _wrapFuture(_setTimeout(worker()));
   }
 
-  Future _queueWorker(Worker worker) {
+  Future _queueWorker(FutureWorkerAction worker) {
     _FutureWorkerTask task = new _FutureWorkerTask(worker);
     _queue.add(task);
 
@@ -129,7 +134,7 @@ class FutureWorker {
 }
 
 class _FutureWorkerTask {
-  Worker runner;
+  FutureWorkerAction runner;
   Completer _completer = new Completer();
 
   _FutureWorkerTask(this.runner);
