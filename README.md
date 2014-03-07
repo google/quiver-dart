@@ -43,6 +43,12 @@ processing the next element.
 passing Timer factories to classes and functions, increasing the testability of
 code that depends on Timer.
 
+`TaskQueue` is a queue to which async tasks can be added, such that only a 
+given maximum are ever processed in parallel, which by default is 1.  Tasks can 
+either be functions which return futures, or actual futures.  Provides a 
+stream of the task results including errors, and a stream of idle events for 
+when the queue has become empty.
+
 [quiver.async]: http://google.github.io/quiver-dart/docs/quiver.async.html
 
 ## [quiver.cache][]
