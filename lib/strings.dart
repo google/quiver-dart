@@ -150,6 +150,55 @@ String padRight(String input, int width, String fill) {
 }
 
 /**
+ * Removes leading whitespace from a string.
+ *
+ * Whitespace is defined to be the same as [String.trim].
+ */
+String trimLeft(String input) {
+  int i = 0;
+  for (var rune in input.runes) {
+    if (isWhitespace(rune)) {
+      i++;
+    } else {
+      break;
+    }
+  }
+  return input.substring(i);
+}
+
+/**
+ * Removes trailing whitespace from a string.
+ *
+ * Whitespace is defined to be the same as [String.trim].
+ */
+String trimRight(String input) {
+  int i = 0;
+  int lastNonWhitespace = -1;
+  for (var rune in input.runes) {
+    i++;
+    if (!isWhitespace(rune)) {
+      lastNonWhitespace = i;
+    }
+  }
+  if (lastNonWhitespace == -1) return '';
+  return input.substring(0, lastNonWhitespace);
+}
+
+/**
+ * Returns `true` if [rune] represents a whitespace character.
+ *
+ * The definition of whitespace matches that used in [String.trim] which is
+ * based on Unicode 6.2. This maybe be a different set of characters than the
+ * environment's [RegExp] definition for whitespace, which is given by the
+ * ECMAScript standard: http://ecma-international.org/ecma-262/5.1/#sec-15.10
+ */
+bool isWhitespace(int rune) =>
+    ((rune >= 0x0009 && rune <= 0x000D) || rune == 0x0020 || rune == 0x0085 ||
+    rune == 0x00A0 || rune == 0x1680 || rune == 0x180E ||
+    (rune >= 0x2000 &&  rune <= 0x200A) || rune == 0x2028 || rune == 0x2029 ||
+    rune == 0x202F || rune == 0x205F || rune == 0x3000 || rune == 0xFEFF);
+
+/**
  * Returns a [String] of length [width] padded with the same number of
  * characters on the left and right from [fill].  On the right, characters are
  * selected from [fill] starting at the end so that the last character in [fill]

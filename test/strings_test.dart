@@ -198,6 +198,50 @@ main() {
 
   });
 
+  group('trimLeft', () {
+
+    test('should trim whitespace from the left', () {
+      expect(trimLeft(''), '');
+      expect(trimLeft(' '), '');
+      expect(trimLeft('  abc  '), 'abc  ');
+      expect(trimLeft('  abc def  '), 'abc def  ');
+      expect(trimLeft('\t\vabc  '), 'abc  ');
+      // these are some of the whitespace chars not defined for RexExps
+      expect(trimLeft('\u000Aabc  '), 'abc  ');
+      expect(trimLeft('\u000Dabc  '), 'abc  ');
+      expect(trimLeft('\u0085abc  '), 'abc  ');
+      expect(trimLeft('\u1680abc  '), 'abc  ');
+    });
+
+    test('should throw on null', () {
+      expect(() => trimLeft(null), throws);
+    });
+
+  });
+
+
+  group('trimRight', () {
+
+    test('should trim whitespace from the right', () {
+      expect(trimRight(''), '');
+      expect(trimRight(' '), '');
+      expect(trimRight('  abc  '), '  abc');
+      expect(trimRight('  abc def  '), '  abc def');
+      expect(trimRight('  abc\t\v'), '  abc');
+      // these are some of the whitespace chars not defined for RexExps
+      expect(trimRight('  abc\u000A'), '  abc');
+      expect(trimRight('  abc\u000D'), '  abc');
+      expect(trimRight('  abc\u0085'), '  abc');
+      expect(trimRight('  abc\u1680'), '  abc');
+    });
+
+    test('should throw on null', () {
+      expect(() => trimRight(null), throws);
+    });
+
+  });
+
+
   group('center', () {
     test('should return the input if length greater than width', () {
       expect(center('abc', 2, '0'), 'abc');
