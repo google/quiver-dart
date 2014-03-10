@@ -1,11 +1,12 @@
 name: quiver
-version: 0.18.0-dev
+version: 0.18.0
 authors:
 - Justin Fagnani <justinfagnani@google.com>
 - Yegor Jbanov <yjbanov@google.com>
 - Chris Bracken <cbracken@google.com>
 - Alexandre Ardhuin <alexandre.ardhuin@gmail.com>
 - David Morgan <davidmorgan@google.com>
+- John McDole <codefu@google.com>
 description: A set of utility libraries for Dart
 homepage: https://github.com/google/quiver-dart
 documentation: http://google.github.io/quiver-dart/docs/
