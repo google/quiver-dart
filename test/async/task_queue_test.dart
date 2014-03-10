@@ -111,6 +111,31 @@ main() {
     testKeepOrder(false, ['a', 'b', 'c', 'd']);
     testKeepOrder(true, ['c', 'd', 'a', 'b']);
 
+    test('should not buffer events when paused', () {
+        var eventCount = 0;
+        var done = new Completer();
+
+        var taskQueue = new TaskQueue();
+        taskQueue.addFuture(new Future.value());
+
+        var subscription = taskQueue.onResult.listen((_) => eventCount++,
+            onDone: done.complete);
+
+        return new Future(() {
+          expect(eventCount, 1);
+          subscription.pause();
+          taskQueue.addFuture(new Future.value());
+          return new Future(() {
+            expect(eventCount, 1);
+            subscription.resume();
+            return new Future(() {
+              expect(eventCount, 2);
+            });
+          });
+        });
+
+    });
+
     group('onIdle', () {
 
       test('should not produce event before tasks added', () {

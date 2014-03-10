@@ -127,8 +127,6 @@ class _TaskQueueStream extends Stream {
 
     var pending = <_Completion> [];
     cancelOnError = true == cancelOnError;
-    var paused = false;
-
     StreamController controller;
 
     handlePending() {
@@ -160,7 +158,7 @@ class _TaskQueueStream extends Stream {
         var completion = new _Completion(item);
         pending.add(completion);
         completion.future.whenComplete(() {
-          if(!paused) handlePending();
+          if(!controller.isPaused) handlePending();
         });
         return true;
       }
@@ -169,15 +167,8 @@ class _TaskQueueStream extends Stream {
 
     controller = new StreamController(
       sync: true,
-      onPause: () {
-        paused = true;
-      },
       onResume: () {
-        paused = false;
         handlePending();
-      },
-      onCancel: () {
-        paused = false;
       });
 
     while (_scheduleTask()) {}
