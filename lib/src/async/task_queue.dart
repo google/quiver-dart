@@ -45,7 +45,6 @@ class TaskQueue {
       throw new ArgumentError(
           "maxParallel must be greater than 0, was: $maxParallel");
     }
-    _onResult = new _TaskQueueStream(this);
   }
 
   /**
@@ -68,7 +67,7 @@ class TaskQueue {
 
   _add(task) {
     _tasks.add(task);
-    scheduleMicrotask(() => _onResult._scheduleTask());
+    scheduleMicrotask(() => (onResult as _TaskQueueStream)._scheduleTask());
   }
 
   /**
@@ -76,7 +75,30 @@ class TaskQueue {
    * are sent as data events, task failures are sent as error events.  This
    * stream is never done, since new tasks can always be added later.
    */
-  Stream get onResult => _onResult;
+  Stream get onResult {
+    if(_onResult == null) _onResult = new _TaskQueueStream(this);
+    return _onResult;
+  }
+
+  /**
+   * A stream with the same events as [onResult], except closes on the first
+   * [onIdle] event.  Listening to this stream also listens to [onResult] and
+   * [onIdle], so those cannot be listened to separately as they are single-
+   * subscription streams.
+   */
+  Stream get untilIdle {
+    StreamController controller;
+    controller = new StreamController(onListen: () {
+      var resultSubscription = onResult.listen(controller.add, onError: controller.addError);
+      StreamSubscription idleSubscription;
+      idleSubscription = onIdle.listen((_) {
+        idleSubscription.cancel();
+        resultSubscription.cancel();
+        controller.close();
+      });
+    });
+    return controller.stream;
+  }
 
   /**
    * A stream which produces events each time this queue becomes idle, which means all
@@ -103,9 +125,9 @@ class _TaskQueueStream extends Stream {
        void onDone(),
        bool cancelOnError}) {
 
+    var pending = <_Completion> [];
     cancelOnError = true == cancelOnError;
     var paused = false;
-    var pending = <_Completion> [];
 
     StreamController controller;
 

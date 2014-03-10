@@ -23,7 +23,7 @@ import 'package:quiver/async.dart';
 main() {
   group('TaskQueue', () {
 
-    test('should yield results for future completions', () {
+    testResults(Stream getResultStream(TaskQueue queue)) {
       var futures = new Iterable.generate(5, (int i) => i.isEven ?
           new Future.value(i) :
           new Future.error('e$i'));
@@ -34,7 +34,7 @@ main() {
       var taskQueue = new TaskQueue();
       futures.forEach(taskQueue.addFuture);
 
-      taskQueue.onResult.take(3).listen(events.add, onError: errors.add,
+      getResultStream(taskQueue).listen(events.add, onError: errors.add,
           onDone: done.complete);
       return Future.wait(futures)
           .catchError((_) => done.future)
@@ -42,6 +42,10 @@ main() {
             expect(events, [0, 2, 4]);
             expect(errors, ['e1', 'e3']);
           });
+    }
+
+    test('should yield results for future completions', () {
+      testResults((queue) => queue.onResult.take(3));
     });
 
     testMaxParallel(maxParallel, expectedMaxParallel) {
@@ -147,6 +151,14 @@ main() {
           expect(results, hasLength(taskCount));
           expect(idles, hasLength(taskCount - 1));
         });
+      });
+
+    });
+
+    group('untilIdle', () {
+
+      test('should produce results until idle', () {
+        testResults((queue) => queue.untilIdle);
       });
 
     });
