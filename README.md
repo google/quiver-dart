@@ -43,6 +43,9 @@ processing the next element.
 passing Timer factories to classes and functions, increasing the testability of
 code that depends on Timer.
 
+`FutureWorker` can be used as a pool to limit the number of parallels processes
+and avoid sending too many processes when you need to limit it
+
 [quiver.async]: http://google.github.io/quiver-dart/docs/quiver.async.html
 
 ## [quiver.cache][]
@@ -134,7 +137,7 @@ used as a literal match inside of a RegExp.
 
 ## [quiver.streams][]
 
-`Stream` versions of [quiver.iterables][] methods.  Currently `enumerate` and 
+`Stream` versions of [quiver.iterables][] methods.  Currently `enumerate` and
 `concat` are supported.
 
 [quiver.streams]: http://google.github.io/quiver-dart/docs/quiver.streams.html
@@ -189,7 +192,7 @@ can use a fake time function in your tests to control time.
 `Now` is a typedef for functions that return the current time in microseconds,
 since Clock deals in DateTime which only have millisecond accuracy.
 
-`aMicrosecond`, `aMillisecond`, `aSecond`, `aMinute`, `anHour`, `aDay`, and 
+`aMicrosecond`, `aMillisecond`, `aSecond`, `aMinute`, `anHour`, `aDay`, and
 `aWeek` are unit duration constants to allow writing for example:
 
 * `aDay` vs. `const Duration(days: 1)`
