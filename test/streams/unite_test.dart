@@ -44,31 +44,25 @@ main() {
     });
 
     test('should forward events from multiple streams as they happen', () {
-      var controller1 = new StreamController<String>();
-      var controller2 = new StreamController<String>();
+      var controller1 = new StreamController<String>(sync: true);
+      var controller2 = new StreamController<String>(sync: true);
       var united = unite([controller1.stream, controller2.stream]);
       var events = [];
 
       var subscription = united.listen(events.add, onError: events.add);
 
-      waitForEventAdded([_]) => new Future.delayed(Duration.ZERO);
-
       controller1.add('a');
-      return waitForEventAdded()
-          .then((_) { controller2.add('b'); })
-          .then(waitForEventAdded)
-          .then((_) { controller1.addError('c'); })
-          .then(waitForEventAdded)
-          .then((_) { controller2.add('d'); })
-          .then(waitForEventAdded)
-          .then((_) { controller2.addError('e'); })
-          .then(waitForEventAdded)
-          .then((_) { controller1.add('f'); })
-          .then(waitForEventAdded)
-          .then((_) {
-            expect(events, ['a', 'b', 'c', 'd', 'e', 'f']);
-          });
+      controller2.add('b');
+      controller1.addError('c');
+      controller2.add('d');
+      controller2.addError('e');
+      controller1.add('f');
 
+      Timer.run(() {
+        Future.wait([controller1.close(), controller2.close()]).then((_) {
+          expect(events, ['a', 'b', 'c', 'd', 'e', 'f']);
+        });
+      });
     });
 
     test('should forward pause, resume, and cancel to each stream', () {
