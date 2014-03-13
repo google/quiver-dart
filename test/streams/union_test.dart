@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.streams.unite_test;
+library quiver.streams.union_test;
 
 import 'dart:async';
 
@@ -21,15 +21,15 @@ import 'package:quiver/streams.dart';
 import 'package:quiver/iterables.dart' as iterables;
 
 main() {
-  group('unite', () {
+  group('union', () {
 
     test('should produce no events for no streams', () =>
-        unite([]).toList().then((events) => expect(events, isEmpty)));
+        union([]).toList().then((events) => expect(events, isEmpty)));
 
     test('should echo events of a single stream', () {
       var controller = new StreamController<String>();
-      var united = unite([controller.stream]);
-      var expectation = united.toList().then((e) {
+      var unioned = union([controller.stream]);
+      var expectation = unioned.toList().then((e) {
         expect(e, ['a', 'b', 'c']);
       });
       ['a', 'b', 'c'].forEach(controller.add);
@@ -37,8 +37,8 @@ main() {
     });
 
     test('should handle empty streams', () {
-      var united = unite([new Stream.fromIterable([])]);
-      return united.toList().then((e) {
+      var unioned = union([new Stream.fromIterable([])]);
+      return unioned.toList().then((e) {
         expect(e, []);
       });
     });
@@ -46,10 +46,10 @@ main() {
     test('should forward events from multiple streams as they happen', () {
       var controller1 = new StreamController<String>(sync: true);
       var controller2 = new StreamController<String>(sync: true);
-      var united = unite([controller1.stream, controller2.stream]);
+      var unioned = union([controller1.stream, controller2.stream]);
       var events = [];
 
-      var subscription = united.listen(events.add, onError: events.add);
+      var subscription = unioned.listen(events.add, onError: events.add);
 
       controller1.add('a');
       controller2.add('b');
@@ -84,9 +84,9 @@ main() {
         canceledLog[controller] = false;
       });
 
-      var united = unite(controllers.map((controller) => controller.stream));
+      var unioned = union(controllers.map((controller) => controller.stream));
 
-      var subscription = united.listen(null);
+      var subscription = unioned.listen(null);
 
       addToAll(event) {
         controllers.forEach((controller) => controller.add(event));

@@ -25,16 +25,16 @@ part of quiver.streams;
  *
  * Example:
  *
- *     unite(buttons.map((el) => el.onClick)).forEach(handleClick);
+ *     union(buttons.map((el) => el.onClick)).forEach(handleClick);
  *
  */
-Stream unite(Iterable<Stream> streams) => new _UniteStream(streams);
+Stream union(Iterable<Stream> streams) => new _UnionStream(streams);
 
-class _UniteStream extends Stream {
+class _UnionStream extends Stream {
 
   final Iterable<Stream> _streams;
 
-  _UniteStream(this._streams);
+  _UnionStream(this._streams);
 
   StreamSubscription listen(void onData(List data), {
                                   Function onError,

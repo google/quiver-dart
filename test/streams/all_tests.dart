@@ -16,10 +16,10 @@ library quiver.streams.all_tests;
 
 import 'concat_test.dart' as concat;
 import 'enumerate_test.dart' as enumerate;
-import 'unite_test.dart' as unite;
+import 'union_test.dart' as union;
 
 main() {
   concat.main();
   enumerate.main();
-  unite.main();
+  union.main();
 }
