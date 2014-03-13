@@ -134,7 +134,7 @@ used as a literal match inside of a RegExp.
 
 ## [quiver.streams][]
 
-`concat`, `enumerate`, and `unite` are methods to transform and combine
+`concat`, `enumerate`, and `union` are methods to transform and combine
 Streams.  Many are async duals of the same-named [quiver.iterables][] method.
 
 [quiver.streams]: http://google.github.io/quiver-dart/docs/quiver.streams.html
