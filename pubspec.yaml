@@ -9,7 +9,7 @@ authors:
 - John McDole <codefu@google.com>
 description: A set of utility libraries for Dart
 homepage: https://github.com/google/quiver-dart
-documentation: http://google.github.io/quiver-dart/docs/
+documentation: http://google.github.io/quiver-dart/
 environment:
   sdk: '>=0.8.7'
 dependencies:
