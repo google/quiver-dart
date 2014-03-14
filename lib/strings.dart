@@ -79,7 +79,7 @@ String repeat(String s, int times) {
  * For example:
  *
  * loop('Hello, World!', 7) == 'World!'
- * loop('ab', 6) == 'ababab'
+ * loop('ab', 0, 6) == 'ababab'
  * loop('test.txt', -3) == 'txt'
  * loop('ldwor', -3, 2) == 'world'
  */
