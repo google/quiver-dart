@@ -8,7 +8,7 @@ libraries easier and more convenient, or adds additional functionality.
 
 ## Documentation
 
-API Docs can be found here: http://google.github.io/quiver-dart/docs/
+API Docs can be found here: http://google.github.io/quiver-dart/
 
 ## Installation
 
