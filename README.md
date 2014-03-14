@@ -80,6 +80,14 @@ the ability to iterate from an arbitrary anchor, and 'nearest' search.
 `hashObjects`, `hash2`, `hash3`, and `hash4` generate high-quality hashCodes for
 a list of objects, or 2, 3, or 4 arguments respectively.
 
+`Tuple2`, `Tuple3`, and `Tuple4` are tuples.  They are modeled as Iterables with 
+typed fields for each item, e.g. `first`, `second`, `third`, `fourth`, and 
+`last`.  They are useful for grouping heterogeniously-typed values together, 
+without needing to invent a value class (unnecessary API surface) to hold them.  
+They also implement structural equality.  Some use cases are simulating 
+returning multiple values from a function, and modeling ordered pairs or 
+key-value mappings.
+
 [quiver.core]: http://google.github.io/quiver-dart/docs/quiver.core.html
 
 ## [quiver.io][]

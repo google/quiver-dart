@@ -17,9 +17,11 @@ library quiver.core.all_tests;
 import 'core_test.dart' as core;
 import 'hash_test.dart' as hash;
 import 'optional_test.dart' as optional;
+import 'tuples_test.dart' as tuples;
 
 main() {
   core.main();
   hash.main();
   optional.main();
+  tuples.main();
 }

@@ -17,8 +17,11 @@
  */
 library quiver.core;
 
+import 'dart:collection';
+
 part 'src/core/hash.dart';
 part 'src/core/optional.dart';
+part 'src/core/tuples.dart';
 
 /**
  * Returns the first non-null argument. If all arguments are null, throws
