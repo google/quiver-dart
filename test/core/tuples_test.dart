@@ -15,9 +15,34 @@
 library quiver.core.tuples_test;
 
 import 'package:quiver/core.dart';
+import 'package:quiver/iterables.dart';
 import 'package:unittest/unittest.dart';
 
 main() {
+
+  testTupleElementAt(tuple, length) {
+
+    test('elementAt(i) should match corresponding field when '
+        '0 <= i < $length', () {
+      range(length - 1).forEach((i) {
+        var actual = tuple.elementAt(i);
+        var expected;
+        switch (i) {
+          case 0: expected = tuple.first; break;
+          case 1: expected = tuple.second; break;
+          case 2: expected = tuple.third; break;
+          case 3: expected = tuple.fourth; break;
+        }
+        expect(actual, expected);
+      });
+    });
+
+    test('elementAt(i) should throw when i < 0 or i >= $length', () {
+      expect(() => tuple.elementAt(-1), throws);
+      expect(() => tuple.elementAt(length), throws);
+    });
+
+  }
 
   group('Tuple2', () {
 
@@ -36,21 +61,10 @@ main() {
       expect(it.last, it.second);
     });
 
-    test('elementAt(0) should yield first', () {
-      expect(it.elementAt(0), it.first);
-    });
-
-    test('elementAt(1) should yield second', () {
-      expect(it.elementAt(1), it.second);
-    });
-
-    test('elementAt should throw for invalid indexes', () {
-      expect(() => it.elementAt(-1), throws);
-      expect(() => it.elementAt(2), throws);
-    });
+    testTupleElementAt(makeIt(), 2);
 
     test('should iterate each item', () {
-      expect(it.toList(), [it.first, it.second]);
+      expect(it, [it.first, it.second]);
     });
 
     test('equals should be true iff key and value are equal', () {
@@ -84,12 +98,10 @@ main() {
       expect(it.last, it.third);
     });
 
-    test('elementAt(2) should yield third', () {
-      expect(it.elementAt(2), it.third);
-    });
+    testTupleElementAt(makeIt(), 3);
 
     test('should iterate each item', () {
-      expect(it.toList(), [it.first, it.second, it.third]);
+      expect(it, [it.first, it.second, it.third]);
     });
 
     test('equals should be true iff key and value are equal', () {
@@ -121,12 +133,10 @@ main() {
       expect(it.last, it.fourth);
     });
 
-    test('elementAt(3) should yield fourth', () {
-      expect(it.elementAt(3), it.fourth);
-    });
+    testTupleElementAt(makeIt(), 4);
 
     test('should iterate each item', () {
-      expect(it.toList(), [it.first, it.second, it.third, it.fourth]);
+      expect(it, [it.first, it.second, it.third, it.fourth]);
     });
 
     test('equals should be true iff key and value are equal', () {
