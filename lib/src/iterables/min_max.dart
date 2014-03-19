@@ -49,6 +49,7 @@ dynamic min(Iterable i, [Comparator compare = Comparable.compare]) =>
  * If [i] is empty, an [Extent] is returned with [:null:] values for [:min:] and
  * [:max:], since there are no valid values for them.
  */
+@deprecated
 Extent extent(Iterable i, [Comparator compare = Comparable.compare]) {
   var iterator = i.iterator;
   var hasNext = iterator.moveNext();
@@ -62,6 +63,7 @@ Extent extent(Iterable i, [Comparator compare = Comparable.compare]) {
   return new Extent(min, max);
 }
 
+@deprecated
 class Extent {
   final min;
   final max;

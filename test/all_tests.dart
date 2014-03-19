@@ -22,6 +22,7 @@ import 'collection/all_tests.dart' as collection;
 import 'core/all_tests.dart' as core;
 import 'io_test.dart' as io;
 import 'iterables/all_tests.dart' as iterables;
+import 'math/all_tests.dart' as math;
 import 'mirrors_test.dart' as mirrors;
 import 'pattern/all_tests.dart' as pattern;
 import 'streams/all_tests.dart' as streams;
@@ -37,6 +38,7 @@ main() {
   core.main();
   io.main();
   iterables.main();
+  math.main();
   mirrors.main();
   pattern.main();
   streams.main();
