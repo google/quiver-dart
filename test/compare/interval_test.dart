@@ -76,50 +76,50 @@ main() {
           expect(interval.upperClosed, isTrue);
         });
 
-        group('encloseAll', () {
+      });
 
-          test('should contain all values if iterable is empty', () {
-            var interval = new Interval.encloseAll([]);
-            expect(interval.lower, null);
-            expect(interval.upper, null);
-          });
+      group('encloseAll', () {
 
-          test('should have null bounds when any input interval does', () {
-            var interval = new Interval.encloseAll([
-                new Interval.atMost(0),
-                new Interval.atLeast(1)]);
-            expect(interval.lower, null);
-            expect(interval.upper, null);
-          });
+        test('should contain all values if iterable is empty', () {
+          var interval = new Interval.encloseAll([]);
+          expect(interval.lower, null);
+          expect(interval.upper, null);
+        });
 
-          test('should have bounds matching extreme input interval bounds', () {
-            var interval = new Interval.encloseAll([
-                new Interval.closed(0, 3),
-                new Interval.closed(-1, 0),
-                new Interval.closed(8, 10),
-                new Interval.closed(5, 7)]);
-            expect(interval.lower, -1);
-            expect(interval.upper, 10);
-          });
+        test('should have null bounds when any input interval does', () {
+          var interval = new Interval.encloseAll([
+              new Interval.atMost(0),
+              new Interval.atLeast(1)]);
+          expect(interval.lower, null);
+          expect(interval.upper, null);
+        });
 
-          test('should have closed bound when any corresponding extreme input '
-              'interval bound does', () {
-            var interval = new Interval.encloseAll([
-                new Interval.closedOpen(0, 1),
-                new Interval.openClosed(0, 1)]);
-            expect(interval.lowerClosed, isTrue);
-            expect(interval.upperClosed, isTrue);
-          });
+        test('should have bounds matching extreme input interval bounds', () {
+          var interval = new Interval.encloseAll([
+              new Interval.closed(0, 3),
+              new Interval.closed(-1, 0),
+              new Interval.closed(8, 10),
+              new Interval.closed(5, 7)]);
+          expect(interval.lower, -1);
+          expect(interval.upper, 10);
+        });
 
-          test('should have open bound when all extreme input interval bounds '
-              'do', () {
-            var interval = new Interval.encloseAll([
-                new Interval.open(0, 1),
-                new Interval.open(0, 1)]);
-            expect(interval.lowerClosed, isFalse);
-            expect(interval.upperClosed, isFalse);
-          });
+        test('should have closed bound when any corresponding extreme input '
+            'interval bound does', () {
+          var interval = new Interval.encloseAll([
+              new Interval.closedOpen(0, 1),
+              new Interval.openClosed(0, 1)]);
+          expect(interval.lowerClosed, isTrue);
+          expect(interval.upperClosed, isTrue);
+        });
 
+        test('should have open bound when all extreme input interval bounds '
+            'do', () {
+          var interval = new Interval.encloseAll([
+              new Interval.open(0, 1),
+              new Interval.open(0, 1)]);
+          expect(interval.lowerClosed, isFalse);
+          expect(interval.upperClosed, isFalse);
         });
 
       });
@@ -228,7 +228,7 @@ main() {
       });
 
       test('should be false when lower less than upper', () {
-        expect(new Interval.closed(0, 1).isEmpty, isFalse);
+        expect(new Interval.closed(0, 1).isSingleton, isFalse);
       });
 
     });
@@ -263,20 +263,20 @@ main() {
 
     group('isOpen', () {
 
-      test('should be true only when both bounds closed', () {
-        expect(new Interval.closed(0, 1).isClosed, isTrue);
-        expect(new Interval.closedOpen(0, 1).isClosed, isFalse);
-        expect(new Interval.openClosed(0, 1).isClosed, isFalse);
+      test('should be true only when both bounds open', () {
+        expect(new Interval.open(0, 1).isOpen, isTrue);
+        expect(new Interval.closedOpen(0, 1).isOpen, isFalse);
+        expect(new Interval.openClosed(0, 1).isOpen, isFalse);
       });
 
     });
 
     group('isClosed', () {
 
-      test('should be true only when both bounds open', () {
-        expect(new Interval.open(0, 1).isOpen, isTrue);
-        expect(new Interval.closedOpen(0, 1).isOpen, isFalse);
-        expect(new Interval.openClosed(0, 1).isOpen, isFalse);
+      test('should be true only when both bounds closed', () {
+        expect(new Interval.closed(0, 1).isClosed, isTrue);
+        expect(new Interval.closedOpen(0, 1).isClosed, isFalse);
+        expect(new Interval.openClosed(0, 1).isClosed, isFalse);
       });
 
     });

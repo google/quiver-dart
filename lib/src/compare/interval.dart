@@ -38,7 +38,7 @@ class Interval<T extends Comparable<T>> {
   }
   bool get isSingleton {
     if(lower == null || upper == null) return false;
-    return Comparable.compare(lower, upper) == 0 && !isOpen;
+    return Comparable.compare(lower, upper) == 0 && isClosed;
   }
   Interval<T> get interior => isOpen ? this : new Interval<T>(
       lowerBound: lower == null ? null : new Bound<T>.open(lower),
@@ -273,7 +273,7 @@ class Bound<T> {
   }
 
   int get hashCode => hash2(value, isClosed);
-  bool operator == (Interval<T> other) =>
+  bool operator == (Bound<T> other) =>
       other is Bound<T> &&
       value == other.value &&
       isClosed == other.isClosed;
