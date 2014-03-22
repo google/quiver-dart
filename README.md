@@ -137,6 +137,9 @@ used as a literal match inside of a RegExp.
 `Stream` versions of [quiver.iterables][] methods.  Currently `enumerate` and 
 `concat` are supported.
 
+`StreamBuffer` allows for the orderly reading of elements from a stream, such
+as a socket.
+
 [quiver.streams]: http://google.github.io/quiver-dart/#quiver/quiver-streams
 
 ## [quiver.strings][]
