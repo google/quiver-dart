@@ -37,6 +37,8 @@ class StreamBuffer<T> implements StreamConsumer<T> {
 
   final int limit;
 
+  bool get limitted => limit > 0;
+
   /**
    * Create a stream buffer with optional, soft [limit] to the amount of data
    * the buffer will hold before pausing the underlying straem. A limit of 0
@@ -68,7 +70,7 @@ class StreamBuffer<T> implements StreamConsumer<T> {
         _chunks.removeAt(0);
       }
     }
-    if (_sub.isPaused && limit > 0 && _counter < limit) {
+    if (limitted && _sub.isPaused && _counter < limit) {
       _sub.resume();
     }
     return ret;
@@ -82,7 +84,7 @@ class StreamBuffer<T> implements StreamConsumer<T> {
   Future<List<T>> read(int size) {
     // If we have enough data to consume and there are no other readers, then
     // we can return immediately.
-    if (limit > 0 && size > limit) {
+    if (limitted && size > limit) {
       throw new ArgumentError("Cannot read $size with limit $limit");
     }
 
@@ -103,7 +105,7 @@ class StreamBuffer<T> implements StreamConsumer<T> {
     _sub = stream.listen((items) {
       _chunks.add(items);
       _counter += items.length;
-      if (limit > 0 && _counter >= limit) {
+      if (limitted && _counter >= limit) {
         _sub.pause();
       }
 
