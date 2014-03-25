@@ -34,7 +34,7 @@ void main() {
     });
 
     test("respects pausing of stream", () {
-      StreamBuffer<int> buf = new StreamBuffer(limit: 2);
+      StreamBuffer<int> buf = new StreamBuffer()..limit = 2;
       new Stream.fromIterable([[1], [2], [3], [4]]).pipe(buf);
       return buf.read(2).then((val) {
         expect(val, [1, 2]);
@@ -46,7 +46,7 @@ void main() {
     });
 
     test("throws when reading too much", () {
-      StreamBuffer<int> buf = new StreamBuffer(limit: 1);
+      StreamBuffer<int> buf = new StreamBuffer()..limit = 1;
       new Stream.fromIterable([[1], [2]]).pipe(buf);
       try {
         buf.read(2);
@@ -59,8 +59,8 @@ void main() {
 
     test("allows patching of streams", () {
       StreamBuffer<int> buf = new StreamBuffer();
-      new Stream.fromIterable([[1], [2]]).pipe(buf).then((_) {
-        return new Stream.fromIterable([[3],[4]]).pipe(buf);
+      new Stream.fromIterable([1, 2]).pipe(buf).then((_) {
+        return new Stream.fromIterable([3, 4]).pipe(buf);
       });
       return Future.wait([buf.read(1), buf.read(2), buf.read(1)]).then((vals) {
         expect(vals[0], equals([1]));
@@ -68,5 +68,20 @@ void main() {
         expect(vals[2], equals([4]));
       });
     });
+
+    test("underflows when asked to", () {
+      StreamBuffer<int> buf = new StreamBuffer(throwOnError: true);
+      var error;
+      var future = buf.read(4).then((bytes) {
+        fail("should not have gotten bytes: $bytes");
+      }).catchError((e) {
+        error = e;
+      }).then((_) {
+        expect(error is UnderflowError, isTrue, reason: "!UnderflowError: $error");
+      });
+      new Stream.fromIterable([1, 2, 3]).pipe(buf);
+      return future;
+    });
   });
 }
+

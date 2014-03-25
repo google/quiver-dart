@@ -16,6 +16,24 @@ part of quiver.streams;
 
 
 /**
+ * Underflow errors happen when the socket feeding a buffer is finished while
+ * there are still blocked readers. Each reader will complete with this error.
+ */
+class UnderflowError extends Error {
+  final message;
+
+  /** The [message] describes the underflow. */
+  UnderflowError([this.message]);
+
+  String toString() {
+    if (message != null) {
+      return "StreamBuffer Underflow: $message";
+    }
+    return "StreamBuffer Underflow";
+  }
+}
+
+/**
  * Allow orderly reading of elements from a datastream, such as Socket, which
  * might not receive List<int> bytes regular chunks.
  *
@@ -25,30 +43,50 @@ part of quiver.streams;
  *     buffer.read(100).then((bytes) {
  *       // do something with 100 bytes;
  *     });
+ *
+ * Throws [UnderflowError] if [throwOnError] is true. Useful for unexpected
+ * [Socket] disconnects.
  */
-class StreamBuffer<T> implements StreamConsumer<T> {
+class StreamBuffer<T> implements StreamConsumer {
 
-  List<List<T>> _chunks = [];
+  List<T> _chunks = [];
   int _offset = 0;
   int _counter = 0; // sum(_chunks[*].length) - _offset
-  List<_ReaderInWaiting<T>> _readers = [];
+  List<_ReaderInWaiting<List<T>>> _readers = [];
   StreamSubscription<T> _sub;
   Completer _streamDone;
 
-  final int limit;
+  final bool throwOnError;
 
-  bool get limited => limit > 0;
+  Stream currentStream;
+
+  int _limit = 0;
+
+  set limit(int limit) {
+    _limit = limit;
+    if (_sub != null) {
+      if (!limited || _counter < limit) {
+        _sub.resume();
+      } else {
+        _sub.pause();
+      }
+    }
+  }
+
+  int get limit => _limit;
+
+  bool get limited => _limit > 0;
 
   /**
    * Create a stream buffer with optional, soft [limit] to the amount of data
    * the buffer will hold before pausing the underlying stream. A limit of 0
    * means no buffer limits.
    */
-  StreamBuffer({this.limit: 0});
+  StreamBuffer({this.throwOnError: false});
 
   /**
-   * The amount of unread data buffered.
-   */
+ * The amount of unread data buffered.
+ */
   int get buffered => _counter;
 
   List<T> _consume(int size) {
@@ -56,16 +94,20 @@ class StreamBuffer<T> implements StreamConsumer<T> {
     var follower = 0;
     var ret = new List(size);
     while (size > 0) {
-      var list = _chunks.first;
-      var listCap = list.length - _offset;
+      var chunk = _chunks.first;
+      var listCap = (chunk is List)  ? chunk.length - _offset : 1;
       var subsize = size > listCap ? listCap : size;
-      ret.setRange(follower, follower + subsize,
-          list.getRange(_offset, _offset + subsize));
+      if (chunk is List) {
+        ret.setRange(follower, follower + subsize,
+            chunk.getRange(_offset, _offset + subsize));
+      } else {
+        ret[follower] = chunk;
+      }
       follower += subsize;
       _offset += subsize;
       _counter -= subsize;
       size -= subsize;
-      if (_offset >= list.length) {
+      if (chunk is! List || _offset >= chunk.length) {
         _offset = 0;
         _chunks.removeAt(0);
       }
@@ -92,19 +134,21 @@ class StreamBuffer<T> implements StreamConsumer<T> {
       return new Future.value(_consume(size));
     }
     Completer completer = new Completer<List<T>>();
-    _readers.add(new _ReaderInWaiting(size, completer));
+    _readers.add(new _ReaderInWaiting<List<T>>(size, completer));
     return completer.future;
   }
 
   Future addStream(Stream<T> stream) {
+    var lasStream = currentStream == null ? stream : currentStream;
     if (_sub != null) {
       _sub.cancel();
       _streamDone.complete();
     }
+    currentStream = stream;
     Completer streamDone = new Completer();
     _sub = stream.listen((items) {
       _chunks.add(items);
-      _counter += items.length;
+      _counter += items is List ? items.length : 1;
       if (limited && _counter >= limit) {
         _sub.pause();
       }
@@ -113,12 +157,31 @@ class StreamBuffer<T> implements StreamConsumer<T> {
         var waiting = _readers.removeAt(0);
         waiting.completer.complete(_consume(waiting.size));
       }
-    }, onDone: () => streamDone.complete());
+    },
+    onDone: () {
+      // User is piping in a new stream
+      if (stream == lasStream && throwOnError) {
+        _closed(new UnderflowError());
+      }
+      streamDone.complete();
+    },
+    onError: (e) {
+      _closed(e);
+    });
     return streamDone.future;
   }
 
+  _closed(e) {
+    for (var reader in _readers) {
+      if (!reader.completer.isCompleted) {
+        reader.completer.completeError(e);
+      }
+    }
+    _readers.clear();
+  }
+
   Future close() {
-    var ret ;
+    var ret;
     if (_sub != null) {
       ret = _sub.cancel();
       _sub = null;
@@ -129,6 +192,7 @@ class StreamBuffer<T> implements StreamConsumer<T> {
 
 class _ReaderInWaiting<T> {
   int size;
-  Completer completer;
+  Completer<T> completer;
   _ReaderInWaiting(this.size, this.completer);
 }
+
