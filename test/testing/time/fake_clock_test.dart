@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.testing.time.fake_clock_test;
+library quiver.testing.time.fake_time_test;
 
 import 'dart:async';
 
@@ -20,15 +20,15 @@ import 'package:quiver/testing/time.dart';
 import 'package:unittest/unittest.dart';
 
 main() {
-  group('FakeClock', () {
+  group('FakeTime', () {
 
-    FakeClock unit;
+    FakeTime unit;
     DateTime initialTime;
     Duration advanceBy;
 
     setUp(() {
       initialTime = new DateTime(2000);
-      unit = new FakeClock(initialTime: initialTime);
+      unit = new FakeTime(initialTime: initialTime);
       advanceBy = const Duration(days: 1);
     });
 
@@ -36,9 +36,9 @@ main() {
       expect(unit.now(), initialTime);
     });
 
-    test('should default initial time to system clock time', () {
+    test('should default initial time to system time', () {
       expect(
-          new FakeClock().now().millisecondsSinceEpoch,
+          new FakeTime().now().millisecondsSinceEpoch,
           closeTo(new DateTime.now().millisecondsSinceEpoch, 500));
     });
 

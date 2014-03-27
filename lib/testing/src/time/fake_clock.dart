@@ -14,18 +14,17 @@
 
 part of quiver.testing.time;
 
-/// A fake clock which is manually advanced either asynchronously ([advance])
+/// A fake time which is manually advanced either asynchronously ([advance])
 /// or synchronously ([advanceSync]), to simulate the passage of time.
-abstract class FakeClock extends Clock {
+abstract class FakeTime {
 
-  factory FakeClock({DateTime initialTime}) = _FakeClock;
+  factory FakeTime({DateTime initialTime}) = _FakeTime;
 
-  FakeClock._();
+  FakeTime._();
 
-  /// Simulate the asynchronous advancement of this clock by [duration].
+  /// Simulate the asynchronous advancement of this time by [duration].
   ///
-  /// Important:  This should only be called when `Zone.current == zone`
-  /// (or possibly a fork of [zone]).
+  /// Important:  This should only be called from inside the [zone].
   ///
   /// If [duration] is negative, the returned future completes with an
   /// [ArgumentError].
@@ -33,18 +32,19 @@ abstract class FakeClock extends Clock {
   /// If the future from the previous call to [advance] has not yet completed,
   /// the returned future completes with a [StateError].
   ///
-  /// The advancement of this clock (and the completion of the returned future)
-  /// will not occur until some later turn of the event loop (after the
-  /// microtask queue has been drained).
+  /// Any Timers created within [zone] which are scheduled to expire at or before
+  /// the new time after the advancement, are run, each in their own event
+  /// loop as normal, except that there is no actual delay before each timer run.
+  /// When a timer is run, `now()` will have been advanced by the timer's
+  /// specified duration, potentially more if there were calls to [advanceSync]
+  /// as well.
   ///
-  /// Timers created within [zone] which are scheduled to expire at or before
-  /// the new time after the advancement will be run before the returned future
-  /// completes.  When these timers are run, `now()` will have been advanced
-  /// by the timer's specified duration, potentially more if there were calls
-  /// to [advanceSync] as well.
+  /// When there are no more timers to run, or the next timer is beyond the
+  /// time advancement frame, `now()` is updated to return has advanced by
+  /// [duration], the returned Future is completed.
   Future advance(Duration duration);
 
-  /// Simulate the synchronous advancement of this clock by [duration].
+  /// Simulate the synchronous advancement of this time by [duration].
   ///
   /// If [duration] is negative, throws an ArgumentError.
   void advanceSync(Duration duration);
@@ -57,13 +57,13 @@ abstract class FakeClock extends Clock {
   Zone zone;
 }
 
-class _FakeClock extends FakeClock {
+class _FakeTime extends FakeTime {
 
   DateTime _now;
   DateTime _advancingTo;
   Completer _advanceCompleter;
 
-  _FakeClock({DateTime initialTime}) : super._() {
+  _FakeTime({DateTime initialTime}) : super._() {
     _now = initialTime == null ? new DateTime.now() : initialTime;
   }
 
@@ -224,10 +224,10 @@ class _FakeTimer implements Timer {
   final Duration _duration;
   final Function _callback;
   final bool _isPeriodic;
-  final _FakeClock _clock;
+  final _FakeTime _time;
   DateTime _nextCall;
 
-  _FakeTimer._(this._duration, this._callback, this._isPeriodic, this._clock,
+  _FakeTimer._(this._duration, this._callback, this._isPeriodic, this._time,
       this._id) {
     // TODO: Figure out how to handle nested or periodic timers with zero
     // duration without getting into infinite loop.
@@ -235,11 +235,11 @@ class _FakeTimer implements Timer {
     // sufficiently nested:
     //     http://www.w3.org/TR/html5/webappapis.html#timer-nesting-level
     // What do the dart VM and dart2js timers do here?
-    _nextCall = _clock.now().add(_duration.inMicroseconds.isNegative ?
+    _nextCall = _time.now().add(_duration.inMicroseconds.isNegative ?
         Duration.ZERO : _duration);
   }
 
-  bool get isActive => _clock._timers.containsKey(_id);
+  bool get isActive => _time._timers.containsKey(_id);
 
-  cancel() => _clock._cancelTimer(this);
+  cancel() => _time._cancelTimer(this);
 }
