@@ -14,17 +14,35 @@
 
 part of quiver.testing.time;
 
-/// A fake time which is manually advanced either asynchronously ([advance])
-/// or synchronously ([advanceSync]), to simulate the passage of time.
+/// A mechanism to make time-dependent units testable.
+///
+/// To use this, test code must be run within a [run] callback.  Any [Timer]s
+/// created there will be fake.  Calling [advance] will then manually advance
+/// the time returned by [now], calling any fake timers as they expire.
+///
+/// Time can also be advanced synchronously ([advanceSync]) to simulate
+/// expensive or blocking calls, in this case timers are not called.
+///
+/// The unit under test can take a [TimeFunction] as a dependency, and
+/// default it to something like `() => new DateTime.now()` in production, but
+/// then have tests pass a closure of [FakeTime.now].  Or for a higher-level
+/// interface, see [Clock], which takes a [TimeFunction] as a dependency.
 abstract class FakeTime {
 
+  /// [initialTime] will be the time returned by [now] before any calls to
+  /// [advance] or [advanceSync].
   factory FakeTime({DateTime initialTime}) = _FakeTime;
 
   FakeTime._();
 
-  /// Simulate the asynchronous advancement of this time by [duration].
+  /// Returns the current (fake) time.  A time-dependent unit can receive a
+  /// [TimeFunction] as a dependency.  A unit can take one of these as a dependency, and either Pass a closure of this method to the
+  /// unit under test so that it received a
+  DateTime now() => _now;
+
+  /// Simulate the asynchronous advancement of time by [duration].
   ///
-  /// Important:  This should only be called from inside the [zone].
+  /// Important:  This should only be called from inside a [run] callback.
   ///
   /// If [duration] is negative, the returned future completes with an
   /// [ArgumentError].
@@ -32,29 +50,28 @@ abstract class FakeTime {
   /// If the future from the previous call to [advance] has not yet completed,
   /// the returned future completes with a [StateError].
   ///
-  /// Any Timers created within [zone] which are scheduled to expire at or before
-  /// the new time after the advancement, are run, each in their own event
-  /// loop as normal, except that there is no actual delay before each timer run.
-  /// When a timer is run, `now()` will have been advanced by the timer's
-  /// specified duration, potentially more if there were calls to [advanceSync]
-  /// as well.
+  /// Any Timers created within a [run] callback which are scheduled to expire
+  /// at or before the new time after the advancement, are run, each in their
+  /// own event loop frame as normal, except that there is no actual delay
+  /// before each timer run.  When a timer is run, `now()` will have been
+  /// advanced by the timer's specified duration, potentially more if there were
+  /// calls to [advanceSync] as well.
   ///
   /// When there are no more timers to run, or the next timer is beyond the
-  /// time advancement frame, `now()` is updated to return has advanced by
-  /// [duration], the returned Future is completed.
+  /// end time (time when called + [duration]), `now()` is advanced to the end
+  /// time, and the returned Future is completed.
   Future advance(Duration duration);
 
   /// Simulate the synchronous advancement of this time by [duration].
   ///
-  /// If [duration] is negative, throws an ArgumentError.
+  /// If [duration] is negative, throws an [ArgumentError].
   void advanceSync(Duration duration);
 
-
-  /// The valid zone in which to call [advance].  Implements
+  /// Runs [callback] in a [Zone] which implements
   /// [ZoneSpecification.createTimer] and
   /// [ZoneSpecification.createPeriodicTimer] to create timers which will be
   /// called during the completion of Futures returned from [advance].
-  Zone zone;
+  run(callback());
 }
 
 class _FakeTime extends FakeTime {
@@ -90,11 +107,11 @@ class _FakeTime extends FakeTime {
     _now = _now.add(duration);
   }
 
-  Zone get zone {
+  run(callback()) {
     if (_zone == null) {
       _zone = Zone.current.fork(specification: _zoneSpec);
     }
-    return _zone;
+    return _zone.runGuarded(callback);
   }
   Zone _zone;
 
