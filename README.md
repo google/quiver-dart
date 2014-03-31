@@ -71,6 +71,20 @@ the ability to iterate from an arbitrary anchor, and 'nearest' search.
 
 [quiver.collection]: http://google.github.io/quiver-dart/docs/quiver.collection.html
 
+## [quiver.compare][]
+
+`min`, `minOf, `max`, and `maxOf` obtain extreme values.
+
+`clamp` clamps values to within a certain range.
+
+`by`, `compound`, `decreasing`, and `lexicographic` create, transform, or 
+combine Comparators.
+
+`isOrdered` and `isStrictlyOrdered` test the orderedness of iterables by 
+comparators.
+
+[quiver.compare]: http://google.github.io/quiver-dart/docs/quiver.compare.html
+
 ## [quiver.core][]
 
 `Optional` is a way to represent optional values without allowing `null`.
@@ -95,8 +109,7 @@ into sub-directories based on the result of a handler function.
 transform, or combine Iterables in different ways, similar to Python's
 itertools.
 
-`min`, `max`, and `extent` retreive the minimum and maximum elements from an
-iterable.
+`extent` retreives the minimum and maximum elements from an iterable.
 
 [quiver.iterables]: http://google.github.io/quiver-dart/docs/quiver.iterables.html
 
