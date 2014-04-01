@@ -77,6 +77,8 @@ the ability to iterate from an arbitrary anchor, and 'nearest' search.
 
 `clamp` clamps values to within a certain range.
 
+`sorted` returns a sorted copy of an iterable.
+
 `by`, `compound`, `decreasing`, and `lexicographic` create, transform, or 
 combine Comparators.
 
