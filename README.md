@@ -75,7 +75,10 @@ the ability to iterate from an arbitrary anchor, and 'nearest' search.
 
 `min`, `minOf, `max`, and `maxOf` obtain extreme values.
 
-`clamp` clamps values to within a certain range.
+`clamp` and `between` clamp and test values respectively for a given range.
+
+`Quantity` is a mixin for adding comparison operators (<, <=, ==, >, >=) to
+classes which implement Comparable.
 
 `sorted` returns a sorted copy of an iterable.
 

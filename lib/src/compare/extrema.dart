@@ -39,6 +39,14 @@ dynamic clamp(value, lower, upper, {Comparator compare : Comparable.compare}) =>
     min(max(value, lower, compare: compare), upper, compare: compare);
 
 /**
+ * Returns whether [value] is in the range from [lower] to [upper].
+ *
+ * Values are compared using [compare].
+ */
+bool between(value, lower, upper, {Comparator compare : Comparable.compare}) =>
+    !(compare(value, lower) < 0) && !(compare(value, upper) > 0);
+
+/**
  * Returns the minimum value in [iterable].
  *
  * Values in [iterable] are compared using [compare].  If two values compare

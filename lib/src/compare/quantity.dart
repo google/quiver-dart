@@ -12,15 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Utilities for comparing values.
- *
- * Optional [Comparator]s in this library default to [Comparable.compare].
- */
-library quiver.compare;
+part of quiver.compare;
 
-part 'src/compare/comparators.dart';
-part 'src/compare/extrema.dart';
-part 'src/compare/ordered.dart';
-part 'src/compare/quantity.dart';
-part 'src/compare/sorted.dart';
+abstract class Quantity<T extends Comparable<T>> implements Comparable<T> {
+  bool operator < (T other) => compareTo(other) < 0;
+  bool operator <= (T other) => compareTo(other) <= 0;
+  bool operator > (T other) => compareTo(other) > 0;
+  bool operator >= (T other) => compareTo(other) >= 0;
+  bool operator == (T other) => compareTo(other) == 0;
+}

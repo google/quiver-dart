@@ -81,6 +81,27 @@ main() {
 
   });
 
+  group('between', () {
+
+    test('should be true iff min <= value <= max', () {
+      expect(between(aMillisecond, aSecond, anHour), isFalse);
+      expect(between(aSecond,      aSecond, anHour), isTrue);
+      expect(between(aMinute,      aSecond, anHour), isTrue);
+      expect(between(anHour,       aSecond, anHour), isTrue);
+      expect(between(aDay,         aSecond, anHour), isFalse);
+    });
+
+    test('should use `compare` to compare items', () {
+      var d = (a, b) => b.compareTo(a);
+      expect(between(aMillisecond, anHour, aSecond, compare: d), isFalse);
+      expect(between(aSecond,      anHour, aSecond, compare: d), isTrue);
+      expect(between(aMinute,      anHour, aSecond, compare: d), isTrue);
+      expect(between(anHour,       anHour, aSecond, compare: d), isTrue);
+      expect(between(aDay,         anHour, aSecond, compare: d), isFalse);
+    });
+
+  });
+
   group('minOf', () {
 
     test('should return the minimum element', () {
