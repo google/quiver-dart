@@ -12,11 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.testing.time.fake_time_test;
+library quiver.testing.async.fake_time_test;
 
 import 'dart:async';
 
-import 'package:quiver/testing/time.dart';
+import 'package:quiver/testing/async.dart';
 import 'package:unittest/unittest.dart';
 
 main() {

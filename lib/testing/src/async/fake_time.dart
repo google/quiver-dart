@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.testing.time;
+part of quiver.testing.async;
 
 /// A mechanism to make time-dependent units testable.
 ///
@@ -244,16 +244,17 @@ class _FakeTimer implements Timer {
   final _FakeTime _time;
   DateTime _nextCall;
 
-  _FakeTimer._(this._duration, this._callback, this._isPeriodic, this._time,
-      this._id) {
-    // TODO: Figure out how to handle nested or periodic timers with zero
-    // duration without getting into infinite loop.
-    // In browser JavaScript, timers can only run every 4 milliseconds once
-    // sufficiently nested:
-    //     http://www.w3.org/TR/html5/webappapis.html#timer-nesting-level
-    // What do the dart VM and dart2js timers do here?
-    _nextCall = _time.now().add(_duration.inMicroseconds.isNegative ?
-        Duration.ZERO : _duration);
+  // TODO: In browser JavaScript, timers can only run every 4 milliseconds once
+  // sufficiently nested:
+  //     http://www.w3.org/TR/html5/webappapis.html#timer-nesting-level
+  // Without some sort of delay this can lead to infinitely looping timers.
+  // What do the dart VM and dart2js timers do here?
+  static const _minDuration = Duration.ZERO;
+
+  _FakeTimer._(Duration duration, this._callback, this._isPeriodic, this._time,
+      this._id)
+      : _duration = duration < _minDuration ? _minDuration : duration {
+    _nextCall = _time.now().add(_duration);
   }
 
   bool get isActive => _time._timers.containsKey(_id);

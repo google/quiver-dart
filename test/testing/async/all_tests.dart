@@ -1,4 +1,4 @@
-// Copyright 2013 Google Inc. All Rights Reserved.
+// Copyright 2014 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.testing.time.all_tests;
+library quiver.testing.async.all_tests;
 
-import 'fake_clock_test.dart' as fake_clock;
+import 'fake_time_test.dart' as fake_time;
 
 main() {
-  fake_clock.main();
+  fake_time.main();
 }

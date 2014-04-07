@@ -17,11 +17,4 @@
  */
 library quiver.testing.time;
 
-import 'dart:async';
-import 'dart:math' as math;
-
-import 'package:quiver/iterables.dart';
-import 'package:quiver/time.dart';
-
 part 'src/time/time.dart';
-part 'src/time/fake_clock.dart';
