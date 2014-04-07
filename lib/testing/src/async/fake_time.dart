@@ -31,7 +31,7 @@ part of quiver.testing.async;
 ///
 /// Example:
 ///
-///     test('testedFunc', () => new FakeTime()..run((time) {
+///     test('testedFunc', () => new FakeTime().run((time) {
 ///       testedFunc(now: () => initialTime.add(time.elapsed));
 ///       return time.elapse(duration).then((_) => expect(...));
 ///     }));
@@ -75,8 +75,7 @@ abstract class FakeTime {
   /// [ZoneSpecification.createTimer] and
   /// [ZoneSpecification.createPeriodicTimer] to create timers which will be
   /// called during the completion of Futures returned from [elapse].
-  /// [callback] is called with `this` which facilitates things like
-  /// `new FakeTime()..run(...)`.
+  /// [callback] is called with `this`.
   run(callback(FakeTime self));
 }
 

@@ -45,13 +45,13 @@ main() {
     group('elapse', () {
 
       test('should elapse time asynchronously', () {
-        return new FakeTime()..run((time) => time.elapse(elapseBy).then((_) {
+        return new FakeTime().run((time) => time.elapse(elapseBy).then((_) {
           expect(time.elapsed, elapseBy);
         }));
       });
 
       test('should throw when called with a negative duration', () {
-        new FakeTime()..run((time) {
+        new FakeTime().run((time) {
           expect(
               new FakeTime().elapse(const Duration(days: -1)),
               throwsA(new isInstanceOf<ArgumentError>()));
@@ -59,7 +59,7 @@ main() {
       });
 
       test('should throw when called before previous call is complete', () {
-        new FakeTime()..run((time) {
+        new FakeTime().run((time) {
           time.elapse(elapseBy);
           expect(time.elapse(elapseBy),
               throwsA(new isInstanceOf<StateError>()));
@@ -69,7 +69,7 @@ main() {
       group('when creating timers', () {
 
         test('should call timers expiring before or at end time', () {
-          return new FakeTime()..run((time) {
+          return new FakeTime().run((time) {
             var beforeCallCount = 0;
             var atCallCount = 0;
             new Timer(elapseBy ~/ 2, () {beforeCallCount++;});
@@ -82,7 +82,7 @@ main() {
         });
 
         test('should call timers at their scheduled time', () {
-          return new FakeTime()..run((time) {
+          return new FakeTime().run((time) {
             Duration calledAt;
             var periodicCalledAt = <Duration> [];
             new Timer(elapseBy ~/ 2, () {calledAt = time.elapsed;});
@@ -96,7 +96,7 @@ main() {
         });
 
         test('should not call timers expiring after end time', () {
-          return new FakeTime()..run((time) {
+          return new FakeTime().run((time) {
             var timerCallCount = 0;
             new Timer(elapseBy * 2, () {timerCallCount++;});
             return time.elapse(elapseBy).then((_) {
@@ -106,7 +106,7 @@ main() {
         });
 
         test('should not call canceled timers', () {
-          return new FakeTime()..run((time) {
+          return new FakeTime().run((time) {
             int timerCallCount = 0;
             var timer = new Timer(elapseBy ~/ 2, () {timerCallCount++;});
             timer.cancel();
@@ -117,7 +117,7 @@ main() {
         });
 
         test('should call periodic timers each time the duration elapses', () {
-          return new FakeTime()..run((time) {
+          return new FakeTime().run((time) {
             var periodicCallCount = 0;
             new Timer.periodic(elapseBy ~/ 10, (_) {periodicCallCount++;});
             return time.elapse(elapseBy).then((_) {
@@ -130,7 +130,7 @@ main() {
           var periodicCallCount = 0;
           Timer passedTimer;
           Timer periodic;
-          return new FakeTime()..run((time) {
+          return new FakeTime().run((time) {
             periodic = new Timer.periodic(elapseBy,
                 (timer) {passedTimer = timer;});
             return time.elapse(elapseBy);
@@ -140,7 +140,7 @@ main() {
         });
 
         test('should call microtasks before advancing time', () {
-          return new FakeTime()..run((time) {
+          return new FakeTime().run((time) {
             Duration calledAt;
             scheduleMicrotask((){ calledAt = time.elapsed; });
             return time.elapse(const Duration(minutes: 1)).then((_) {
@@ -150,7 +150,7 @@ main() {
         });
 
         test('should add event before advancing time', () {
-          new FakeTime()..run((time) {
+          new FakeTime().run((time) {
             var events = <int> [];
             var controller = new StreamController();
             Duration heardAt;
@@ -164,7 +164,7 @@ main() {
         });
 
         test('should increase negative duration timers to zero duration', () {
-          return new FakeTime()..run((time) {
+          return new FakeTime().run((time) {
             var negativeDuration = const Duration(days: -1);
             Duration calledAt;
             new Timer(negativeDuration, () { calledAt = time.elapsed; });
@@ -175,7 +175,7 @@ main() {
         });
 
         test('should not be additive with elapseSync', () {
-          return new FakeTime()..run((time) {
+          return new FakeTime().run((time) {
             var elapsed = time.elapse(elapseBy);
             time.elapseSync(elapseBy * 2);
             return elapsed.then((_) {
@@ -187,7 +187,7 @@ main() {
         group('isActive', () {
 
           test('should be false after timer is run', () {
-            return new FakeTime()..run((time) {
+            return new FakeTime().run((time) {
               var timer = new Timer(elapseBy ~/ 2, () {});
               return time.elapse(elapseBy).then((_) {
                 expect(timer.isActive, isFalse);
@@ -196,7 +196,7 @@ main() {
           });
 
           test('should be true after periodic timer is run', () {
-            return new FakeTime()..run((time) {
+            return new FakeTime().run((time) {
               var timer= new Timer.periodic(elapseBy ~/ 2, (_) {});
               return time.elapse(elapseBy).then((_) {
                 expect(timer.isActive, isTrue);
@@ -206,7 +206,7 @@ main() {
 
           test('should be false after timer is canceled', () {
             Timer timer;
-            new FakeTime()..run((time) {
+            new FakeTime().run((time) {
               timer = new Timer(elapseBy ~/ 2, () {});
               timer.cancel();
             });
@@ -216,7 +216,7 @@ main() {
         });
 
         test('should work with new Future()', () {
-          return new FakeTime()..run((time) {
+          return new FakeTime().run((time) {
             var callCount = 0;
             new Future(() => callCount++);
             return time.elapse(Duration.ZERO).then((_) {
@@ -226,7 +226,7 @@ main() {
         });
 
         test('should work with Future.delayed', () {
-          return new FakeTime()..run((time) {
+          return new FakeTime().run((time) {
             int result;
             new Future.delayed(elapseBy, () => result = 5);
             return time.elapse(elapseBy).then((_) {
@@ -236,7 +236,7 @@ main() {
         });
 
         test('should work with Future.timeout', () {
-          new FakeTime()..run((time) {
+          new FakeTime().run((time) {
             var completer = new Completer();
             var timed = completer.future.timeout(elapseBy ~/ 2);
             new Timer(elapseBy, completer.complete);
@@ -249,7 +249,7 @@ main() {
         // TODO: Pausing and resuming the timeout Stream doesn't work since
         // it uses `new Stopwatch()`.
         test('should work with Stream.periodic', () {
-          return new FakeTime()..run((time) {
+          return new FakeTime().run((time) {
             var events = <int> [];
             StreamSubscription subscription;
             var periodic = new Stream.periodic(const Duration(minutes: 1),
@@ -264,7 +264,7 @@ main() {
         });
 
         test('should work with Stream.timeout', () {
-          return new FakeTime()..run((time) {
+          return new FakeTime().run((time) {
             var events = <int> [];
             var errors = [];
             var controller = new StreamController();
