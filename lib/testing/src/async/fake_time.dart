@@ -17,94 +17,89 @@ part of quiver.testing.async;
 /// A mechanism to make time-dependent units testable.
 ///
 /// To use this, test code must be run within a [run] callback.  Any [Timer]s
-/// created there will be fake.  Calling [advance] will then manually advance
+/// created there will be fake.  Calling [elapse] will then manually elapse
 /// the time returned by [now], calling any fake timers as they expire.
 ///
-/// Time can also be advanced synchronously ([advanceSync]) to simulate
+/// Time can also be elapsed synchronously ([elapseSync]) to simulate
 /// expensive or blocking calls, in this case timers are not called.
 ///
 /// The unit under test can take a [TimeFunction] as a dependency, and
 /// default it to something like `() => new DateTime.now()` in production, but
-/// then have tests pass a closure of [FakeTime.now].  Or for a higher-level
-/// interface, see [Clock], which takes a [TimeFunction] as a dependency.
+/// then have tests pass something like
+/// `() => initialTime.add(fakeTime.elapsed)`.  Or for a higher-level interface,
+/// see [Clock], which takes a [TimeFunction] as a dependency.
 abstract class FakeTime {
 
-  /// [initialTime] will be the time returned by [now] before any calls to
-  /// [advance] or [advanceSync].
-  factory FakeTime({DateTime initialTime}) = _FakeTime;
+  factory FakeTime() = _FakeTime;
 
   FakeTime._();
 
-  /// Returns the current (fake) time.  A time-dependent unit can receive a
-  /// [TimeFunction] as a dependency.  A unit can take one of these as a dependency, and either Pass a closure of this method to the
-  /// unit under test so that it received a
-  DateTime now() => _now;
+  /// Returns the amount of (fake) time that has elapsed.
+  Duration get elapsed;
 
-  /// Simulate the asynchronous advancement of time by [duration].
+  /// Simulate the asynchronous elapsation of time by [duration].
   ///
   /// Important:  This should only be called from inside a [run] callback.
   ///
   /// If [duration] is negative, the returned future completes with an
   /// [ArgumentError].
   ///
-  /// If the future from the previous call to [advance] has not yet completed,
+  /// If the future from the previous call to [elapse] has not yet completed,
   /// the returned future completes with a [StateError].
   ///
   /// Any Timers created within a [run] callback which are scheduled to expire
-  /// at or before the new time after the advancement, are run, each in their
+  /// at or before the new time after the elapsement, are run, each in their
   /// own event loop frame as normal, except that there is no actual delay
-  /// before each timer run.  When a timer is run, `now()` will have been
+  /// before each timer run.  When a timer is run, [elapsed] will have been
   /// advanced by the timer's specified duration, potentially more if there were
-  /// calls to [advanceSync] as well.
+  /// calls to [elapseSync] as well.
   ///
   /// When there are no more timers to run, or the next timer is beyond the
-  /// end time (time when called + [duration]), `now()` is advanced to the end
+  /// end time (time when called + [duration]), [elapsed] is advanced to the end
   /// time, and the returned Future is completed.
-  Future advance(Duration duration);
+  Future elapse(Duration duration);
 
-  /// Simulate the synchronous advancement of this time by [duration].
+  /// Simulate the synchronous elapsement of this time by [duration].
   ///
   /// If [duration] is negative, throws an [ArgumentError].
-  void advanceSync(Duration duration);
+  void elapseSync(Duration duration);
 
   /// Runs [callback] in a [Zone] which implements
   /// [ZoneSpecification.createTimer] and
   /// [ZoneSpecification.createPeriodicTimer] to create timers which will be
-  /// called during the completion of Futures returned from [advance].
+  /// called during the completion of Futures returned from [elapse].
   run(callback());
 }
 
 class _FakeTime extends FakeTime {
 
-  DateTime _now;
-  DateTime _advancingTo;
-  Completer _advanceCompleter;
+  Duration _elapsed = Duration.ZERO;
+  Duration _elapsingTo;
+  Completer _elapseCompleter;
 
-  _FakeTime({DateTime initialTime}) : super._() {
-    _now = initialTime == null ? new DateTime.now() : initialTime;
-  }
+  _FakeTime() : super._();
 
-  DateTime now() => _now;
+  Duration get elapsed => _elapsed;
 
-  Future advance(Duration duration) {
+  Future elapse(Duration duration) {
     if (duration.inMicroseconds < 0) {
       return new Future.error(
-          new ArgumentError('Cannot call advance with negative duration'));
+          new ArgumentError('Cannot call elapse with negative duration'));
     }
-    if (_advancingTo != null) {
+    if (_elapsingTo != null) {
       return new Future.error(
-          new StateError('Cannot advance until previous advance is complete.'));
+          new StateError('Cannot elapse until previous elapse is complete.'));
     }
-    _advancingTo = _now.add(duration);
-    _advanceCompleter = new Completer();
-    return _advanceCompleter.future;
+    _elapsingTo = _elapsed + duration;
+    _elapseCompleter = new Completer();
+    return _elapseCompleter.future;
   }
 
-  void advanceSync(Duration duration) {
+  void elapseSync(Duration duration) {
     if (duration.inMicroseconds < 0) {
-      throw new ArgumentError('Cannot call advance with negative duration');
+      throw new ArgumentError('Cannot call elapse with negative duration');
     }
-    _now = _now.add(duration);
+    _elapsed += duration;
   }
 
   run(callback()) {
@@ -173,10 +168,8 @@ class _FakeTime extends FakeTime {
         return ret;
       });
 
-  _advanceTo(DateTime to) {
-    if (to.millisecondsSinceEpoch > _now.millisecondsSinceEpoch) {
-      _now = to;
-    }
+  _elapseTo(Duration to) {
+    if (to > _elapsed) _elapsed = to;
   }
 
   Map<int, _FakeTimer> _timers = {};
@@ -191,15 +184,15 @@ class _FakeTime extends FakeTime {
 
   _scheduleTimer(Zone self, ZoneDelegate parent, Zone zone) {
 
-    if (!_waitingForTimer && _advancingTo != null) {
+    if (!_waitingForTimer && _elapsingTo != null) {
       var next = _getNextTimer();
       var completeTimer = next != null ?
           self.bindCallback(() => _runTimer(next), runGuarded: true) :
           () {
-            _advanceTo(_advancingTo);
-            _advancingTo = null;
-            _advanceCompleter.complete();
-            _advanceCompleter = null;
+            _elapseTo(_elapsingTo);
+            _elapsingTo = null;
+            _elapseCompleter.complete();
+            _elapseCompleter = null;
           };
       parent.createTimer(zone, Duration.ZERO, () {
         completeTimer();
@@ -212,19 +205,19 @@ class _FakeTime extends FakeTime {
 
   _FakeTimer _getNextTimer() {
     return min(_timers.values.where((timer) =>
-        timer._nextCall.millisecondsSinceEpoch <= _now.millisecondsSinceEpoch ||
-        (_advancingTo != null &&
-         timer._nextCall.millisecondsSinceEpoch <=
-         _advancingTo.millisecondsSinceEpoch)
+        timer._nextCall <= _elapsed ||
+        (_elapsingTo != null &&
+         timer._nextCall <=
+         _elapsingTo)
     ), (timer1, timer2) => timer1._nextCall.compareTo(timer2._nextCall));
   }
 
   _runTimer(_FakeTimer timer) {
     assert(timer.isActive);
-    _advanceTo(timer._nextCall);
+    _elapseTo(timer._nextCall);
     if (timer._isPeriodic) {
       timer._callback(timer);
-      timer._nextCall = timer._nextCall.add(timer._duration);
+      timer._nextCall += timer._duration;
     } else {
       timer._callback();
       _timers.remove(timer._id);
@@ -242,7 +235,7 @@ class _FakeTimer implements Timer {
   final Function _callback;
   final bool _isPeriodic;
   final _FakeTime _time;
-  DateTime _nextCall;
+  Duration _nextCall;
 
   // TODO: In browser JavaScript, timers can only run every 4 milliseconds once
   // sufficiently nested:
@@ -254,7 +247,7 @@ class _FakeTimer implements Timer {
   _FakeTimer._(Duration duration, this._callback, this._isPeriodic, this._time,
       this._id)
       : _duration = duration < _minDuration ? _minDuration : duration {
-    _nextCall = _time.now().add(_duration);
+    _nextCall = _time._elapsed + _duration;
   }
 
   bool get isActive => _time._timers.containsKey(_id);

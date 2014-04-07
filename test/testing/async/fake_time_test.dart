@@ -23,59 +23,47 @@ main() {
   group('FakeTime', () {
 
     FakeTime unit;
-    DateTime initialTime;
-    Duration advanceBy;
+    Duration elapseBy;
 
     setUp(() {
-      initialTime = new DateTime(2000);
-      unit = new FakeTime(initialTime: initialTime);
-      advanceBy = const Duration(days: 1);
+      unit = new FakeTime();
+      elapseBy = const Duration(days: 1);
     });
 
-    test('should set initial time', () {
-      expect(unit.now(), initialTime);
-    });
+    group('elapseSync', () {
 
-    test('should default initial time to system time', () {
-      expect(
-          new FakeTime().now().millisecondsSinceEpoch,
-          closeTo(new DateTime.now().millisecondsSinceEpoch, 500));
-    });
-
-    group('advanceSync', () {
-
-      test('should advance time synchronously', () {
-        unit.advanceSync(advanceBy);
-        expect(unit.now(), initialTime.add(advanceBy));
+      test('should elapse time synchronously', () {
+        unit.elapseSync(elapseBy);
+        expect(unit.elapsed, elapseBy);
       });
 
       test('should throw ArgumentError when called with a negative duration',
           () {
             expect(() {
-              unit.advanceSync(const Duration(days: -1));
+              unit.elapseSync(const Duration(days: -1));
             }, throwsA(new isInstanceOf<ArgumentError>()));
           });
 
     });
 
-    group('advance', () {
+    group('elapse', () {
 
-      test('should advance time asynchronously', () =>
-          unit.run(() => unit.advance(advanceBy)).then((_) {
-            expect(unit.now(), initialTime.add(advanceBy));
+      test('should elapse time asynchronously', () =>
+          unit.run(() => unit.elapse(elapseBy)).then((_) {
+            expect(unit.elapsed, elapseBy);
           }));
 
       test('should throw ArgumentError when called with a negative duration',
           () {
             expect(
-                unit.advance(const Duration(days: -1)),
+                unit.elapse(const Duration(days: -1)),
                 throwsA(new isInstanceOf<ArgumentError>()));
           });
 
       test('should throw when called before previous call is complete', () {
         unit.run(() {
-          unit.advance(advanceBy);
-          expect(unit.advance(advanceBy),
+          unit.elapse(elapseBy);
+          expect(unit.elapse(elapseBy),
               throwsA(new isInstanceOf<StateError>()));
         });
       });
@@ -86,9 +74,9 @@ main() {
           var beforeCallCount = 0;
           var atCallCount = 0;
           return unit.run(() {
-            new Timer(advanceBy ~/ 2, () {beforeCallCount++;});
-            new Timer(advanceBy, () {atCallCount++;});
-            return unit.advance(advanceBy);
+            new Timer(elapseBy ~/ 2, () {beforeCallCount++;});
+            new Timer(elapseBy, () {atCallCount++;});
+            return unit.elapse(elapseBy);
           }).then((_) {
             expect(beforeCallCount, 1);
             expect(atCallCount, 1);
@@ -96,25 +84,24 @@ main() {
         });
 
         test('should call timers at their scheduled time', () {
-          DateTime calledAt;
-          var periodicCalledAt = <DateTime> [];
+          Duration calledAt;
+          var periodicCalledAt = <Duration> [];
           return unit.run(() {
-            new Timer(advanceBy ~/ 2, () {calledAt = unit.now();});
-            new Timer.periodic(advanceBy ~/ 2, (_) {
-              periodicCalledAt.add(unit.now());});
-            return unit.advance(advanceBy);
+            new Timer(elapseBy ~/ 2, () {calledAt = unit.elapsed;});
+            new Timer.periodic(elapseBy ~/ 2, (_) {
+              periodicCalledAt.add(unit.elapsed);});
+            return unit.elapse(elapseBy);
           }).then((_) {
-            expect(calledAt, initialTime.add(advanceBy ~/ 2));
-            expect(periodicCalledAt, [initialTime.add(advanceBy ~/ 2),
-                initialTime.add(advanceBy)]);
+            expect(calledAt, elapseBy ~/ 2);
+            expect(periodicCalledAt, [elapseBy ~/ 2, elapseBy]);
           });
         });
 
         test('should not call timers expiring after end time', () {
           var timerCallCount = 0;
           unit.run(() {
-            new Timer(advanceBy * 2, () {timerCallCount++;});
-            unit.advance(advanceBy);
+            new Timer(elapseBy * 2, () {timerCallCount++;});
+            unit.elapse(elapseBy);
           });
           expect(timerCallCount, 0);
         });
@@ -122,9 +109,9 @@ main() {
         test('should not call canceled timers', () {
           int timerCallCount = 0;
           return unit.run(() {
-            var timer = new Timer(advanceBy ~/ 2, () {timerCallCount++;});
+            var timer = new Timer(elapseBy ~/ 2, () {timerCallCount++;});
             timer.cancel();
-            return unit.advance(advanceBy);
+            return unit.elapse(elapseBy);
           }).then((_) {
             expect(timerCallCount, 0);
           });
@@ -133,8 +120,8 @@ main() {
         test('should call periodic timers each time the duration elapses', () {
           var periodicCallCount = 0;
           return unit.run(() {
-            new Timer.periodic(advanceBy ~/ 10, (_) {periodicCallCount++;});
-            return unit.advance(advanceBy);
+            new Timer.periodic(elapseBy ~/ 10, (_) {periodicCallCount++;});
+            return unit.elapse(elapseBy);
           }).then((_) {
             expect(periodicCallCount, 10);
           });
@@ -145,57 +132,57 @@ main() {
           Timer passedTimer;
           Timer periodic;
           return unit.run(() {
-            periodic = new Timer.periodic(advanceBy,
+            periodic = new Timer.periodic(elapseBy,
                 (timer) {passedTimer = timer;});
-            return unit.advance(advanceBy);
+            return unit.elapse(elapseBy);
           }).then((_) {
             expect(periodic, same(passedTimer));
           });
         });
 
         test('should call microtasks before advancing time', () {
-          DateTime calledAt;
+          Duration calledAt;
           return unit.run(() {
-            scheduleMicrotask((){ calledAt = unit.now(); });
-            return unit.advance(const Duration(minutes: 1));
+            scheduleMicrotask((){ calledAt = unit.elapsed; });
+            return unit.elapse(const Duration(minutes: 1));
           }).then((_) {
-            expect(calledAt, initialTime);
+            expect(calledAt, Duration.ZERO);
           });
         });
 
         test('should add event before advancing time', () {
           var events = <int> [];
           var controller = new StreamController();
-          Future advanced;
-          DateTime heardAt;
+          Future elapsed;
+          Duration heardAt;
           unit.run(() {
-            controller.stream.first.then((_) { heardAt = unit.now(); });
+            controller.stream.first.then((_) { heardAt = unit.elapsed; });
             controller.add(null);
-            advanced = unit.advance(const Duration(minutes: 1));
+            elapsed = unit.elapse(const Duration(minutes: 1));
           });
-          return Future.wait([controller.close(), advanced]).then((_) {
-            expect(heardAt, initialTime);
+          return Future.wait([controller.close(), elapsed]).then((_) {
+            expect(heardAt, Duration.ZERO);
           });
         });
 
         test('should increase negative duration timers to zero duration', () {
           var negativeDuration = const Duration(days: -1);
-          DateTime calledAt;
+          Duration calledAt;
           return unit.run(() {
-            new Timer(negativeDuration, () { calledAt = unit.now(); });
-            return unit.advance(const Duration(minutes: 1));
+            new Timer(negativeDuration, () { calledAt = unit.elapsed; });
+            return unit.elapse(const Duration(minutes: 1));
           }).then((_) {
-            expect(calledAt, initialTime);
+            expect(calledAt, Duration.ZERO);
           });
         });
 
-        test('should not be additive with advanceSync', () {
+        test('should not be additive with elapseSync', () {
           return unit.run(() {
-            var advanced = unit.advance(advanceBy);
-            unit.advanceSync(advanceBy * 2);
-            return advanced;
+            var elapsed = unit.elapse(elapseBy);
+            unit.elapseSync(elapseBy * 2);
+            return elapsed;
           }).then((_) {
-            expect(unit.now(), initialTime.add(advanceBy * 2));
+            expect(unit.elapsed, elapseBy * 2);
           });
         });
 
@@ -204,8 +191,8 @@ main() {
           test('should be false after timer is run', () {
             Timer timer;
             return unit.run(() {
-              timer = new Timer(advanceBy ~/ 2, () {});
-              return unit.advance(advanceBy);
+              timer = new Timer(elapseBy ~/ 2, () {});
+              return unit.elapse(elapseBy);
             }).then((_) {
               expect(timer.isActive, isFalse);
             });
@@ -214,8 +201,8 @@ main() {
           test('should be true after periodic timer is run', () {
             Timer timer;
             return unit.run(() {
-              timer = new Timer.periodic(advanceBy ~/ 2, (_) {});
-              return unit.advance(advanceBy);
+              timer = new Timer.periodic(elapseBy ~/ 2, (_) {});
+              return unit.elapse(elapseBy);
             }).then((_) {
               expect(timer.isActive, isTrue);
             });
@@ -224,7 +211,7 @@ main() {
           test('should be false after timer is canceled', () {
             Timer timer;
             unit.run(() {
-              timer = new Timer(advanceBy ~/ 2, () {});
+              timer = new Timer(elapseBy ~/ 2, () {});
               timer.cancel();
             });
             expect(timer.isActive, isFalse);
@@ -236,7 +223,7 @@ main() {
           var callCount = 0;
           return unit.run(() {
             new Future(() => callCount++);
-            return unit.advance(Duration.ZERO);
+            return unit.elapse(Duration.ZERO);
           }).then((_) {
             expect(callCount, 1);
           });
@@ -245,8 +232,8 @@ main() {
         test('should work with Future.delayed', () {
           int result;
           unit.run(() {
-            new Future.delayed(advanceBy, () => result = 5);
-            return unit.advance(advanceBy);
+            new Future.delayed(elapseBy, () => result = 5);
+            return unit.elapse(elapseBy);
           }).then((_) {
             expect(result, 5);
           });
@@ -255,10 +242,10 @@ main() {
         test('should work with Future.timeout', () {
           var completer = new Completer();
           unit.run(() {
-            var timed = completer.future.timeout(advanceBy ~/ 2);
-            new Timer(advanceBy, completer.complete);
-            var advanced = unit.advance(advanceBy);
-            expect(Future.wait([advanced, timed]), throwsA(new isInstanceOf<TimeoutException>()));
+            var timed = completer.future.timeout(elapseBy ~/ 2);
+            new Timer(elapseBy, completer.complete);
+            var elapsed = unit.elapse(elapseBy);
+            expect(Future.wait([elapsed, timed]), throwsA(new isInstanceOf<TimeoutException>()));
           });
         });
 
@@ -271,7 +258,7 @@ main() {
             var periodic = new Stream.periodic(const Duration(minutes: 1),
                 (i) => i);
             subscription = periodic.listen(events.add, cancelOnError: true);
-            return unit.advance(const Duration(minutes: 3));
+            return unit.elapse(const Duration(minutes: 3));
           }).then((_) {
             subscription.cancel();
             expect(events, [0, 1, 2]);
@@ -290,10 +277,10 @@ main() {
               events.add(event);
             }, onError: errors.add, cancelOnError: true);
             controller.add(0);
-            return unit.advance(const Duration(minutes: 1));
+            return unit.elapse(const Duration(minutes: 1));
           }).then((_) {
             expect(events, [0]);
-            return unit.run(() => unit.advance(const Duration(minutes: 1))
+            return unit.run(() => unit.elapse(const Duration(minutes: 1))
                 .then((_) {
                   subscription.cancel();
                   expect(errors, hasLength(1));
