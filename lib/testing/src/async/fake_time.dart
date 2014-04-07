@@ -28,6 +28,13 @@ part of quiver.testing.async;
 /// then have tests pass something like
 /// `() => initialTime.add(fakeTime.elapsed)`.  Or for a higher-level interface,
 /// see [Clock], which takes a [TimeFunction] as a dependency.
+///
+/// Example:
+///
+///     test('testedFunc', () => new FakeTime()..run((time) {
+///       testedFunc(now: () => initialTime.add(time.elapsed));
+///       return time.elapse(duration).then((_) => expect(...));
+///     }));
 abstract class FakeTime {
 
   factory FakeTime() = _FakeTime;
@@ -68,7 +75,9 @@ abstract class FakeTime {
   /// [ZoneSpecification.createTimer] and
   /// [ZoneSpecification.createPeriodicTimer] to create timers which will be
   /// called during the completion of Futures returned from [elapse].
-  run(callback());
+  /// [callback] is called with `this` which facilitates things like
+  /// `new FakeTime()..run(...)`.
+  run(callback(FakeTime self));
 }
 
 class _FakeTime extends FakeTime {
@@ -102,11 +111,11 @@ class _FakeTime extends FakeTime {
     _elapsed += duration;
   }
 
-  run(callback()) {
+  run(callback(FakeTime self)) {
     if (_zone == null) {
       _zone = Zone.current.fork(specification: _zoneSpec);
     }
-    return _zone.runGuarded(callback);
+    return _zone.runGuarded(() => callback(this));
   }
   Zone _zone;
 
