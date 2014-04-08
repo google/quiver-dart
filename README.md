@@ -207,11 +207,17 @@ interfaces.
 
 `FakeTimer` is a Timer that captures its duration and callback for use in tests.
 
-[quiver.testing.async]: http://google.github.io/quiver-dart/#quiver/quiver-testing.async
+[quiver.testing.async]: http://google.github.io/quiver-dart/#quiver/quiver-testing-async
+
+## [quiver.testing.runtime][]
+
+`assertCheckedMode` asserts the current runtime has checked mode enabled.
+
+[quiver.testing.runtime]: http://google.github.io/quiver-dart/#quiver/quiver-testing-runtime
 
 ## [quiver.testing.time][]
 
 `FakeStopwatch` is a Stopwatch that uses a provided `now()` function to get the
 current time.
 
-[quiver.testing.time]: http://google.github.io/quiver-dart/#quiver/quiver-testing.time
+[quiver.testing.time]: http://google.github.io/quiver-dart/#quiver/quiver-testing-time
