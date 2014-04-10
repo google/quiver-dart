@@ -82,7 +82,7 @@ classes which implement Comparable.
 
 `sorted` returns a sorted copy of an iterable.
 
-`by`, `compound`, `decreasing`, and `lexicographic` create, transform, or 
+`by`, `compound`, `reverse`, and `lexicographic` create, transform, or 
 combine Comparators.
 
 `isOrdered` and `isStrictlyOrdered` test the orderedness of iterables by 

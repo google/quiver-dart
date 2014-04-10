@@ -52,7 +52,7 @@ Comparator compound(
  * Example:
  *     [1, 2, 0]..sort(decreasing()); // 2, 1, 0
  */
-Comparator decreasing(
+Comparator reverse(
     {Comparator compare : Comparable.compare}) => (a, b) =>
         compare(b, a);
 

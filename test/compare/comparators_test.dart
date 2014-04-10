@@ -34,17 +34,17 @@ main() {
 
   });
 
-  group('decreasing', () {
+  group('reverse', () {
 
     test('should return upper when not equal', () {
-      var d = decreasing();
+      var d = reverse();
       expect(d(0, 1), 1);
       expect(d(0, 0), 0);
       expect(d(1, 0), -1);
     });
 
     test('should use `compare` to compare items', () {
-      var d = decreasing(compare: (a, b) => 0);
+      var d = reverse(compare: (a, b) => 0);
       expect(d(5, 10), 0);
       expect(d(10, 5), 0);
     });
