@@ -23,28 +23,29 @@ part of quiver.testing.async;
 /// Time can also be elapsed synchronously ([elapseSync]) to simulate
 /// expensive or blocking calls, in this case timers are not called.
 ///
-/// The unit under test can take a [TimeFunction] as a dependency, and
-/// default it to something like `() => new DateTime.now()` in production, but
-/// then have tests pass something like
-/// `() => initialTime.add(fakeTime.elapsed)`.  Or for a higher-level interface,
-/// see [Clock], which takes a [TimeFunction] as a dependency.
+/// The unit under test can take a [Clock] as a dependency, and
+/// default it to [SYSTEM_CLOCK] in production, but then have tests pass
+/// [FakeTime.clock].
 ///
 /// Example:
 ///
 ///     test('testedFunc', () => new FakeTime().run((time) {
-///       testedFunc(now: () => initialTime.add(time.elapsed));
+///       testedFunc(clock: time.clock);
 ///       return time.elapse(duration).then((_) => expect(...));
 ///     }));
 abstract class FakeTime {
 
-  factory FakeTime() = _FakeTime;
+  /// [initialTime] will be the time returned by [now] before any calls to
+  /// [elapse] or [elapseSync].
+  factory FakeTime({DateTime initialTime}) = _FakeTime;
 
   FakeTime._();
 
-  /// Returns the amount of (fake) time that has elapsed.
-  Duration get elapsed;
+  /// Returns a fake [Clock] whose time elapses along with this Clock.  Pass
+  /// this as a dependency to the unit under test.
+  Clock get clock;
 
-  /// Simulate the asynchronous elapsation of time by [duration].
+  /// Simulate the asynchronous elapsement of time by [duration].
   ///
   /// Important:  This should only be called from inside a [run] callback.
   ///
@@ -57,12 +58,12 @@ abstract class FakeTime {
   /// Any Timers created within a [run] callback which are scheduled to expire
   /// at or before the new time after the elapsement, are run, each in their
   /// own event loop frame as normal, except that there is no actual delay
-  /// before each timer run.  When a timer is run, [elapsed] will have been
-  /// advanced by the timer's specified duration, potentially more if there were
+  /// before each timer run.  When a timer is run, `now()` will have been
+  /// elapsed by the timer's specified duration, potentially more if there were
   /// calls to [elapseSync] as well.
   ///
   /// When there are no more timers to run, or the next timer is beyond the
-  /// end time (time when called + [duration]), [elapsed] is advanced to the end
+  /// end time (time when called + [duration]), `now()` is elapsed to the end
   /// time, and the returned Future is completed.
   Future elapse(Duration duration);
 
@@ -81,24 +82,26 @@ abstract class FakeTime {
 
 class _FakeTime extends FakeTime {
 
-  Duration _elapsed = Duration.ZERO;
-  Duration _elapsingTo;
+  DateTime _now;
+  DateTime _advancingTo;
   Completer _elapseCompleter;
 
-  _FakeTime() : super._();
+  _FakeTime({DateTime initialTime}) : super._() {
+    _now = initialTime == null ? new DateTime.now() : initialTime;
+  }
 
-  Duration get elapsed => _elapsed;
+  Clock get clock => new Clock(() => _now);
 
   Future elapse(Duration duration) {
     if (duration.inMicroseconds < 0) {
       return new Future.error(
           new ArgumentError('Cannot call elapse with negative duration'));
     }
-    if (_elapsingTo != null) {
+    if (_advancingTo != null) {
       return new Future.error(
           new StateError('Cannot elapse until previous elapse is complete.'));
     }
-    _elapsingTo = _elapsed + duration;
+    _advancingTo = _now.add(duration);
     _elapseCompleter = new Completer();
     return _elapseCompleter.future;
   }
@@ -107,7 +110,7 @@ class _FakeTime extends FakeTime {
     if (duration.inMicroseconds < 0) {
       throw new ArgumentError('Cannot call elapse with negative duration');
     }
-    _elapsed += duration;
+    _now = _now.add(duration);
   }
 
   run(callback(FakeTime self)) {
@@ -176,8 +179,10 @@ class _FakeTime extends FakeTime {
         return ret;
       });
 
-  _elapseTo(Duration to) {
-    if (to > _elapsed) _elapsed = to;
+  _elapseTo(DateTime to) {
+    if (to.millisecondsSinceEpoch > _now.millisecondsSinceEpoch) {
+      _now = to;
+    }
   }
 
   Map<int, _FakeTimer> _timers = {};
@@ -192,13 +197,13 @@ class _FakeTime extends FakeTime {
 
   _scheduleTimer(Zone self, ZoneDelegate parent, Zone zone) {
 
-    if (!_waitingForTimer && _elapsingTo != null) {
+    if (!_waitingForTimer && _advancingTo != null) {
       var next = _getNextTimer();
       var completeTimer = next != null ?
           self.bindCallback(() => _runTimer(next), runGuarded: true) :
           () {
-            _elapseTo(_elapsingTo);
-            _elapsingTo = null;
+            _elapseTo(_advancingTo);
+            _advancingTo = null;
             _elapseCompleter.complete();
             _elapseCompleter = null;
           };
@@ -213,10 +218,10 @@ class _FakeTime extends FakeTime {
 
   _FakeTimer _getNextTimer() {
     return min(_timers.values.where((timer) =>
-        timer._nextCall <= _elapsed ||
-        (_elapsingTo != null &&
-         timer._nextCall <=
-         _elapsingTo)
+        timer._nextCall.millisecondsSinceEpoch <= _now.millisecondsSinceEpoch ||
+        (_advancingTo != null &&
+         timer._nextCall.millisecondsSinceEpoch <=
+         _advancingTo.millisecondsSinceEpoch)
     ), (timer1, timer2) => timer1._nextCall.compareTo(timer2._nextCall));
   }
 
@@ -225,7 +230,7 @@ class _FakeTime extends FakeTime {
     _elapseTo(timer._nextCall);
     if (timer._isPeriodic) {
       timer._callback(timer);
-      timer._nextCall += timer._duration;
+      timer._nextCall = timer._nextCall.add(timer._duration);
     } else {
       timer._callback();
       _timers.remove(timer._id);
@@ -243,7 +248,7 @@ class _FakeTimer implements Timer {
   final Function _callback;
   final bool _isPeriodic;
   final _FakeTime _time;
-  Duration _nextCall;
+  DateTime _nextCall;
 
   // TODO: In browser JavaScript, timers can only run every 4 milliseconds once
   // sufficiently nested:
@@ -255,7 +260,7 @@ class _FakeTimer implements Timer {
   _FakeTimer._(Duration duration, this._callback, this._isPeriodic, this._time,
       this._id)
       : _duration = duration < _minDuration ? _minDuration : duration {
-    _nextCall = _time._elapsed + _duration;
+    _nextCall = _time.clock.now().add(_duration);
   }
 
   bool get isActive => _time._timers.containsKey(_id);

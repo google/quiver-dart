@@ -192,14 +192,14 @@ interfaces.
 
 ## [quiver.testing.async][]
 
+`FakeTime` is a mechanism to make time-dependent units testable.  It calls fake
+timers in coordation with the manual advancement of fake time.
+
 `FakeTimer` is a Timer that captures its duration and callback for use in tests.
 
 [quiver.testing.async]: http://google.github.io/quiver-dart/docs/quiver.testing.async.html
 
 ## [quiver.testing.time][]
-
-`FakeTime` is a mechanism to make time-dependent units testable.  It calls fake
-timers in coordation with the manual advancement of fake time.
 
 `FakeStopwatch` is a Stopwatch that uses a provided `now()` function to get the
 current time.
