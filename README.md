@@ -173,10 +173,6 @@ supporting a number of use-cases, including:
   * Tailing: `loop('/path/to/some/file.txt', -3) => 'txt'`
   * Reversing: `loop('top', 3, 0) => 'pot'`
 
-`padLeft`, `padRight`, and `center` pad strings to a given width.
-
-`trimLeft` and `trimRight` remove leading and trailing whitespace.
-
 [quiver.strings]: http://google.github.io/quiver-dart/#quiver/quiver-strings
 
 ## [quiver.time][]
