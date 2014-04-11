@@ -44,7 +44,14 @@ main() {
 
     group('elapseBlocking', () {
 
-      test('should elapse time synchronously', () {
+      test('should elapse time without calling timers', () {
+        var timerCalled = false;
+        new Timer(elapseBy ~/ 2, () => timerCalled = true);
+        unit.elapseBlocking(elapseBy);
+        expect(timerCalled, isFalse);
+      });
+
+      test('should elapse time by the specified amount', () {
         unit.elapseBlocking(elapseBy);
         expect(unit.clock.now(), initialTime.add(elapseBy));
       });
@@ -60,7 +67,7 @@ main() {
 
     group('elapse', () {
 
-      test('should elapse time asynchronously', () {
+      test('should elapse time by the specified amount', () {
         unit.run((time) {
           time.elapse(elapseBy);
           expect(unit.clock.now(), initialTime.add(elapseBy));
