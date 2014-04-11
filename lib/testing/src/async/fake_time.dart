@@ -20,8 +20,8 @@ part of quiver.testing.async;
 /// created there will be fake.  Calling [elapse] will then manually elapse
 /// the time returned by [now], calling any fake timers as they expire.
 ///
-/// Time can also be elapsed synchronously ([elapseSync]) to simulate
-/// expensive or blocking calls, in this case timers are not called.
+/// Time can also be elapsed synchronously ([elapseBlocking]) to simulate
+/// blocking or expensive calls, in this case timers are not called.
 ///
 /// The unit under test can take a [Clock] as a dependency, and
 /// default it to [SYSTEM_CLOCK] in production, but then have tests pass
@@ -36,7 +36,7 @@ part of quiver.testing.async;
 abstract class FakeTime {
 
   /// [initialTime] will be the time returned by [now] before any calls to
-  /// [elapse] or [elapseSync].
+  /// [elapse] or [elapseBlocking].
   factory FakeTime({DateTime initialTime}) = _FakeTime;
 
   FakeTime._();
@@ -60,17 +60,17 @@ abstract class FakeTime {
   /// own event loop frame as normal, except that there is no actual delay
   /// before each timer run.  When a timer is run, `now()` will have been
   /// elapsed by the timer's specified duration, potentially more if there were
-  /// calls to [elapseSync] as well.
+  /// calls to [elapseBlocking] as well.
   ///
   /// When there are no more timers to run, or the next timer is beyond the
   /// end time (time when called + [duration]), `now()` is elapsed to the end
   /// time, and the returned Future is completed.
-  Future elapse(Duration duration);
+  void elapse(Duration duration);
 
-  /// Simulate the synchronous elapsement of this time by [duration].
+  /// Simulate a blocking or expensive call, which causes [duration] to elapse.
   ///
   /// If [duration] is negative, throws an [ArgumentError].
-  void elapseSync(Duration duration);
+  void elapseBlocking(Duration duration);
 
   /// Runs [callback] in a [Zone] which implements
   /// [ZoneSpecification.createTimer] and
@@ -83,8 +83,7 @@ abstract class FakeTime {
 class _FakeTime extends FakeTime {
 
   DateTime _now;
-  DateTime _advancingTo;
-  Completer _elapseCompleter;
+  DateTime _elapsingTo;
 
   _FakeTime({DateTime initialTime}) : super._() {
     _now = initialTime == null ? new DateTime.now() : initialTime;
@@ -92,21 +91,25 @@ class _FakeTime extends FakeTime {
 
   Clock get clock => new Clock(() => _now);
 
-  Future elapse(Duration duration) {
+  void elapse(Duration duration) {
     if (duration.inMicroseconds < 0) {
-      return new Future.error(
-          new ArgumentError('Cannot call elapse with negative duration'));
+      throw new ArgumentError('Cannot call elapse with negative duration');
     }
-    if (_advancingTo != null) {
-      return new Future.error(
-          new StateError('Cannot elapse until previous elapse is complete.'));
+    if (_elapsingTo != null) {
+      throw new StateError('Cannot elapse until previous elapse is complete.');
     }
-    _advancingTo = _now.add(duration);
-    _elapseCompleter = new Completer();
-    return _elapseCompleter.future;
+    _elapsingTo = _now.add(duration);
+    _drainMicrotasks();
+    Timer next;
+    while ((next = _getNextTimer()) != null) {
+      _runTimer(next);
+      _drainMicrotasks();
+    }
+    _elapseTo(_elapsingTo);
+    _elapsingTo = null;
   }
 
-  void elapseSync(Duration duration) {
+  void elapseBlocking(Duration duration) {
     if (duration.inMicroseconds < 0) {
       throw new ArgumentError('Cannot call elapse with negative duration');
     }
@@ -124,59 +127,26 @@ class _FakeTime extends FakeTime {
   ZoneSpecification get _zoneSpec => new ZoneSpecification(
       createTimer: (
           Zone self,
-          ZoneDelegate parent,
-          Zone zone,
+          __,
+          ___,
           Duration duration,
           Function callback) {
-        var bound = self.bindCallback(callback, runGuarded: true);
-        return _createTimer(duration, bound, false);
+        return _createTimer(duration, callback, false);
       },
       createPeriodicTimer: (
           Zone self,
-          ZoneDelegate parent,
-          Zone zone,
+          __,
+          ___,
           Duration duration,
           Function callback) {
-        var bound = self.bindUnaryCallback(callback, runGuarded: true);
-        return _createTimer(duration, bound, true);
+        return _createTimer(duration, callback, true);
       },
       scheduleMicrotask: (
           Zone self,
-          ZoneDelegate parent,
-          Zone zone,
+          __,
+          ___,
           Function microtask) {
-        var bound = self.bindCallback(microtask, runGuarded: true);
-        parent.scheduleMicrotask(zone, bound);
-      },
-      run: (
-          Zone self,
-          ZoneDelegate parent,
-          Zone zone,
-          Function f) {
-        var ret = parent.run(zone, f);
-        _scheduleTimer(self, parent, zone);
-        return ret;
-      },
-      runUnary: (
-          Zone self,
-          ZoneDelegate parent,
-          Zone zone,
-          Function f,
-          arg) {
-        var ret = parent.runUnary(zone, f, arg);
-        _scheduleTimer(self, parent, zone);
-        return ret;
-      },
-      runBinary: (
-          Zone self,
-          ZoneDelegate parent,
-          Zone zone,
-          Function f,
-          arg1,
-          arg2) {
-        var ret = parent.runBinary(zone, f, arg1, arg2);
-        _scheduleTimer(self, parent, zone);
-        return ret;
+        _microTasks.add(microtask);
       });
 
   _elapseTo(DateTime to) {
@@ -184,6 +154,8 @@ class _FakeTime extends FakeTime {
       _now = to;
     }
   }
+
+  Queue<Function> _microTasks = new Queue();
 
   Map<int, _FakeTimer> _timers = {};
   var _nextTimerId = 1;
@@ -195,33 +167,12 @@ class _FakeTime extends FakeTime {
         new _FakeTimer._(duration, callback, isPeriodic, this, id);
   }
 
-  _scheduleTimer(Zone self, ZoneDelegate parent, Zone zone) {
-
-    if (!_waitingForTimer && _advancingTo != null) {
-      var next = _getNextTimer();
-      var completeTimer = next != null ?
-          self.bindCallback(() => _runTimer(next), runGuarded: true) :
-          () {
-            _elapseTo(_advancingTo);
-            _advancingTo = null;
-            _elapseCompleter.complete();
-            _elapseCompleter = null;
-          };
-      parent.createTimer(zone, Duration.ZERO, () {
-        completeTimer();
-        _waitingForTimer = false;
-      });
-
-      _waitingForTimer = true;
-    }
-  }
-
   _FakeTimer _getNextTimer() {
     return min(_timers.values.where((timer) =>
         timer._nextCall.millisecondsSinceEpoch <= _now.millisecondsSinceEpoch ||
-        (_advancingTo != null &&
+        (_elapsingTo != null &&
          timer._nextCall.millisecondsSinceEpoch <=
-         _advancingTo.millisecondsSinceEpoch)
+         _elapsingTo.millisecondsSinceEpoch)
     ), (timer1, timer2) => timer1._nextCall.compareTo(timer2._nextCall));
   }
 
@@ -234,6 +185,12 @@ class _FakeTime extends FakeTime {
     } else {
       timer._callback();
       _timers.remove(timer._id);
+    }
+  }
+
+  _drainMicrotasks() {
+    while(_microTasks.isNotEmpty) {
+      _microTasks.removeFirst()();
     }
   }
 
