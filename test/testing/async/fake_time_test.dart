@@ -24,16 +24,9 @@ main() {
 
     var initialTime = new DateTime(2000);
     var elapseBy = const Duration(days: 1);
-    unit() => new FakeTime(initialTime: initialTime);
 
     test('should set initial time', () {
-      expect(unit().clock.now(), initialTime);
-    });
-
-    test('should default initial time to system time', () {
-      expect(
-          new FakeTime().clock.now().millisecondsSinceEpoch,
-          closeTo(new DateTime.now().millisecondsSinceEpoch, 500));
+      expect(new FakeTime().getClock(initialTime).now(), initialTime);
     });
 
     group('elapseBlocking', () {
@@ -41,20 +34,20 @@ main() {
       test('should elapse time without calling timers', () {
         var timerCalled = false;
         new Timer(elapseBy ~/ 2, () => timerCalled = true);
-        unit().elapseBlocking(elapseBy);
+        new FakeTime().elapseBlocking(elapseBy);
         expect(timerCalled, isFalse);
       });
 
       test('should elapse time by the specified amount', () {
-        var it = unit();
+        var it = new FakeTime();
         it.elapseBlocking(elapseBy);
-        expect(it.clock.now(), initialTime.add(elapseBy));
+        expect(it.getClock(initialTime).now(), initialTime.add(elapseBy));
       });
 
       test('should throw when called with a negative duration',
           () {
             expect(() {
-              unit().elapseBlocking(const Duration(days: -1));
+              new FakeTime().elapseBlocking(const Duration(days: -1));
             }, throwsA(new isInstanceOf<ArgumentError>()));
           });
 
@@ -63,21 +56,21 @@ main() {
     group('elapse', () {
 
       test('should elapse time by the specified amount', () {
-        unit().run((time) {
+        new FakeTime().run((time) {
           time.elapse(elapseBy);
-          expect(time.clock.now(), initialTime.add(elapseBy));
+          expect(time.getClock(initialTime).now(), initialTime.add(elapseBy));
         });
       });
 
       test('should throw ArgumentError when called with a negative duration',
           () {
             expect(
-                () => unit().elapse(const Duration(days: -1)),
+                () => new FakeTime().elapse(const Duration(days: -1)),
                 throwsA(new isInstanceOf<ArgumentError>()));
           });
 
       test('should throw when called before previous call is complete', () {
-        unit().run((time) {
+        new FakeTime().run((time) {
           var error;
           new Timer(elapseBy ~/ 2, () {
             try { time.elapse(elapseBy); }
@@ -93,7 +86,7 @@ main() {
       group('when creating timers', () {
 
         test('should call timers expiring before or at end time', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             var beforeCallCount = 0;
             var atCallCount = 0;
             new Timer(elapseBy ~/ 2, () {beforeCallCount++;});
@@ -105,23 +98,23 @@ main() {
         });
 
         test('should call timers expiring due to elapseBlocking', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             bool secondaryCalled = false;
             new Timer(elapseBy, () { time.elapseBlocking(elapseBy); });
             new Timer(elapseBy * 2, () { secondaryCalled = true; });
             time.elapse(elapseBy);
             expect(secondaryCalled, isTrue);
-            expect(time.clock.now(), initialTime.add(elapseBy * 2));
+            expect(time.getClock(initialTime).now(), initialTime.add(elapseBy * 2));
           });
         });
 
         test('should call timers at their scheduled time', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             DateTime calledAt;
             var periodicCalledAt = <DateTime> [];
-            new Timer(elapseBy ~/ 2, () {calledAt = time.clock.now();});
+            new Timer(elapseBy ~/ 2, () {calledAt = time.getClock(initialTime).now();});
             new Timer.periodic(elapseBy ~/ 2, (_) {
-              periodicCalledAt.add(time.clock.now());});
+              periodicCalledAt.add(time.getClock(initialTime).now());});
             time.elapse(elapseBy);
             expect(calledAt, initialTime.add(elapseBy ~/ 2));
             expect(periodicCalledAt, [elapseBy ~/ 2, elapseBy]
@@ -130,7 +123,7 @@ main() {
         });
 
         test('should not call timers expiring after end time', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             var timerCallCount = 0;
             new Timer(elapseBy * 2, () {timerCallCount++;});
             time.elapse(elapseBy);
@@ -139,7 +132,7 @@ main() {
         });
 
         test('should not call canceled timers', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             int timerCallCount = 0;
             var timer = new Timer(elapseBy ~/ 2, () {timerCallCount++;});
             timer.cancel();
@@ -149,7 +142,7 @@ main() {
         });
 
         test('should call periodic timers each time the duration elapses', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             var periodicCallCount = 0;
             new Timer.periodic(elapseBy ~/ 10, (_) {periodicCallCount++;});
             time.elapse(elapseBy);
@@ -158,7 +151,7 @@ main() {
         });
 
         test('should process microtasks surrounding each timer', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             var microtaskCalls = 0;
             var timerCalls = 0;
             scheduleMicrotasks() {
@@ -179,7 +172,7 @@ main() {
         });
 
         test('should pass the periodic timer itself to callbacks', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             Timer passedTimer;
             Timer periodic = new Timer.periodic(elapseBy,
                 (timer) {passedTimer = timer;});
@@ -189,19 +182,21 @@ main() {
         });
 
         test('should call microtasks before advancing time', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             DateTime calledAt;
-            scheduleMicrotask((){ calledAt = time.clock.now(); });
+            scheduleMicrotask((){
+              calledAt = time.getClock(initialTime).now();
+            });
             time.elapse(const Duration(minutes: 1));
             expect(calledAt, initialTime);
           });
         });
 
         test('should add event before advancing time', () {
-          return unit().run((time) {
+          return new FakeTime().run((time) {
             var controller = new StreamController();
             var ret = controller.stream.first.then((_) {
-              expect(time.clock.now(), initialTime);
+              expect(time.getClock(initialTime).now(), initialTime);
             });
             controller.add(null);
             time.elapse(const Duration(minutes: 1));
@@ -210,27 +205,30 @@ main() {
         });
 
         test('should increase negative duration timers to zero duration', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             var negativeDuration = const Duration(days: -1);
             DateTime calledAt;
-            new Timer(negativeDuration, () { calledAt = time.clock.now(); });
+            new Timer(negativeDuration, () {
+              calledAt = time.getClock(initialTime).now();
+            });
             time.elapse(const Duration(minutes: 1));
             expect(calledAt, initialTime);
           });
         });
 
         test('should not be additive with elapseBlocking', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             new Timer(Duration.ZERO, () => time.elapseBlocking(elapseBy * 5));
             time.elapse(elapseBy);
-            expect(time.clock.now(), initialTime.add(elapseBy * 5));
+            expect(time.getClock(initialTime).now(),
+                initialTime.add(elapseBy * 5));
           });
         });
 
         group('isActive', () {
 
           test('should be false after timer is run', () {
-            unit().run((time) {
+            new FakeTime().run((time) {
               var timer = new Timer(elapseBy ~/ 2, () {});
               time.elapse(elapseBy);
               expect(timer.isActive, isFalse);
@@ -238,7 +236,7 @@ main() {
           });
 
           test('should be true after periodic timer is run', () {
-            unit().run((time) {
+            new FakeTime().run((time) {
               var timer= new Timer.periodic(elapseBy ~/ 2, (_) {});
               time.elapse(elapseBy);
               expect(timer.isActive, isTrue);
@@ -246,7 +244,7 @@ main() {
           });
 
           test('should be false after timer is canceled', () {
-            unit().run((time) {
+            new FakeTime().run((time) {
               var timer = new Timer(elapseBy ~/ 2, () {});
               timer.cancel();
               expect(timer.isActive, isFalse);
@@ -256,7 +254,7 @@ main() {
         });
 
         test('should work with new Future()', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             var callCount = 0;
             new Future(() => callCount++);
             time.elapse(Duration.ZERO);
@@ -265,7 +263,7 @@ main() {
         });
 
         test('should work with Future.delayed', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             int result;
             new Future.delayed(elapseBy, () => result = 5);
             time.elapse(elapseBy);
@@ -274,7 +272,7 @@ main() {
         });
 
         test('should work with Future.timeout', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             var completer = new Completer();
             var timed = completer.future.timeout(elapseBy ~/ 2);
             expect(timed, throwsA(new isInstanceOf<TimeoutException>()));
@@ -288,7 +286,7 @@ main() {
         //
         // See https://code.google.com/p/dart/issues/detail?id=18149
         test('should work with Stream.periodic', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             var events = <int> [];
             StreamSubscription subscription;
             var periodic = new Stream.periodic(const Duration(minutes: 1),
@@ -302,7 +300,7 @@ main() {
         });
 
         test('should work with Stream.timeout', () {
-          unit().run((time) {
+          new FakeTime().run((time) {
             var events = <int> [];
             var errors = [];
             var controller = new StreamController();

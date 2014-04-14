@@ -31,22 +31,26 @@ part of quiver.testing.async;
 ///
 ///     test('testedFunc', () {
 ///       new FakeTime().run((time) {
-///         testedFunc(clock: time.clock);
+///         testedFunc(clock: time.getClock(initialTime));
 ///         time.elapse(duration);
 ///         expect(...)
 ///       });
 ///     });
 abstract class FakeTime {
 
-  /// [initialTime] will be the time returned by [now] before any calls to
-  /// [elapse] or [elapseBlocking].
-  factory FakeTime({DateTime initialTime}) = _FakeTime;
+  factory FakeTime() = _FakeTime;
 
   FakeTime._();
 
-  /// Returns a fake [Clock] whose time elapses along with this Clock.  Pass
-  /// this as a dependency to the unit under test.
-  Clock get clock;
+  /// Returns a fake [Clock] whose time can is elapsed by calls to [elapse] and
+  /// [elapseBlocking].
+  ///
+  /// The returned clock starts at [initialTime], and calls to [elapse] and
+  /// [elapseBlocking] advance the clock, even if they occured before the call
+  /// to this method.
+  ///
+  /// The clock can be passed as a dependency to the unit under test.
+  Clock getClock(DateTime initialTime);
 
   /// Simulates the asynchronous passage of time.
   ///
@@ -92,14 +96,15 @@ abstract class FakeTime {
 
 class _FakeTime extends FakeTime {
 
-  DateTime _now;
-  DateTime _elapsingTo;
+  Duration _elapsed = Duration.ZERO;
+  Duration _elapsingTo;
 
-  _FakeTime({DateTime initialTime}) : super._() {
-    _now = initialTime == null ? new DateTime.now() : initialTime;
+  _FakeTime() : super._() {
+    _elapsed;
   }
 
-  Clock get clock => new Clock(() => _now);
+  Clock getClock(DateTime initialTime) =>
+      new Clock(() => initialTime.add(_elapsed));
 
   void elapse(Duration duration) {
     if (duration.inMicroseconds < 0) {
@@ -108,7 +113,7 @@ class _FakeTime extends FakeTime {
     if (_elapsingTo != null) {
       throw new StateError('Cannot elapse until previous elapse is complete.');
     }
-    _elapsingTo = _now.add(duration);
+    _elapsingTo = _elapsed + duration;
     _drainMicrotasks();
     Timer next;
     while ((next = _getNextTimer()) != null) {
@@ -123,9 +128,9 @@ class _FakeTime extends FakeTime {
     if (duration.inMicroseconds < 0) {
       throw new ArgumentError('Cannot call elapse with negative duration');
     }
-    _now = _now.add(duration);
-    if (_elapsingTo != null && _now.isAfter(_elapsingTo)) {
-      _elapsingTo = _now;
+    _elapsed += duration;
+    if (_elapsingTo != null && _elapsed > _elapsingTo) {
+      _elapsingTo = _elapsed;
     }
   }
 
@@ -162,9 +167,9 @@ class _FakeTime extends FakeTime {
         _microtasks.add(microtask);
       });
 
-  _elapseTo(DateTime to) {
-    if (to.millisecondsSinceEpoch > _now.millisecondsSinceEpoch) {
-      _now = to;
+  _elapseTo(Duration to) {
+    if (to > _elapsed) {
+      _elapsed = to;
     }
   }
 
@@ -180,7 +185,7 @@ class _FakeTime extends FakeTime {
   }
 
   _FakeTimer _getNextTimer() {
-    return min(_timers.where((timer) => !timer._nextCall.isAfter(_elapsingTo)),
+    return min(_timers.where((timer) => timer._nextCall <= _elapsingTo),
         (timer1, timer2) => timer1._nextCall.compareTo(timer2._nextCall));
   }
 
@@ -189,7 +194,7 @@ class _FakeTime extends FakeTime {
     _elapseTo(timer._nextCall);
     if (timer._isPeriodic) {
       timer._callback(timer);
-      timer._nextCall = timer._nextCall.add(timer._duration);
+      timer._nextCall += timer._duration;
     } else {
       timer._callback();
       _timers.remove(timer);
@@ -214,7 +219,7 @@ class _FakeTimer implements Timer {
   final Function _callback;
   final bool _isPeriodic;
   final _FakeTime _time;
-  DateTime _nextCall;
+  Duration _nextCall;
 
   // TODO: In browser JavaScript, timers can only run every 4 milliseconds once
   // sufficiently nested:
@@ -225,7 +230,7 @@ class _FakeTimer implements Timer {
 
   _FakeTimer._(Duration duration, this._callback, this._isPeriodic, this._time)
       : _duration = duration < _minDuration ? _minDuration : duration {
-    _nextCall = _time.clock.now().add(_duration);
+    _nextCall = _time._elapsed + _duration;
   }
 
   bool get isActive => _time._hasTimer(this);
