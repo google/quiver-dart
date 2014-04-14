@@ -14,8 +14,6 @@
 
 /**
  * Utilities for comparing values.
- *
- * Optional [Comparator]s in this library default to [Comparable.compare].
  */
 library quiver.compare;
 

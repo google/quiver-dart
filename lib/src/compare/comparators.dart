@@ -24,27 +24,29 @@ part of quiver.compare;
  */
 Comparator by(
     Comparable key(e),
-    {Comparator compare : Comparable.compare}) => (a, b) =>
+    [Comparator compare = Comparable.compare]) => (a, b) =>
         compare(key(a), key(b));
 
 /**
- * Returns a comparator that breaks ties in [base] with [tieBreaker].
+ * Returns a comparator which returns the first non-zero result from
+ * [comparators], or zero.
+ *
+ * If [comparators] is empty, throws an ArgumentError.
  *
  * Example:
  *     [{'id': 5, 'name': 'foo'}, {'id': 2, 'name': 'foo'}]..sort(compound(
- *            by((m) => m['id']),
- *            base: by((m) => m['name']);
+ *            [by((m) => m['name']), by((m) => m['id'])]));
  *
  *            // {'id': 2, 'name': 'foo'}, {'id': 5, 'name': 'foo'}]
  */
-Comparator compound(
-    Comparator tieBreaker,
-    {Comparator base : Comparable.compare}) => (a, b) {
-
-  var v = base(a, b);
-  if(v == 0) return tieBreaker(a, b);
-  return v;
-};
+Comparator compound(Iterable<Comparator> comparators) {
+  if(comparators.isEmpty) {
+    throw new ArgumentError('comparator must not be empty');
+  }
+  return (a, b) =>
+      comparators.map((c) => c(a, b)).firstWhere((v) => v != 0,
+          orElse: () => 0);
+}
 
 /**
  * Returns a comparator that reverses the order specified by [compare].
@@ -53,7 +55,7 @@ Comparator compound(
  *     [1, 2, 0]..sort(decreasing()); // 2, 1, 0
  */
 Comparator reverse(
-    {Comparator compare : Comparable.compare}) => (a, b) =>
+    [Comparator compare = Comparable.compare]) => (a, b) =>
         compare(b, a);
 
 /**
@@ -66,7 +68,7 @@ Comparator reverse(
  *     [[0, 2], [0, 1]]..sort(lexicographic()); // [[0, 1], [0, 2]]
  */
 Comparator<Iterable> lexicographic(
-    {Comparator compare : Comparable.compare}) => (Iterable a, Iterable b) {
+    [Comparator compare = Comparable.compare]) => (Iterable a, Iterable b) {
 
   var aIterator = a.iterator;
   var bIterator = b.iterator;
@@ -88,7 +90,7 @@ Comparator<Iterable> lexicographic(
  * Example:
  *     [2, null, 1]..sort(decreasing()); // null, 1, 2
  */
-Comparator nullsFirst({Comparator compare : Comparable.compare}) => (a, b) {
+Comparator nullsFirst([Comparator compare = Comparable.compare]) => (a, b) {
   if (a == null && b == null) return 0;
   if (a == null) return -1;
   if (b == null) return 1;
@@ -101,7 +103,7 @@ Comparator nullsFirst({Comparator compare : Comparable.compare}) => (a, b) {
  * Example:
  *     [2, null, 1]..sort(decreasing()); // 1, 2, null
  */
-Comparator nullsLast({Comparator compare : Comparable.compare}) => (a, b) {
+Comparator nullsLast([Comparator compare = Comparable.compare]) => (a, b) {
   if (a == null && b == null) return 0;
   if (a == null) return 1;
   if (b == null) return -1;

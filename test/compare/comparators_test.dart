@@ -29,7 +29,7 @@ main() {
     });
 
     test('should use `compare` to compare items', () {
-      expect(by((s) => s.length, compare: (a, b) => 0)('*', '**'), 0);
+      expect(by((s) => s.length, (a, b) => 0)('*', '**'), 0);
     });
 
   });
@@ -37,14 +37,14 @@ main() {
   group('reverse', () {
 
     test('should return upper when not equal', () {
-      var d = reverse();
-      expect(d(0, 1), 1);
-      expect(d(0, 0), 0);
-      expect(d(1, 0), -1);
+      var r = reverse();
+      expect(r(0, 1), 1);
+      expect(r(0, 0), 0);
+      expect(r(1, 0), -1);
     });
 
     test('should use `compare` to compare items', () {
-      var d = reverse(compare: (a, b) => 0);
+      var d = reverse((a, b) => 0);
       expect(d(5, 10), 0);
       expect(d(10, 5), 0);
     });
@@ -71,7 +71,7 @@ main() {
     });
 
     test('should use `compare` to compare elements', () {
-      var l = lexicographic(compare: (a, b) => -1);
+      var l = lexicographic((a, b) => -1);
       expect(l([0], [1]), -1);
       expect(l([1], [0]), -1);
     });
@@ -80,17 +80,21 @@ main() {
 
   group('compound', () {
 
+    test('should throw when comparators empty', () {
+      expect(() => compound([]), throwsA(new isInstanceOf<ArgumentError>()));
+    });
+
     test('should use tie breaker comparator when zero', () {
-      expect(compound((a, b) => -1)(0, 0), -1);
+      expect(compound([Comparable.compare, (a, b) => -1])(0, 0), -1);
     });
 
     test('should use base comparator when non-zero', () {
-      expect(compound((a, b) => -1)(0, 1), -1);
-      expect(compound((a, b) => -1)(1, 0), 1);
+      expect(compound([Comparable.compare, (a, b) => -1])(0, 1), -1);
+      expect(compound([Comparable.compare, (a, b) => -1])(1, 0), 1);
     });
 
     test('should respect custom base comparator', () {
-      expect(compound((a, b) => -1, base: (a, b) => 1)(0, 0), 1);
+      expect(compound([(a, b) => 1, (a, b) => -1])(0, 0), 1);
     });
 
   });
@@ -110,7 +114,7 @@ main() {
       expect(nullsFirst()(0, 1), -1);
       expect(nullsFirst()(0, 0), 0);
       expect(nullsFirst()(1, 0), 1);
-      expect(nullsFirst(compare: (a, b) => -1)(1, 0), -1);
+      expect(nullsFirst((a, b) => -1)(1, 0), -1);
     });
 
   });
@@ -130,7 +134,7 @@ main() {
       expect(nullsLast()(0, 1), -1);
       expect(nullsLast()(0, 0), 0);
       expect(nullsLast()(1, 0), 1);
-      expect(nullsLast(compare: (a, b) => -1)(1, 0), -1);
+      expect(nullsLast((a, b) => -1)(1, 0), -1);
     });
 
   });
