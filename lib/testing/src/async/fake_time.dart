@@ -157,18 +157,17 @@ class _FakeTime extends FakeTime {
 
   Queue<Function> _microTasks = new Queue();
 
-  Map<int, _FakeTimer> _timers = {};
-  var _nextTimerId = 1;
+  Set<_FakeTimer> _timers = new Set<_FakeTimer>();
   bool _waitingForTimer = false;
 
-  _createTimer(Duration duration, Function callback, bool isPeriodic) {
-    var id = _nextTimerId++;
-    return _timers[id] =
-        new _FakeTimer._(duration, callback, isPeriodic, this, id);
+  Timer _createTimer(Duration duration, Function callback, bool isPeriodic) {
+    var timer = new _FakeTimer._(duration, callback, isPeriodic, this);
+    _timers.add(timer);
+    return timer;
   }
 
   _FakeTimer _getNextTimer() {
-    return min(_timers.values.where((timer) =>
+    return min(_timers.where((timer) =>
         timer._nextCall.millisecondsSinceEpoch <= _now.millisecondsSinceEpoch ||
         (_elapsingTo != null &&
          timer._nextCall.millisecondsSinceEpoch <=
@@ -184,7 +183,7 @@ class _FakeTime extends FakeTime {
       timer._nextCall = timer._nextCall.add(timer._duration);
     } else {
       timer._callback();
-      _timers.remove(timer._id);
+      _timers.remove(timer);
     }
   }
 
@@ -194,13 +193,12 @@ class _FakeTime extends FakeTime {
     }
   }
 
-  _cancelTimer(_FakeTimer timer) => _timers.remove(timer._id);
+  _cancelTimer(_FakeTimer timer) => _timers.remove(timer);
 
 }
 
 class _FakeTimer implements Timer {
 
-  final int _id;
   final Duration _duration;
   final Function _callback;
   final bool _isPeriodic;
@@ -214,13 +212,12 @@ class _FakeTimer implements Timer {
   // What do the dart VM and dart2js timers do here?
   static const _minDuration = Duration.ZERO;
 
-  _FakeTimer._(Duration duration, this._callback, this._isPeriodic, this._time,
-      this._id)
+  _FakeTimer._(Duration duration, this._callback, this._isPeriodic, this._time)
       : _duration = duration < _minDuration ? _minDuration : duration {
     _nextCall = _time.clock.now().add(_duration);
   }
 
-  bool get isActive => _time._timers.containsKey(_id);
+  bool get isActive => _time._timers.contains(this);
 
   cancel() => _time._cancelTimer(this);
 }
