@@ -193,7 +193,7 @@ interfaces.
 ## [quiver.testing.async][]
 
 `FakeTime` is a mechanism to make time-dependent units testable.  It calls fake
-timers in coordation with the manual advancement of fake time.
+timers and microtasks in coordation with the manual advancement of fake time.
 
 `FakeTimer` is a Timer that captures its duration and callback for use in tests.
 

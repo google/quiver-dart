@@ -16,23 +16,26 @@ part of quiver.testing.async;
 
 /// A mechanism to make time-dependent units testable.
 ///
-/// To use this, test code must be run within a [run] callback.  Any [Timer]s
-/// created there will be fake.  Calling [elapse] will then manually elapse
-/// the time returned by [now], calling any fake timers as they expire.
+/// Test code can be passed as a callback to [run], which causes it to be run in
+/// a [Zone] which fakes timer and microtask creation, such that they are run
+/// during calls to [elapse] which simulates the asynchronous passage of time.
 ///
-/// Time can also be elapsed synchronously ([elapseBlocking]) to simulate
-/// blocking or expensive calls, in this case timers are not called.
+/// The synchronous passage of time (blocking or expensive calls) can also be
+/// simulated using [elapseBlocking].
 ///
-/// The unit under test can take a [Clock] as a dependency, and
-/// default it to [SYSTEM_CLOCK] in production, but then have tests pass
-/// [FakeTime.clock].
+/// To allow the unit under test to tell time, it can receive a [Clock] as a
+/// dependency, and default it to [SYSTEM_CLOCK] in production, but then use
+/// [clock] in test code.
 ///
 /// Example:
 ///
-///     test('testedFunc', () => new FakeTime().run((time) {
-///       testedFunc(clock: time.clock);
-///       return time.elapse(duration).then((_) => expect(...));
-///     }));
+///     test('testedFunc', () {
+///       new FakeTime().run((time) {
+///         testedFunc(clock: time.clock);
+///         time.elapse(duration);
+///         expect(...)
+///       });
+///     });
 abstract class FakeTime {
 
   /// [initialTime] will be the time returned by [now] before any calls to
@@ -45,38 +48,45 @@ abstract class FakeTime {
   /// this as a dependency to the unit under test.
   Clock get clock;
 
-  /// Simulate the asynchronous elapsement of time by [duration].
+  /// Simulates the asynchronous passage of time.
   ///
-  /// Important:  This should only be called from inside a [run] callback.
+  /// **This should only be called from within the zone used by [run].**
   ///
   /// If [duration] is negative, the returned future completes with an
   /// [ArgumentError].
   ///
-  /// If the future from the previous call to [elapse] has not yet completed,
-  /// the returned future completes with a [StateError].
+  /// If a previous call to [elapse] has not yet completed, throws a
+  /// [StateError].
   ///
-  /// Any Timers created within a [run] callback which are scheduled to expire
-  /// at or before the new time after the elapsement, are run, each in their
-  /// own event loop frame as normal, except that there is no actual delay
-  /// before each timer run.  When a timer is run, `now()` will have been
-  /// elapsed by the timer's specified duration, potentially more if there were
-  /// calls to [elapseBlocking] as well.
+  /// Any Timers created within the zone used by [run] which are to expire
+  /// at or before the new time after [duration] has elapsed are run.
+  /// The microtask queue is processed surrounding each timer.  When a timer is
+  /// run, the [clock] will have been advanced by the timer's specified
+  /// duration.  Calls to [elapseBlocking] from within these timers and
+  /// microtasks which cause the [clock] to elapse more than the specified
+  /// [duration], can cause more timers to expire and thus be called.
   ///
-  /// When there are no more timers to run, or the next timer is beyond the
-  /// end time (time when called + [duration]), `now()` is elapsed to the end
-  /// time, and the returned Future is completed.
+  /// Once all expired timers are processed, the [clock] is advanced (if
+  /// necessary) to the time this method was called + [duration].
   void elapse(Duration duration);
 
-  /// Simulate a blocking or expensive call, which causes [duration] to elapse.
+  /// Simulates the synchronous passage of time, resulting from blocking or
+  /// expensive calls.
+  ///
+  /// Neither timers nor microtasks are run during this call.  Upon return, the
+  /// [clock] will have been advanced by [duration].
   ///
   /// If [duration] is negative, throws an [ArgumentError].
   void elapseBlocking(Duration duration);
 
-  /// Runs [callback] in a [Zone] which implements
-  /// [ZoneSpecification.createTimer] and
-  /// [ZoneSpecification.createPeriodicTimer] to create timers which will be
-  /// called during the completion of Futures returned from [elapse].
-  /// [callback] is called with `this`.
+  /// Runs [callback] in a [Zone] with fake timer and microtask scheduling.
+  ///
+  /// Uses
+  /// [ZoneSpecification.createTimer], [ZoneSpecification.createPeriodicTimer],
+  /// and [ZoneSpecification.scheduleMicrotask] to store callbacks for later
+  /// execution within the zone via calls to [elapse].
+  ///
+  /// [callback] is called with `this` as argument.
   run(callback(FakeTime self));
 }
 
@@ -114,6 +124,9 @@ class _FakeTime extends FakeTime {
       throw new ArgumentError('Cannot call elapse with negative duration');
     }
     _now = _now.add(duration);
+    if (_elapsingTo != null && _now.isAfter(_elapsingTo)) {
+      _elapsingTo = _now;
+    }
   }
 
   run(callback(FakeTime self)) {
@@ -126,7 +139,7 @@ class _FakeTime extends FakeTime {
 
   ZoneSpecification get _zoneSpec => new ZoneSpecification(
       createTimer: (
-          Zone self,
+          _,
           __,
           ___,
           Duration duration,
@@ -134,7 +147,7 @@ class _FakeTime extends FakeTime {
         return _createTimer(duration, callback, false);
       },
       createPeriodicTimer: (
-          Zone self,
+          _,
           __,
           ___,
           Duration duration,
@@ -142,11 +155,11 @@ class _FakeTime extends FakeTime {
         return _createTimer(duration, callback, true);
       },
       scheduleMicrotask: (
-          Zone self,
+          _,
           __,
           ___,
           Function microtask) {
-        _microTasks.add(microtask);
+        _microtasks.add(microtask);
       });
 
   _elapseTo(DateTime to) {
@@ -155,7 +168,7 @@ class _FakeTime extends FakeTime {
     }
   }
 
-  Queue<Function> _microTasks = new Queue();
+  Queue<Function> _microtasks = new Queue();
 
   Set<_FakeTimer> _timers = new Set<_FakeTimer>();
   bool _waitingForTimer = false;
@@ -167,12 +180,8 @@ class _FakeTime extends FakeTime {
   }
 
   _FakeTimer _getNextTimer() {
-    return min(_timers.where((timer) =>
-        timer._nextCall.millisecondsSinceEpoch <= _now.millisecondsSinceEpoch ||
-        (_elapsingTo != null &&
-         timer._nextCall.millisecondsSinceEpoch <=
-         _elapsingTo.millisecondsSinceEpoch)
-    ), (timer1, timer2) => timer1._nextCall.compareTo(timer2._nextCall));
+    return min(_timers.where((timer) => !timer._nextCall.isAfter(_elapsingTo)),
+        (timer1, timer2) => timer1._nextCall.compareTo(timer2._nextCall));
   }
 
   _runTimer(_FakeTimer timer) {
@@ -188,10 +197,12 @@ class _FakeTime extends FakeTime {
   }
 
   _drainMicrotasks() {
-    while(_microTasks.isNotEmpty) {
-      _microTasks.removeFirst()();
+    while (_microtasks.isNotEmpty) {
+      _microtasks.removeFirst()();
     }
   }
+
+  _hasTimer(_FakeTimer timer) => _timers.contains(timer);
 
   _cancelTimer(_FakeTimer timer) => _timers.remove(timer);
 
@@ -217,7 +228,7 @@ class _FakeTimer implements Timer {
     _nextCall = _time.clock.now().add(_duration);
   }
 
-  bool get isActive => _time._timers.contains(this);
+  bool get isActive => _time._hasTimer(this);
 
   cancel() => _time._cancelTimer(this);
 }
