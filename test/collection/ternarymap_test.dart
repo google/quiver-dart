@@ -47,6 +47,7 @@ main() {
         tmap.dfs(onKeyValue: (k,v) => fail("callback from empty tree"));
         tmap.dfs(key: 'nope', onKeyValue: (k,v) => fail("callback from empty tree"));
       });
+      test("depths returns [-1,-1]", () => expect(tmap.depths(), equals([-1,-1])));
       test("keys returns and empty iterator", () {
         expect(tmap.keys, isNotNull);
         expect(tmap.keys.length, equals(0));
@@ -68,23 +69,39 @@ main() {
       });
     });
 
-    test("created from map works", () {
-      var map = {
-       'foo': 10,
-       'bar': 20,
-       'baz': 30,
-      };
-      var tmap = new TernaryMap<int>.from(map);
-      expect(tmap, equals(map));
-    });
-    test("addAll works", () {
-      var map = {
-       'foo': 10,
-       'bar': 20,
-       'baz': 30,
-      };
-      var tmap = new TernaryMap<int>()..addAll(map);
-      expect(tmap, equals(map));
+    group("with [foo,bar,baz]", () {
+      var map;
+      setUp(() {
+        map = {
+         'foo': 10,
+         'bar': 20,
+         'baz': 30,
+        };
+      });
+      test("created from map works", () {
+        var tmap = new TernaryMap<int>.from(map);
+        expect(tmap, equals(map));
+      });
+      test("addAll works", () {
+        var tmap = new TernaryMap<int>()..addAll(map);
+        expect(tmap, equals(map));
+      });
+      test("root depths is [3,5]", () {
+        var tmap = new TernaryMap<int>.from(map);
+        expect(tmap.depths(), [3,5]);
+      });
+      test("'b' depths is [4,4]", () {
+        var tmap = new TernaryMap<int>.from(map);
+        expect(tmap.depths(key: 'b'), [4,4]);
+      });
+      test("'c' depths is [-1,-1]", () {
+        var tmap = new TernaryMap<int>.from(map);
+        expect(tmap.depths(key: 'c'), [-1,-1]);
+      });
+      test("'baz' depths is [1,1]", () {
+        var tmap = new TernaryMap<int>.from(map);
+        expect(tmap.depths(key: 'c'), [-1,-1]);
+      });
     });
 
     group("with lorem words", () {

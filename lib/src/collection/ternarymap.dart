@@ -142,18 +142,28 @@ class TernaryMap<V> implements Map<String, V> {
     }
 
     startNode._dfs((node, [path]) {
-      if (onKeyValue != null) {
-        onKeyValue(_pathToKey(path), node.value);
-      }
-      if (onKey != null) {
-        onKey(_pathToKey(path));
-      }
-      if (onValue != null) {
-        onValue(node.value);
-      }
-
+      if (onKeyValue != null
+          && true == onKeyValue(_pathToKey(path), node.value)) return true;
+      if (onKey != null &&  true == onKey(_pathToKey(path))) return true;
+      if (onValue != null && true == onValue(node.value)) return true;
       return false;
     }, path);
+  }
+
+  /**
+   * Returns minimum and maximum depths of the subtree reached by [key]
+   * or from root.
+   */
+  List<int> depths({String key}) {
+    if (_count == 0) return [-1,-1];
+    var startNode;
+    if (key != null) {
+      startNode = _root._lookup(key);
+      if (startNode == null) return [-1,-1];
+    } else {
+      startNode = _root;
+    }
+    return startNode._depth();
   }
 
   @override
@@ -502,14 +512,27 @@ class _TernaryNode<V> {
     if (path != null) {
       path.add(this);
     }
-    if (left != null && left._dfs(fun, path)) return true;
-    if (isValue && fun(this, path) == true) return true;
-    if (center != null && center._dfs(fun, path)) return true;
-    if (right != null && right._dfs(fun, path)) return true;
+    if (left != null && true == left._dfs(fun, path)) return true;
+    if (isValue && true == fun(this, path)) return true;
+    if (center != null && true == center._dfs(fun, path)) return true;
+    if (right != null && true == right._dfs(fun, path)) return true;
     if (path != null) {
       path.removeLast();
     }
     return false;
+  }
+
+  List<int> _depth() {
+    var path = [];
+    int minDepth = -1, maxDepth = -1;
+    _dfs((node, [path]) {
+      if (node.left == node.right && node.center == node.left) {
+        minDepth = minDepth == -1 ? path.length : min(minDepth, path.length);
+        maxDepth = max(maxDepth, path.length);
+      }
+      return false;
+    }, path);
+    return <int>[minDepth, maxDepth];
   }
 
   _TernaryNode<V> minNode([List path]) {
