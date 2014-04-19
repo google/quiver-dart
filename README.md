@@ -69,6 +69,8 @@ lookup of key by value.
 `TreeSet` is a balanced binary tree that offers a bidirectional iterator,
 the ability to iterate from an arbitrary anchor, and 'nearest' search.
 
+`TernaryMap` is a type of trie / prefix tree which uses string keys.
+
 [quiver.collection]: http://google.github.io/quiver-dart/#quiver/quiver-collection
 
 ## [quiver.core][]
