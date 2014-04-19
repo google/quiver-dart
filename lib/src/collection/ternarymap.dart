@@ -219,6 +219,7 @@ class TernaryMap<V> implements Map<String, V> {
       new _TernaryKeyIterable(this, key: prefix);
 
   V _add(String key, V val, {_TernaryNode current, V ifAbsent()}) {
+    if (key == null || key.length == 0) return null;
     if (current == null) current = _root;
     if (_root == null) {
       _root = new _TernaryNode()

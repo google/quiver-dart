@@ -165,6 +165,13 @@ main() {
         tmap['foo'] = 'baz';
         expect(tmap['foo'], equals('baz'));
       });
+      test("[] amd []= ignores empty keys", () {
+        var len = tmap.length;
+        tmap[''] = 'bar';
+        expect(tmap.length, equals(len));
+        expect(tmap.containsValue('bar'), isFalse);
+        expect(tmap[''], isNull);
+      });
       test("can put if absent", () {
         expect(tmap['foo'], isNull);
         expect(tmap.putIfAbsent('foo', () => 'bar'), equals('bar'));
