@@ -217,13 +217,16 @@ class TernaryMap<V> implements Map<String, V> {
   Iterable<V> get values => new _TernaryValueIterable<V>(this);
 
   /**
-   * Returns an iterator over the keys starting with [prefix].
+   * Returns an iterator over the keys starting with [prefix], but not
+   * inclusive. Example; valuesForPrefix("boot") would return the value
+   * for ["boots"].
    */
   Iterable<V> valuesForPrefix(String prefix) =>
       new _TernaryValueIterable<V>(this, key: prefix);
 
   /**
-   * Returns an iterator over the keys starting with [prefix].
+   * Returns an iterator over the keys starting with [prefix], but not
+   * inclusive. Example; keysForPrefix("boot") would return "boots".
    */
   Iterable<V> keysForPrefix(String prefix) =>
       new _TernaryKeyIterable(this, key: prefix);
@@ -315,7 +318,7 @@ abstract class _TernaryIterable extends IterableBase<String> {
   _TernaryIterable(TernaryMap tree, String key)
       : _tree = tree,
         _root = (key == null || key.length == 0 || tree._count == 0)
-            ? tree._root : tree._root._lookup(key).center,
+            ? tree._root : tree._root._lookupCenter(key),
         _key = (key == null || key.length == 0) ? null : key,
         _path = (key == null || key.length == 0 || tree._count == 0)
             ? [] : tree._root._lookupPath(key);
@@ -401,7 +404,7 @@ abstract class _TernaryMapIterator implements BidirectionalIterator<String> {
 
   _TernaryMapIterator(TernaryMap tree, {_TernaryNode root})
       : _tree = tree,
-        _root = root == null ? tree._root : root,
+        _root = root,
         _modCountGuard = tree._modCount {
     state = LEFT;
   }
@@ -625,6 +628,12 @@ class _TernaryNode<V> {
       // else pop up.
       node = last;
     }
+    return null;
+  }
+
+  _TernaryNode _lookupCenter(String key, [List<_TernaryNode> path]) {
+    var node = _lookup(key, path);
+    if (node != null) return node.center;
     return null;
   }
 

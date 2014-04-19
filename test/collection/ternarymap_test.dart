@@ -190,9 +190,11 @@ main() {
         expect(tmap[''], isNull);
       });
       test("can put if absent", () {
-        expect(tmap['foo'], isNull);
-        expect(tmap.putIfAbsent('foo', () => 'bar'), equals('bar'));
-        expect(tmap.putIfAbsent('foo', () => fail("foo exists")), equals('bar'));
+        expect(tmap['fool'], isNull);
+        expect(tmap.putIfAbsent('fool', () => 'bar'), equals('bar'));
+        expect(tmap.putIfAbsent('fool',
+            () => fail("fool exists")), equals('bar'));
+        expect(tmap.putIfAbsent('foo', () => 'baz'), equals('baz'));
       });
       test("can remove words", () {
         var idxs = [4, 7, 1];
@@ -228,6 +230,59 @@ main() {
         });
       });
 
+      group("coverage only", () {
+        test("test 1", () {
+          TernaryMap map = new TernaryMap.fromIterable(['foo', 'fool', 'fools']);
+          for (var key in map.keys) {
+            print("key: $key");
+          }
+        });
+        test("left-dangling-predecessor", () {
+          var list = ['bat', 'bar'];
+          TernaryMap map = new TernaryMap.fromIterable(list);
+          var itr = map.values.iterator;
+          while(itr.moveNext());
+          while(itr.movePrevious()) {
+            expect(itr.current, equals(list.removeAt(0)));
+          }
+          expect(list.length, equals(0));
+        });
+        test("right-dangling-predecessor", () {
+          var list = ['bars', 'bat'];
+          TernaryMap map = new TernaryMap.fromIterable(list);
+          var itr = map.values.iterator;
+          while(itr.moveNext());
+          while(itr.movePrevious()) {
+            expect(itr.current, equals(list.removeLast()));
+          }
+          expect(list.length, equals(0));
+        });
+        test("lookupPath center", () {
+          var list = ['bar', 'bars'];
+          TernaryMap map = new TernaryMap.fromIterable(list);
+          var itr = map.keysForPrefix('bar');
+          expect(itr.length, equals(1));
+          expect(itr.first, equals('bars'));
+        });
+        test("lookupPath right", () {
+          var list = ['bar', 'bat'];
+          TernaryMap map = new TernaryMap.fromIterable(list);
+          var itr = map.keysForPrefix('bat');
+          expect(itr.length, equals(0));
+        });
+        test("lookupPath no key", () {
+          var list = ['bar'];
+          TernaryMap map = new TernaryMap.fromIterable(list);
+          var itr = map.keysForPrefix('bars');
+          expect(itr.length, equals(0));
+        });
+        test("iterator path deadend", () {
+          var list = ['bar', 'bars'];
+          TernaryMap map = new TernaryMap.fromIterable(list);
+          var itr = map.keysForPrefix('bars');
+          expect(itr.length, equals(0));
+        });
+      });
       group("and prefix iterator over 'dignissim', 'dolor', 'dui',", () {
         var sub;
         setUp(() {
