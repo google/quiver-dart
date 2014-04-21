@@ -373,16 +373,14 @@ class _TernaryValueIterable<V> extends _TernaryIterable {
 
   @override
   String get first {
-    if (length == 0) return null;
-    var node = _root.minNode();
-    return node.value;
+    if (_root == null) return null;
+    return _root.minNode().value;
   }
 
   @override
   String get last {
-    if (length == 0) return null;
-    var node = _root.maxNode();
-    return node.value;
+    if (_root == null) return null;
+    return _root.maxNode().value;
   }
 
   BidirectionalIterator<String> get iterator =>
