@@ -217,19 +217,24 @@ class TernaryMap<V> implements Map<String, V> {
   Iterable<V> get values => new _TernaryValueIterable<V>(this);
 
   /**
-   * Returns an iterator over the keys starting with [prefix], but not
-   * inclusive. Example; valuesForPrefix("boot") would return the value
-   * for ["boots"].
+   * Returns an iterator over the values starting with [prefix], optionally
+   * [inclusive] if set to true. The is the equivilant to:
+   *
+   *   exclusive: prefix.+
+   *   inclusive: prefix.*
    */
-  Iterable<V> valuesForPrefix(String prefix) =>
-      new _TernaryValueIterable<V>(this, key: prefix);
+  Iterable<V> valuesFor(String prefix, {bool inclusive: false}) =>
+      new _TernaryValueIterable<V>(this, key: prefix, inclusive: inclusive);
 
   /**
-   * Returns an iterator over the keys starting with [prefix], but not
-   * inclusive. Example; keysForPrefix("boot") would return "boots".
+   * Returns an iterator over the keys starting with [prefix], optionally
+   * [inclusive] if set to true. The is the equivilant to:
+   *
+   *   exclusive: prefix.+
+   *   inclusive: prefix.*
    */
-  Iterable<V> keysForPrefix(String prefix) =>
-      new _TernaryKeyIterable(this, key: prefix);
+  Iterable<V> keysFor(String prefix, {bool inclusive: false}) =>
+      new _TernaryKeyIterable(this, key: prefix, inclusive: inclusive);
 
   V _add(String key, V val, {_TernaryNode current, V ifAbsent()}) {
     if (key == null || key.length == 0) return null;
@@ -283,7 +288,7 @@ class TernaryMap<V> implements Map<String, V> {
 
   static StringBuffer _sb = new StringBuffer();
   static String _pathToKey(List<_TernaryNode>path) {
-    if (path == null) return "";
+    if (path == null || path.length == 0) return "";
     _sb.clear();
     var it = path.iterator;
     it.moveNext();
@@ -315,10 +320,12 @@ abstract class _TernaryIterable extends IterableBase<String> {
   // Prefix path to _root
   final List<_TernaryNode> _path;
 
-  _TernaryIterable(TernaryMap tree, String key)
+  final bool inclusive;
+
+  _TernaryIterable(TernaryMap tree, String key, [this.inclusive = false])
       : _tree = tree,
         _root = (key == null || key.length == 0 || tree._count == 0)
-            ? tree._root : tree._root._lookupCenter(key),
+            ? new _TernaryNode.dummy(tree._root) : tree._root._lookup(key),
         _key = (key == null || key.length == 0) ? null : key,
         _path = (key == null || key.length == 0 || tree._count == 0)
             ? [] : tree._root._lookupPath(key);
@@ -332,65 +339,86 @@ abstract class _TernaryIterable extends IterableBase<String> {
 
 class _TernaryKeyIterable extends _TernaryIterable {
 
-  _TernaryKeyIterable(TernaryMap tree, {String key}) : super(tree, key);
+  _TernaryKeyIterable(TernaryMap tree, {String key, bool inclusive: false})
+      : super(tree, key, inclusive);
 
   @override
   bool contains(String key) {
     if (_key == null) return _tree.containsKey(key);
     if (!key.startsWith(_key)) return false;
-    return _root._lookup(key.substring(_key.length)) != null;
+    if (inclusive && key.length == _key.length) return _root.isValue;
+    if (_root.center == null) return false;
+    var node = _root.center._lookup(key.substring(_key.length));
+    return node != null && node.isValue;
  }
 
   @override
   String get first {
-    if (length == 0) return null;
-    var path = []..addAll(_path)..add(_root);
-    _root.minNode(path);
+    if (_root == null) return null;
+    if (inclusive && _root.isValue) return _key;
+    if (_root.center == null) return null;
+    var path = []..addAll(_path)..add(_root.center);
+    path.last.minNode(path);
     return TernaryMap._pathToKey(path);
   }
 
   @override
   String get last {
-    if (length == 0) return null;
-    var path = []..addAll(_path)..add(_root);
-    _root.maxNode(path);
+    if (_root == null) return null;
+    if (_root.center == null) {
+      if (inclusive && _root.isValue) return _key;
+      return null;
+    }
+    var path = []..addAll(_path)..add(_root.center);
+    path.last.maxNode(path);
     return TernaryMap._pathToKey(path);
   }
 
   BidirectionalIterator<String> get iterator =>
-      new _TernaryKeyIterator(_tree, key: _key, root: _root);
+      new _TernaryKeyIterator(_tree, key: _key, root: _root,
+          inclusive: inclusive);
 }
 
 class _TernaryValueIterable<V> extends _TernaryIterable {
 
-  _TernaryValueIterable(TernaryMap tree, {String key}) : super(tree, key);
+  _TernaryValueIterable(TernaryMap tree, {String key, bool inclusive: false})
+      : super(tree, key, inclusive);
 
   @override
   bool contains(V element) {
     if (_root == null) return false;
-    return _root.containsValue(element);
+    if (inclusive && _root.value == element) return true;
+    if (_root.center == null) return false;
+    return _root.center.containsValue(element);
   }
 
   @override
-  String get first {
+  V get first {
     if (_root == null) return null;
-    return _root.minNode().value;
+    if (inclusive && _root.isValue) return _root.value;
+    if (_root.center == null) return null;
+    return _root.center.minNode().value;
   }
 
   @override
-  String get last {
+  V get last {
     if (_root == null) return null;
-    return _root.maxNode().value;
+    if (_root.center == null) {
+      if (inclusive && _root.isValue) return _root.value;
+      return null;
+    }
+    return _root.center.maxNode().value;
   }
 
   BidirectionalIterator<String> get iterator =>
-      new _TernaryValueIterator(_tree, root: _root);
+      new _TernaryValueIterator(_tree, _root, inclusive);
 }
 
 abstract class _TernaryMapIterator implements BidirectionalIterator<String> {
   static const LEFT = -1;
-  static const WALK = 0;
-  static const RIGHT = 1;
+  static const ROOT = 0;
+  static const WALK = 1;
+  static const RIGHT = 2;
 
   final TernaryMap _tree;
   final _TernaryNode _root;
@@ -399,8 +427,10 @@ abstract class _TernaryMapIterator implements BidirectionalIterator<String> {
   int state;
   _TernaryNode _current;
   List<_TernaryNode> path = [];
+  bool inclusive;
 
-  _TernaryMapIterator(TernaryMap tree, {_TernaryNode root})
+  _TernaryMapIterator(TernaryMap tree, _TernaryNode root,
+      [this.inclusive = false])
       : _tree = tree,
         _root = root,
         _modCountGuard = tree._modCount {
@@ -414,10 +444,21 @@ abstract class _TernaryMapIterator implements BidirectionalIterator<String> {
     if (state == RIGHT || _root == null) return false;
     switch(state) {
       case LEFT:
-        path.add(_root);
-        _current = _root.minNode(path);
-        state = WALK;
-        return true;
+        state = ROOT;
+        if (inclusive && _root.isValue) {
+          _current = _root;
+          return true;
+        }
+        return moveNext();
+      case ROOT:
+        if (_root.center == null) {
+          state = RIGHT;
+        } else {
+          path.add(_root.center);
+          _current = path.last.minNode(path);
+          state = WALK;
+        }
+        return state == WALK;
       case WALK:
       default:
         _current = _current.successor(path);
@@ -433,19 +474,40 @@ abstract class _TernaryMapIterator implements BidirectionalIterator<String> {
     if (_modCountGuard != _tree._modCount) {
       throw new ConcurrentModificationError(_tree);
     }
-    if (state == LEFT || _tree.length == 0) return false;
+    if (state == LEFT || _root == null) return false;
     switch(state) {
       case RIGHT:
-        path.add(_root);
-        _current = _root.maxNode(path);
-        state = WALK;
-        return true;
+        if (_root.center != null) {
+          path.add(_root.center);
+          _current = path.last.maxNode(path);
+          state = WALK;
+          return true;
+        }
+        if (inclusive) {
+          state = ROOT;
+          if (_root.isValue) {
+            _current = _root;
+            return true;
+          }
+        }
+        return false;
+      case ROOT:
+        _current = null;
+        state = LEFT;
+        return false;
       case WALK:
       default:
         _current = _current.predecessor(path);
         if (_current == null) {
-          state = LEFT;
           path = [];
+          if (inclusive) {
+            state = ROOT;
+            if (_root.isValue) {
+              _current = _root;
+              return true;
+            }
+          }
+          state = LEFT;
         }
         return state == WALK;
     }
@@ -455,8 +517,8 @@ abstract class _TernaryMapIterator implements BidirectionalIterator<String> {
 class _TernaryKeyIterator extends _TernaryMapIterator {
 
   String get current {
-    if (state != _TernaryMapIterator.WALK
-        || _current == null) return null;
+    if (state == _TernaryMapIterator.LEFT
+        || state == _TernaryMapIterator.RIGHT) return null;
     if (_key != null) {
       return "$_key${TernaryMap._pathToKey(path)}";
     }
@@ -465,22 +527,24 @@ class _TernaryKeyIterator extends _TernaryMapIterator {
 
   final String _key;
 
-  _TernaryKeyIterator(TernaryMap tree, {String key, _TernaryNode root} )
+  _TernaryKeyIterator(TernaryMap tree, {String key, _TernaryNode root,
+      inclusive: false})
       : _key = key,
-        super(tree, root: root);
+        super(tree, root, inclusive);
 }
 
 
 class _TernaryValueIterator extends _TernaryMapIterator {
 
   String get current {
-    if (state != _TernaryMapIterator.WALK
-        || _current == null) return null;
+    if (state == _TernaryMapIterator.LEFT
+        || state == _TernaryMapIterator.RIGHT) return null;
     return _current.value;
   }
 
-  _TernaryValueIterator(TernaryMap tree, {_TernaryNode root})
-      : super(tree, root: root);
+  _TernaryValueIterator(TernaryMap tree, _TernaryNode root,
+      [inclusive = false])
+      : super(tree, root, inclusive);
 }
 
 
@@ -501,6 +565,15 @@ class _TernaryNode<V> {
   V value = _TOMBSTONE;
 
   bool get isValue => value != _TOMBSTONE;
+
+
+  _TernaryNode();
+
+  /**
+   * This constructor is special, it creates a fake node that should point to
+   * [center]. Its only use is in full [TernaryMap] iteration.
+   */
+  _TernaryNode.dummy(this.center) : key = 0;
 
   bool containsValue(V value) {
     return _dfs((val, [path]) => val.value == value);
@@ -604,10 +677,18 @@ class _TernaryNode<V> {
 
   _TernaryNode<V> predecessor(List<_TernaryNode> path) {
     _TernaryNode node = this;
+
+    // When looking for previous nodes, travel down our left child, which
+    // contains words alphabetically smaller than us. If we don't have any more
     if (node.left != null) {
       path.add(node.left);
       return node.left.maxNode(path);
     }
+
+    // If we don't have any left children, then we need to try and pop up to
+    // see which path was taken to get to us. If we're on the right, prefer
+    // larger words (i.e. our parent's center), followed by our parent, and
+    // then similar above, the left children.
     while(node != null && path.length > 1) {
       // pop'n up.
       path.removeLast();
@@ -626,12 +707,6 @@ class _TernaryNode<V> {
       // else pop up.
       node = last;
     }
-    return null;
-  }
-
-  _TernaryNode _lookupCenter(String key, [List<_TernaryNode> path]) {
-    var node = _lookup(key, path);
-    if (node != null) return node.center;
     return null;
   }
 

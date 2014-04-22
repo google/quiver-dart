@@ -104,6 +104,41 @@ main() {
       });
     });
 
+    group("with junk words", () {
+      TernaryMap tmap;
+      List<String> words;
+      List<String> wordsSorted;
+
+      setUp(() {
+        words = new List.from([
+            'a', 'ab', 'abb', 'aba', 'b', 'ba', 'bb']);
+        wordsSorted = new List.from(words)..sort();
+        tmap = new TernaryMap.fromIterable(words);
+      });
+      test("is sorted by keys", () =>
+          expect(tmap.keys, equals(wordsSorted)));
+      test("is sorted by values",
+          () => expect(tmap.values, equals(wordsSorted)));
+    });
+
+    test("root inclusive/exclusive keys", () {
+      var words = [
+        'b', 'a', 'c',
+      ];
+      TernaryMap map = new TernaryMap.fromIterable(words);
+      expect(map.keysFor('b'), []);
+      expect(map.keysFor('b', inclusive: true), ['b']);
+    });
+
+    test("root inclusive/exclusive values", () {
+      var words = [
+        'b', 'a', 'c',
+      ];
+      TernaryMap map = new TernaryMap.fromIterable(words);
+      expect(map.valuesFor('b'), []);
+      expect(map.valuesFor('b', inclusive: true), ['b']);
+    });
+
     group("with lorem words", () {
       TernaryMap tmap;
       List<String> words;
@@ -133,7 +168,6 @@ main() {
           () => expect(tmap.containsValue('jtmcdole'), isFalse));
       test("searching for matching le* returns lectus",
           () => expect(tmap.prefixPriorty('le'), equals('lectus')));
-
 
       group("dfs starting with 'l' returns lectus lorem", () {
         var sub;
@@ -207,7 +241,7 @@ main() {
         });
       });
 
-      group("iterator throws", () {
+      group("iterator throws on modification", () {
         BidirectionalIterator itr;
         setUp(() {
           itr = tmap.keys.iterator;
@@ -231,12 +265,6 @@ main() {
       });
 
       group("coverage only", () {
-        test("test 1", () {
-          TernaryMap map = new TernaryMap.fromIterable(['foo', 'fool', 'fools']);
-          for (var key in map.keys) {
-            print("key: $key");
-          }
-        });
         test("left-dangling-predecessor", () {
           var list = ['bat', 'bar'];
           TernaryMap map = new TernaryMap.fromIterable(list);
@@ -260,95 +288,166 @@ main() {
         test("lookupPath center", () {
           var list = ['bar', 'bars'];
           TernaryMap map = new TernaryMap.fromIterable(list);
-          var itr = map.keysForPrefix('bar');
+          var itr = map.keysFor('bar');
           expect(itr.length, equals(1));
           expect(itr.first, equals('bars'));
         });
         test("lookupPath right", () {
           var list = ['bar', 'bat'];
           TernaryMap map = new TernaryMap.fromIterable(list);
-          var itr = map.keysForPrefix('bat');
+          var itr = map.keysFor('bat');
           expect(itr.length, equals(0));
         });
         test("lookupPath no key", () {
           var list = ['bar'];
           TernaryMap map = new TernaryMap.fromIterable(list);
-          var itr = map.keysForPrefix('bars');
+          var itr = map.keysFor('bars');
           expect(itr.length, equals(0));
         });
         test("iterator path deadend", () {
           var list = ['bar', 'bars'];
           TernaryMap map = new TernaryMap.fromIterable(list);
-          var itr = map.keysForPrefix('bars');
+          var itr = map.keysFor('bars');
           expect(itr.length, equals(0));
         });
-      });
-      group("and prefix iterator over 'dignissim', 'dolor', 'dui',", () {
-        var sub;
-        setUp(() {
-          sub = new List.from(['dignissim', 'dolor', 'dui']);
-        });
-        group("valuesForPrefix", () {
-          Iterable iterable;
-          setUp(() => iterable = tmap.valuesForPrefix('d'));
-          test("iterates", () {
-            for (String value in iterable) {
-              expect(value, equals(sub.removeAt(0)));
-            }
-            expect(sub.length, equals(0), reason: "all elements covered");
-          });
-          test("first == dignissim", () {
-            expect(iterable.first, equals('dignissim'));
-          });
-          test("contains('dolor')", () {
-            expect(iterable.contains('dolor'), isTrue);
-          });
-          test("last == 'dui'", () {
-            expect(iterable.last, equals('dui'));
-          });
-          test("length is 3", () {
-            expect(tmap.valuesForPrefix('d').length, equals(3));
-          });
-        });
-        group("keysForPrefix", () {
-          Iterable iterable;
-          setUp(() => iterable = tmap.keysForPrefix('d'));
-          test("iterates", () {
-            for (String value in iterable) {
-              expect(value, equals(sub.removeAt(0)));
-            }
-            expect(sub.length, equals(0), reason: "all elements covered");
-          });
-          test("first == dignissim", () {
-            expect(iterable.first, equals('dignissim'));
-          });
-          test("contains('dolor')", () {
-            expect(iterable.contains('dolor'), isTrue);
-          });
-          test("last == 'dui'", () {
-            expect(iterable.last, equals('dui'));
-          });
-          test("length is 3", () {
-            expect(tmap.valuesForPrefix('d').length, equals(3));
-          });
-          test("forward-reverse", () {
-            BidirectionalIterator itr = iterable.iterator;
-            expect(itr.moveNext(), isTrue);
-            expect(itr.moveNext(), isTrue);
-            expect(itr.current, equals('dolor'));
-            expect(itr.movePrevious(), isTrue);
-            expect(itr.current, equals('dignissim'));
-            expect(itr.movePrevious(), isFalse);
-          });
-          test("falloff right and return", () {
-            BidirectionalIterator itr = iterable.iterator;
-            while (itr.moveNext());
-            expect(itr.current, isNull);
-            expect(itr.movePrevious(), isTrue);
-            expect(itr.current, equals('dui'));
-          });
+        test("predecessor left-branch", () {
+          var list = ['b', 'a', 'c'];
+          TernaryMap map = new TernaryMap.fromIterable(list);
+          map.remove('b');
+          BidirectionalIterator itr = map.keys.iterator;
+          expect(itr.moveNext(), isTrue);
+          expect(itr.moveNext(), isTrue);
+          expect(itr.current, 'c');
+          expect(itr.movePrevious(), isTrue);
+          expect(itr.current, 'a');
         });
       });
     });
+
+
+    generateIterativeTest(String name, Function getIterable(TernaryMap map)) {
+      group(name, () {
+        List<String> words;
+        TernaryMap map;
+
+        setUp(() {
+          words = new List.from([
+              'cad', 'a', 'add', 'b', 'bad', 'abs', 'bard', 'bars',
+          ]);
+          map = new TernaryMap.fromIterable(words);
+        });
+
+        group("prefix.+", () {
+          test("with root value", () {
+            expect(getIterable(map)('b'),
+                ['bad', 'bard', 'bars'],
+                reason: "exclusive 'b' should only return b.+");
+          });
+          test("with empty root value", () {
+            map.remove('b');
+            expect(getIterable(map)('b'),
+                ['bad', 'bard', 'bars'],
+                reason: "exclusive 'b' should only return b.+");
+          });
+          test("first is bad",
+              () => expect(getIterable(map)('b').first, 'bad'));
+          test("last is bars",
+              () => expect(getIterable(map)('b').last, 'bars'));
+          test("!contains 'b'", () {
+            expect(getIterable(map)('b').contains('b'), isFalse);
+          });
+          test("contains 'bard'", () {
+            expect(getIterable(map)('b').contains('bard'), isTrue);
+          });
+          test("length is 3",
+              () => expect(getIterable(map)('b').length, 3));
+          test("iterative sweep", () {
+            var match = ['bad', 'bard', 'bars'];
+            var expected = new List.from(match);
+            Iterable<String> ible = getIterable(map)('b');
+            BidirectionalIterator<String> itr = ible.iterator;
+            expect(itr.current, isNull);
+            while(itr.moveNext()) {
+              expect(itr.current, expected.removeAt(0));
+            }
+            expect(expected.length, 0);
+            expected = new List.from(match.reversed);
+            expect(itr.current, isNull);
+            while(itr.movePrevious()) {
+              expect(itr.current, expected.removeAt(0));
+            }
+            expect(itr.current, isNull);
+            expect(expected.length, 0);
+            expect(itr.moveNext(), isTrue);
+            expect(itr.current, match[0]);
+          });
+          test("empty for 'cad'", () {
+            expect(getIterable(map)('cad'), []);
+          });
+        });
+        group("prefix.*", () {
+          test("with root value", () {
+            expect(getIterable(map)('b', inclusive: true),
+                ['b', 'bad', 'bard', 'bars'],
+                reason: "inclusive 'b' should return all b.*");
+          });
+          test("with empty root value", () {
+            map.remove('b');
+            expect(getIterable(map)('b', inclusive: true),
+                ['bad', 'bard', 'bars'],
+                reason: "exclusive 'b' should only return b.+");
+          });
+          test("first is b",
+              () => expect(getIterable(map)('b', inclusive: true).first, 'b'));
+          test("last is bars",
+              () => expect(getIterable(map)('b', inclusive: true).last,
+                  'bars'));
+          test("contains 'b'", () {
+            expect(getIterable(map)('b', inclusive: true).contains('b'),
+                isTrue);
+          });
+          test("contains 'bard'", () {
+            expect(getIterable(map)('b').contains('bard'), isTrue);
+          });
+          test("length is 4",
+              () => expect(getIterable(map)('b', inclusive: true).length, 4));
+          test("iterative sweep", () {
+            var match = ['b', 'bad', 'bard', 'bars'];
+            var expected = new List.from(match);
+            Iterable<String> ible = getIterable(map)('b', inclusive: true);
+            BidirectionalIterator<String> itr = ible.iterator;
+            expect(itr.current, isNull);
+            while(itr.moveNext()) {
+              expect(itr.current, expected.removeAt(0));
+            }
+            expect(expected.length, 0);
+            expected = new List.from(match.reversed);
+            expect(itr.current, isNull);
+            while(itr.movePrevious()) {
+              expect(itr.current, expected.removeAt(0));
+            }
+            expect(itr.current, isNull);
+            expect(expected.length, 0);
+            expect(itr.moveNext(), isTrue);
+            expect(itr.current, match[0]);
+          });
+          test("one for 'cad'", () {
+            expect(getIterable(map)('cad', inclusive: true), ['cad']);
+          });
+          test("coverage: movePrevious 'cad'", () {
+            Iterable<String> ible = getIterable(map)('cad', inclusive: true);
+            BidirectionalIterator<String> itr = ible.iterator;
+            expect(itr.moveNext(), isTrue);
+            expect(itr.current, 'cad');
+            expect(itr.moveNext(), isFalse);
+            expect(itr.current, isNull);
+            expect(itr.movePrevious(), isTrue);
+            expect(itr.current, 'cad');
+          });
+        });
+      });
+    }
+    generateIterativeTest('keysFor', (map) => map.keysFor);
+    generateIterativeTest('valuesFor', (map) => map.valuesFor);
   });
 }
