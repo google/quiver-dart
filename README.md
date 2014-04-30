@@ -220,8 +220,6 @@ timers and microtasks to be processed. A `Clock` is provided from which to read
 the current fake time.  Faking synchronous or blocking time advancement is also 
 supported.
 
-`FakeTimer` is a Timer that captures its duration and callback for use in tests.
-
 [quiver.testing.async]: http://google.github.io/quiver-dart/#quiver/quiver-testing-async
 
 ## [quiver.testing.runtime][]
