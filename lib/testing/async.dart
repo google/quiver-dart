@@ -18,5 +18,10 @@
 library quiver.testing.async;
 
 import 'dart:async';
+import 'dart:collection';
+
+import 'package:quiver/iterables.dart';
+import 'package:quiver/time.dart';
 
 part 'src/async/async.dart';
+part 'src/async/fake_async.dart';
