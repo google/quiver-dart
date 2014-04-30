@@ -14,8 +14,8 @@
 
 library quiver.testing.async.all_tests;
 
-import 'fake_time_test.dart' as fake_time;
+import 'fake_async_test.dart' as fake_async;
 
 main() {
-  fake_time.main();
+  fake_async.main();
 }

@@ -30,17 +30,17 @@ part of quiver.testing.async;
 /// Example:
 ///
 ///     test('testedFunc', () {
-///       new FakeTime().run((time) {
-///         testedFunc(clock: time.getClock(initialTime));
-///         time.elapse(duration);
+///       new FakeAsync().run((async) {
+///         testedFunc(clock: async.getClock(initialTime));
+///         async.elapse(duration);
 ///         expect(...)
 ///       });
 ///     });
-abstract class FakeTime {
+abstract class FakeAsync {
 
-  factory FakeTime() = _FakeTime;
+  factory FakeAsync() = _FakeAsync;
 
-  FakeTime._();
+  FakeAsync._();
 
   /// Returns a fake [Clock] whose time can is elapsed by calls to [elapse] and
   /// [elapseBlocking].
@@ -91,15 +91,15 @@ abstract class FakeTime {
   /// execution within the zone via calls to [elapse].
   ///
   /// [callback] is called with `this` as argument.
-  run(callback(FakeTime self));
+  run(callback(FakeAsync self));
 }
 
-class _FakeTime extends FakeTime {
+class _FakeAsync extends FakeAsync {
 
   Duration _elapsed = Duration.ZERO;
   Duration _elapsingTo;
 
-  _FakeTime() : super._() {
+  _FakeAsync() : super._() {
     _elapsed;
   }
 
@@ -134,7 +134,7 @@ class _FakeTime extends FakeTime {
     }
   }
 
-  run(callback(FakeTime self)) {
+  run(callback(FakeAsync self)) {
     if (_zone == null) {
       _zone = Zone.current.fork(specification: _zoneSpec);
     }
@@ -218,7 +218,7 @@ class _FakeTimer implements Timer {
   final Duration _duration;
   final Function _callback;
   final bool _isPeriodic;
-  final _FakeTime _time;
+  final _FakeAsync _time;
   Duration _nextCall;
 
   // TODO: In browser JavaScript, timers can only run every 4 milliseconds once
