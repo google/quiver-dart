@@ -21,6 +21,7 @@ part 'src/iterables/count.dart';
 part 'src/iterables/cycle.dart';
 part 'src/iterables/enumerate.dart';
 part 'src/iterables/infinite_iterable.dart';
+part 'src/iterables/interleave.dart';
 part 'src/iterables/merge.dart';
 part 'src/iterables/min_max.dart';
 part 'src/iterables/partition.dart';
