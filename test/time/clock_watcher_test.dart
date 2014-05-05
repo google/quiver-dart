@@ -16,65 +16,27 @@ library quiver.time.clock_test;
 
 import 'dart:async';
 
-import 'package:unittest/unittest.dart';
+import 'package:quiver/testing/async.dart';
 import 'package:quiver/time.dart';
+import 'package:unittest/unittest.dart';
 
 main() {
-  test( "ClockWatcher works", () {
-    List<DateTime> samples = [
-      new DateTime.fromMillisecondsSinceEpoch(1000),
-      new DateTime.fromMillisecondsSinceEpoch(1*Duration.MILLISECONDS_PER_MINUTE),
-      new DateTime.fromMillisecondsSinceEpoch(2*Duration.MILLISECONDS_PER_MINUTE),
-      new DateTime.fromMillisecondsSinceEpoch(2*Duration.MILLISECONDS_PER_MINUTE)
-    ];
-
-    List<DateTime> expectedClocks = samples.sublist(1);
-
-    List<Duration> expectedDurations = [
-      new Duration(seconds: 59),
-      new Duration(seconds: 60),
-      new Duration(seconds: 60),
-    ];
-    var clock = new Clock(() => samples.removeAt(0));
-
-    FakeTimer currentTimer;
-    ClockWatcher watcher = new ClockWatcher.factory(clock: clock,
-        timerFactory: (x,y) {
-      expect(x, expectedDurations.removeAt(0));
-      currentTimer = new FakeTimer(x,y);
-      return currentTimer;
-    });
-
-    var sub;
-    Completer fin = new Completer();
-    sub = watcher.minutes().listen((date) {
-      expect(currentTimer.isActive, true);
-      expect(date, expectedClocks.removeAt(0));
-      if (expectedClocks.isEmpty) fin.complete();
-    });
-    currentTimer.callback();
-    currentTimer.callback();
-
-    fin.future.then((_) {
-      expect(currentTimer.isActive, true);
+  test("Watched pot does boil, if given enough time", () {
+    return new FakeAsync().run((async) {
+      int callbacks = 0;
+      var sub = watchClock(aMinute, clock: async.getClock(
+          DateTime.parse("2014-05-05 20:00:30"))).listen((d) {
+        callbacks++;
+      });
+      expect(0, callbacks, reason: "Should be no callbacks at start");
+      async.elapse(aSecond*15);
+      expect(0, callbacks, reason: "Should be no callbacks before trigger");
+      async.elapse(aMinute*2);
+      expect(2, callbacks, reason: "Callback is repeated");
       sub.cancel();
-      expect(currentTimer.isActive, false);
+      async.elapse(aMinute*2);
+      expect(2, callbacks, reason: "No callbacks after subscription cancel");
     });
   });
 }
 
-class FakeTimer implements Timer {
-
-  Duration dur;
-  var callback;
-
-  bool closed = false;
-
-  FakeTimer(this.dur, callback()) : this.callback = callback;
-
-  @override
-  void cancel() { closed = true; }
-
-  @override
-  bool get isActive => !closed;
-}

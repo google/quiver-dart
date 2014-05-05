@@ -14,94 +14,38 @@
 
 part of quiver.time;
 
+
 /**
- * Generate multiple [Stream]s of [DateTime] intervals synced with the wall
- * [clock].
+ * Stream [DateTime] events synced with wall-clock time.
  *
- * Example usage:
+ * Example:
  *
- *     // Only listen for the next minute
- *     watcher.minutes().first.then((d) {
- *        print("next minute $d"); // 2014-05-04 14:06:30.000
- *     });
+ *     wallClock(aMinute).listen((d) => print(d));
  *
- *     // Every minute, do something
- *     watcher.minutesStream().listen((n) {
- *        // update a clock
- *        // play a tune
- *        // whatever your fancy
- *     });
+ * Prints the following stream of events till the stream is canceled:
+ *     2014-05-04 14:06:00.000
+ *     2014-05-04 14:07:00.000
+ *     2014-05-04 14:08:00.000
+ *     ...
  */
+Stream<DateTime> watchClock(Duration interval, {Clock clock: SYSTEM_CLOCK}) {
+  Timer timer;
+  StreamController controller;
+  int intervalMs = interval.inMilliseconds;
+  controller = new StreamController<DateTime>.broadcast(onCancel: () {
+    controller.close();
+    timer.cancel();
+  });
 
-typedef TimerFactory(Duration dur, callback());
-class ClockWatcher {
-
-  Map<int, List> _intervals = {};
-
-  static Timer _timerFactory(Duration dur, callback()) =>
-      new Timer(dur, callback);
-
-  final TimerFactory timerFactory;
-  final Clock clock;
-
-
-  ClockWatcher({clock: SYSTEM_CLOCK}) : this.factory(clock: clock);
-
-  /**
-   * Construct a ClockWatcher with optioanl [timerFactory] to produce [Timer]s
-
-   * This is probably not the constructor you are looking for.
-   */
-  ClockWatcher.factory({this.clock: SYSTEM_CLOCK,
-      this.timerFactory: _timerFactory});
-
-  /**
-   * Exposed if you have a specific need to be notified every [intervalMs].
-   */
-  Stream<DateTime> atInterval(int intervalMs) {
-    List pairing = _intervals[intervalMs];
-    if (pairing == null) {
-      pairing = new List(2);
-      _intervals[intervalMs] = pairing;
-      pairing[0] = new StreamController.broadcast(onCancel: () {
-        _intervals.remove(intervalMs)
-            ..[0].close()
-            ..[1].cancel();
-      });
-
-      tick() {
-        DateTime now = clock.now();
-        pairing[0].add(now);
-        if (pairing[0].isClosed) return;
-        var delay = intervalMs - (now.millisecondsSinceEpoch % intervalMs);
-        pairing[1] = timerFactory(new Duration(milliseconds: delay), tick);
-      };
-      var delay = intervalMs - (clock.now().millisecondsSinceEpoch % intervalMs);
-      pairing[1] = timerFactory(new Duration(milliseconds: delay), tick);
-    }
-    return pairing[0].stream;
-  }
-
-  Stream<DateTime> seconds() =>
-      atInterval(Duration.MILLISECONDS_PER_SECOND);
-  Stream<DateTime> minutes() =>
-      atInterval(Duration.MILLISECONDS_PER_MINUTE);
-  Stream<DateTime> hours() =>
-      atInterval(Duration.MILLISECONDS_PER_HOUR);
-  Stream<DateTime> days() =>
-      atInterval(Duration.MILLISECONDS_PER_DAY);
-
-  Stream<DateTime> quaterMinutes() =>
-      atInterval(15*Duration.MILLISECONDS_PER_SECOND);
-  Stream<DateTime> halfMinutes() =>
-      atInterval(30*Duration.MILLISECONDS_PER_SECOND);
-
-  Stream<DateTime> fiveMinutes() =>
-      atInterval(5*Duration.MILLISECONDS_PER_MINUTE);
-  Stream<DateTime> tenMinutes() =>
-      atInterval(10*Duration.MILLISECONDS_PER_MINUTE);
-  Stream<DateTime> fifteenMinutes() =>
-      atInterval(15*Duration.MILLISECONDS_PER_MINUTE);
-  Stream<DateTime> thirtyMinutes() =>
-      atInterval(30*Duration.MILLISECONDS_PER_MINUTE);
+  tick() {
+    DateTime now = clock.now();
+    controller.add(now);
+    if (controller.isClosed) return;
+    var delay = intervalMs - (now.millisecondsSinceEpoch % intervalMs);
+    timer = new Timer(new Duration(milliseconds: delay), tick);
+  };
+  var delay = intervalMs - (clock.now().millisecondsSinceEpoch % intervalMs);
+  timer = new Timer(new Duration(milliseconds: delay), tick);
+  return controller.stream;
 }
+
