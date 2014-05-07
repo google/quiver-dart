@@ -17,5 +17,5 @@ library quiver.time;
 import 'dart:async';
 
 part 'src/time/clock.dart';
-part 'src/time/clock_watcher.dart';
 part 'src/time/duration_unit_constants.dart';
+part 'src/time/watch_clock.dart';

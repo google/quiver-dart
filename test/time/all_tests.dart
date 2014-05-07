@@ -15,7 +15,7 @@
 library quiver.time.all_tests;
 
 import 'clock_test.dart' as clock;
-import 'clock_watcher_test.dart' as watcher;
+import 'watch_clock_test.dart' as watcher;
 
 main() {
   clock.main();

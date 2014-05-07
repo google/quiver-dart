@@ -191,18 +191,18 @@ since Clock deals in DateTime which only have millisecond accuracy.
 * `aDay` vs. `const Duration(days: 1)`
 * `aSecond * 30` vs. `const Duration(seconds: 30)`
 
-`ClockWatcher` provides a simple stream of `DateTime` events synchronized with
+`watchClock()` provides a simple stream of `DateTime` events synchronized with
 wall-clock time. For example:
 ```dart
   // Every minute, do something
-  watcher.minutes().listen((n) {
+  watchClock(aMinute).listen((n) {
     // update a clock
     // play a tune
     // whatever your fancy
   });
 
   // Only listen for the next minute, e.g. @14:05:07.123
-  watcher.minutes().first.then((d) {
+  watchClock(aMinute).first.then((d) {
     print("next minute $d"); // 14:06:00.000
   });
 ```

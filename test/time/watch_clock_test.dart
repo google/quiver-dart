@@ -1,4 +1,4 @@
-// Copyright 2013 Google Inc. All Rights Reserved.
+// Copyright 2014 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the 'License');
 // you may not use this file except in compliance with the License.
@@ -22,20 +22,28 @@ import 'package:unittest/unittest.dart';
 
 main() {
   test("Watched pot does boil, if given enough time", () {
-    return new FakeAsync().run((async) {
+    new FakeAsync().run((async) {
       int callbacks = 0;
+      DateTime lastTime;
       var sub = watchClock(aMinute, clock: async.getClock(
           DateTime.parse("2014-05-05 20:00:30"))).listen((d) {
         callbacks++;
+        lastTime = d;
       });
-      expect(0, callbacks, reason: "Should be no callbacks at start");
+      expect(callbacks, 0, reason: "Should be no callbacks at start");
       async.elapse(aSecond*15);
-      expect(0, callbacks, reason: "Should be no callbacks before trigger");
-      async.elapse(aMinute*2);
-      expect(2, callbacks, reason: "Callback is repeated");
+      expect(callbacks, 0, reason: "Should be no callbacks before trigger");
+      async.elapse(aSecond*15);
+      expect(callbacks, 1, reason: "Calledback on rollover");
+      expect(lastTime, DateTime.parse("2014-05-05 20:01:00"),
+          reason: "And that time was correct");
+      async.elapse(aMinute*1);
+      expect(callbacks, 2, reason: "Callback is repeated");
+      expect(lastTime, DateTime.parse("2014-05-05 20:02:00"),
+          reason: "And that time was correct");
       sub.cancel();
       async.elapse(aMinute*2);
-      expect(2, callbacks, reason: "No callbacks after subscription cancel");
+      expect(callbacks, 2, reason: "No callbacks after subscription cancel");
     });
   });
 }
