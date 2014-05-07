@@ -14,39 +14,82 @@
 
 part of quiver.compare;
 
+/// A connected set of [Comparable] values.
+///
+/// If an interval [contains] two values, it also contains all values between
+/// them.  It may have an [upper] and [lower] bound, and those bounds may be
+/// open or closed.
 class Interval<T extends Comparable<T>> {
 
-  final T lower, upper;
-  final bool lowerClosed, upperClosed;
+  /// The lower bound value if it exists, or null.
+  final T lower;
 
+  /// The upper bound value if it exists, or null.
+  final T upper;
+
+  /// Whether `this` contains [lower].  If `false`, [lower] is still contained
+  /// if [upperClosed] is true and [lower] compares equal to [upper].
+  final bool lowerClosed;
+
+  /// Whether `this` contains [upper].  If `false`, [upper] is still contained
+  /// if [lowerClosed] is true and [lower] compares equal to [upper].
+  final bool upperClosed;
+
+  /// The lower [Bound] if it exists, or null.
   Bound get lowerBound {
     if(lower == null) return null;
     return new Bound<T>(lower, lowerClosed);
   }
+
+  /// The upper [Bound] if it exists, or null.
   Bound get upperBound {
     if(upper == null) return null;
     return new Bound<T>(upper, upperClosed);
   }
+
+  /// Whether `this` is both [lowerBounded] and [upperBounded].
   bool get bounded => lowerBounded && upperBounded;
+
+  /// Whether `this` has a [lower] bound.
   bool get lowerBounded => lower != null;
+
+  /// Whether `this` has an [upper] bound.
   bool get upperBounded => upper != null;
+
+  /// Whether `this` excludes its bounds.
   bool get isOpen=> !lowerClosed && !upperClosed;
+
+  /// Whether `this` [contains] its bounds.
   bool get isClosed => lowerClosed && upperClosed;
+
+  /// Whether `this` [contains] any values.
   bool get isEmpty {
     if (lower == null || upper == null || Comparable.compare(lower, upper) < 0) return false;
     return !(lowerClosed && upperClosed);
   }
+
+  /// Whether `this` [contains] exactly one value.
   bool get isSingleton {
     if(lower == null || upper == null) return false;
     return Comparable.compare(lower, upper) == 0 && isClosed;
   }
+
+  /// Returns an interval which contains the same values as `this`, except any
+  /// closed bounds become open.
   Interval<T> get interior => isOpen ? this : new Interval<T>(
       lowerBound: lower == null ? null : new Bound<T>.open(lower),
       upperBound: upper == null ? null : new Bound<T>.open(upper));
+
+  /// Returns an interval which contains the same values as `this`, except any
+  /// open bounds become closed.
   Interval<T> get closure => isClosed ? this : new Interval<T>(
       lowerBound: lower == null ? null : new Bound<T>.closed(lower),
       upperBound: upper == null ? null : new Bound<T>.closed(upper));
 
+  /// An interval constructed from its [Bound]s.
+  ///
+  /// If [lowerBound] or [upperBound] are `null`, then the interval is unbounded
+  /// in that direction.
   Interval(
       {Bound<T> lowerBound,
        Bound<T> upperBound})
@@ -59,12 +102,14 @@ class Interval<T extends Comparable<T>> {
 
   Interval._(this.lower, this.upper, this.lowerClosed, this.upperClosed);
 
+  /// ([lower]..[upper]])
   Interval.open(this.lower, this.upper)
       : lowerClosed = false,
         upperClosed = false {
     _checkNotOpenAndEqual(_checkBoundOrder());
   }
 
+  /// [[lower]..[upper]]
   Interval.closed(this.lower, this.upper)
       : lowerClosed = true,
         upperClosed = true {
@@ -73,6 +118,7 @@ class Interval<T extends Comparable<T>> {
     _checkBoundOrder();
   }
 
+  /// ([lower]..[upper]]
   Interval.openClosed(this.lower, this.upper)
       : lowerClosed = false,
         upperClosed = true {
@@ -80,6 +126,7 @@ class Interval<T extends Comparable<T>> {
     _checkBoundOrder();
   }
 
+  /// [[lower]..[upper])
   Interval.closedOpen(this.lower, this.upper)
       : lowerClosed = true,
         upperClosed = false {
@@ -102,6 +149,7 @@ class Interval<T extends Comparable<T>> {
     }
   }
 
+  /// [[lower]..+∞)
   Interval.atLeast(this.lower)
       : upper = null,
         lowerClosed = true,
@@ -109,6 +157,7 @@ class Interval<T extends Comparable<T>> {
     if(lower == null) throw new ArgumentError('lower cannot be null');
   }
 
+  /// (-∞..[upper]]
   Interval.atMost(this.upper)
       : lower = null,
         lowerClosed = false,
@@ -116,22 +165,26 @@ class Interval<T extends Comparable<T>> {
     if(upper == null) throw new ArgumentError('upper cannot be null');
   }
 
+  /// ([lower]..+∞)
   Interval.greaterThan(this.lower)
       : upper = null,
         lowerClosed = false,
         upperClosed = false;
 
+  /// (-∞..[upper])
   Interval.lessThan(this.upper)
       : lower = null,
         lowerClosed = false,
         upperClosed = false;
 
+  /// (-∞..+∞)
   Interval.all()
       : lower = null,
         upper = null,
         lowerClosed = false,
         upperClosed = false;
 
+  /// [[value]..[value]]
   Interval.singleton(T value)
       : lower = value,
         upper = value,
@@ -140,6 +193,9 @@ class Interval<T extends Comparable<T>> {
     if(value == null) throw new ArgumentError('value cannot be null');
   }
 
+  /// The minimal interval which [contains] each value in [values].
+  ///
+  /// If [values] is empty, the returned interval contains all values.
   factory Interval.span(Iterable<T> all) {
     var iterator = all.iterator;
     var hasNext = iterator.moveNext();
@@ -153,6 +209,9 @@ class Interval<T extends Comparable<T>> {
     return new Interval<T>.closed(lower, upper);
   }
 
+  /// The minimal interval which [encloses] each interval in [intervals].
+  ///
+  /// If [intervals] is empty, the returned interval contains all values.
   factory Interval.encloseAll(Iterable<Interval<T>> intervals) {
 
     var iterator = intervals.iterator;
@@ -192,6 +251,7 @@ class Interval<T extends Comparable<T>> {
         upperClosed);
   }
 
+  /// Whether this interval contains [test].
   bool contains(T test) {
     if (lower != null) {
       var lowerCompare = Comparable.compare(lower, test);
@@ -204,6 +264,7 @@ class Interval<T extends Comparable<T>> {
     return true;
   }
 
+  /// Whether `this` [contains] each value that [other] does.
   bool encloses(Interval<T> other) {
     if (lower != null) {
       if (other.lower == null) {
@@ -224,6 +285,8 @@ class Interval<T extends Comparable<T>> {
     return true;
   }
 
+  /// Whether the union of `this` and [other] is connected (i.e. is an
+  /// [Interval]).
   bool connectedTo(Interval<T> other) {
     if (lower != null) {
       if (other.lower != null) {
@@ -241,6 +304,7 @@ class Interval<T extends Comparable<T>> {
   }
 
   int get hashCode => hash4(lower, upper, lowerClosed, upperClosed);
+
   bool operator == (Interval<T> other) =>
       other is Interval<T> &&
       lower == other.lower &&
@@ -256,23 +320,30 @@ class Interval<T extends Comparable<T>> {
 
 }
 
+/// Represents an upper or lower bound of an [Interval].
 class Bound<T> {
 
   final T value;
+
   final bool isClosed;
+
   bool get isOpen => !isClosed;
 
   Bound(this.value, this.isClosed) {
     _checkValue();
     if(isClosed == null) throw new ArgumentError('isClosed cannot be null');
   }
+
   Bound.open(this.value) : isClosed = false { _checkValue(); }
+
   Bound.closed(this.value) : isClosed = true { _checkValue(); }
+
   _checkValue() {
     if(value == null) throw new ArgumentError('value cannot be null');
   }
 
   int get hashCode => hash2(value, isClosed);
+
   bool operator == (Bound<T> other) =>
       other is Bound<T> &&
       value == other.value &&
