@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.iterables.merge_test;
+library quiver.iterables.interleave_test;
 
 import 'package:unittest/unittest.dart';
 import 'package:quiver/iterables.dart';
