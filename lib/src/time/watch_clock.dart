@@ -39,16 +39,16 @@ Stream<DateTime> watchClock(Duration interval, {Clock clock: SYSTEM_CLOCK}) {
 
   _startTimer(DateTime now, tick) {
     var delay = intervalMs - (now.millisecondsSinceEpoch % intervalMs);
-    return new Timer(new Duration(milliseconds: delay), tick);
+    timer = new Timer(new Duration(milliseconds: delay), tick);
   }
 
   tick() {
     if (controller.isClosed) return;
     DateTime now = clock.now();
     controller.add(now);
-    timer = _startTimer(now, tick);
+    _startTimer(now, tick);
   };
-  timer = _startTimer(clock.now(), tick);
+  _startTimer(clock.now(), tick);
   return controller.stream;
 }
 
