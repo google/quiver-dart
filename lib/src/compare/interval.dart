@@ -102,14 +102,14 @@ class Interval<T extends Comparable<T>> {
 
   Interval._(this.lower, this.upper, this.lowerClosed, this.upperClosed);
 
-  /// ([lower]..[upper]])
+  /// `(`[lower]`..`[upper]`)`
   Interval.open(this.lower, this.upper)
       : lowerClosed = false,
         upperClosed = false {
     _checkNotOpenAndEqual(_checkBoundOrder());
   }
 
-  /// [[lower]..[upper]]
+  /// `[`[lower]`..`[upper]`]`
   Interval.closed(this.lower, this.upper)
       : lowerClosed = true,
         upperClosed = true {
@@ -118,7 +118,7 @@ class Interval<T extends Comparable<T>> {
     _checkBoundOrder();
   }
 
-  /// ([lower]..[upper]]
+  /// `(`[lower]`..`[upper]`]`
   Interval.openClosed(this.lower, this.upper)
       : lowerClosed = false,
         upperClosed = true {
@@ -126,7 +126,7 @@ class Interval<T extends Comparable<T>> {
     _checkBoundOrder();
   }
 
-  /// [[lower]..[upper])
+  /// `[`[lower]`..`[upper]`)`
   Interval.closedOpen(this.lower, this.upper)
       : lowerClosed = true,
         upperClosed = false {
@@ -149,7 +149,7 @@ class Interval<T extends Comparable<T>> {
     }
   }
 
-  /// [[lower]..+∞)
+  /// `[`[lower]`.. +∞ )`
   Interval.atLeast(this.lower)
       : upper = null,
         lowerClosed = true,
@@ -157,7 +157,7 @@ class Interval<T extends Comparable<T>> {
     if(lower == null) throw new ArgumentError('lower cannot be null');
   }
 
-  /// (-∞..[upper]]
+  /// `( -∞ ..`[upper]`]`
   Interval.atMost(this.upper)
       : lower = null,
         lowerClosed = false,
@@ -165,26 +165,26 @@ class Interval<T extends Comparable<T>> {
     if(upper == null) throw new ArgumentError('upper cannot be null');
   }
 
-  /// ([lower]..+∞)
+  /// `(`[lower]`.. +∞ )`
   Interval.greaterThan(this.lower)
       : upper = null,
         lowerClosed = false,
         upperClosed = false;
 
-  /// (-∞..[upper])
+  /// `( -∞ ..`[upper]`)`
   Interval.lessThan(this.upper)
       : lower = null,
         lowerClosed = false,
         upperClosed = false;
 
-  /// (-∞..+∞)
+  /// `( -∞ .. +∞ )`
   Interval.all()
       : lower = null,
         upper = null,
         lowerClosed = false,
         upperClosed = false;
 
-  /// [[value]..[value]]
+  /// `[`[value]`..`[value]`]`
   Interval.singleton(T value)
       : lower = value,
         upper = value,
@@ -251,7 +251,7 @@ class Interval<T extends Comparable<T>> {
         upperClosed);
   }
 
-  /// Whether this interval contains [test].
+  /// Whether `this` contains [test].
   bool contains(T test) {
     if (lower != null) {
       var lowerCompare = Comparable.compare(lower, test);
