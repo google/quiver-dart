@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.compare.interval_test;
+library quiver.math.interval_test;
 
 import 'package:unittest/unittest.dart';
-import 'package:quiver/compare.dart';
+import 'package:quiver/math.dart';
 
 main() {
   group('Interval', () {

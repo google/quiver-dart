@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.compare;
+part of quiver.math;
 
 /// A connected set of [Comparable] values.
 ///

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.compare;
+library quiver.math;
 
 import 'package:quiver/core.dart';
 
-part 'src/compare/interval.dart';
+part 'src/math/interval.dart';

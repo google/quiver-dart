@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.compare.all_tests;
+library quiver.math.all_tests;
 
 import 'interval_test.dart' as interval;
 
