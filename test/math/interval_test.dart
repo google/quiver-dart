@@ -173,10 +173,6 @@ main() {
 
     group('lowerBound', () {
 
-      test('should be null when not lower bounded', () {
-        expect(new Interval.atMost(0).lowerBound, isNull);
-      });
-
       test('should construct bound from fields when lower bounded', () {
         var lowerBound = new Interval.atLeast(0).lowerBound;
         expect(lowerBound.value, 0);
@@ -186,10 +182,6 @@ main() {
     });
 
     group('upperBound', () {
-
-      test('should be null when not upper bounded', () {
-        expect(new Interval.atLeast(0).upperBound, isNull);
-      });
 
       test('should construct bound from fields when upper bounded', () {
         var upperBound = new Interval.atMost(0).upperBound;
@@ -393,11 +385,10 @@ main() {
 
   group('Bound', () {
 
-    test('constructors should throw on null', () {
+    test('constructors should throw when value null and closed', () {
       var throwsArgumentError = throwsA(new isInstanceOf<ArgumentError>());
       expect(() => new Bound(null, true), throwsArgumentError);
       expect(() => new Bound(0, null), throwsArgumentError);
-      expect(() => new Bound.open(null), throwsArgumentError);
       expect(() => new Bound.closed(null), throwsArgumentError);
     });
 

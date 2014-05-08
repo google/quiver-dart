@@ -35,17 +35,13 @@ class Interval<T extends Comparable<T>> {
   /// if [lowerClosed] is true and [lower] compares equal to [upper].
   final bool upperClosed;
 
-  /// The lower [Bound] if it exists, or null.
-  Bound get lowerBound {
-    if(lower == null) return null;
-    return new Bound<T>(lower, lowerClosed);
-  }
+  /// The lower [Bound].
+  Bound get lowerBound =>
+      new Bound<T>(lower, lowerClosed);
 
-  /// The upper [Bound] if it exists, or null.
-  Bound get upperBound {
-    if(upper == null) return null;
-    return new Bound<T>(upper, upperClosed);
-  }
+  /// The upper [Bound].
+  Bound get upperBound =>
+      new Bound<T>(upper, upperClosed);
 
   /// Whether `this` is both [lowerBounded] and [upperBounded].
   bool get bounded => lowerBounded && upperBounded;
@@ -320,26 +316,37 @@ class Interval<T extends Comparable<T>> {
 
 }
 
-/// Represents an upper or lower bound of an [Interval].
+/// Represents an upper or lower bound (or absence thereof) of an [Interval].
 class Bound<T> {
 
+  /// The boundary value.
   final T value;
 
+  /// Whether `this` bound includes its [value].
   final bool isClosed;
 
+  /// Whether `this` bound excludes its [value].
   bool get isOpen => !isClosed;
 
   Bound(this.value, this.isClosed) {
     _checkValue();
     if(isClosed == null) throw new ArgumentError('isClosed cannot be null');
+    if(isClosed) _checkValue();
   }
 
-  Bound.open(this.value) : isClosed = false { _checkValue(); }
+  /// An open bound.
+  Bound.open(this.value) : isClosed = false;
 
+  /// A closed bound.
   Bound.closed(this.value) : isClosed = true { _checkValue(); }
 
+  /// An absent bound.
+  Bound.absent() : isClosed = false, value = null;
+
   _checkValue() {
-    if(value == null) throw new ArgumentError('value cannot be null');
+    if(value == null) {
+      throw new ArgumentError('value cannot be null when isClosed is true');
+    }
   }
 
   int get hashCode => hash2(value, isClosed);
