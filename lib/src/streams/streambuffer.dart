@@ -22,7 +22,7 @@ part of quiver.streams;
 class UnderflowError extends Error {
   final message;
 
-  /** The [message] describes the underflow. */
+  /// The [message] describes the underflow.
   UnderflowError([this.message]);
 
   String toString() {
@@ -49,16 +49,16 @@ class UnderflowError extends Error {
  */
 class StreamBuffer<T> implements StreamConsumer {
 
-  List<T> _chunks = [];
+  List _chunks = [];
   int _offset = 0;
   int _counter = 0; // sum(_chunks[*].length) - _offset
   List<_ReaderInWaiting<List<T>>> _readers = [];
   StreamSubscription<T> _sub;
   Completer _streamDone;
 
-  final bool throwOnError;
+  final bool _throwOnError;
 
-  Stream currentStream;
+  Stream _currentStream;
 
   int _limit = 0;
 
@@ -82,21 +82,23 @@ class StreamBuffer<T> implements StreamConsumer {
    * the buffer will hold before pausing the underlying stream. A limit of 0
    * means no buffer limits.
    */
-  StreamBuffer({this.throwOnError: false});
+  StreamBuffer({bool throwOnError: false, int limit: 0})
+      : this._throwOnError = throwOnError,
+        this._limit = limit;
 
   /**
- * The amount of unread data buffered.
- */
+   * The amount of unread data buffered.
+   */
   int get buffered => _counter;
 
   List<T> _consume(int size) {
-    // Check if we can short-circuit the the process with one list.
     var follower = 0;
     var ret = new List(size);
-    while (size > 0) {
+    var leftToRead = size;
+    while (leftToRead > 0) {
       var chunk = _chunks.first;
       var listCap = (chunk is List)  ? chunk.length - _offset : 1;
-      var subsize = size > listCap ? listCap : size;
+      var subsize = leftToRead > listCap ? listCap : leftToRead;
       if (chunk is List) {
         ret.setRange(follower, follower + subsize,
             chunk.getRange(_offset, _offset + subsize));
@@ -106,7 +108,7 @@ class StreamBuffer<T> implements StreamConsumer {
       follower += subsize;
       _offset += subsize;
       _counter -= subsize;
-      size -= subsize;
+      leftToRead -= subsize;
       if (chunk is! List || _offset >= chunk.length) {
         _offset = 0;
         _chunks.removeAt(0);
@@ -124,12 +126,12 @@ class StreamBuffer<T> implements StreamConsumer {
    * Throws [ArgumentError] if size is larger than optional buffer [limit].
    */
   Future<List<T>> read(int size) {
-    // If we have enough data to consume and there are no other readers, then
-    // we can return immediately.
     if (limited && size > limit) {
       throw new ArgumentError("Cannot read $size with limit $limit");
     }
 
+    // If we have enough data to consume and there are no other readers, then
+    // we can return immediately.
     if (size <= buffered && _readers.isEmpty) {
       return new Future.value(_consume(size));
     }
@@ -138,13 +140,14 @@ class StreamBuffer<T> implements StreamConsumer {
     return completer.future;
   }
 
+  @override
   Future addStream(Stream<T> stream) {
-    var lasStream = currentStream == null ? stream : currentStream;
+    var lastStream = _currentStream == null ? stream : _currentStream;
     if (_sub != null) {
       _sub.cancel();
       _streamDone.complete();
     }
-    currentStream = stream;
+    _currentStream = stream;
     Completer streamDone = new Completer();
     _sub = stream.listen((items) {
       _chunks.add(items);
@@ -160,7 +163,7 @@ class StreamBuffer<T> implements StreamConsumer {
     },
     onDone: () {
       // User is piping in a new stream
-      if (stream == lasStream && throwOnError) {
+      if (stream == lastStream && _throwOnError) {
         _closed(new UnderflowError());
       }
       streamDone.complete();
