@@ -14,36 +14,80 @@
 
 library quiver.time.clock_test;
 
-import 'dart:async';
-
 import 'package:quiver/testing/async.dart';
 import 'package:quiver/time.dart';
 import 'package:unittest/unittest.dart';
 
 main() {
-  test("Watched pot does boil, if given enough time", () {
-    new FakeAsync().run((async) {
-      int callbacks = 0;
-      DateTime lastTime;
-      var sub = watchClock(aMinute, clock: async.getClock(
-          DateTime.parse("2014-05-05 20:00:30"))).listen((d) {
-        callbacks++;
-        lastTime = d;
+  group("watchClock", () {
+
+    test("delivers events as expected", () {
+      new FakeAsync().run((async) {
+        int callbacks = 0;
+        DateTime lastTime;
+        var sub = watchClock(aMinute, clock: async.getClock(
+            DateTime.parse("2014-05-05 20:00:30"))).listen((d) {
+          callbacks++;
+          lastTime = d;
+        });
+        expect(callbacks, 0, reason: "Should be no callbacks at start");
+        async.elapse(aSecond*15);
+        expect(callbacks, 0, reason: "Should be no callbacks before trigger");
+        async.elapse(aSecond*15);
+        expect(callbacks, 1, reason: "Calledback on rollover");
+        expect(lastTime, DateTime.parse("2014-05-05 20:01:00"),
+            reason: "And that time was correct");
+        async.elapse(aMinute*1);
+        expect(callbacks, 2, reason: "Callback is repeated");
+        expect(lastTime, DateTime.parse("2014-05-05 20:02:00"),
+            reason: "And that time was correct");
+        sub.cancel();
+        async.elapse(aMinute*2);
+        expect(callbacks, 2, reason: "No callbacks after subscription cancel");
       });
-      expect(callbacks, 0, reason: "Should be no callbacks at start");
-      async.elapse(aSecond*15);
-      expect(callbacks, 0, reason: "Should be no callbacks before trigger");
-      async.elapse(aSecond*15);
-      expect(callbacks, 1, reason: "Calledback on rollover");
-      expect(lastTime, DateTime.parse("2014-05-05 20:01:00"),
-          reason: "And that time was correct");
-      async.elapse(aMinute*1);
-      expect(callbacks, 2, reason: "Callback is repeated");
-      expect(lastTime, DateTime.parse("2014-05-05 20:02:00"),
-          reason: "And that time was correct");
-      sub.cancel();
-      async.elapse(aMinute*2);
-      expect(callbacks, 2, reason: "No callbacks after subscription cancel");
+    });
+
+    test("can be re-listened to", () {
+      new FakeAsync().run((async) {
+        int callbacks = 0;
+        var clock = watchClock(aMinute, clock: async.getClock(
+            DateTime.parse("2014-05-05 20:00:30")));
+        var sub = clock.listen((d) {
+          callbacks++;
+        });
+        async.elapse(aMinute);
+        expect(callbacks, 1);
+        sub.cancel();
+        async.elapse(aMinute);
+        expect(callbacks, 1);
+        sub = clock.listen((d) {
+          callbacks++;
+        });
+        async.elapse(aMinute);
+        expect(callbacks, 2);
+      });
+    });
+
+    test("supports multiple listeners joining and leaving", () {
+      new FakeAsync().run((async) {
+        List<int> callbacks = [0,0];
+        var clock = watchClock(aMinute, clock: async.getClock(
+            DateTime.parse("2014-05-05 20:00:30")));
+        List subs = [
+          clock.listen((d) {
+            callbacks[0]++;
+          }),
+          clock.listen((d) {
+            callbacks[1]++;
+          })
+        ];
+
+        async.elapse(aMinute);
+        expect(callbacks, [1, 1]);
+        subs[0].cancel();
+        async.elapse(aMinute);
+        expect(callbacks, [1, 2]);
+      });
     });
   });
 }
