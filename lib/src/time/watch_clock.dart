@@ -32,10 +32,6 @@ Stream<DateTime> watchClock(Duration interval, {Clock clock: SYSTEM_CLOCK}) {
   Timer timer;
   StreamController controller;
   int intervalMs = interval.inMilliseconds;
-  controller = new StreamController<DateTime>.broadcast(onCancel: () {
-    controller.close();
-    timer.cancel();
-  });
 
   _startTimer(DateTime now, tick) {
     var delay = intervalMs - (now.millisecondsSinceEpoch % intervalMs);
@@ -43,12 +39,17 @@ Stream<DateTime> watchClock(Duration interval, {Clock clock: SYSTEM_CLOCK}) {
   }
 
   tick() {
-    if (controller.isClosed) return;
     DateTime now = clock.now();
     controller.add(now);
     _startTimer(now, tick);
   };
-  _startTimer(clock.now(), tick);
+
+  controller = new StreamController<DateTime>.broadcast(sync: true,
+      onCancel: () {
+        timer.cancel();
+      }, onListen: () {
+        _startTimer(clock.now(), tick);
+      });
   return controller.stream;
 }
 
