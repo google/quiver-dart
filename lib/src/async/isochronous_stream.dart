@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.time;
+part of quiver.async;
 
 
 /**
@@ -47,7 +47,7 @@ part of quiver.time;
  *     2014-05-04 20:27:00.003
  *     ...
  */
-Stream<DateTime> watchClock(Duration interval, {Clock clock: SYSTEM_CLOCK,
+Stream<DateTime> isocStream(Duration interval, {Clock clock: SYSTEM_CLOCK,
   DateTime anchor}) {
   Timer timer;
   StreamController controller;

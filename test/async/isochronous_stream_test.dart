@@ -15,17 +15,18 @@
 library quiver.time.clock_test;
 
 import 'package:quiver/testing/async.dart';
+import 'package:quiver/async.dart';
 import 'package:quiver/time.dart';
 import 'package:unittest/unittest.dart';
 
 main() {
-  group("watchClock", () {
+  group("isocStream", () {
 
     test("delivers events as expected", () {
       new FakeAsync().run((async) {
         int callbacks = 0;
         DateTime lastTime;
-        var sub = watchClock(aMinute, clock: async.getClock(
+        var sub = isocStream(aMinute, clock: async.getClock(
             DateTime.parse("2014-05-05 20:00:30"))).listen((d) {
           callbacks++;
           lastTime = d;
@@ -50,7 +51,7 @@ main() {
     test("can be re-listened to", () {
       new FakeAsync().run((async) {
         int callbacks = 0;
-        var clock = watchClock(aMinute, clock: async.getClock(
+        var clock = isocStream(aMinute, clock: async.getClock(
             DateTime.parse("2014-05-05 20:00:30")));
         var sub = clock.listen((d) {
           callbacks++;
@@ -71,7 +72,7 @@ main() {
     test("supports multiple listeners joining and leaving", () {
       new FakeAsync().run((async) {
         List<int> callbacks = [0,0];
-        var clock = watchClock(aMinute, clock: async.getClock(
+        var clock = isocStream(aMinute, clock: async.getClock(
             DateTime.parse("2014-05-05 20:00:30")));
         List subs = [
           clock.listen((d) {
@@ -96,7 +97,7 @@ main() {
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00");
         Clock clock = async.getClock(start);
-        var sub = watchClock(aMinute*10, clock: clock,
+        var sub = isocStream(aMinute*10, clock: clock,
             anchor: clock.minutesAgo(59)).listen((d) {
           callbacks++;
           times.add(d);
@@ -119,7 +120,7 @@ main() {
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00");
         Clock clock = async.getClock(start);
-        var sub = watchClock(aMinute*10, clock: clock,
+        var sub = isocStream(aMinute*10, clock: clock,
             anchor: clock.minutesFromNow(61)).listen((d) {
           callbacks++;
           times.add(d);
@@ -141,7 +142,7 @@ main() {
         int callbacks = 0;
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00.004");
-        var sub = watchClock(aMillisecond*100, clock: async.getClock(start),
+        var sub = isocStream(aMillisecond*100, clock: async.getClock(start),
             anchor: start).listen((d) {
           callbacks++;
           times.add(d);
