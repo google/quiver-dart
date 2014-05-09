@@ -191,8 +191,8 @@ since Clock deals in DateTime which only have millisecond accuracy.
 * `aDay` vs. `const Duration(days: 1)`
 * `aSecond * 30` vs. `const Duration(seconds: 30)`
 
-`watchClock()` provides a simple stream of `DateTime` events synchronized with
-wall-clock time. For example:
+`watchClock()` provides a simple isochronous stream of `DateTime` events with
+optional anchor time. For example:
 ```dart
   // Every minute, do something
   watchClock(aMinute).listen((n) {
