@@ -19,3 +19,4 @@ import 'package:quiver/iterables.dart' show IndexedValue;
 
 part 'src/streams/concat.dart';
 part 'src/streams/enumerate.dart';
+part 'src/streams/streambuffer.dart';
