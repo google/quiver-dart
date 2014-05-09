@@ -16,13 +16,13 @@ part of quiver.time;
 
 
 /**
- * Stream isochronous [DateTime] events at [interval]s centered on [anchorMs].
+ * Stream isochronous [DateTime] events at [interval]s centered on [anchor].
  *
  * This stream accounts for drift but only guarantees that events are
  * delivered on or after the interval. If the system is busy for longer than
  * two [interval]s, only one will be delivered.
  *
- * [anchorMs] defaults to the epoch. It can be anchored in the future, but
+ * [anchor] defaults to the epoch. It can be anchored in the future, but
  * events will be delivered at the first interveral. If anchored at `now`,
  * this forms a self-correcting periodic timer.
  *
@@ -48,10 +48,11 @@ part of quiver.time;
  *     ...
  */
 Stream<DateTime> watchClock(Duration interval, {Clock clock: SYSTEM_CLOCK,
-  int anchorMs: 0}) {
+  DateTime anchor}) {
   Timer timer;
   StreamController controller;
   int intervalMs = interval.inMilliseconds;
+  int anchorMs = anchor == null ? 0 : anchor.millisecondsSinceEpoch;
 
   _startTimer(DateTime now, tick) {
     var delay = intervalMs

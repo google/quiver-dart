@@ -97,7 +97,7 @@ main() {
         DateTime start = DateTime.parse("2014-05-05 20:06:00");
         Clock clock = async.getClock(start);
         var sub = watchClock(aMinute*10, clock: clock,
-            anchorMs: clock.minutesAgo(59).millisecondsSinceEpoch).listen((d) {
+            anchor: clock.minutesAgo(59)).listen((d) {
           callbacks++;
           times.add(d);
         });
@@ -120,7 +120,7 @@ main() {
         DateTime start = DateTime.parse("2014-05-05 20:06:00");
         Clock clock = async.getClock(start);
         var sub = watchClock(aMinute*10, clock: clock,
-            anchorMs: clock.minutesFromNow(61).millisecondsSinceEpoch).listen((d) {
+            anchor: clock.minutesFromNow(61)).listen((d) {
           callbacks++;
           times.add(d);
         });
@@ -142,7 +142,7 @@ main() {
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00.004");
         var sub = watchClock(aMillisecond*100, clock: async.getClock(start),
-            anchorMs: start.millisecondsSinceEpoch).listen((d) {
+            anchor: start).listen((d) {
           callbacks++;
           times.add(d);
         });
