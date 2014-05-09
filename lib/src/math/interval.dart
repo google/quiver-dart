@@ -36,12 +36,10 @@ class Interval<T extends Comparable<T>> {
   final bool upperClosed;
 
   /// The lower [Bound].
-  Bound get lowerBound =>
-      new Bound<T>(lower, lowerClosed);
+  Bound get lowerBound => new Bound<T>(lower, lowerClosed);
 
   /// The upper [Bound].
-  Bound get upperBound =>
-      new Bound<T>(upper, upperClosed);
+  Bound get upperBound => new Bound<T>(upper, upperClosed);
 
   /// Whether `this` is both [lowerBounded] and [upperBounded].
   bool get bounded => lowerBounded && upperBounded;
@@ -52,23 +50,26 @@ class Interval<T extends Comparable<T>> {
   /// Whether `this` has an [upper] bound.
   bool get upperBounded => upper != null;
 
-  /// Whether `this` excludes its bounds.
+  /// Whether `this` excludes both of its bounds.
   bool get isOpen=> !lowerClosed && !upperClosed;
 
-  /// Whether `this` [contains] its bounds.
+  /// Whether `this` [contains] both of its bounds.
   bool get isClosed => lowerClosed && upperClosed;
 
+  /// Whether `this` excludes its bounds.
+  bool get isClosedOpen => lowerClosed && !upperClosed;
+
+  /// Whether `this` [contains] its bounds.
+  bool get isOpenClosed => !lowerClosed && upperClosed;
+
   /// Whether `this` [contains] any values.
-  bool get isEmpty {
-    if (lower == null || upper == null || Comparable.compare(lower, upper) < 0) return false;
-    return !(lowerClosed && upperClosed);
-  }
+  bool get isEmpty  => _boundValuesEqual && !isClosed;
 
   /// Whether `this` [contains] exactly one value.
-  bool get isSingleton {
-    if(lower == null || upper == null) return false;
-    return Comparable.compare(lower, upper) == 0 && isClosed;
-  }
+  bool get isSingleton => _boundValuesEqual && isClosed;
+
+  bool get _boundValuesEqual =>
+      bounded && Comparable.compare(lower, upper) == 0;
 
   /// Returns an interval which contains the same values as `this`, except any
   /// closed bounds become open.

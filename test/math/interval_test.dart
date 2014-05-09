@@ -259,6 +259,7 @@ main() {
         expect(new Interval.open(0, 1).isOpen, isTrue);
         expect(new Interval.closedOpen(0, 1).isOpen, isFalse);
         expect(new Interval.openClosed(0, 1).isOpen, isFalse);
+        expect(new Interval.closed(0, 1).isOpen, isFalse);
       });
 
     });
@@ -269,6 +270,29 @@ main() {
         expect(new Interval.closed(0, 1).isClosed, isTrue);
         expect(new Interval.closedOpen(0, 1).isClosed, isFalse);
         expect(new Interval.openClosed(0, 1).isClosed, isFalse);
+        expect(new Interval.open(0, 1).isClosed, isFalse);
+      });
+
+    });
+
+    group('isClosedOpen', () {
+
+      test('should be true only when lower closed and upper open', () {
+        expect(new Interval.closedOpen(0, 1).isClosedOpen, isTrue);
+        expect(new Interval.open(0, 1).isClosedOpen, isFalse);
+        expect(new Interval.closed(0, 1).isClosedOpen, isFalse);
+        expect(new Interval.openClosed(0, 1).isClosedOpen, isFalse);
+      });
+
+    });
+
+    group('isOpenClosed', () {
+
+      test('should be true only when lower open and upper closed', () {
+        expect(new Interval.openClosed(0, 1).isOpenClosed, isTrue);
+        expect(new Interval.open(0, 1).isOpenClosed, isFalse);
+        expect(new Interval.closed(0, 1).isOpenClosed, isFalse);
+        expect(new Interval.closedOpen(0, 1).isOpenClosed, isFalse);
       });
 
     });
