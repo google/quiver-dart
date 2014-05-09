@@ -19,6 +19,7 @@ import 'create_timer_test.dart' as create_timer;
 import 'future_group_test.dart' as future_group;
 import 'future_stream_test.dart' as future_stream;
 import 'iteration_test.dart' as iteration;
+import 'metronome_test.dart' as metronome;
 import 'stream_router_test.dart' as stream_router;
 
 main() {
@@ -26,6 +27,7 @@ main() {
   create_timer.main();
   future_group.main();
   future_stream.main();
+  metronome.main();
   iteration.main();
   stream_router.main();
 }
