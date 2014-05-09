@@ -89,6 +89,71 @@ main() {
         expect(callbacks, [1, 2]);
       });
     });
+
+    test("can be anchored at any time", () {
+      new FakeAsync().run((async) {
+        int callbacks = 0;
+        List<DateTime> times = [];
+        DateTime start = DateTime.parse("2014-05-05 20:06:00");
+        Clock clock = async.getClock(start);
+        var sub = watchClock(aMinute*10, clock: clock,
+            anchorMs: clock.minutesAgo(59).millisecondsSinceEpoch).listen((d) {
+          callbacks++;
+          times.add(d);
+        });
+        async.elapse(anHour);
+        expect(times, [
+            DateTime.parse("2014-05-05 20:07:00"),
+            DateTime.parse("2014-05-05 20:17:00"),
+            DateTime.parse("2014-05-05 20:27:00"),
+            DateTime.parse("2014-05-05 20:37:00"),
+            DateTime.parse("2014-05-05 20:47:00"),
+            DateTime.parse("2014-05-05 20:57:00"),
+        ]);
+      });
+    });
+
+    test("can be anchored in the future", () {
+      new FakeAsync().run((async) {
+        int callbacks = 0;
+        List<DateTime> times = [];
+        DateTime start = DateTime.parse("2014-05-05 20:06:00");
+        Clock clock = async.getClock(start);
+        var sub = watchClock(aMinute*10, clock: clock,
+            anchorMs: clock.minutesFromNow(61).millisecondsSinceEpoch).listen((d) {
+          callbacks++;
+          times.add(d);
+        });
+        async.elapse(anHour);
+        expect(times, [
+            DateTime.parse("2014-05-05 20:07:00"),
+            DateTime.parse("2014-05-05 20:17:00"),
+            DateTime.parse("2014-05-05 20:27:00"),
+            DateTime.parse("2014-05-05 20:37:00"),
+            DateTime.parse("2014-05-05 20:47:00"),
+            DateTime.parse("2014-05-05 20:57:00"),
+        ]);
+      });
+    });
+
+    test("can be a periodic timer", () {
+      new FakeAsync().run((async) {
+        int callbacks = 0;
+        List<DateTime> times = [];
+        DateTime start = DateTime.parse("2014-05-05 20:06:00.004");
+        var sub = watchClock(aMillisecond*100, clock: async.getClock(start),
+            anchorMs: start.millisecondsSinceEpoch).listen((d) {
+          callbacks++;
+          times.add(d);
+        });
+        async.elapse(aMillisecond*304);
+        expect(times, [
+            DateTime.parse("2014-05-05 20:06:00.104"),
+            DateTime.parse("2014-05-05 20:06:00.204"),
+            DateTime.parse("2014-05-05 20:06:00.304"),
+        ]);
+      });
+    });
   });
 }
 
