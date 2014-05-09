@@ -43,6 +43,22 @@ processing the next element.
 passing Timer factories to classes and functions, increasing the testability of
 code that depends on Timer.
 
+`isocStream()` provides a simple isochronous stream of `DateTime` events with
+optional anchor time. For example:
+```dart
+  // Every minute, do something
+  isocStream(aMinute).listen((n) {
+    // update a clock
+    // play a tune
+    // whatever your fancy
+  });
+
+  // Only listen for the next minute, e.g. @14:05:07.123
+  isocStream(aMinute).first.then((d) {
+    print("next minute $d"); // 14:06:00.000
+  });
+```
+
 [quiver.async]: http://google.github.io/quiver-dart/#quiver/quiver-async
 
 ## [quiver.cache][]
