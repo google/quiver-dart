@@ -98,6 +98,13 @@ Python's itertools.
 `min`, `max`, and `extent` retreive the minimum and maximum elements from an
 iterable.
 
+`GeneratingIterable` is an easy way to create lazy iterables that produce
+elements by calling a function. A common use-case is to traverse properties in
+an object graph, like the parent relationship in a tree.
+
+`InfiniteIterable` is a base class for Iterables that throws on operations that
+require a finite length.
+
 [quiver.iterables]: http://google.github.io/quiver-dart/#quiver/quiver-iterables
 
 ## [quiver.mirrors][]
