@@ -1,5 +1,5 @@
 name: quiver
-version: 0.19.0-dev
+version: 0.19.0-dev.1
 authors:
 - Justin Fagnani <justinfagnani@google.com>
 - Yegor Jbanov <yjbanov@google.com>
@@ -11,8 +11,9 @@ description: A set of utility libraries for Dart
 homepage: https://github.com/google/quiver-dart
 documentation: http://google.github.io/quiver-dart/
 environment:
-  sdk: '>=0.8.7'
+  sdk: '>=1.0.0'
 dependencies:
-  path: '>=0.8.1'
+  path: '>=1.0.0 < 2.0.0'
 dev_dependencies:
-  unittest: '>=0.8.1'
+  unittest: '>=0.11.0'
+  matcher: '>=0.10.0'

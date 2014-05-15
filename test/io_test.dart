@@ -78,7 +78,7 @@ main() {
 
       var results = [];
 
-      visitDirectory(testDir, (FileSystemEntity e) {
+      return visitDirectory(testDir, (FileSystemEntity e) {
         if (e is File) {
           results.add("file: ${e.path}");
         } else if (e is Directory) {
@@ -89,7 +89,7 @@ main() {
           throw "bad";
         }
         return new Future.value(true);
-      }).then(expectAsync1((_) {
+      }).then((_) {
         var testPathFull = new File(testPath).absolute.path;
         var expectation = [
          "file: $testPath/file_target",
@@ -101,7 +101,7 @@ main() {
          "link: $testPath/broken_link, broken_target",
          ];
         expect(results, unorderedEquals(expectation));
-      }));
+      });
     });
 
     test('should conditionally recurse sub-directories', () {
@@ -111,29 +111,29 @@ main() {
       new File(path.join(testPath, 'dir2/file')).createSync();
 
       var files = [];
-      visitDirectory(testDir, (e) {
+      return visitDirectory(testDir, (e) {
         files.add(e);
         return new Future.value(!e.path.endsWith('dir2'));
-      }).then(expectAsync1((_) {
+      }).then((_) {
         expect(files.map((e) => e.path), unorderedEquals([
             "$testPath/dir",
             "$testPath/dir/file",
             "$testPath/dir2",
         ]));
-      }));
+      });
     });
 
     test('should not infinitely recurse on symlink cycles', () {
       var dir = new Directory(path.join(testPath, 'dir'))..createSync();
       new Link(path.join(testPath, 'dir/link')).createSync('../dir');
       var files = [];
-      visitDirectory(dir, (e) {
+      return visitDirectory(dir, (e) {
         files.add(e);
         return new Future.value(true);
-      }).then(expectAsync1((_) {
+      }).then((_) {
         expect(files.length, 1);
         expect(files.first.targetSync(), '../dir');
-      }));
+      });
     });
   });
 }
