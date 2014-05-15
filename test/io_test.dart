@@ -78,7 +78,7 @@ main() {
 
       var results = [];
 
-      visitDirectory(testDir, (FileSystemEntity e) {
+      return visitDirectory(testDir, (FileSystemEntity e) {
         if (e is File) {
           results.add("file: ${e.path}");
         } else if (e is Directory) {
@@ -111,7 +111,7 @@ main() {
       new File(path.join(testPath, 'dir2/file')).createSync();
 
       var files = [];
-      visitDirectory(testDir, (e) {
+      return visitDirectory(testDir, (e) {
         files.add(e);
         return new Future.value(!e.path.endsWith('dir2'));
       }).then((_) {
@@ -127,7 +127,7 @@ main() {
       var dir = new Directory(path.join(testPath, 'dir'))..createSync();
       new Link(path.join(testPath, 'dir/link')).createSync('../dir');
       var files = [];
-      visitDirectory(dir, (e) {
+      return visitDirectory(dir, (e) {
         files.add(e);
         return new Future.value(true);
       }).then((_) {
