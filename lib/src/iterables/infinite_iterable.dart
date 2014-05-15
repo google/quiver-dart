@@ -23,29 +23,29 @@ abstract class InfiniteIterable<T> extends IterableBase<T> {
 
   bool get isNotEmpty => true;
 
-  num get last => throw new UnsupportedError('last');
+  T get last => throw new UnsupportedError('last');
 
   int get length => throw new UnsupportedError('length');
 
-  num get single => throw new StateError('single');
+  T get single => throw new StateError('single');
 
-  bool every(bool f(num)) => throw new UnsupportedError('every');
+  bool every(bool f(T)) => throw new UnsupportedError('every');
 
-  bool fold(initialValue, combine(previousValue, num element)) =>
+  bool fold(initialValue, combine(previousValue, T element)) =>
       throw new UnsupportedError('fold');
 
-  void forEach(void f(num element)) => throw new UnsupportedError('forEach');
+  void forEach(void f(T element)) => throw new UnsupportedError('forEach');
 
   String join([String separator]) => throw new UnsupportedError('join');
 
-  dynamic lastWhere(bool test(num value), {Object orElse()}) =>
+  dynamic lastWhere(bool test(T value), {Object orElse()}) =>
       throw new UnsupportedError('lastWhere');
 
-  num reduce(num combine(num value, num element)) =>
+  T reduce(T combine(T value, T element)) =>
       throw new UnsupportedError('reduce');
 
-  List<num> toList({bool growable: true}) =>
+  List<T> toList({bool growable: true}) =>
       throw new UnsupportedError('toList');
 
-  Set<num> toSet() => throw new UnsupportedError('toSet');
+  Set<T> toSet() => throw new UnsupportedError('toSet');
 }
