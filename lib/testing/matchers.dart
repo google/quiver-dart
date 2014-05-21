@@ -12,12 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.testing.all_tests;
+/**
+ * Useful unit test matchers.
+ */
+library quiver.testing.matchers;
 
-import 'async/all_tests.dart' as async;
-import 'matchers/all_tests.dart' as matchers;
+import 'package:unittest/unittest.dart';
 
-main() {
-  async.main();
-  matchers.main();
-}
+part 'src/matchers/is_assignable_to.dart';
