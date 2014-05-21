@@ -74,6 +74,12 @@ Future forEachAsync(Iterable iterable, AsyncAction action, {
     throw new ArgumentError("maxTasks must be greater than 0, was: $maxTasks");
   }
 
+  if (iterable == null) {
+    throw new ArgumentError("iterable must not be null");
+  }
+
+  if (iterable.isEmpty) return new Future.value();
+
   var completer = new Completer();
   var iterator = iterable.iterator;
   int pending = 0;
