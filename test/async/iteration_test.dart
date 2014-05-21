@@ -97,5 +97,13 @@ main() {
       expect(() => forEachAsync([], (i) {}, maxTasks: null), throws);
       expect(() => forEachAsync([], (i) {}, maxTasks: 0), throws);
     });
+
+    test('should validate iterable', () {
+      expect(() => forEachAsync(null, (i) {}), throws);
+    });
+
+    test('should complete when given no work', () {
+      return forEachAsync([], (i) {});
+    });
   });
 }
