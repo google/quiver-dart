@@ -80,6 +80,10 @@ the ability to iterate from an arbitrary anchor, and 'nearest' search.
 `hashObjects`, `hash2`, `hash3`, and `hash4` generate high-quality hashCodes for
 a list of objects, or 2, 3, or 4 arguments respectively.
 
+`Interval` is a connected set of `Comparable` values.  It may have upper and 
+lower bounds, and those bounds may be open or closed.  `Bound`s can be used
+to represent these bounds when creating or processing `Interval`s.
+
 [quiver.core]: http://google.github.io/quiver-dart/docs/quiver.core.html
 
 ## [quiver.io][]
