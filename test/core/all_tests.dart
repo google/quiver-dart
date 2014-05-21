@@ -16,10 +16,12 @@ library quiver.core.all_tests;
 
 import 'core_test.dart' as core;
 import 'hash_test.dart' as hash;
+import 'interval_test.dart' as interval;
 import 'optional_test.dart' as optional;
 
 main() {
   core.main();
   hash.main();
+  interval.main();
   optional.main();
 }

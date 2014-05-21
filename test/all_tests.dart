@@ -19,7 +19,6 @@ import 'package:unittest/compact_vm_config.dart';
 import 'async/all_tests.dart' as async;
 import 'cache/map_cache_test.dart' as cache;
 import 'collection/all_tests.dart' as collection;
-import 'math/all_tests.dart' as math;
 import 'core/all_tests.dart' as core;
 import 'io_test.dart' as io;
 import 'iterables/all_tests.dart' as iterables;
@@ -35,7 +34,6 @@ main() {
   async.main();
   cache.main();
   collection.main();
-  math.main();
   core.main();
   io.main();
   iterables.main();

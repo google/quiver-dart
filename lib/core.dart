@@ -18,6 +18,7 @@
 library quiver.core;
 
 part 'src/core/hash.dart';
+part 'src/core/interval.dart';
 part 'src/core/optional.dart';
 
 /**
