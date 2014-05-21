@@ -17,7 +17,7 @@ part of quiver.streams;
 /**
  * Returns a stream of completion events for the input [futures].
  *
- * Successfuly completed futures yield data events, while futures completed with
+ * Successfully completed futures yield data events, while futures completed with
  * errors yield error events.
  *
  * The iterator obtained from [futures] is only advanced once the previous
@@ -33,47 +33,5 @@ part of quiver.streams;
  *     collect(files.toList().map((file) => file.readAsString()));
  *
  */
-  Stream collect(Iterable futures) {
-    Iterator iterator;
-    bool skippedNext = false;
-    StreamController controller;
-    next() {
-      if(controller.isPaused) {
-        skippedNext = true;
-        return;
-      }
-
-      bool hasNext;
-      var current;
-
-      try {
-        hasNext = iterator.moveNext();
-        current = iterator.current;
-      } catch (e, s) {
-        controller.addError(e, s);
-        return;
-      }
-
-      if(hasNext) {
-        current.then((e) { controller.add(e); },
-            onError: (e, s) { controller.addError(e, s); })
-            .whenComplete(next);
-      } else {
-        controller.close();
-      }
-    }
-    controller = new StreamController(
-        sync: true,
-        onListen: () {
-          iterator = futures.iterator;
-          scheduleMicrotask(next);
-        },
-        onResume: () {
-          if(skippedNext) {
-            skippedNext = false;
-            next();
-          }
-        }
-    );
-    return controller.stream;
-  }
+Stream collect(Iterable futures) =>
+    new Stream.fromIterable(futures).asyncMap((f) => f);
