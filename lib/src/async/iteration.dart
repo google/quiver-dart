@@ -107,10 +107,6 @@ Future forEachAsync(Iterable iterable, AsyncAction action, {
     }
     return false;
   }
-  bool anyWork = false;
-  while (scheduleTask()) {
-    anyWork = true;
-  }
-  if (!anyWork) completer.complete();
+  while (scheduleTask()) {}
   return completer.future;
 }
