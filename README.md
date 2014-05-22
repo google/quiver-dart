@@ -134,8 +134,11 @@ used as a literal match inside of a RegExp.
 
 ## [quiver.streams][]
 
-`Stream` versions of [quiver.iterables][] methods.  Currently `enumerate` and 
-`concat` are supported.
+`collect` collects the completion events of an `Iterable` of `Future`s into a 
+`Stream`.
+
+`enumerate` and `concat` represent `Stream` versions of the same-named 
+[quiver.iterables][] methods.
 
 [quiver.streams]: http://google.github.io/quiver-dart/docs/quiver.streams.html
 

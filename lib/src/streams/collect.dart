@@ -17,11 +17,11 @@ part of quiver.streams;
 /**
  * Returns a stream of completion events for the input [futures].
  *
- * Successfully completed futures yield data events, while futures completed with
- * errors yield error events.
+ * Successfully completed futures yield data events, while futures completed
+ * with errors yield error events.
  *
  * The iterator obtained from [futures] is only advanced once the previous
- * future completes and yield an event.  Thus, lazily creating the futures is
+ * future completes and yields an event.  Thus, lazily creating the futures is
  * supported, for example:
  *
  *     collect(files.map((file) => file.readAsString()));
