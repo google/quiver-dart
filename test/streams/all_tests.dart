@@ -14,11 +14,13 @@
 
 library quiver.streams.all_tests;
 
+import 'collect_test.dart' as collect;
 import 'concat_test.dart' as concat;
 import 'enumerate_test.dart' as enumerate;
 import 'streambuffer_test.dart' as streambuffer;
 
 main() {
+  collect.main();
   concat.main();
   enumerate.main();
   streambuffer.main();
