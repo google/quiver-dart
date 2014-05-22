@@ -76,7 +76,7 @@ main() {
       var controller = new StreamController<String>(
           onPause: () => wasPaused = true,
           onResume: () => wasResumed = true,
-          onCancel: () => wasCanceled = true);
+          onCancel: () { wasCanceled = true; });
       var concatenated = concat([controller.stream]);
       var subscription = concatenated.listen(null);
       controller.add('a');
