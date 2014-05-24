@@ -224,6 +224,13 @@ supported.
 
 [quiver.testing.async]: http://google.github.io/quiver-dart/#quiver/quiver-testing-async
 
+## [quiver.testing.matchers][]
+
+`isAssignableTo` is a drop-in replacement for `isInstanceOf`. Unlike `isInstanceOf` this
+matcher fails if the type parameter is malformed, e.g. when it is not
+imported or contains a typo. This class does not support matching on
+`Object` or `dynamic`.
+
 ## [quiver.testing.runtime][]
 
 `assertCheckedMode` asserts the current runtime has checked mode enabled.
