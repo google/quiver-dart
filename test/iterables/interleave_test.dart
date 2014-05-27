@@ -1,4 +1,4 @@
-// Copyright 2013 Google Inc. All Rights Reserved.
+// Copyright 2014 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,27 +19,43 @@ import 'package:quiver/iterables.dart';
 
 main() {
   group('interleave', () {
-    test("should interleave no iterables into empty iterable", () {
+    test('should interleave no iterables into empty iterable', () {
       expect(interleave([]), []);
     });
 
-    test("should interleave iterables with empty iterable into empty iterable", () {
+    test('should interleave iterables with empty iterable into empty iterable',
+        () {
       expect(interleave([[1, 2, 3], []]), []);
       expect(interleave([[1, 2, 3], [], ['a', 'b', 'c']]), []);
       expect(interleave([[], ['a', 'b', 'c']]), []);
     });
 
-    test("should interleave till shortest iterable is exhausted", () {
-      expect(interleave([range(1, 100), ['a', 'b', 'c' ]]), [1, 'a', 2, 'b', 3, 'c']);
-      expect(interleave([['-'], range(1, 100), ['a', 'b', 'c' ]]), ['-', 1, 'a']);
+    test('should interleave till shortest iterable is exhausted', () {
+      expect(interleave([range(1, 100), ['a', 'b', 'c' ]]),
+          [1, 'a', 2, 'b', 3, 'c']);
+      expect(interleave([['-'], range(1, 100), ['a', 'b', 'c' ]]),
+          ['-', 1, 'a']);
     });
 
-    test("should interleave single iterable into self", () {
+    test('should interleave single iterable into self', () {
       expect(interleave([[1, 2, 3]]), [1, 2, 3]);
     });
 
-    test("should throw on null elements", () {
+    test('should throw on null elements', () {
       expect(() => interleave([[1, 2, 3], null]).forEach((e) {}), throws);
+    });
+
+    group('iterator', () {
+      test('should have a null value before moving', () {
+        expect(interleave([['a']]).iterator.current, null);
+      });
+
+      test('should have a null value after moving beyond last element', () {
+        var iterator = interleave([['a']]).iterator;
+        expect(iterator.moveNext(), true);
+        expect(iterator.moveNext(), false);
+        expect(iterator.current, null);
+      });
     });
   });
 }

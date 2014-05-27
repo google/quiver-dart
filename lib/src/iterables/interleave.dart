@@ -16,7 +16,7 @@ part of quiver.iterables;
 
 /**
  * Returns an [Iterable] of first item in each iterable, then the second etc. The
- * returned Iterable contains number of elements in the shortest Iterable times number of
+ * returned [Iterable] contains number of elements in the shortest [Iterable] times number of
  * [iterables]. If [iterables] is empty, it returns an empty list.
  */
 Iterable interleave(Iterable<Iterable> iterables) =>
@@ -50,8 +50,8 @@ class _InterleaveIterator implements Iterator {
         hasNext = hasNext && _iterators[i].moveNext();
       }
     }
-    _current = _iterators[_iteratorIndex++].current;
-    if (_iteratorIndex >= _iterators.length) _iteratorIndex = 0;
+    _current = _iterators[_iteratorIndex].current;
+    _iteratorIndex = (_iteratorIndex + 1) % _iterators.length;
     return hasNext;
   }
 }
