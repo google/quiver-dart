@@ -26,7 +26,7 @@ part 'src/core/optional.dart';
  *
  * Note: if [o1] is an [Optional], this can be accomplished with `o1.or(o2)`.
  */
-Object firstNonNull(o1, o2, [o3, o4]) {
+firstNonNull(o1, o2, [o3, o4]) {
   if (o1 != null) return o1;
   if (o2 != null) return o2;
   if (o3 != null) return o3;
