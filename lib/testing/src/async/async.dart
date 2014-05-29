@@ -15,9 +15,12 @@
 part of quiver.testing.async;
 
 /**
+ * DEPRECATED: Use a much more feature-rich FakeAsync instead.
+ *
  * A [Timer] implementation that stores its duration and callback for access
  * in tests.
  */
+@deprecated
 class FakeTimer implements Timer {
   Duration duration;
   var callback;
