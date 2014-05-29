@@ -34,20 +34,17 @@ class CountdownTimer extends Stream<CountdownTimer> {
    * Creates a new [CountdownTimer] that fires events in increments of
    * [increment], until the [duration] has passed.
    *
-   * [stopwatch] and [createTimerPeriodic] are for testing purposes. If you're
-   * using CountdownTimer and need to control time in a test, pass mocks or
-   * fakes. See [FakeTimer] and [FakeStopwatch].
+   * [stopwatch] is for testing purposes. If you're using CountdownTimer and
+   * need to control time in a test, pass a mock or a fake. See [FakeAsync] and
+   * [FakeStopwatch].
    */
-  CountdownTimer(Duration duration, Duration increment, {
-    Stopwatch stopwatch, CreateTimerPeriodic createTimerPeriodic})
+  CountdownTimer(Duration duration, Duration increment, {Stopwatch stopwatch})
       : _duration = duration,
         _increment = increment,
         _stopwatch = stopwatch == null ? new Stopwatch() : stopwatch,
         _controller = new StreamController<CountdownTimer>.broadcast(
             sync: true) {
-    _timer = createTimerPeriodic == null
-        ? new Timer.periodic(increment, _tick)
-        : createTimerPeriodic(increment, _tick);
+    _timer = new Timer.periodic(increment, _tick);
     _stopwatch.start();
   }
 
