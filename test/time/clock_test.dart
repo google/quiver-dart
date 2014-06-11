@@ -32,8 +32,7 @@ main() {
     });
 
     test('should return a non-null value from system clock', () {
-      expect(new Clock().now(), isNotNull);
-      expect(SYSTEM_CLOCK.now(), isNotNull);
+      expect(const Clock().now(), isNotNull);
     });
 
     // This test may be flaky on certain systems. I ran it over 10 million
@@ -45,7 +44,7 @@ main() {
           new Clock().now()).inMilliseconds.abs(),
               lessThan(epsilon));
       expect(new DateTime.now().difference(
-          SYSTEM_CLOCK.now()).inMilliseconds.abs(),
+          const Clock().now()).inMilliseconds.abs(),
               lessThan(epsilon));
     });
 
