@@ -74,6 +74,7 @@ void main() {
       expect(heapSort([]), []);
       expect(heapSort(["a"]), ["a"]);
     });
+
     test('should sort different values', () {
       expect(heapSort(["a", "b"]), ["a", "b"]);
       expect(heapSort(["b", "a"]), ["a", "b"]);
@@ -84,6 +85,7 @@ void main() {
       expect(heapSort(["e", "d", "c", "b", "a"]), ["a", "b", "c", "d", "e"]);
       expect(heapSort(["f", "e", "d", "c", "b", "a"]), ["a", "b", "c", "d", "e", "f"]);
     });
+
     test('should handle sequences of arbitrary sizes', () {
       for (int i = 1; i < 100; i++) {
         // Sorted seq should be unchanged.
@@ -95,10 +97,20 @@ void main() {
         expect(heapSort(rseq), seq);
       }
     });
+
     test('should respect duplicates values', () {
       expect(heapSort(["a", "a", "b"]), ["a", "a", "b"]);
       expect(heapSort(["a", "b", "a"]), ["a", "a", "b"]);
       expect(heapSort(["b", "b", "a"]), ["a", "b", "b"]);
+    });
+
+    test('should use custom comparator', () {
+      Comparator<String> comp = (String a, String b) {
+        var d = a.length - b.length;
+        return (d == 0) ? a.compareTo(b) : d;
+      };
+      expect(heapSort(["b", "aa", "a", "aaa", "c", "aaaa"], comparator: comp),
+          ["a", "b", "c", "aa", "aaa", "aaaa"]);
     });
   });
 }
