@@ -16,7 +16,7 @@ part of quiver.collection;
 
 /**
  * Minimum heap: data structure optimized to add comparable values in linear
- * time and continuously removing their minimum value in logarithmic time.
+ * time and continuously remove their minimum value in logarithmic time.
  * 
  * Uses the elements' natural ordering or a user-provided comparator.
  */
@@ -33,14 +33,14 @@ abstract class MinHeap<V> {
   int get length;
 
   /**
-   * Add a value to the heap. For bulk-adds, please prefer [addAll].
+   * Adds a value to the heap. For bulk-adds, please prefer [addAll].
    * 
-   * This has a complexity is `O(log(n))`, where n is [length].
+   * This has a complexity of `O(log(n))`, where `n` is [length].
    */
   void add(V value);
 
   /**
-   * Add values to the heap.
+   * Adds values to the heap.
    * 
    * This is the preferred way of addind multiple values to the heap: it has
    * a complexity of `O(n)` (where n is the final length of the heap), whereas
@@ -58,23 +58,23 @@ abstract class MinHeap<V> {
   /**
    * Removes the smallest value and returns it, or returns null if [isEmpty].
    * 
-   * This has a complexity of `O(log(n))`, where n is [length].
+   * This has a complexity of `O(log(n))`, where `n` is [length].
    */
   V removeMin();
   
   /**
    * Removes all the values using [removeMin] and returns a list of sorted values.
    * 
-   * This has a complexity of `O(n * log(n))`, where n is [length].
+   * This has a complexity of `O(n * log(n))`, where `n` is [length].
    */
   List<V> removeAll();
 }
 
 /**
- * Sort items with a [MinHeap] using their natural ordering
+ * Sorts items with a [MinHeap] using their natural ordering
  * (if they extend [Comparable]) or the provided comparator.
  * 
- * This has a complexity of `O(n * log(n))` where n is the number of items.
+ * This has a complexity of `O(n * log(n))` where `n` is the number of items.
  */
 List heapSort(Iterable items, {Comparator comparator: Comparable.compare}) =>
     (new MinHeap(comparator: comparator)..addAll(items)).removeAll();
