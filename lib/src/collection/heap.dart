@@ -15,7 +15,10 @@
 part of quiver.collection;
 
 /**
- * Minimum heap.
+ * Minimum heap: data structure optimized to add comparable values in linear
+ * time and continuously removing their minimum value in logarithmic time.
+ * 
+ * Uses the elements' natural ordering or a user-provided comparator.
  */
 abstract class MinHeap<V> {
   Comparator<V> comparator;
@@ -29,7 +32,11 @@ abstract class MinHeap<V> {
   bool get isNotEmpty;
   int get length;
 
-  /// Add a value to the heap (complexity is `O(log(n))`, where n is [length]).
+  /**
+   * Add a value to the heap. For bulk-adds, please prefer [addAll].
+   * 
+   * This has a complexity is `O(log(n))`, where n is [length].
+   */
   void add(V value);
 
   /**
@@ -51,16 +58,14 @@ abstract class MinHeap<V> {
   /**
    * Removes the smallest value and returns it, or returns null if [isEmpty].
    * 
-   * This has a complexity of `O(log(n))`, where n is [length]
-   * (assuming [List.removeLast] has a constant-time complexity).
+   * This has a complexity of `O(log(n))`, where n is [length].
    */
   V removeMin();
   
   /**
    * Removes all the values using [removeMin] and returns a list of sorted values.
    * 
-   * This has a complexity of `O(n * log(n))`, where n is [length]
-   * (assuming [List.removeLast] has a constant-time complexity).
+   * This has a complexity of `O(n * log(n))`, where n is [length].
    */
   List<V> removeAll();
 }
@@ -74,6 +79,11 @@ abstract class MinHeap<V> {
 List heapSort(Iterable items, {Comparator comparator: Comparable.compare}) =>
     (new MinHeap(comparator: comparator)..addAll(items)).removeAll();
 
+/**
+ * [List]-backed [MinHeap] implementation.
+ * 
+ * Assumes [List.removeLast] has a constant-time complexity.
+ */
 class ListMinHeap<V> extends MinHeap<V> {
   final List<V> _values = [];
 
