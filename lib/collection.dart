@@ -67,3 +67,17 @@ bool mapsEqual(Map a, Map b) {
 
   return true;
 }
+
+/**
+ * Checks [Set]s [a] and [b] for equality.
+ *
+ * Returns `true` if [a] and [b] are both null, or they are the same length and
+ * every element in [b] exists in [a].
+ */
+bool setsEqual(Set a, Set b) {
+  if (a == b) return true;
+  if (a == null || b == null) return false;
+  if (a.length != b.length) return false;
+
+  return a.containsAll(b);
+}
