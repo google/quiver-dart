@@ -163,14 +163,14 @@ class ListMinHeap<V> extends MinHeap<V> {
       var left = offset + 1;
       var right = offset + 2;
       if (left >= length) {
-        // End case: child1 and child2 do not exist.
+        // End case: leftValue and rightValue do not exist.
         return;
       }
       var leftValue = values[left];
       var moreThanChild1 = comparator(value, leftValue) > 0;
       var j;
       if (right >= length) {
-        // End case: child2 does not exist.
+        // End case: rightValue does not exist.
         if (moreThanChild1) {
           j = left;
         }
