@@ -29,23 +29,50 @@ abstract class MinHeap<V> {
   bool get isNotEmpty;
   int get length;
 
+  /// Add a value to the heap (complexity is `O(log(n))`, where n is [length]).
   void add(V value);
+
+  /**
+   * Add values to the heap.
+   * 
+   * This is the preferred way of addind multiple values to the heap: it has
+   * a complexity of `O(n)` (where n is the final length of the heap), whereas
+   * calling [add] repeatedly has a complexity of `O(n * log(n))`.
+   */
   void addAll(Iterable<V> values);
+
+  /**
+   * Returns the smallest value, or null if [isEmpty].
+   * 
+   * This has a constant-time complexity.
+   */
   V min();
+  
+  /**
+   * Removes the smallest value and returns it, or returns null if [isEmpty].
+   * 
+   * This has a complexity of `O(log(n))`, where n is [length]
+   * (assuming [List.removeLast] has a constant-time complexity).
+   */
   V removeMin();
+  
+  /**
+   * Removes all the values using [removeMin] and returns a list of sorted values.
+   * 
+   * This has a complexity of `O(n * log(n))`, where n is [length]
+   * (assuming [List.removeLast] has a constant-time complexity).
+   */
+  List<V> removeAll();
 }
 
-List heapSort(List items, {Comparator comparator: Comparable.compare}) {
-  var heap = new MinHeap(comparator: comparator)..addAll(items);
-  var n = items.length;
-  var result = new List(n); // Avoid growing the list needlessly.
-  for (int i = 0; i < n; i++) {
-    assert(heap.isNotEmpty);
-    result[i] = heap.removeMin();
-  }
-  assert(heap.isEmpty);
-  return result;
-}
+/**
+ * Sort items with a [MinHeap] using their natural ordering
+ * (if they extend [Comparable]) or the provided comparator.
+ * 
+ * This has a complexity of `O(n * log(n))` where n is the number of items.
+ */
+List heapSort(Iterable items, {Comparator comparator: Comparable.compare}) =>
+    (new MinHeap(comparator: comparator)..addAll(items)).removeAll();
 
 class ListMinHeap<V> extends MinHeap<V> {
   final List<V> _values = [];
@@ -56,23 +83,36 @@ class ListMinHeap<V> extends MinHeap<V> {
   @override bool get isNotEmpty => _values.isNotEmpty;
   @override int get length => _values.length;
     
-  @override V min() {
-    if (_values.isEmpty) {
-      throw new Exception("Heap is empty!");
-    }
-    return _values[0];
-  }
+  @override V min() => _values.isEmpty ? null : _values.first;
 
   @override V removeMin() {
-    var value = min();
-    var last = _values.removeLast();
-    if (_values.isNotEmpty) {
-      _values[0] = last;
-      _bubbleDown(0);
+    if (_values.isEmpty) {
+      return null;
+    } else {
+      var value = min();
+      var last = _values.removeLast();
+      if (_values.isNotEmpty) {
+        _values[0] = last;
+        _bubbleDown(0);
+      }
+      return value;
     }
-    return value;
+  }
+  
+  /**
+   * Removes all the values using [removeMin] and returns a list of sorted values.
+   */ 
+  List<V> removeAll() {
+    var n = length;
+    var result = new List(n); // Avoid growing the list needlessly.
+    for (int i = 0; i < n; i++) {
+      assert(isNotEmpty);
+      result[i] = removeMin();
+    }
+    return result;
   }
 
+  /// Logarithmic-time single-add.
   @override void add(V value) {
     var values = _values;
     var index = values.length;
@@ -80,6 +120,7 @@ class ListMinHeap<V> extends MinHeap<V> {
     _bubbleUp(index);
   }
   
+  /// Linear-time bulk-add.
   @override void addAll(Iterable<V> values) {
     if (values.isNotEmpty) {
       _values.addAll(values);

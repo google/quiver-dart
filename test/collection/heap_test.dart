@@ -16,6 +16,7 @@ library quiver.collection.heap_test;
 
 import 'package:quiver/collection.dart';
 import 'package:unittest/unittest.dart';
+import 'package:quiver/iterables.dart';
 
 void main() {
   group('MinHeap', () {
@@ -41,22 +42,37 @@ void main() {
     test('should return the number of values as length', () {
       var map = new ListMinHeap<String>();
       expect(map.length, 0);
-      map
-        ..add('v1')
-        ..add('v2')
-        ..add('v3');
+      map..add('v1')..add('v2')..add('v3');
       expect(map.length, 3);
+      map..addAll(['v0']);
+      expect(map.length, 4);
+      
+      map = new ListMinHeap<String>();
+      map..addAll(['v1', 'v2', 'v3']);
+      expect(map.length, 3);
+    });
+
+    test('should remove its min value', () {
+      var map = new ListMinHeap<int>()..add(3)..add(1)..add(2);
+      expect(map.removeMin(), 1);
+      expect(map.removeMin(), 2);
+      expect(map.removeMin(), 3);
+      
+      map = new ListMinHeap<int>()..addAll([3, 1, 2]);
+      expect(map.removeAll(), [1, 2, 3]);
+    });
+
+    test('should return null / empty when removing from empty heap', () {
+      var map = new ListMinHeap<int>();
+      expect(map.removeMin(), null);
+      expect(map.removeAll(), []);
     });
   });
 
   group('heapSort', () {
-    test('should support weird inputs', () {
+    test('should support empty or singleton inputs', () {
       expect(heapSort([]), []);
       expect(heapSort(["a"]), ["a"]);
-      // TODO(ochafik): Have [Comparable.compare] to support nulls?
-      // expect(heapSort([null]), [null]);
-      // expect(heapSort([null, null]), [null, null]);
-      // expect(heapSort(["a", null]), ["a", null]);
     });
     test('should sort different values', () {
       expect(heapSort(["a", "b"]), ["a", "b"]);
@@ -67,6 +83,17 @@ void main() {
       expect(heapSort(["d", "c", "b", "a"]), ["a", "b", "c", "d"]);
       expect(heapSort(["e", "d", "c", "b", "a"]), ["a", "b", "c", "d", "e"]);
       expect(heapSort(["f", "e", "d", "c", "b", "a"]), ["a", "b", "c", "d", "e", "f"]);
+    });
+    test('should handle sequences of arbitrary sizes', () {
+      for (int i = 1; i < 100; i++) {
+        // Sorted seq should be unchanged.
+        var seq = range(0, i);
+        expect(heapSort(seq), seq);
+
+        // Reverse seq should be sorted.
+        var rseq = range(i - 1, -1, -1);
+        expect(heapSort(rseq), seq);
+      }
     });
     test('should respect duplicates values', () {
       expect(heapSort(["a", "a", "b"]), ["a", "a", "b"]);
