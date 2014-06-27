@@ -20,9 +20,6 @@ typedef DateTime TimeFunction();
 /// Return current system time.
 DateTime systemTime() => new DateTime.now();
 
-/// A predefined instance of [Clock] that's based on system clock.
-const SYSTEM_CLOCK = const Clock();
-
 /// Days in a month. This array uses 1-based month numbers, i.e. January is
 /// the 1-st element in the array, not the 0-th.
 const _DAYS_IN_MONTH =
