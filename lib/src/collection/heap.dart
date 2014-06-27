@@ -16,8 +16,9 @@ part of quiver.collection;
 
 /**
  * Minimum heap: data structure containing comparable values, optimized to do
- * bulk insertions in linear time, single insertions in amortized logarithmic
- * time, and continuous removals of their minimum value in logarithmic time.
+ * bulk insertions in linear time of the final length of the heap,
+ * single insertions in amortized logarithmic time, and continuous removals of
+ * its minimum value in logarithmic time.
  *
  * Uses the elements' natural ordering or a user-provided comparator.
  */
