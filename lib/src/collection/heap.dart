@@ -156,7 +156,7 @@ class ListMinHeap<V> extends MinHeap<V> {
   _bubbleUp(int i) {
     var values = _values;
     while (i > 0) {
-      var j = i >> 1;
+      var j = i ~/ 2;
       if (comparator(values[j], values[i]) < 0) {
         return;
       }
