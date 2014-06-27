@@ -98,7 +98,7 @@ void main() {
       }
     });
 
-    test('should respect duplicates values', () {
+    test('should respect duplicate values', () {
       expect(heapSort(["a", "a", "b"]), ["a", "a", "b"]);
       expect(heapSort(["a", "b", "a"]), ["a", "a", "b"]);
       expect(heapSort(["b", "b", "a"]), ["a", "b", "b"]);

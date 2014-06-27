@@ -69,7 +69,8 @@ lookup of key by value.
 `TreeSet` is a balanced binary tree that offers a bidirectional iterator,
 the ability to iterate from an arbitrary anchor, and 'nearest' search.
 
-`MinHeap` is a minimum-heap that support linear bulk insertions and logarithmic minimum removals, and serves as a basis for `heapSort`.
+`MinHeap` is a minimum-heap that supports linear bulk insertions, logarithmic
+single insertions and logarithmic minimum removals (serves as a basis for `heapSort`)
 
 [quiver.collection]: http://google.github.io/quiver-dart/#quiver/quiver-collection
 
