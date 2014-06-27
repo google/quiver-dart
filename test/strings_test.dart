@@ -15,7 +15,7 @@
 library quiver.strings;
 
 import 'package:quiver/strings.dart';
-import 'package:unittest/unittest.dart';
+import 'package:unittest/unittest.dart' hide isEmpty;
 
 main() {
   group('isBlank', () {
@@ -30,6 +30,21 @@ main() {
     });
     test('should consider non-whitespace string not a blank', () {
       expect(isBlank('hello'), isFalse);
+    });
+  });
+
+  group('isEmpty', () {
+    test('should consider null empty', () {
+      expect(isEmpty(null), isTrue);
+    });
+    test('should consider empty string empty', () {
+      expect(isEmpty(''), isTrue);
+    });
+    test('should consider white-space-only string not empty', () {
+      expect(isEmpty(' \n\t\r\f'), isFalse);
+    });
+    test('should consider non-whitespace string not not empty', () {
+      expect(isEmpty('hello'), isFalse);
     });
   });
 
