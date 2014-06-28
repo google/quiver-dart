@@ -71,5 +71,27 @@ main() {
       router.close();
       return future;
     });
+
+    test('should only start listening once the first listener is added', () {
+      var listenerWasAdded = false;
+      var controller = new StreamController<String>(
+        onListen: () => expect(listenerWasAdded, isTrue)
+      );
+      var router = new StreamRouter<String>(controller.stream);
+      listenerWasAdded = true;
+      return router.route((e) => true).listen((_) {}).cancel();
+    });
+
+    test('should stop listening once the last listener is removed', () {
+      var listenerStillExists = true;
+      var controller = new StreamController<String>(
+        onCancel: () => expect(listenerStillExists, isFalse)
+      );
+      var router = new StreamRouter<String>(controller.stream);
+      var subscription = router.route((e) => true).listen((_) {});
+      var stream = router.route((e) => true).listen((_) {});
+      listenerStillExists = false;
+      return stream.cancel();
+    });
   });
 }
