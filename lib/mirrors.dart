@@ -26,18 +26,19 @@ Symbol getTypeName(Type t) => reflectClass(t).qualifiedName;
  * Returns true if [o] implements [type].
  */
 bool implements(Object o, Type type) =>
-    classImplements(reflect(o).type, getTypeName(type));
+    classImplements(reflect(o).type, reflectClass(type));
 
 /**
- * Returns true if [m], its superclasses or interfaces have the qualified name
- * [name].
+ * Returns true if the class represented by [classMirror] implements the class
+ * represented by [interfaceMirror].
  */
-bool classImplements(ClassMirror m, Symbol name) {
-  if (m == null) return false;
-  if (m.qualifiedName == name) return true;
-  if (m.qualifiedName == const Symbol('dart.core.Object')) return false;
-  if (classImplements(m.superclass, name)) return true;
-  if (m.superinterfaces.any((i) => classImplements(i, name))) return true;
+bool classImplements(ClassMirror classMirror, ClassMirror interfaceMirror) {
+  if (classMirror == null) return false;
+  // TODO: change to comparing mirrors when dartbug.com/19781 is fixed
+  if (classMirror.qualifiedName == interfaceMirror.qualifiedName) return true;
+  if (classImplements(classMirror.superclass, interfaceMirror)) return true;
+  if (classMirror.superinterfaces.any(
+      (i) => classImplements(i, interfaceMirror))) return true;
   return false;
 }
 
