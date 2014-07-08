@@ -14,8 +14,16 @@
 
 part of quiver.collection;
 
-dynamic getOrElse(Map m, key, value()) =>
-    m.containsKey(key) ? m[key] : value();
+/**
+ * Returns the value for [key] in Map [m]. If [m] does not contain the key
+ * [key], then [orElse] is invoked to generate a value. The value is not added
+ * to the map. If you want to add the new value to the map, consider using
+ * [Map.putIfAbsent].
+ */
+dynamic getOrElse(Map m, key, orElse()) {
+  var value = m[key];
+  return (value == null && !m.containsKey(key)) ? orElse() : value;
+}
 
 /**
  * An implementation of [Map] that has a function [getOrElse] that can generate
@@ -37,5 +45,8 @@ class _DefaultMapImpl<K, V> extends DelegatingMap<K, V> implements DefaultMap<K,
   _DefaultMapImpl(this.delegate);
 
   @override
-  V getOrElse(K key, V value()) => containsKey(key) ? this[key] : value();
+  V getOrElse(K key, V orElse()) {
+    var value = this[key];
+    return (value == null && !containsKey(key)) ? orElse() : value;
+  }
 }

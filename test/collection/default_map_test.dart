@@ -18,7 +18,7 @@ import 'package:quiver/collection.dart';
 import 'package:unittest/unittest.dart';
 
 main() {
-  final map = { 1: 'Hello' };
+  final map = { 1: 'Hello', 3: null };
   final orElse = () => 'World';
 
   group('getOrElse', () {
@@ -28,6 +28,10 @@ main() {
 
     test('getOrElse returns a closure\'s value if the key does not exist', () {
       expect(getOrElse(map, 2, orElse), 'World');
+    });
+
+    test('getOrElse returns null if it\'s the value set', () {
+      expect(getOrElse(map, 3, orElse), null);
     });
   });
 
@@ -40,6 +44,10 @@ main() {
 
     test('getOrElse returns a closure\'s value if the key does not exist', () {
       expect(defaultMap.getOrElse(2, orElse), 'World');
+    });
+
+    test('getOrElse returns null if it\'s the value set', () {
+      expect(defaultMap.getOrElse(3, orElse), null);
     });
   });
 }
