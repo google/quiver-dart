@@ -110,8 +110,8 @@ class Interval<T extends Comparable<T>> {
   Interval.closed(this.lower, this.upper)
       : lowerClosed = true,
         upperClosed = true {
-    if(lower == null) throw new ArgumentError('lower cannot be null');
-    if(upper == null) throw new ArgumentError('upper cannot be null');
+    if (lower == null) throw new ArgumentError('lower cannot be null');
+    if (upper == null) throw new ArgumentError('upper cannot be null');
     _checkBoundOrder();
   }
 
@@ -119,7 +119,7 @@ class Interval<T extends Comparable<T>> {
   Interval.openClosed(this.lower, this.upper)
       : lowerClosed = false,
         upperClosed = true {
-    if(upper == null) throw new ArgumentError('upper cannot be null');
+    if (upper == null) throw new ArgumentError('upper cannot be null');
     _checkBoundOrder();
   }
 
@@ -127,12 +127,12 @@ class Interval<T extends Comparable<T>> {
   Interval.closedOpen(this.lower, this.upper)
       : lowerClosed = true,
         upperClosed = false {
-    if(lower == null) throw new ArgumentError('lower cannot be null');
+    if (lower == null) throw new ArgumentError('lower cannot be null');
     _checkBoundOrder();
   }
 
   int _checkBoundOrder() {
-    if(lower == null || upper == null) return -1;
+    if (lower == null || upper == null) return -1;
     var compare = Comparable.compare(lower, upper);
     if (compare > 0) {
       throw new ArgumentError('upper must not be less than lower');
@@ -151,7 +151,7 @@ class Interval<T extends Comparable<T>> {
       : upper = null,
         lowerClosed = true,
         upperClosed = false {
-    if(lower == null) throw new ArgumentError('lower cannot be null');
+    if (lower == null) throw new ArgumentError('lower cannot be null');
   }
 
   /// `( -∞ ..`[upper]`]`
@@ -159,7 +159,7 @@ class Interval<T extends Comparable<T>> {
       : lower = null,
         lowerClosed = false,
         upperClosed = true {
-    if(upper == null) throw new ArgumentError('upper cannot be null');
+    if (upper == null) throw new ArgumentError('upper cannot be null');
   }
 
   /// `(`[lower]`.. +∞ )`
@@ -187,7 +187,7 @@ class Interval<T extends Comparable<T>> {
         upper = value,
         lowerClosed = true,
         upperClosed = true {
-    if(value == null) throw new ArgumentError('value cannot be null');
+    if (value == null) throw new ArgumentError('value cannot be null');
   }
 
   /// The minimal interval which [contains] each value in [values].
@@ -220,20 +220,20 @@ class Interval<T extends Comparable<T>> {
     var upperClosed = interval.upperClosed;
     while (iterator.moveNext()) {
       interval = iterator.current;
-      if(interval.lower == null) {
+      if (interval.lower == null) {
         lower = null;
         lowerClosed = false;
-        if(upper == null) break;
+        if (upper == null) break;
       } else {
         if (lower != null && Comparable.compare(lower, interval.lower) >= 0) {
           lower = interval.lower;
           lowerClosed = lowerClosed || interval.lowerClosed;
         }
       }
-      if(interval.upper == null) {
+      if (interval.upper == null) {
         upper = null;
         upperClosed = false;
-        if(lower == null) break;
+        if (lower == null) break;
       } else {
         if (upper != null && Comparable.compare(upper, interval.upper) <= 0) {
           upper = interval.upper;
@@ -252,31 +252,37 @@ class Interval<T extends Comparable<T>> {
   bool contains(T test) {
     if (lower != null) {
       var lowerCompare = Comparable.compare(lower, test);
-      if(lowerCompare > 0 || (!lowerClosed && lowerCompare == 0)) return false;
+      if (lowerCompare > 0 || (!lowerClosed && lowerCompare == 0)) return false;
     }
     if (upper != null) {
       var upperCompare = Comparable.compare(upper, test);
-      if(upperCompare < 0 || (!upperClosed && upperCompare == 0)) return false;
+      if (upperCompare < 0 || (!upperClosed && upperCompare == 0)) return false;
     }
     return true;
   }
 
   /// Whether `this` [contains] each value that [other] does.
   bool encloses(Interval<T> other) {
-    if (lower != null) {
-      if (other.lower == null) {
+    if (lowerBounded) {
+      if (!other.lowerBounded) {
         return false;
       } else {
         var lowerCompare = Comparable.compare(lower, other.lower);
-        if (lowerCompare > 0 || (lowerCompare == 0 && !lowerClosed && other.lowerClosed)) return false;
+        if (lowerCompare > 0 || (lowerCompare == 0 && !lowerClosed &&
+            other.lowerClosed)) {
+          return false;
+        }
       }
     }
-    if (upper != null) {
-      if (other.upper == null) {
+    if (upperBounded) {
+      if (!other.upperBounded) {
         return false;
       } else {
         var upperCompare = Comparable.compare(upper, other.upper);
-        if (upperCompare < 0 || (upperCompare == 0 && !upperClosed && other.upperClosed)) return false;
+        if (upperCompare < 0 || (upperCompare == 0 && !upperClosed &&
+            other.upperClosed)) {
+          return false;
+        }
       }
     }
     return true;
@@ -285,19 +291,14 @@ class Interval<T extends Comparable<T>> {
   /// Whether the union of `this` and [other] is connected (i.e. is an
   /// [Interval]).
   bool connectedTo(Interval<T> other) {
-    if (lower != null) {
-      if (other.lower != null) {
-        var lowerCompare = Comparable.compare(lower, other.upper);
-        if (lowerCompare > 0 || (lowerCompare == 0 && !lowerClosed && !other.upperClosed)) return false;
-      }
+    bool overlapping(Bound<T> lower, Bound<T> upper) {
+      if (lower.value == null || upper.value == null) return true;
+      var comparison = lower.value.compareTo(upper.value);
+      return comparison < 0 ||
+          (comparison == 0 && (lower.isClosed || upper.isClosed));
     }
-    if (upper != null) {
-      if (other.upper != null) {
-        var upperCompare = Comparable.compare(upper, other.lower);
-        if (upperCompare < 0 || (upperCompare == 0 && !upperClosed && !other.lowerClosed)) return false;
-      }
-    }
-    return true;
+    return overlapping(lowerBound, other.upperBound) &&
+        overlapping(other.lowerBound, upperBound);
   }
 
   int get hashCode => hash4(lower, upper, lowerClosed, upperClosed);
@@ -330,9 +331,8 @@ class Bound<T> {
   bool get isOpen => !isClosed;
 
   Bound(this.value, this.isClosed) {
-    _checkValue();
-    if(isClosed == null) throw new ArgumentError('isClosed cannot be null');
-    if(isClosed) _checkValue();
+    if (isClosed == null) throw new ArgumentError('isClosed cannot be null');
+    if (isClosed) _checkValue();
   }
 
   /// An open bound.
@@ -345,7 +345,7 @@ class Bound<T> {
   Bound.absent() : isClosed = false, value = null;
 
   _checkValue() {
-    if(value == null) {
+    if (value == null) {
       throw new ArgumentError('value cannot be null when isClosed is true');
     }
   }

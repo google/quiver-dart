@@ -334,56 +334,93 @@ main() {
     group('encloses', () {
 
       test('should be true when both bounds outside input bounds', () {
-        expect(new Interval.closed(0, 3).encloses(new Interval.closed(1, 2)), isTrue);
-        expect(new Interval.atLeast(0).encloses(new Interval.closed(1, 2)), isTrue);
-        expect(new Interval.atMost(3).encloses(new Interval.closed(1, 2)), isTrue);
+        expect(new Interval.closed(0, 3)
+            .encloses(new Interval.closed(1, 2)), isTrue);
+        expect(new Interval.atLeast(0)
+            .encloses(new Interval.closed(1, 2)), isTrue);
+        expect(new Interval.atMost(3)
+            .encloses(new Interval.closed(1, 2)), isTrue);
       });
 
       test('should be false when either bound not outside input bound', () {
-        expect(new Interval.closed(0, 2).encloses(new Interval.closed(1, 3)), isFalse);
-        expect(new Interval.closed(1, 3).encloses(new Interval.closed(0, 2)), isFalse);
-        expect(new Interval.closed(0, 2).encloses(new Interval.atLeast(1)), isFalse);
-        expect(new Interval.closed(0, 2).encloses(new Interval.atMost(1)), isFalse);
+        expect(new Interval.closed(0, 2)
+            .encloses(new Interval.closed(1, 3)), isFalse);
+        expect(new Interval.closed(1, 3)
+            .encloses(new Interval.closed(0, 2)), isFalse);
+        expect(new Interval.closed(0, 2)
+            .encloses(new Interval.atLeast(1)), isFalse);
+        expect(new Interval.closed(0, 2)
+            .encloses(new Interval.atMost(1)), isFalse);
       });
 
       test('should be true when bound closed and input has same bound', () {
-        expect(new Interval.closedOpen(0, 2).encloses(new Interval.closed(0, 1)), isTrue);
-        expect(new Interval.openClosed(0, 2).encloses(new Interval.closed(1, 2)), isTrue);
+        expect(new Interval.closedOpen(0, 2)
+            .encloses(new Interval.closed(0, 1)), isTrue);
+        expect(new Interval.openClosed(0, 2)
+            .encloses(new Interval.closed(1, 2)), isTrue);
       });
 
       test('should be false when bound open and input has same bound but closed', () {
-        expect(new Interval.openClosed(0, 2).encloses(new Interval.closed(0, 1)), isFalse);
-        expect(new Interval.closedOpen(0, 2).encloses(new Interval.closed(1, 2)), isFalse);
+        expect(new Interval.openClosed(0, 2)
+            .encloses(new Interval.closed(0, 1)), isFalse);
+        expect(new Interval.closedOpen(0, 2)
+            .encloses(new Interval.closed(1, 2)), isFalse);
       });
 
     });
 
     group('connectedTo', () {
 
+      expectConnected(Interval interval1, Interval interval2, matcher) {
+        expect(interval1.connectedTo(interval2), matcher);
+        expect(interval2.connectedTo(interval1), matcher);
+      }
+
       test('should be true when intervals properly intersect', () {
-        expect(new Interval.closed(0, 2).connectedTo(new Interval.closed(1, 3)), isTrue);
-        expect(new Interval.closed(1, 3).connectedTo(new Interval.closed(0, 2)), isTrue);
+        expectConnected(new Interval.open(0, 1), new Interval.open(0, 1),
+            isTrue);
+        expectConnected(new Interval.closed(1, 3), new Interval.closed(0, 2),
+            isTrue);
+        expectConnected(new Interval.atLeast(1), new Interval.atLeast(2),
+            isTrue);
+        expectConnected(new Interval.atLeast(1), new Interval.atLeast(2),
+            isTrue);
+        expectConnected(new Interval.atMost(2), new Interval.atMost(1),
+            isTrue);
       });
 
-      test('should be true when intervals adjacent and at least one bound closed', () {
-        expect(new Interval.closed(0, 1).connectedTo(new Interval.closed(1, 2)), isTrue);
-        expect(new Interval.open(0, 1).connectedTo(new Interval.closed(1, 2)), isTrue);
-        expect(new Interval.closed(0, 1).connectedTo(new Interval.open(1, 2)), isTrue);
+      test('should be true when intervals adjacent and at least one bound '
+           'closed', () {
+        expectConnected(new Interval.closed(0, 1), new Interval.closed(1, 2),
+            isTrue);
+        expectConnected(new Interval.open(0, 1), new Interval.closed(1, 2),
+            isTrue);
+        expectConnected(new Interval.closed(0, 1), new Interval.open(1, 2),
+            isTrue);
+        expectConnected(new Interval.atMost(1), new Interval.greaterThan(1),
+            isTrue);
       });
 
       test('should be false when interval closures do not intersect', () {
-        expect(new Interval.closed(0, 1).connectedTo(new Interval.closed(2, 3)), isFalse);
-        expect(new Interval.closed(2, 3).connectedTo(new Interval.closed(0, 1)), isFalse);
+        expectConnected(new Interval.closed(0, 1), new Interval.closed(2, 3),
+            isFalse);
+        expectConnected(new Interval.closed(2, 3), new Interval.closed(0, 1),
+            isFalse);
+        expectConnected(new Interval.atMost(0), new Interval.atLeast(1),
+            isFalse);
       });
 
       test('should be false when intervals adjacent and both bounds open', () {
-        expect(new Interval.open(0, 1).connectedTo(new Interval.open(1, 2)), isFalse);
+        expectConnected(new Interval.open(0, 1), new Interval.greaterThan(1),
+            isFalse);
+        expectConnected(new Interval.greaterThan(1), new Interval.lessThan(1),
+            isFalse);
       });
 
     });
 
-    test('should be equal iff lower, upper, lowerClosed, and upperClosed are all '
-        'equal', () {
+    test('should be equal iff lower, upper, lowerClosed, and upperClosed are '
+         'all equal', () {
       var it = new Interval.closed(0, 1);
       expect(it, new Interval.closed(0, 1));
       expect(it, isNot(equals(new Interval.closed(0, 2))));
@@ -392,8 +429,8 @@ main() {
       expect(it, isNot(equals(new Interval.closedOpen(0, 1))));
     });
 
-    test('hashCode should be equal if lower, upper, lowerClosed, and upperClosed '
-        'are all equal', () {
+    test('hashCode should be equal if lower, upper, lowerClosed, and '
+         'upperClosed are all equal', () {
       var it = new Interval.closed(0, 1);
       expect(it.hashCode, new Interval.closed(0, 1).hashCode);
     });
@@ -429,4 +466,3 @@ main() {
 
   });
 }
-
