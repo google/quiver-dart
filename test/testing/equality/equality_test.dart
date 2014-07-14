@@ -12,9 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.testing.util.equalitytester;
+library quiver.testing.util.equalstester;
 
-import 'package:quiver/testing/util.dart';
+import 'package:quiver/testing/equality.dart';
 import 'package:unittest/unittest.dart';
 
 main() {

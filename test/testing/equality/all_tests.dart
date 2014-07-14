@@ -12,13 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Utilities for testing basic aspects of Dart programs
- */
-library quiver.testing.util;
+library quiver.testing.util.all_tests;
 
-import 'dart:collection';
-import 'package:quiver/iterables.dart';
-import 'package:unittest/unittest.dart';
+import 'equality_test.dart' as equality_test;
 
-part 'src/util/util.dart';
+main() {
+  equality_test.main();
+}

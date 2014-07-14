@@ -15,9 +15,9 @@
 library quiver.testing.all_tests;
 
 import 'async/all_tests.dart' as async;
-import 'util/all_tests.dart' as util;
+import 'equality/all_tests.dart' as equality;
 
 main() {
   async.main();
-  util.main();
+  equality.main();
 }
