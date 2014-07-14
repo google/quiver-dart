@@ -360,7 +360,8 @@ main() {
             .encloses(new Interval.closed(1, 2)), isTrue);
       });
 
-      test('should be false when bound open and input has same bound but closed', () {
+      test('should be false when bound open and input has same bound but '
+           'closed', () {
         expect(new Interval.openClosed(0, 2)
             .encloses(new Interval.closed(0, 1)), isFalse);
         expect(new Interval.closedOpen(0, 2)

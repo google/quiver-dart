@@ -200,8 +200,12 @@ class Interval<T extends Comparable<T>> {
     var upper = iterator.current;
     var lower = iterator.current;
     while (iterator.moveNext()) {
-      if (Comparable.compare(lower, iterator.current) > 0) lower = iterator.current;
-      if (Comparable.compare(upper, iterator.current) < 0) upper = iterator.current;
+      if (Comparable.compare(lower, iterator.current) > 0) {
+        lower = iterator.current;
+      }
+      if (Comparable.compare(upper, iterator.current) < 0) {
+        upper = iterator.current;
+      }
     }
     return new Interval<T>.closed(lower, upper);
   }
