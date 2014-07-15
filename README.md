@@ -29,6 +29,9 @@ have completed. Allows adding new Futures as long as it hasn't completed yet.
 Useful when async tasks can spwn new async tasks and you need to wait for all of
 them to complete.
 
+`FutureStream` turns a `Future<Stream>` into a `Stream` which emits the same
+events as the stream returned from the future.
+
 `StreamRouter` splits a Stream into mulltiple streams based on a set of
 predicates.
 
