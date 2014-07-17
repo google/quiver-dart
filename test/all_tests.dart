@@ -1,4 +1,4 @@
-// Copyright 2013 Google Inc. All Rights Reserved.
+// Copyright 2014 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import 'package:unittest/compact_vm_config.dart';
 import 'async/all_tests.dart' as async;
 import 'cache/map_cache_test.dart' as cache;
 import 'collection/all_tests.dart' as collection;
+import 'compare/all_tests.dart' as compare;
 import 'core/all_tests.dart' as core;
 import 'io_test.dart' as io;
 import 'iterables/all_tests.dart' as iterables;
@@ -34,6 +35,7 @@ main() {
   async.main();
   cache.main();
   collection.main();
+  compare.main();
   core.main();
   io.main();
   iterables.main();

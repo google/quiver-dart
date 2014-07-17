@@ -23,6 +23,7 @@ part of quiver.iterables;
  * will be thrown.
  *
  */
+@deprecated
 dynamic max(Iterable i, [Comparator compare = Comparable.compare]) =>
     i.isEmpty ? null : i.reduce((a, b) => compare(a, b) > 0 ? a : b);
 
@@ -34,6 +35,7 @@ dynamic max(Iterable i, [Comparator compare = Comparable.compare]) =>
  * [Comparable.compare] is used. If [i] contains null elements, an exception
  * will be thrown.
  */
+@deprecated
 dynamic min(Iterable i, [Comparator compare = Comparable.compare]) =>
     i.isEmpty ? null : i.reduce((a, b) => compare(a, b) < 0 ? a : b);
 
