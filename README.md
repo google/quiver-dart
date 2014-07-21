@@ -228,10 +228,10 @@ The placeholders in the string follow the pattern: `{index}`. For example:
 This allows you to use a variable as the template string instead of a
 literal string unlike standard interpolation in Dart.
 
-`
+```
 var template = 'There are {0} {2}!';
 formatString(template, 4, 'lights') => 'There are 4 lights!'`
-`
+```
 
 `formatStringList` allows you to provide a terse, index-based string template
 to use for interpolating a List<T> of elements into their corresponding
@@ -247,10 +247,10 @@ placeholders in the string follow the pattern: `{index}`. For example:
 This allows you to use a variable as the template string instead of a
 literal string unlike standard interpolation in Dart.
 
-`
+```
 var template = 'There are {0} {2}!';
-formatString([template, 4, 'lights']) => 'There are 4 lights!'`
-`
+formatString([template, 4, 'lights']) => 'There are 4 lights!'
+```
 
 [quiver.strings]: http://google.github.io/quiver-dart/#quiver/quiver-strings
 
