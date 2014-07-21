@@ -315,3 +315,76 @@ String removeAt(int index, String original, {int length: 1}) {
   
   return str.toString();
 }
+
+/**
+ * Here be voodoo magic. (that I got from a blog post)
+ * [Yu Asakusa's Blog](http://yuasakusa.github.io/dart/2014/01/23/dart-variadic.html)
+ */
+typedef dynamic _ApplyType(List positionalArguments);
+
+/**
+ * Further voodoo magic.
+ */
+class _Variadic implements Function {
+  final _ApplyType _apply;
+
+  _Variadic(this._apply) {}
+
+  @override
+  dynamic noSuchMethod(Invocation invocation) {
+    if (invocation.memberName == #call) {
+      if (invocation.isMethod)
+        return _apply(invocation.positionalArguments);
+      if (invocation.isGetter)
+        return this;
+    }
+    return super.noSuchMethod(invocation);
+  }
+}
+
+/**
+ * This allows you to call [formatStringList] by only needing 
+ * to specify an arbitrary number of positional paramters.
+ * 
+ * This allows one to specify an easy, terse, index-based template
+ * similar to that in C# with String.Format(String, arg1, arg2, ...)
+ * 
+ * Example:
+ *     var template = 'A{0}{0}L{1}S';
+ *     formatString(template, 'P', 'E');
+ *     // "APPLES"
+ */
+final Function formatString = new _Variadic(formatStringList);
+
+/**
+ * Returns a string with the indexed placeholder tokens
+ * replaced with their corresponding List<String> index
+ * derrived from [args]. The 0th element of [args] contains
+ * the original string with the formatting of the placeholders.
+ * 
+ * Any element after the 0th element is made into a new List<String>
+ * and interpolated into the placeholders at the corresponding index
+ * starting from 0 and on.
+ * 
+ * Elements used for interpolation have their toString() method
+ * called. Therefore any type can be placed in the paramters.
+ * 
+ * Example: 
+ *     formatStringList(['A{0}{0}L{1}S', 'P', 'E']);
+ *     // "APPLES"
+ */
+String formatStringList(List<String> args)
+{
+  if (args == null || args.length < 2) {
+    throw new ArgumentError('expected at least two paramters.');
+  }
+  if (args[0] is !String) {
+    throw new ArgumentError('expected a string for the first paramter.');
+  }
+  var str = args[0];
+  var inserts = args.sublist(1);
+  for (var i = 0; i < inserts.length; i++) {
+    str = str.replaceAll('{$i}', inserts[i].toString());
+  }
+  return str;
+}

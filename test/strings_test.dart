@@ -348,12 +348,40 @@ main() {
   });
   
   group('removeAt', () {
-      test('should return "abc" after remvoing the character at index [1] from "abbc"', () {
-        expect(removeAt(1, 'abbc'), 'abc');
-      });
-      
-      test('should return "abc" after removing 5 characters starting at index [1] from "abbbbbbc"', () {
-        expect(removeAt(1, 'abbbbbbc', length: 5), 'abc');
-      });
+    test('should return "abc" after remvoing the character at index [1] from "abbc"', () {
+      expect(removeAt(1, 'abbc'), 'abc');
     });
+    
+    test('should return "abc" after removing 5 characters starting at index [1] from "abbbbbbc"', () {
+      expect(removeAt(1, 'abbbbbbc', length: 5), 'abc');
+    });
+  });
+  
+  group('formatString', () {
+    test('should return "abc123" after interpolating the arguments [\'b\', 2] into the template "a{0}c1{1}3"', () {
+      expect(formatString('a{0}c1{1}3', 'b', 2), 'abc123');
+    });
+    
+    test('should throw when not enough arguments (minimum 2)', () {
+      expect(() => formatString(null), throws);
+    });
+    
+    test('should throw with a non-string value in the first argument', () {
+      expect(() => formatString(0, 0), throws);
+    });
+  });
+  
+  group('formatStringList', () {
+    test('should return "abc123" after interpolating the arguments [\'b\', 2] into the template "a{0}c1{1}3"', () {
+      expect(formatStringList(['a{0}c1{1}3', 'b', 2]), 'abc123');
+    });
+    
+    test('should throw when not enough arguments (minimum 2)', () {
+      expect(() => formatString(null), throws);
+    });
+    
+    test('should throw with a non-string value in the first element in the argument list', () {
+      expect(() => formatStringList([0, 0]), throws);
+    });
+  });
 }
