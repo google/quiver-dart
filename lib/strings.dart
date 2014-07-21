@@ -241,3 +241,77 @@ bool equalsIgnoreCase(String a, String b) =>
  */
 int compareIgnoreCase(String a, String b) =>
     a.toLowerCase().compareTo(b.toLowerCase());
+
+/**
+ * Returns a copy of the [input] where the first (a-z) letter of each word is
+ * capitalized.
+ */
+String capitalize(String input) =>
+    input.replaceAllMapped(new RegExp(r'(^| )(\w)'), (Match m) => m.group(0).toUpperCase());
+
+/**
+ * Inserts the value of [input] at the given [index] character of
+ * the [original] string.
+ */
+String insertAt(int index, String input, String original) {
+  StringBuffer str = new StringBuffer();
+  if (index > 0) {
+    str.write(original.substring(0, index));
+  }
+  
+  str.write(input);
+  str.write(original.substring(index));
+  return str.toString();
+}
+
+/**
+ * Returns a new string where [input] is inserted at the [index] of 
+ * the [original] string.
+ * 
+ * If [overwrite] is true, any text longer than a single character will
+ * overwrite the text that follows the initially replaced character.
+ * 
+ * If the [input] is longer than [original], the returned string will
+ * be longer than [original].
+ */
+String replaceAt(int index, String input, String original, {bool overwrite : false}) {
+  StringBuffer str = new StringBuffer();
+  if (index > 0) {
+    str.write(original.substring(0, index));
+  }
+
+  str.write(input);
+  if (overwrite) {
+    if (index + input.length < original.length) {
+      str.write(original.substring((index + input.length)));
+    }
+  } else { 
+    str.write(original.substring((index + 1)));
+  }
+  
+  return str.toString();
+}
+
+/**
+ * Removes a portion of the [original] string starting from the
+ * given [index].
+ * 
+ * Optionally, a [length] can be specified for how  much text
+ * to remove. (default: 1 character);
+ */
+String removeAt(int index, String original, {int length: 1}) {
+  StringBuffer str = new StringBuffer();
+  if (index > 0) {
+    str.write(original.substring(0, index));
+  }
+  
+  if (length > 1) {
+    if (index + length < original.length) {
+      str.write(original.substring((index + length)));
+    }
+  } else { 
+    str.write(original.substring(index + 1));
+  }
+  
+  return str.toString();
+}

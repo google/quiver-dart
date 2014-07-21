@@ -311,4 +311,49 @@ main() {
     });
 
   });
+  
+  group('capitalize', () {
+    test('should return "This Was A Triumph!" after capitalizing non-capitalized the input string', () {
+      expect(capitalize('this was a triumph!'), 'This Was A Triumph!');
+    });
+  });
+  
+  group('insertAt', () {
+    test('should return "abc" after inserting "b" into the string "ac" at index [1]', () {
+      expect(insertAt(1, 'b', 'ac'), 'abc');
+    });
+  });
+
+  group('replaceAt', () {
+    test('should return "abc" after replacing the index [1] character in the string "adc" with "b" '
+         'with overwrite disabled (default)', () {
+      expect(replaceAt(1, 'b', 'adc'), 'abc');
+    });
+    
+    test('should return "aabbcc" after replacing the index [1] character in the string "abc"'
+         'with "abbc" with overwrite disabled (default)', () {
+      expect(replaceAt(1, 'abbc', 'abc'), 'aabbcc');
+    });
+    
+    test('should return "aabbccg" after replacing the index [1] character in the string "abcdefg" with '
+         '"abbcc" and enabling overwrite', () {
+      expect(replaceAt(1, 'abbcc', 'abcdefg', overwrite: true), 'aabbccg');
+    });
+    
+    test('should return "aabbccdd" after replacing the index [1] character in the string "abcdefg" with '
+         '"abbccdd" and enabling overwrite', () {
+      expect(replaceAt(1, 'abbccdd', 'abcdefg', overwrite: true), 'aabbccdd');
+    });
+    
+  });
+  
+  group('removeAt', () {
+      test('should return "abc" after remvoing the character at index [1] from "abbc"', () {
+        expect(removeAt(1, 'abbc'), 'abc');
+      });
+      
+      test('should return "abc" after removing 5 characters starting at index [1] from "abbbbbbc"', () {
+        expect(removeAt(1, 'abbbbbbc', length: 5), 'abc');
+      });
+    });
 }
