@@ -24,7 +24,7 @@ part of quiver.testing.async;
 /// simulated using [elapseBlocking].
 ///
 /// To allow the unit under test to tell time, it can receive a [Clock] as a
-/// dependency, and default it to [SYSTEM_CLOCK] in production, but then use
+/// dependency, and default it to [const Clock()] in production, but then use
 /// [clock] in test code.
 ///
 /// Example:

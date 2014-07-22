@@ -1,3 +1,11 @@
+# Pub
 packages
 pubspec.lock
+build/
+
+# IDE
+.project
+.settings
+.idea
+*.iml
 
