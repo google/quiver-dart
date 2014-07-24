@@ -69,6 +69,9 @@ values.
 `BiMap` is a bidirectional map and provides an inverse view, allowing
 lookup of key by value.
 
+`DefaultMap` is a map implementation that has the function 'getOrElse', that can
+generate a value if a key is absent. Or, use `getOrElse` on an existing map.
+ 
 `TreeSet` is a balanced binary tree that offers a bidirectional iterator,
 the ability to iterate from an arbitrary anchor, and 'nearest' search.
 
