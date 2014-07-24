@@ -49,17 +49,17 @@ main() {
     test('should return true if an class implements an interface', () {
       var foo = new Foo();
       var mirror = reflect(foo).type;
-      expect(classImplements(mirror, getTypeName(Object)), true);
-      expect(classImplements(mirror, getTypeName(Foo)), true);
-      expect(classImplements(mirror, getTypeName(Comparable)), true);
-      expect(classImplements(mirror, getTypeName(Iterable)), true);
+      expect(classImplements(mirror, reflectClass(Object)), true);
+      expect(classImplements(mirror, reflectClass(Foo)), true);
+      expect(classImplements(mirror, reflectClass(Comparable)), true);
+      expect(classImplements(mirror, reflectClass(Iterable)), true);
     });
 
     test("should return false if an object doesn't implement an interface", () {
       var foo = new Foo();
       var mirror = reflect(foo).type;
-      expect(classImplements(mirror, getTypeName(String)), false);
-      expect(classImplements(mirror, getTypeName(num)), false);
+      expect(classImplements(mirror, reflectClass(String)), false);
+      expect(classImplements(mirror, reflectClass(num)), false);
     });
 
   });
