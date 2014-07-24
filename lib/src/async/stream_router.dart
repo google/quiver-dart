@@ -65,9 +65,9 @@ class StreamRouter<T> {
   Stream<T> get defaultStream => _defaultController.stream;
 
   Future close() {
-    return Future.wait(_routes.map((r) => r.controller.close())).then((_) {
-      _subscription.cancel();
-    });
+    _subscription.cancel();
+    _subscription = null;
+    return Future.wait(_routes.map((r) => r.controller.close()));
   }
 
   void _handle(T event) {
@@ -81,6 +81,7 @@ class StreamRouter<T> {
     _listenerCount--;
     if (_listenerCount == 0) {
       _subscription.cancel();
+      _subscription = null;
     }
   }
 
