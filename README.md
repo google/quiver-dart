@@ -194,63 +194,22 @@ string. For example:
 
 `capitalize('this was a triumph!') => 'This Was A Triumph!'`
 
-`insertAt` inserts a string into another string at the given index. Example:
+`replace` allows you to replace a porton of a string starting from a specified index.
+Optionally, you can specifiy the length to overwrite the original string from the specified
+index with the input string. Examples:
 
-`insertAt(4, 'was ', 'this a triumph!') => 'this was a triumph!'`
+`replace("I'm doing a note here", 5, 'making', overwrite: 5)` => "I'm making a note here"`
 
-`replaceAt` allows you to replace a porton of a string starting from a specified index.
-Optionally, you can specifiy whether or not to overwrite the original string from the specified
-index with the input string. Otherwise, only the initial character of the string will
-be replaced with the rest of the string being inserted. Examples:
+`replace('Huge suckess!', 8, 'c') => 'Huge success!'`
 
-`replaceAt(5, 'making', "I'm doing a note here", overwrite: true)` => "I'm making a note here"`
+`insert` inserts a string into another string at the given index. Example:
 
-`replaceAt(8, 'c', 'Huge suckess!') => 'Huge success!'`
+`insert('this a triumph!', 4, 'was ') => 'this was a triumph!'`
 
-`removeAt` allows you to remove text from a string at a specified index.
-Optionally, you can specify a length of how many characters to remove. Examples:
+`remove` allows you to remove a specified length of text from a string at
+ a specified index. Example:
 
-`removeAt(2, 'Whaat?') => 'What?'`
-
-`removeAt(2, 'Whaaaaaat?', length: 5) => 'What?'`
-
-`formatString` allows you to provide a terse, index-based string template
-to use for interpolating an arbitrary-length set of parameters into their
-corresponding indexed placeholders. All parameters that follow the first
-parameter can be of any type. The objects have their `toString()` method
-called to extract the string to be interpolated into the template string.
-The placeholders in the string follow the pattern: `{index}`. For example:
-
-`formatString('A{0}{0}L{1}', 'P', 'E') => 'APPLE'`
-
-`formatString('There are {0} {2}!', 4, 'lights') => 'There are 4 lights!'`
-
-This allows you to use a variable as the template string instead of a
-literal string unlike standard interpolation in Dart.
-
-```
-var template = 'There are {0} {2}!';
-formatString(template, 4, 'lights') => 'There are 4 lights!'`
-```
-
-`formatStringList` allows you to provide a terse, index-based string template
-to use for interpolating a List<T> of elements into their corresponding
-indexed placeholders. All elements that follow the first element can be
-of any type. The objects have their `toString()` method called to 
-extract the string to be interpolated into the template string. The 
-placeholders in the string follow the pattern: `{index}`. For example:
-
-`formatStringList(['A{0}{0}L{1}', 'P', 'E']) => 'APPLE'`
-
-`formatString(['There are {0} {2}!', 4, 'lights']) => 'There are 4 lights!'`
-
-This allows you to use a variable as the template string instead of a
-literal string unlike standard interpolation in Dart.
-
-```
-var template = 'There are {0} {2}!';
-formatString([template, 4, 'lights']) => 'There are 4 lights!'
-```
+`remove('Whaaaaaat?', 2, 5) => 'What?'`
 
 [quiver.strings]: http://google.github.io/quiver-dart/#quiver/quiver-strings
 

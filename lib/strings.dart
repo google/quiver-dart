@@ -250,141 +250,49 @@ String capitalize(String input) =>
     input.replaceAllMapped(new RegExp(r'(^| )(\w)'), (Match m) => m.group(0).toUpperCase());
 
 /**
- * Inserts the value of [input] at the given [index] character of
- * the [original] string.
- */
-String insertAt(int index, String input, String original) {
-  StringBuffer str = new StringBuffer();
-  if (index > 0) {
-    str.write(original.substring(0, index));
-  }
-  
-  str.write(input);
-  str.write(original.substring(index));
-  return str.toString();
-}
-
-/**
- * Returns a new string where [input] is inserted at the [index] of 
+ * Returns a new string where [replacement] is inserted at the [index] of 
  * the [original] string.
  * 
- * If [overwrite] is true, any text longer than a single character will
- * overwrite the text that follows the initially replaced character.
+ * If [overwrite] is given, only the specified number of characters will be
+ * overwritten. (Default: length of [replacement])
  * 
- * If the [input] is longer than [original], the returned string will
+ * If the [replacement] is longer than [original], the returned string will
  * be longer than [original].
  */
-String replaceAt(int index, String input, String original, {bool overwrite : false}) {
+String replace(String original, int index, String replacement, {int overwrite}) {
   StringBuffer str = new StringBuffer();
   if (index > 0) {
     str.write(original.substring(0, index));
   }
 
-  str.write(input);
-  if (overwrite) {
-    if (index + input.length < original.length) {
-      str.write(original.substring((index + input.length)));
-    }
-  } else { 
-    str.write(original.substring((index + 1)));
+  if (overwrite == null) {
+    overwrite = replacement.length;
   }
-  
+
+  str.write(replacement);
+  if (overwrite > 0) {
+    if (overwrite < original.length) {
+      str.write(original.substring(index + overwrite));
+    }
+  } else {
+    str.write(original.substring(index));
+  }
   return str.toString();
 }
 
 /**
- * Removes a portion of the [original] string starting from the
+ * Removes a specified [length] of the [original] string starting from the
  * given [index].
- * 
- * Optionally, a [length] can be specified for how  much text
- * to remove. (default: 1 character);
  */
-String removeAt(int index, String original, {int length: 1}) {
-  StringBuffer str = new StringBuffer();
-  if (index > 0) {
-    str.write(original.substring(0, index));
-  }
-  
-  if (length > 1) {
-    if (index + length < original.length) {
-      str.write(original.substring((index + length)));
-    }
-  } else { 
-    str.write(original.substring(index + 1));
-  }
-  
-  return str.toString();
+String remove(String original, int index, int length) {
+  return replace(original, index, '', overwrite: length);
 }
 
 /**
- * Here be voodoo magic. (that I got from a blog post)
- * [Yu Asakusa's Blog](http://yuasakusa.github.io/dart/2014/01/23/dart-variadic.html)
+ * Inserts the value of [insertion] at the given [index] character of
+ * the [original] string.
  */
-typedef dynamic _ApplyType(List positionalArguments);
-
-/**
- * Further voodoo magic.
- */
-class _Variadic implements Function {
-  final _ApplyType _apply;
-
-  _Variadic(this._apply) {}
-
-  @override
-  dynamic noSuchMethod(Invocation invocation) {
-    if (invocation.memberName == #call) {
-      if (invocation.isMethod)
-        return _apply(invocation.positionalArguments);
-      if (invocation.isGetter)
-        return this;
-    }
-    return super.noSuchMethod(invocation);
-  }
+String insert(String original, int index, String insertion) {
+  return replace(original, index, insertion, overwrite: 0);
 }
 
-/**
- * This allows you to call [formatStringList] by only needing 
- * to specify an arbitrary number of positional paramters.
- * 
- * This allows one to specify an easy, terse, index-based template
- * similar to that in C# with String.Format(String, arg1, arg2, ...)
- * 
- * Example:
- *     var template = 'A{0}{0}L{1}S';
- *     formatString(template, 'P', 'E');
- *     // "APPLES"
- */
-final Function formatString = new _Variadic(formatStringList);
-
-/**
- * Returns a string with the indexed placeholder tokens
- * replaced with their corresponding List<String> index
- * derrived from [args]. The 0th element of [args] contains
- * the original string with the formatting of the placeholders.
- * 
- * Any element after the 0th element is made into a new List<String>
- * and interpolated into the placeholders at the corresponding index
- * starting from 0 and on.
- * 
- * Elements used for interpolation have their toString() method
- * called. Therefore any type can be placed in the paramters.
- * 
- * Example: 
- *     formatStringList(['A{0}{0}L{1}S', 'P', 'E']);
- *     // "APPLES"
- */
-String formatStringList(List<String> args)
-{
-  if (args == null || args.length < 2) {
-    throw new ArgumentError('expected at least two paramters.');
-  }
-  if (args[0] is !String) {
-    throw new ArgumentError('expected a string for the first paramter.');
-  }
-  var str = args[0];
-  var inserts = args.sublist(1);
-  for (var i = 0; i < inserts.length; i++) {
-    str = str.replaceAll('{$i}', inserts[i].toString());
-  }
-  return str;
-}

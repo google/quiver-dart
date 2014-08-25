@@ -318,70 +318,36 @@ main() {
     });
   });
   
-  group('insertAt', () {
+  group('insert', () {
     test('should return "abc" after inserting "b" into the string "ac" at index [1]', () {
-      expect(insertAt(1, 'b', 'ac'), 'abc');
+      expect(insert('ac', 1, 'b'), 'abc');
     });
   });
 
-  group('replaceAt', () {
+  group('replace', () {
     test('should return "abc" after replacing the index [1] character in the string "adc" with "b" '
-         'with overwrite disabled (default)', () {
-      expect(replaceAt(1, 'b', 'adc'), 'abc');
+         'with length defaulted to the length of the replacement', () {
+      expect(replace('adc', 1 , 'b'), 'abc');
     });
-    
+    test('should return "abcde" after replacing the index [1] character in the string "adc" with "bcde" '
+         'with overwrite defaulted to the length of the replacement', () {
+      expect(replace('adc', 1 , 'bcde'), 'abcde');
+    });
     test('should return "aabbcc" after replacing the index [1] character in the string "abc"'
-         'with "abbc" with overwrite disabled (default)', () {
-      expect(replaceAt(1, 'abbc', 'abc'), 'aabbcc');
+         'with "abbc" with overwrite = 1 (1 character overwritten)', () {
+      expect(replace('abc', 1, 'abbc', overwrite: 1), 'aabbcc');
     });
-    
-    test('should return "aabbccg" after replacing the index [1] character in the string "abcdefg" with '
-         '"abbcc" and enabling overwrite', () {
-      expect(replaceAt(1, 'abbcc', 'abcdefg', overwrite: true), 'aabbccg');
-    });
-    
-    test('should return "aabbccdd" after replacing the index [1] character in the string "abcdefg" with '
-         '"abbccdd" and enabling overwrite', () {
-      expect(replaceAt(1, 'abbccdd', 'abcdefg', overwrite: true), 'aabbccdd');
-    });
-    
   });
   
-  group('removeAt', () {
+  group('remove', () {
     test('should return "abc" after remvoing the character at index [1] from "abbc"', () {
-      expect(removeAt(1, 'abbc'), 'abc');
+      expect(remove('abbc', 1, 1), 'abc');
     });
     
     test('should return "abc" after removing 5 characters starting at index [1] from "abbbbbbc"', () {
-      expect(removeAt(1, 'abbbbbbc', length: 5), 'abc');
+      expect(remove('abbbbbbc', 1, 5), 'abc');
     });
   });
   
-  group('formatString', () {
-    test('should return "abc123" after interpolating the arguments [\'b\', 2] into the template "a{0}c1{1}3"', () {
-      expect(formatString('a{0}c1{1}3', 'b', 2), 'abc123');
-    });
-    
-    test('should throw when not enough arguments (minimum 2)', () {
-      expect(() => formatString(null), throws);
-    });
-    
-    test('should throw with a non-string value in the first argument', () {
-      expect(() => formatString(0, 0), throws);
-    });
-  });
-  
-  group('formatStringList', () {
-    test('should return "abc123" after interpolating the arguments [\'b\', 2] into the template "a{0}c1{1}3"', () {
-      expect(formatStringList(['a{0}c1{1}3', 'b', 2]), 'abc123');
-    });
-    
-    test('should throw when not enough arguments (minimum 2)', () {
-      expect(() => formatString(null), throws);
-    });
-    
-    test('should throw with a non-string value in the first element in the argument list', () {
-      expect(() => formatStringList([0, 0]), throws);
-    });
-  });
+
 }
