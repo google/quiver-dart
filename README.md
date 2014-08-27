@@ -46,26 +46,9 @@ processing the next element.
 passing Timer factories to classes and functions, increasing the testability of
 code that depends on Timer.
 
-`Metronome` provides a simple, tracking periodic stream of `DateTime`
-events with optional anchor time. For example:
-```dart
-  // Every wall-clock minute (12:01, 12:02, ...), do something
-  new Metronome.epoch(aMinute).listen((n) {
-    // update a clock
-    // play a tune
-    // whatever your fancy
-  });
-
-  // Only listen for the next minute, e.g. @14:05:07.123
-  new Metronome.epoch(aMinute).first.then((d) {
-    print("next minute $d"); // 14:06:00.000
-  });
-
-  // Every 100ms from now, adjusted for drift, do something.
-  new Metronome.periodic(aMillisecond*100, anchor: clock.now()).listen((n) {
-    // do something at 100ms interval.
-  });
-```
+`Metronome` is a self-correcting alternative to `Timer.periodic`. It provides
+a simple, tracking periodic stream of `DateTime` events with optional anchor
+time.
 
 [quiver.async]: http://google.github.io/quiver-dart/#quiver/quiver-async
 
