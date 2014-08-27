@@ -311,4 +311,43 @@ main() {
     });
 
   });
+  
+  group('capitalize', () {
+    test('should return "This Was A Triumph!" after capitalizing non-capitalized the input string', () {
+      expect(capitalize('this was a triumph!'), 'This Was A Triumph!');
+    });
+  });
+  
+  group('insert', () {
+    test('should return "abc" after inserting "b" into the string "ac" at index [1]', () {
+      expect(insert('ac', 1, 'b'), 'abc');
+    });
+  });
+
+  group('replace', () {
+    test('should return "abc" after replacing the index [1] character in the string "adc" with "b" '
+         'with length defaulted to the length of the replacement', () {
+      expect(replace('adc', 1 , 'b'), 'abc');
+    });
+    test('should return "abcde" after replacing the index [1] character in the string "adc" with "bcde" '
+         'with overwrite defaulted to the length of the replacement', () {
+      expect(replace('adc', 1 , 'bcde'), 'abcde');
+    });
+    test('should return "aabbcc" after replacing the index [1] character in the string "abc"'
+         'with "abbc" with overwrite = 1 (1 character overwritten)', () {
+      expect(replace('abc', 1, 'abbc', overwrite: 1), 'aabbcc');
+    });
+  });
+  
+  group('remove', () {
+    test('should return "abc" after remvoing the character at index [1] from "abbc"', () {
+      expect(remove('abbc', 1, 1), 'abc');
+    });
+    
+    test('should return "abc" after removing 5 characters starting at index [1] from "abbbbbbc"', () {
+      expect(remove('abbbbbbc', 1, 5), 'abc');
+    });
+  });
+  
+
 }

@@ -241,3 +241,58 @@ bool equalsIgnoreCase(String a, String b) =>
  */
 int compareIgnoreCase(String a, String b) =>
     a.toLowerCase().compareTo(b.toLowerCase());
+
+/**
+ * Returns a copy of the [input] where the first (a-z) letter of each word is
+ * capitalized.
+ */
+String capitalize(String input) =>
+    input.replaceAllMapped(new RegExp(r'(^| )(\w)'), (Match m) => m.group(0).toUpperCase());
+
+/**
+ * Returns a new string where [replacement] is inserted at the [index] of 
+ * the [original] string.
+ * 
+ * If [overwrite] is given, only the specified number of characters will be
+ * overwritten. (Default: length of [replacement])
+ * 
+ * If the [replacement] is longer than [original], the returned string will
+ * be longer than [original].
+ */
+String replace(String original, int index, String replacement, {int overwrite}) {
+  StringBuffer str = new StringBuffer();
+  if (index > 0) {
+    str.write(original.substring(0, index));
+  }
+
+  if (overwrite == null) {
+    overwrite = replacement.length;
+  }
+
+  str.write(replacement);
+  if (overwrite > 0) {
+    if (overwrite < original.length) {
+      str.write(original.substring(index + overwrite));
+    }
+  } else {
+    str.write(original.substring(index));
+  }
+  return str.toString();
+}
+
+/**
+ * Removes a specified [length] of the [original] string starting from the
+ * given [index].
+ */
+String remove(String original, int index, int length) {
+  return replace(original, index, '', overwrite: length);
+}
+
+/**
+ * Inserts the value of [insertion] at the given [index] character of
+ * the [original] string.
+ */
+String insert(String original, int index, String insertion) {
+  return replace(original, index, insertion, overwrite: 0);
+}
+

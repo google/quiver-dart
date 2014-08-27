@@ -192,6 +192,28 @@ supporting a number of use-cases, including:
 `loop('la ', 0, 8) => 'la la la'  // no tailing space`
   * Tailing: `loop('/path/to/some/file.txt', -3) => 'txt'`
   * Reversing: `loop('top', 3, 0) => 'pot'`
+  
+`capitalize` allows you to capitalize every first letter of every word in a given
+string. For example:
+
+`capitalize('this was a triumph!') => 'This Was A Triumph!'`
+
+`replace` allows you to replace a porton of a string starting from a specified index.
+Optionally, you can specifiy the length to overwrite the original string from the specified
+index with the input string. Examples:
+
+`replace("I'm doing a note here", 5, 'making', overwrite: 5)` => "I'm making a note here"`
+
+`replace('Huge suckess!', 8, 'c') => 'Huge success!'`
+
+`insert` inserts a string into another string at the given index. Example:
+
+`insert('this a triumph!', 4, 'was ') => 'this was a triumph!'`
+
+`remove` allows you to remove a specified length of text from a string at
+ a specified index. Example:
+
+`remove('Whaaaaaat?', 2, 5) => 'What?'`
 
 [quiver.strings]: http://google.github.io/quiver-dart/#quiver/quiver-strings
 
