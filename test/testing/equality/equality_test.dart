@@ -98,7 +98,7 @@ main() {
         try {
           equalsTester.expectEquals();
           fail("Should get equal to incompatible class error");
-        } catch ( e) {
+        } catch (e) {
           expect(e.toString(), contains("$obj must not be Object#equals to an "
               "arbitrary object of another class"));
         }
