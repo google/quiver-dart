@@ -43,8 +43,7 @@ part of quiver.testing.equality;
  * When a test fails, the error message labels the objects involved in
  * the failed comparison as follows:
  *
- *      "`[group i, item j]`" refers to the
- *       jth item in the ith equality group,
+ *      "`[group i, item j]`" refers to the jth item in the ith equality group,
  *       where both equality groups and the items within equality groups are
  *       numbered starting from 1.  When either a constructor argument or an
  *       equal object is provided, that becomes group 1.
