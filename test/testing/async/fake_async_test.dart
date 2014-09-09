@@ -319,5 +319,146 @@ main() {
         });
       });
     });
+
+    group('flushMicrotasks', () {
+      test('should flush a microtask', () {
+        new FakeAsync().run((async) {
+          bool microtaskRan = false;
+          new Future.microtask(() {
+            microtaskRan = true;
+          });
+          expect(microtaskRan, isFalse,
+              reason: 'should not flush until asked to');
+          async.flushMicrotasks();
+          expect(microtaskRan, isTrue);
+        });
+      });
+      test('should flush microtasks scheduled by microtasks in order', () {
+        new FakeAsync().run((async) {
+          final log = [];
+          new Future.microtask(() {
+            log.add(1);
+            new Future.microtask(() {
+              log.add(3);
+            });
+          });
+          new Future.microtask(() {
+            log.add(2);
+          });
+          expect(log, hasLength(0), reason: 'should not flush until asked to');
+          async.flushMicrotasks();
+          expect(log, [1, 2, 3]);
+        });
+      });
+      test('should not run timers', () {
+        new FakeAsync().run((async) {
+          final log = [];
+          new Future.microtask(() {
+            log.add(1);
+          });
+          new Future(() {
+            log.add(2);
+          });
+          new Timer.periodic(new Duration(seconds: 1), (_) {
+            log.add(2);
+          });
+          async.flushMicrotasks();
+          expect(log, [1]);
+        });
+      });
+    });
+
+    group('flushTimers', () {
+      test('should flush timers', () {
+        new FakeAsync().run((async) {
+          final log = [];
+          new Future(() {
+            log.add(2);
+            new Future.delayed(elapseBy, () {
+              log.add(3);
+            });
+          });
+          new Future(() {
+            log.add(1);
+          });
+          expect(log, hasLength(0), reason: 'should not flush until asked to');
+          async.flushTimers(timeout: elapseBy * 2, flushPeriodicTimers: false);
+          expect(log, [1, 2, 3]);
+          expect(async.getClock(initialTime).now(), initialTime.add(elapseBy));
+        });
+      });
+
+      test('should run collateral periodic timers', () {
+        new FakeAsync().run((async) {
+          final log = [];
+          new Future.delayed(new Duration(seconds: 2), () {
+            log.add('delayed');
+          });
+          new Timer.periodic(new Duration(seconds: 1), (_) {
+            log.add('periodic');
+          });
+          expect(log, hasLength(0), reason: 'should not flush until asked to');
+          async.flushTimers(flushPeriodicTimers: false);
+          expect(log, ['periodic', 'periodic', 'delayed']);
+        });
+      });
+
+      test('should timeout', () {
+        new FakeAsync().run((async) {
+          int count = 0;
+          // Schedule 3 timers. All but the last one should fire.
+          for (int delay in [30, 60, 90]) {
+            new Future.delayed(new Duration(minutes: delay), () {
+              count++;
+            });
+          }
+          expect(() => async.flushTimers(flushPeriodicTimers: false),
+              throwsStateError);
+          expect(count, 2);
+        });
+      });
+
+      test('should timeout a chain of timers', () {
+        new FakeAsync().run((async) {
+          int count = 0;
+          createTimer() {
+            new Future.delayed(new Duration(minutes: 30), () {
+              count++;
+              createTimer();
+            });
+          }
+          createTimer();
+          expect(() => async.flushTimers(timeout: new Duration(hours: 2),
+              flushPeriodicTimers: false), throwsStateError);
+          expect(count, 4);
+        });
+      });
+
+      test('should timeout periodic timers', () {
+        new FakeAsync().run((async) {
+          int count = 0;
+          new Timer.periodic(new Duration(minutes: 30), (Timer timer) {
+            count++;
+          });
+          expect(() => async.flushTimers(timeout: new Duration(hours: 1)),
+              throwsStateError);
+          expect(count, 2);
+        });
+      });
+
+      test('should flush periodic timers', () {
+        new FakeAsync().run((async) {
+          int count = 0;
+          new Timer.periodic(new Duration(minutes: 30), (Timer timer) {
+            if (count == 3) {
+              timer.cancel();
+            }
+            count++;
+          });
+          async.flushTimers(timeout: new Duration(hours: 20));
+          expect(count, 4);
+        });
+      });
+    });
   });
 }

@@ -92,12 +92,30 @@ abstract class FakeAsync {
   ///
   /// [callback] is called with `this` as argument.
   run(callback(FakeAsync self));
+
+  /// Runs all remaining microtasks, including those scheduled as a result of
+  /// running them, until there are no more microtasks scheduled.
+  ///
+  /// Does not run timers.
+  void flushMicrotasks();
+
+  /// Runs all timers until no timers remain (subject to [flushPeriodicTimers]
+  /// option), including those scheduled as a result of running them.
+  ///
+  /// [timeout] lets you set the maximum amount of time the flushing will take.
+  /// Throws a [StateError] if the [timeout] is exceeded. The default timeout
+  /// is 1 hour.
+  void flushTimers({Duration timeout: const Duration(hours: 1),
+      bool flushPeriodicTimers: true});
 }
 
 class _FakeAsync extends FakeAsync {
 
   Duration _elapsed = Duration.ZERO;
   Duration _elapsingTo;
+  Queue<Function> _microtasks = new Queue();
+  Set<_FakeTimer> _timers = new Set<_FakeTimer>();
+  bool _waitingForTimer = false;
 
   _FakeAsync() : super._() {
     _elapsed;
@@ -114,12 +132,7 @@ class _FakeAsync extends FakeAsync {
       throw new StateError('Cannot elapse until previous elapse is complete.');
     }
     _elapsingTo = _elapsed + duration;
-    _drainMicrotasks();
-    Timer next;
-    while ((next = _getNextTimer()) != null) {
-      _runTimer(next);
-      _drainMicrotasks();
-    }
+    _drainTimersWhile((_FakeTimer next) => next._nextCall <= _elapsingTo);
     _elapseTo(_elapsingTo);
     _elapsingTo = null;
   }
@@ -132,6 +145,28 @@ class _FakeAsync extends FakeAsync {
     if (_elapsingTo != null && _elapsed > _elapsingTo) {
       _elapsingTo = _elapsed;
     }
+  }
+
+  @override
+  void flushMicrotasks() {
+    _drainMicrotasks();
+  }
+
+  @override
+  void flushTimers({Duration timeout: const Duration(hours: 1),
+      bool flushPeriodicTimers: true}) {
+    _drainTimersWhile((_FakeTimer timer) {
+      if (timer._nextCall > timeout) {
+        throw new StateError(
+            'Exceeded timeout ${timeout} while flushing timers');
+      }
+      if (flushPeriodicTimers) {
+        return _timers.isNotEmpty;
+      } else {
+        // translation: keep draining while non-periodic timers exist
+        return _timers.any((_FakeTimer timer) => !timer._isPeriodic);
+      }
+    });
   }
 
   run(callback(FakeAsync self)) {
@@ -167,16 +202,20 @@ class _FakeAsync extends FakeAsync {
         _microtasks.add(microtask);
       });
 
+  _drainTimersWhile(bool predicate(_FakeTimer)) {
+    _drainMicrotasks();
+    _FakeTimer next;
+    while ((next = _getNextTimer()) != null && predicate(next)) {
+      _runTimer(next);
+      _drainMicrotasks();
+    }
+  }
+
   _elapseTo(Duration to) {
     if (to > _elapsed) {
       _elapsed = to;
     }
   }
-
-  Queue<Function> _microtasks = new Queue();
-
-  Set<_FakeTimer> _timers = new Set<_FakeTimer>();
-  bool _waitingForTimer = false;
 
   Timer _createTimer(Duration duration, Function callback, bool isPeriodic) {
     var timer = new _FakeTimer._(duration, callback, isPeriodic, this);
@@ -185,7 +224,7 @@ class _FakeAsync extends FakeAsync {
   }
 
   _FakeTimer _getNextTimer() {
-    return min(_timers.where((timer) => timer._nextCall <= _elapsingTo),
+    return min(_timers,
         (timer1, timer2) => timer1._nextCall.compareTo(timer2._nextCall));
   }
 
