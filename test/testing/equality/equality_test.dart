@@ -41,24 +41,21 @@ main() {
           'null', () {
         expect(() {
           equalsTester
-              ..addEqualityGroup([reference, equalObject1, null])
-              ..expectEquals();
+              ..expectEquals([[reference, equalObject1, null]]);
         }, throws);
       });
 
       test('Test adding null equal object yields error', () {
         expect(() {
           equalsTester
-              ..addEqualityGroup([reference, null])
-              ..expectEquals();
+              ..expectEquals([[reference, null]]);
         }, throws);
       });
 
       test('Test adding objects only by addEqualityGroup, with no reference '
        'object specified in the constructor.', () {
-        equalsTester.addEqualityGroup([equalObject1, notEqualObject1]);
         try {
-          equalsTester.expectEquals();
+          equalsTester.expectEquals([[equalObject1, notEqualObject1]]);
           fail("Should get not equal to equal object error");
         } catch (e) {
           expect(e.toString(), "$equalObject1 [group 1, item 1] must be "
@@ -68,22 +65,19 @@ main() {
 
       test('Test EqualsTester with no equals or not equals objects. This checks'
         ' proper handling of null, incompatible class and reflexive tests', () {
-        equalsTester.addEqualityGroup([reference]);
-        equalsTester.expectEquals();
+        equalsTester.expectEquals([[reference]]);
       });
 
       test('Test EqualsTester after populating equalObjects. This checks proper'
         ' handling of equality and verifies hashCode for valid objects', () {
-        equalsTester.addEqualityGroup([reference, equalObject1, equalObject2]);
-        equalsTester.expectEquals();
+        equalsTester.expectEquals([[reference, equalObject1, equalObject2]]);
       });
 
       test('Test proper handling of case where an object is not equal to itself'
           , () {
         Object obj = new _NonReflexiveObject();
-        equalsTester.addEqualityGroup([obj]);
         try {
-          equalsTester.expectEquals();
+          equalsTester.expectEquals([[obj]]);
           fail("Should get non-reflexive error");
         } catch (e) {
           expect(e.toString(),
@@ -94,9 +88,8 @@ main() {
       test('Test proper handling where an object incorrectly tests for an '
        'incompatible class', () {
         Object obj = new _InvalidEqualsIncompatibleClassObject();
-        equalsTester.addEqualityGroup([obj]);
         try {
-          equalsTester.expectEquals();
+          equalsTester.expectEquals([[obj]]);
           fail("Should get equal to incompatible class error");
         } catch (e) {
           expect(e.toString(), contains("$obj must not be Object#equals to an "
@@ -106,9 +99,8 @@ main() {
 
       test('Test proper handling where an object is not equal to one the user '
         'has said should be equal', () {
-        equalsTester.addEqualityGroup([reference, notEqualObject1]);
         try {
-          equalsTester.expectEquals();
+          equalsTester.expectEquals([[reference, notEqualObject1]]);
           fail("Should get not equal to equal object error");
         } catch (e) {
           expect(e.toString(), contains("$reference [group 1, item 1]"));
@@ -122,9 +114,8 @@ main() {
             'method', () {
         Object a = new _InvalidHashCodeObject(1, 2);
         Object b = new _InvalidHashCodeObject(1, 2);
-        equalsTester.addEqualityGroup([a, b]);
         try {
-          equalsTester.expectEquals();
+          equalsTester.expectEquals([[a, b]]);
           fail("Should get invalid hashCode error");
         } catch (e) {
           expect(
@@ -135,10 +126,8 @@ main() {
       });
 
       test('Symmetry Broken', () {
-        EqualsTester tester = new EqualsTester()
-            ..addEqualityGroup([named('foo')..addPeers(['bar']), named('bar')]);
         try {
-          tester.expectEquals();
+          equalsTester.expectEquals([[named('foo')..addPeers(['bar']), named('bar')]]);
           fail("should fail because symmetry is broken");
         } catch (e) {
           expect(e.toString(), contains('bar [group 1, item 2] must be '
@@ -147,13 +136,10 @@ main() {
       });
 
       test('Transitivity Broken In EqualityGroup', () {
-        EqualsTester tester = new EqualsTester()
-            ..addEqualityGroup([
-                named('foo')..addPeers(['bar', 'baz']),
-                named('bar')..addPeers(['foo']),
-                named('baz')..addPeers(['foo'])]);
         try {
-          tester.expectEquals();
+          equalsTester.expectEquals([[named('foo')..addPeers(['bar', 'baz']),
+                               named('bar')..addPeers(['foo']),
+                               named('baz')..addPeers(['foo'])]]);
           fail("should fail because transitivity is broken");
         } catch (e) {
           expect(e.toString(), contains('bar [group 1, item 2] must be '
@@ -162,10 +148,8 @@ main() {
       });
 
       test('Unequal Objects In EqualityGroup', () {
-        EqualsTester tester = new EqualsTester()
-            ..addEqualityGroup([named('foo'), named('bar')]);
         try {
-          tester.expectEquals();
+          equalsTester.expectEquals([[named('foo'), named('bar')]]);
           fail('should fail because of unequal objects in the same equality '
                 'group');
         } catch (e) {
@@ -175,15 +159,11 @@ main() {
       });
 
       test('Transitivity Broken Across EqualityGroups', () {
-        EqualsTester tester = new EqualsTester()
-            ..addEqualityGroup([
-                named('foo')..addPeers(['bar']),
-                named('bar')..addPeers(['foo', 'x'])])
-            ..addEqualityGroup([
-                named('baz')..addPeers(['x']),
-                named('x')..addPeers(['baz', 'bar'])]);
         try {
-          tester.expectEquals();
+          equalsTester.expectEquals([[named('foo')..addPeers(['bar']),
+                                named('bar')..addPeers(['foo', 'x'])],
+                                [named('baz')..addPeers(['x']),
+                                named('x')..addPeers(['baz', 'bar'])]]);
           fail('should fail because transitivity is broken');
         } catch (e) {
           expect(e.toString(), contains('bar [group 1, item 2] must not be '
@@ -192,11 +172,9 @@ main() {
       });
 
       test('EqualityGroups', () {
-        new EqualsTester()
-            ..addEqualityGroup([
-                named('foo').addPeers(['bar']), named('bar').addPeers(['foo'])])
-            ..addEqualityGroup([named('baz'), named('baz')])
-            ..expectEquals();
+        equalsTester.expectEquals([[
+            named('foo').addPeers(['bar']), named('bar').addPeers(['foo'])],
+            [named('baz'), named('baz')]]);
       });
   });
 }

@@ -52,15 +52,19 @@ part of quiver.testing.equality;
 class EqualsTester {
   static const REPETITIONS = 3;
 
-  final List<List<Object>> _equalityGroups = [];
-
+  List<List<Object>> _equalityGroups;
 
   void addEqualityGroup(List<Object> equalityGroup) {
     assert(equalityGroup != null);
     _equalityGroups.add(new List.from(equalityGroup));
   }
 
-  void expectEquals() {
+  void expectEquals(List<List<Object>> equalityGroups) {
+    assert(equalityGroups != null);
+    _equalityGroups = equalityGroups.map((List<Object> group) {
+      assert(group != null);
+      return new List.from(group);
+    }).toList();
     // Run the test multiple times to ensure deterministic equals
     for (var run in range(REPETITIONS)) {
       _checkBasicIdentity();
