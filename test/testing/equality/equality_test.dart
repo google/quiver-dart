@@ -59,8 +59,8 @@ main() {
           });
           fail("Should get not equal to equal object error");
         } catch (e) {
-          expect(e.toString(), "$equalObject1 [group 1, item 1] must be "
-            "Object#equals to $notEqualObject1 [group 1, item 2]");
+          expect(e.toString(), "$equalObject1 [group 'not equal', item 1] must be "
+            "Object#equals to $notEqualObject1 [group 'not equal', item 2]");
         }
       });
 
@@ -108,12 +108,12 @@ main() {
         'has said should be equal', () {
         try {
           expectEquals({
-            'non-equal objects in same group': [reference, notEqualObject1]
+            'non-equal': [reference, notEqualObject1]
           });
           fail("Should get not equal to equal object error");
         } catch (e) {
-          expect(e.toString(), contains("$reference [group 1, item 1]"));
-          expect(e.toString(), contains("$notEqualObject1 [group 1, item 2]"));
+          expect(e.toString(), contains("$reference [group 'non-equal', item 1]"));
+          expect(e.toString(), contains("$notEqualObject1 [group 'non-equal', item 2]"));
         }
       });
 
@@ -131,7 +131,7 @@ main() {
         } catch (e) {
           expect(
               e.toString(), contains("the Object#hashCode (${a.hashCode}) of $a"
-              " [group 1, item 1] must be equal to the Object#hashCode ("
+              " [group 'invalid hashcode', item 1] must be equal to the Object#hashCode ("
               "${b.hashCode}) of $b"));
         }
       });
@@ -143,8 +143,8 @@ main() {
           });
           fail("should fail because symmetry is broken");
         } catch (e) {
-          expect(e.toString(), contains('bar [group 1, item 2] must be '
-              'Object#equals to foo [group 1, item 1]'));
+          expect(e.toString(), contains("bar [group 'broken symmetry', item 2] must be "
+              "Object#equals to foo [group 'broken symmetry', item 1]"));
         }
       });
 
@@ -157,8 +157,8 @@ main() {
           });
           fail("should fail because transitivity is broken");
         } catch (e) {
-          expect(e.toString(), contains('bar [group 1, item 2] must be '
-            'Object#equals to baz [group 1, item 3]'));
+          expect(e.toString(), contains("bar [group 'transitivity broken', item 2] must be "
+            "Object#equals to baz [group 'transitivity broken', item 3]"));
         }
       });
 
@@ -170,8 +170,8 @@ main() {
           fail('should fail because of unequal objects in the same equality '
                 'group');
         } catch (e) {
-          expect(e.toString(), contains('foo [group 1, item 1] must be '
-            'Object#equals to bar [group 1, item 2]'));
+          expect(e.toString(), contains("foo [group 'unequal objects', item 1] must be "
+            "Object#equals to bar [group 'unequal objects', item 2]"));
         }
       });
 
@@ -189,8 +189,8 @@ main() {
           });
           fail('should fail because transitivity is broken');
         } catch (e) {
-          expect(e.toString(), contains('bar [group 1, item 2] must not be '
-              'Object#equals to x [group 2, item 2]'));
+          expect(e.toString(), contains("bar [group 'transitivity one', item 2] must not be "
+              "Object#equals to x [group 'transitivity two', item 2]"));
         }
       });
 

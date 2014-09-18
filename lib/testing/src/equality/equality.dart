@@ -53,10 +53,13 @@ const REPETITIONS = 3;
 
 void expectEquals(Map<String, List<Object>> equalityGroups) {
   assert(equalityGroups != null);
-  var equalityGroupsCopy = equalityGroups.values.map((List<Object> group) {
+  var equalityGroupsCopy = {};
+  equalityGroups.keys.forEach((String groupName) {
+    assert(groupName != null);
+    var group = equalityGroups[groupName];
     assert(group != null);
-    return new List.from(group);
-  }).toList();
+    equalityGroupsCopy[groupName] = new List.from(group);
+  });
   // Run the test multiple times to ensure deterministic equals
   for (var run in range(REPETITIONS)) {
     _checkBasicIdentity(equalityGroupsCopy);
@@ -64,8 +67,8 @@ void expectEquals(Map<String, List<Object>> equalityGroups) {
   }
 }
 
-void _checkBasicIdentity(List<List<Object>> equalityGroups) {
-  var flattened = equalityGroups.expand((group) => group);
+void _checkBasicIdentity(Map<String, List<Object>> equalityGroups) {
+  var flattened = equalityGroups.values.expand((group) => group);
   for (var item in flattened) {
     expect(_NotAnInstance.EQUAL_TO_NOTHING, isNot(equals(item)), reason:
       "$item must not be Object#equals to an arbitrary object of another "
@@ -77,75 +80,76 @@ void _checkBasicIdentity(List<List<Object>> equalityGroups) {
   }
 }
 
-void _checkGroupBasedEquality(List<List<Object>> equalityGroups) {
-  for (var groupNumber = 0; groupNumber < equalityGroups.length;
-      groupNumber++) {
-    var groupLength = equalityGroups[groupNumber].length;
+void _checkGroupBasedEquality(Map<String, List<Object>> equalityGroups) {
+//  for (var groupNumber = 0; groupNumber < equalityGroups.length;
+//      groupNumber++) {
+  equalityGroups.keys.forEach((String groupName) {
+    var groupLength = equalityGroups[groupName].length;
     for (var itemNumber = 0; itemNumber < groupLength; itemNumber++) {
       _checkEqualAgainstSameGroup(equalityGroups, groupLength, itemNumber,
-          groupNumber);
-      _checkUnequalsAgainstOtherGroups(equalityGroups,
-          groupNumber, itemNumber);
+          groupName);
+      _checkUnequalsAgainstOtherGroups(equalityGroups, groupName, itemNumber);
     }
-  }
+  });
 }
 
-void _checkUnequalsAgainstOtherGroups(List<List<Object>> equalityGroups,
-  int groupNumber, int itemNumber) {
+void _checkUnequalsAgainstOtherGroups(Map<String, List<Object>> equalityGroups,
+  String groupName, int itemNumber) {
 
-  for (var unrelatedGroupNumber = 0;
-      unrelatedGroupNumber < equalityGroups.length; unrelatedGroupNumber++) {
-    if (groupNumber != unrelatedGroupNumber) {
-      var unrelatedGroup = equalityGroups[unrelatedGroupNumber];
-      for (var unrelatedItemNumber = 0;
-          unrelatedItemNumber < unrelatedGroup.length;
-          unrelatedItemNumber++) {
-        _expectUnrelated(
-            equalityGroups,
-            groupNumber,
-            itemNumber,
-            unrelatedGroupNumber,
-            unrelatedItemNumber);
+//  for (var unrelatedGroupNumber = 0;
+//      unrelatedGroupNumber < equalityGroups.length; unrelatedGroupNumber++) {
+    equalityGroups.keys.forEach((String unrelatedGroupName) {
+      if (groupName != unrelatedGroupName) {
+        var unrelatedGroup = equalityGroups[unrelatedGroupName];
+        for (var unrelatedItemNumber = 0;
+            unrelatedItemNumber < unrelatedGroup.length;
+            unrelatedItemNumber++) {
+          _expectUnrelated(
+              equalityGroups,
+              groupName,
+              itemNumber,
+              unrelatedGroupName,
+              unrelatedItemNumber);
+        }
       }
-    }
-  }
+  });
 }
 
-void _checkEqualAgainstSameGroup(List<List<Object>> equalityGroups,
-  int groupLength, int itemNumber, int groupNumber) {
+void _checkEqualAgainstSameGroup(Map<String, List<Object>> equalityGroups,
+  int groupLength, int itemNumber, String groupName) {
   for (var relatedItemNumber = 0; relatedItemNumber < groupLength;
       relatedItemNumber++) {
     if (itemNumber != relatedItemNumber) {
-      _expectRelated(equalityGroups, groupNumber, itemNumber,
+      _expectRelated(equalityGroups, groupName, itemNumber,
           relatedItemNumber);
     }
   }
 }
 
-void _expectRelated(List<List<Object>> equalityGroups, int groupNumber,
+void _expectRelated(Map<String, List<Object>> equalityGroups, String groupName,
   int itemNumber, int relatedItemNumber) {
-  var itemInfo = _createItem(equalityGroups, groupNumber, itemNumber);
-  var relatedInfo = _createItem(equalityGroups, groupNumber,
+  var itemInfo = _createItem(equalityGroups, groupName, itemNumber);
+  var relatedInfo = _createItem(equalityGroups, groupName,
       relatedItemNumber);
 
   var item = itemInfo.value;
   var related = relatedInfo.value;
   if (item != related) {
     fail("$itemInfo must be Object#equals to $relatedInfo");
-}
+  }
 
-var itemHash = item.hashCode;
-var relatedHash = related.hashCode;
-if (itemHash != relatedHash) {
-  fail("the Object#hashCode ($itemHash) of $itemInfo must be equal to the "
-      "Object#hashCode ($relatedHash) of $relatedInfo}");
+  var itemHash = item.hashCode;
+  var relatedHash = related.hashCode;
+  if (itemHash != relatedHash) {
+    fail("the Object#hashCode ($itemHash) of $itemInfo must be equal to the "
+        "Object#hashCode ($relatedHash) of $relatedInfo}");
   }
 }
 
-void _expectUnrelated(List<List<Object>> equalityGroups, int groupNumber,
-  int itemNumber, int unrelatedGroupNumber, int unrelatedItemNumber) {
-  var itemInfo = _createItem(equalityGroups, groupNumber, itemNumber);
-  var unrelatedInfo = _createItem(equalityGroups, unrelatedGroupNumber,
+void _expectUnrelated(Map<String, List<Object>> equalityGroups, String groupName,
+  int itemNumber, String unrelatedGroupName, int unrelatedItemNumber) {
+  var itemInfo = _createItem(equalityGroups, groupName, itemNumber);
+  var unrelatedInfo = _createItem(equalityGroups, unrelatedGroupName,
       unrelatedItemNumber);
 
   if (itemInfo.value == unrelatedInfo.value) {
@@ -153,11 +157,11 @@ void _expectUnrelated(List<List<Object>> equalityGroups, int groupNumber,
   }
 }
 
-_Item _createItem(List<List<Object>> equalityGroups,
-  int groupNumber, int itemNumber) =>
+_Item _createItem(Map<String, List<Object>> equalityGroups,
+  String groupName, int itemNumber) =>
   new _Item(
-      equalityGroups[groupNumber][itemNumber],
-      groupNumber,
+      equalityGroups[groupName][itemNumber],
+      groupName,
       itemNumber);
 
 
@@ -168,12 +172,11 @@ class _NotAnInstance {
 
 class _Item {
   final Object value;
-  final int groupNumber;
+  final String groupName;
   final int itemNumber;
 
-  _Item(this.value, this.groupNumber, this.itemNumber);
+  _Item(this.value, this.groupName, this.itemNumber);
 
   @override
-  String toString() =>
-      "$value [group ${(groupNumber + 1)}, item ${(itemNumber + 1)}]";
+  String toString() => "$value [group '$groupName', item ${(itemNumber + 1)}]";
 }
