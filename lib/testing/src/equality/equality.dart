@@ -22,11 +22,11 @@ part of quiver.testing.equality;
  * contains objects that are supposed to be equal to each other, and objects of
  * different groups are expected to be unequal. For example:
  *
- * expectEquals([
- *      ["hello", "h" + "ello"],
- *      ["world", "wor" + "ld"],
- *      [2, 1 + 1]
- *     ]);
+ * expectEquals({
+ *      'hello': ["hello", "h" + "ello"],
+ *      'world': ["world", "wor" + "ld"],
+ *      'three': [2, 1 + 1]
+ *     });
  *
  * This tests:
  *
@@ -51,9 +51,9 @@ part of quiver.testing.equality;
  */
 const REPETITIONS = 3;
 
-void expectEquals(List<List<Object>> equalityGroups) {
+void expectEquals(Map<String, List<Object>> equalityGroups) {
   assert(equalityGroups != null);
-  var equalityGroupsCopy = equalityGroups.map((List<Object> group) {
+  var equalityGroupsCopy = equalityGroups.values.map((List<Object> group) {
     assert(group != null);
     return new List.from(group);
   }).toList();
