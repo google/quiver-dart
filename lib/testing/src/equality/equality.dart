@@ -16,17 +16,17 @@ part of quiver.testing.equality;
 
 
 /**
- * Tester for == and hashCode methods of a class.
+ * Matcher for == and hashCode methods of a class.
  *
- * To use, invoke expectEquals with a list of equality groups where each group
- * contains objects that are supposed to be equal to each other, and objects of
- * different groups are expected to be unequal. For example:
+ * To use, invoke areEqualityGroups with a list of equality groups where each
+ * group contains objects that are supposed to be equal to each other, and
+ * objects of different groups are expected to be unequal. For example:
  *
- * expectEquals({
+ * expect({
  *      'hello': ["hello", "h" + "ello"],
  *      'world': ["world", "wor" + "ld"],
  *      'three': [2, 1 + 1]
- *     });
+ *     }, areEqualityGroups);
  *
  * This tests:
  *
@@ -74,16 +74,16 @@ class _EqualityGroupMatcher extends Matcher {
 
   Description describeMismatch(item, Description mismatchDescription,
       Map matchState, bool verbose) => mismatchDescription
-        .addDescriptionOf(item)
         .add(" ${matchState[FAILURE_REASON]}");
 
 
-  void _verifyEqualityGroups(Map<String, List<Object>> equalityGroups, Map matchState) {
+  void _verifyEqualityGroups(Map<String, List<Object>> equalityGroups,
+      Map matchState) {
     if (equalityGroups == null) {
       throw new MatchError('Equality Group must not be null');
     }
     var equalityGroupsCopy = {};
-    bool failureFound = NO_MISMATCH_FOUND != equalityGroups.keys.forEach((String groupName) {
+    equalityGroups.keys.forEach((String groupName) {
       if (groupName == null) {
         throw new MatchError('Group name must not be null');
       }
@@ -101,11 +101,13 @@ class _EqualityGroupMatcher extends Matcher {
     }
   }
 
-  void _checkBasicIdentity(Map<String, List<Object>> equalityGroups, Map matchState) {
+  void _checkBasicIdentity(Map<String, List<Object>> equalityGroups,
+      Map matchState) {
     var flattened = equalityGroups.values.expand((group) => group);
     for (var item in flattened) {
       if (item == _NotAnInstance.EQUAL_TO_NOTHING) {
-        throw new MatchError("$item must not be Object#equals to an arbitrary object of another class");
+        throw new MatchError("$item must not be Object#equals to an arbitrary "
+            "object of another class");
       }
 
       if (item != item) {
@@ -131,8 +133,8 @@ class _EqualityGroupMatcher extends Matcher {
     });
   }
 
-  void _checkUnequalsAgainstOtherGroups(Map<String, List<Object>> equalityGroups,
-    String groupName, int itemNumber) {
+  void _checkUnequalsAgainstOtherGroups(Map<String,
+      List<Object>> equalityGroups, String groupName, int itemNumber) {
     equalityGroups.keys.forEach((String unrelatedGroupName) {
       if (groupName != unrelatedGroupName) {
         var unrelatedGroup = equalityGroups[unrelatedGroupName];
@@ -155,13 +157,14 @@ class _EqualityGroupMatcher extends Matcher {
     for (var relatedItemNumber = 0; relatedItemNumber < groupLength;
         relatedItemNumber++) {
       if (itemNumber != relatedItemNumber) {
-        _expectRelated(equalityGroups, groupName, itemNumber, relatedItemNumber);
+        _expectRelated(equalityGroups, groupName, itemNumber,
+            relatedItemNumber);
       }
     }
   }
 
-  void _expectRelated(Map<String, List<Object>> equalityGroups, String groupName,
-    int itemNumber, int relatedItemNumber) {
+  void _expectRelated(Map<String, List<Object>> equalityGroups,
+      String groupName, int itemNumber, int relatedItemNumber) {
     var itemInfo = _createItem(equalityGroups, groupName, itemNumber);
     var relatedInfo = _createItem(equalityGroups, groupName, relatedItemNumber);
 
@@ -174,129 +177,31 @@ class _EqualityGroupMatcher extends Matcher {
     var itemHash = item.hashCode;
     var relatedHash = related.hashCode;
     if (itemHash != relatedHash) {
-      throw new MatchError("the Object#hashCode ($itemHash) of $itemInfo must be equal to the "
-          "Object#hashCode ($relatedHash) of $relatedInfo}");
+      throw new MatchError("the Object#hashCode ($itemHash) of $itemInfo must "
+          "be equal to the Object#hashCode ($relatedHash) of $relatedInfo}");
     }
   }
 
-  void _expectUnrelated(Map<String, List<Object>> equalityGroups, String groupName,
-    int itemNumber, String unrelatedGroupName, int unrelatedItemNumber) {
+  void _expectUnrelated(Map<String, List<Object>> equalityGroups,
+      String groupName, int itemNumber, String unrelatedGroupName,
+      int unrelatedItemNumber) {
     var itemInfo = _createItem(equalityGroups, groupName, itemNumber);
     var unrelatedInfo = _createItem(equalityGroups, unrelatedGroupName,
         unrelatedItemNumber);
 
     if (itemInfo.value == unrelatedInfo.value) {
-      throw new MatchError("$itemInfo must not be Object#equals to $unrelatedInfo)");
+      throw new MatchError("$itemInfo must not be Object#equals to "
+          "$unrelatedInfo)");
     }
   }
+
+  _Item _createItem(Map<String, List<Object>> equalityGroups,
+    String groupName, int itemNumber) =>
+    new _Item(
+        equalityGroups[groupName][itemNumber],
+        groupName,
+        itemNumber);
 }
-
-void expectEquals(Map<String, List<Object>> equalityGroups) {
-  assert(equalityGroups != null);
-  var equalityGroupsCopy = {};
-  equalityGroups.keys.forEach((String groupName) {
-    assert(groupName != null);
-    var group = equalityGroups[groupName];
-    assert(group != null);
-    equalityGroupsCopy[groupName] = new List.from(group);
-  });
-  // Run the test multiple times to ensure deterministic equals
-  for (var run in range(REPETITIONS)) {
-    _checkBasicIdentity(equalityGroupsCopy);
-    _checkGroupBasedEquality(equalityGroupsCopy);
-  }
-}
-
-void _checkBasicIdentity(Map<String, List<Object>> equalityGroups) {
-  var flattened = equalityGroups.values.expand((group) => group);
-  for (var item in flattened) {
-    expect(_NotAnInstance.EQUAL_TO_NOTHING, isNot(equals(item)), reason:
-      "$item must not be Object#equals to an arbitrary object of another "
-    "class");
-    expect(item, equals(item), reason:
-      "$item must be Object#equals to itself");
-    expect(item.hashCode, equals(item.hashCode), reason:
-      "the Object#hashCode of $item must be consistent");
-  }
-}
-
-void _checkGroupBasedEquality(Map<String, List<Object>> equalityGroups) {
-  equalityGroups.keys.forEach((String groupName) {
-    var groupLength = equalityGroups[groupName].length;
-    for (var itemNumber = 0; itemNumber < groupLength; itemNumber++) {
-      _checkEqualAgainstSameGroup(equalityGroups, groupLength, itemNumber,
-          groupName);
-      _checkUnequalsAgainstOtherGroups(equalityGroups, groupName, itemNumber);
-    }
-  });
-}
-
-void _checkUnequalsAgainstOtherGroups(Map<String, List<Object>> equalityGroups,
-  String groupName, int itemNumber) {
-  equalityGroups.keys.forEach((String unrelatedGroupName) {
-    if (groupName != unrelatedGroupName) {
-      var unrelatedGroup = equalityGroups[unrelatedGroupName];
-      for (var unrelatedItemNumber = 0;
-          unrelatedItemNumber < unrelatedGroup.length;
-          unrelatedItemNumber++) {
-        _expectUnrelated(
-            equalityGroups,
-            groupName,
-            itemNumber,
-            unrelatedGroupName,
-            unrelatedItemNumber);
-      }
-    }
-  });
-}
-
-void _checkEqualAgainstSameGroup(Map<String, List<Object>> equalityGroups,
-  int groupLength, int itemNumber, String groupName) {
-  for (var relatedItemNumber = 0; relatedItemNumber < groupLength;
-      relatedItemNumber++) {
-    if (itemNumber != relatedItemNumber) {
-      _expectRelated(equalityGroups, groupName, itemNumber, relatedItemNumber);
-    }
-  }
-}
-
-void _expectRelated(Map<String, List<Object>> equalityGroups, String groupName,
-  int itemNumber, int relatedItemNumber) {
-  var itemInfo = _createItem(equalityGroups, groupName, itemNumber);
-  var relatedInfo = _createItem(equalityGroups, groupName, relatedItemNumber);
-
-  var item = itemInfo.value;
-  var related = relatedInfo.value;
-  if (item != related) {
-    fail("$itemInfo must be Object#equals to $relatedInfo");
-  }
-
-  var itemHash = item.hashCode;
-  var relatedHash = related.hashCode;
-  if (itemHash != relatedHash) {
-    fail("the Object#hashCode ($itemHash) of $itemInfo must be equal to the "
-        "Object#hashCode ($relatedHash) of $relatedInfo}");
-  }
-}
-
-void _expectUnrelated(Map<String, List<Object>> equalityGroups, String groupName,
-  int itemNumber, String unrelatedGroupName, int unrelatedItemNumber) {
-  var itemInfo = _createItem(equalityGroups, groupName, itemNumber);
-  var unrelatedInfo = _createItem(equalityGroups, unrelatedGroupName,
-      unrelatedItemNumber);
-
-  if (itemInfo.value == unrelatedInfo.value) {
-    fail("$itemInfo must not be Object#equals to $unrelatedInfo)");
-  }
-}
-
-_Item _createItem(Map<String, List<Object>> equalityGroups,
-  String groupName, int itemNumber) =>
-  new _Item(
-      equalityGroups[groupName][itemNumber],
-      groupName,
-      itemNumber);
-
 
 class _NotAnInstance {
   static const EQUAL_TO_NOTHING = const _NotAnInstance._();

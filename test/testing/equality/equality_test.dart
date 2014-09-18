@@ -76,8 +76,9 @@ main() {
           }, areEqualityGroups);
           fail("Should get not equal to equal object error");
         } catch (e) {
-          expect(e.toString(), contains("$equalObject1 [group 'not equal', item 1] must be "
-            "Object#equals to $notEqualObject1 [group 'not equal', item 2]"));
+          expect(e.toString(), contains("$equalObject1 [group 'not equal', item"
+              " 1] must be Object#equals to $notEqualObject1 [group 'not equal'"
+              ", item 2]"));
         }
       });
 
@@ -131,11 +132,14 @@ main() {
       test('Test proper handling where an object is not equal to one the user '
         'has said should be equal', () {
         try {
-          expect({'non-equal': [reference, notEqualObject1]}, areEqualityGroups);
+          expect({'non-equal': [reference, notEqualObject1]},
+              areEqualityGroups);
           fail("Should get not equal to equal object error");
         } catch (e) {
-          expect(e.toString(), contains("$reference [group 'non-equal', item 1]"));
-          expect(e.toString(), contains("$notEqualObject1 [group 'non-equal', item 2]"));
+          expect(e.toString(),
+              contains("$reference [group 'non-equal', item 1]"));
+          expect(e.toString(),
+              contains("$notEqualObject1 [group 'non-equal', item 2]"));
         }
       });
 
@@ -151,19 +155,20 @@ main() {
         } catch (e) {
           expect(
               e.toString(), contains("the Object#hashCode (${a.hashCode}) of $a"
-              " [group 'invalid hashcode', item 1] must be equal to the Object#hashCode ("
-              "${b.hashCode}) of $b"));
+              " [group 'invalid hashcode', item 1] must be equal to the"
+              " Object#hashCode (${b.hashCode}) of $b"));
         }
       });
 
       test('Symmetry Broken', () {
         try {
-          expect({'broken symmetry': [named('foo')..addPeers(['bar']), named('bar')]
+          expect({
+            'broken symmetry': [named('foo')..addPeers(['bar']), named('bar')]
           }, areEqualityGroups);
           fail("should fail because symmetry is broken");
         } catch (e) {
-          expect(e.toString(), contains("bar [group 'broken symmetry', item 2] must be "
-              "Object#equals to foo [group 'broken symmetry', item 1]"));
+          expect(e.toString(), contains("bar [group 'broken symmetry', item 2] "
+            "must be Object#equals to foo [group 'broken symmetry', item 1]"));
         }
       });
 
@@ -176,8 +181,9 @@ main() {
           }, areEqualityGroups);
           fail("should fail because transitivity is broken");
         } catch (e) {
-          expect(e.toString(), contains("bar [group 'transitivity broken', item 2] must be "
-            "Object#equals to baz [group 'transitivity broken', item 3]"));
+          expect(e.toString(), contains("bar [group 'transitivity broken', "
+              "item 2] must be Object#equals to baz [group 'transitivity "
+              "broken', item 3]"));
         }
       });
 
@@ -189,8 +195,8 @@ main() {
           fail('should fail because of unequal objects in the same equality '
                 'group');
         } catch (e) {
-          expect(e.toString(), contains("foo [group 'unequal objects', item 1] must be "
-            "Object#equals to bar [group 'unequal objects', item 2]"));
+          expect(e.toString(), contains("foo [group 'unequal objects', item 1] "
+            "must be Object#equals to bar [group 'unequal objects', item 2]"));
         }
       });
 
@@ -208,8 +214,9 @@ main() {
           }, areEqualityGroups);
           fail('should fail because transitivity is broken');
         } catch (e) {
-          expect(e.toString(), contains("bar [group 'transitivity one', item 2] must not be "
-              "Object#equals to x [group 'transitivity two', item 2]"));
+          expect(e.toString(), contains("bar [group 'transitivity one', item 2]"
+              " must not be Object#equals to x [group 'transitivity two',"
+              " item 2]"));
         }
       });
 
