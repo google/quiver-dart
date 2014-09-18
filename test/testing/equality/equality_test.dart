@@ -34,7 +34,7 @@ main() {
       });
 
       test('Test null reference yields error', () {
-        expect(() => equalsTester.addEqualityGroup(null), throws);
+        expect(() => equalsTester.expectEquals(null), throws);
       });
 
       test('Test equalObjects after adding multiple instances at once with a '

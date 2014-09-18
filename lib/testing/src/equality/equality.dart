@@ -23,10 +23,11 @@ part of quiver.testing.equality;
  * different groups are expected to be unequal. For example:
  *
  * new EqualsTester()
- *     ..addEqualityGroup(["hello", "h" + "ello"])
- *     ..addEqualityGroup(["world", "wor" + "ld"])
- *     ..addEqualityGroup([2, 1 + 1])
- *     .expectEquals();
+ *     .expectEquals([
+ *      ["hello", "h" + "ello"],
+ *      ["world", "wor" + "ld"],
+ *      [2, 1 + 1]
+ *     ]);
  *
  * This tests:
  *
@@ -52,28 +53,21 @@ part of quiver.testing.equality;
 class EqualsTester {
   static const REPETITIONS = 3;
 
-  List<List<Object>> _equalityGroups;
-
-  void addEqualityGroup(List<Object> equalityGroup) {
-    assert(equalityGroup != null);
-    _equalityGroups.add(new List.from(equalityGroup));
-  }
-
   void expectEquals(List<List<Object>> equalityGroups) {
     assert(equalityGroups != null);
-    _equalityGroups = equalityGroups.map((List<Object> group) {
+    var equalityGroupsCopy = equalityGroups.map((List<Object> group) {
       assert(group != null);
       return new List.from(group);
     }).toList();
     // Run the test multiple times to ensure deterministic equals
     for (var run in range(REPETITIONS)) {
-      _checkBasicIdentity();
-      _checkGroupBasedEquality();
+      _checkBasicIdentity(equalityGroupsCopy);
+      _checkGroupBasedEquality(equalityGroupsCopy);
     }
   }
 
-  void _checkBasicIdentity() {
-    var flattened = _equalityGroups.expand((group) => group);
+  void _checkBasicIdentity(List<List<Object>> equalityGroups) {
+    var flattened = equalityGroups.expand((group) => group);
     for (var item in flattened) {
       expect(_NotAnInstance.EQUAL_TO_NOTHING, isNot(equals(item)), reason:
         "$item must not be Object#equals to an arbitrary object of another "
@@ -85,26 +79,31 @@ class EqualsTester {
     }
   }
 
-  void _checkGroupBasedEquality() {
-    for (var groupNumber = 0; groupNumber < _equalityGroups.length;
+  void _checkGroupBasedEquality(List<List<Object>> equalityGroups) {
+    for (var groupNumber = 0; groupNumber < equalityGroups.length;
         groupNumber++) {
-      var groupLength = _equalityGroups[groupNumber].length;
+      var groupLength = equalityGroups[groupNumber].length;
       for (var itemNumber = 0; itemNumber < groupLength; itemNumber++) {
-        _checkEqualAgainstSameGroup(groupLength, itemNumber, groupNumber);
-        _checkUnequalsAgainstOtherGroups(groupNumber, itemNumber);
+        _checkEqualAgainstSameGroup(equalityGroups, groupLength, itemNumber,
+            groupNumber);
+        _checkUnequalsAgainstOtherGroups(equalityGroups,
+            groupNumber, itemNumber);
       }
     }
   }
 
-  void _checkUnequalsAgainstOtherGroups(int groupNumber, int itemNumber) {
+  void _checkUnequalsAgainstOtherGroups(List<List<Object>> equalityGroups,
+    int groupNumber, int itemNumber) {
+
     for (var unrelatedGroupNumber = 0;
-        unrelatedGroupNumber < _equalityGroups.length; unrelatedGroupNumber++) {
+        unrelatedGroupNumber < equalityGroups.length; unrelatedGroupNumber++) {
       if (groupNumber != unrelatedGroupNumber) {
-        var unrelatedGroup = _equalityGroups[unrelatedGroupNumber];
+        var unrelatedGroup = equalityGroups[unrelatedGroupNumber];
         for (var unrelatedItemNumber = 0;
             unrelatedItemNumber < unrelatedGroup.length;
             unrelatedItemNumber++) {
           _expectUnrelated(
+              equalityGroups,
               groupNumber,
               itemNumber,
               unrelatedGroupNumber,
@@ -114,19 +113,22 @@ class EqualsTester {
     }
   }
 
-  void _checkEqualAgainstSameGroup(int groupLength, int itemNumber,
-    int groupNumber) {
+  void _checkEqualAgainstSameGroup(List<List<Object>> equalityGroups,
+    int groupLength, int itemNumber, int groupNumber) {
     for (var relatedItemNumber = 0; relatedItemNumber < groupLength;
         relatedItemNumber++) {
       if (itemNumber != relatedItemNumber) {
-        _expectRelated(groupNumber, itemNumber, relatedItemNumber);
+        _expectRelated(equalityGroups, groupNumber, itemNumber,
+            relatedItemNumber);
       }
     }
   }
 
-  void _expectRelated(int groupNumber, int itemNumber, int relatedItemNumber) {
-    var itemInfo = _createItem(groupNumber, itemNumber);
-    var relatedInfo = _createItem(groupNumber, relatedItemNumber);
+  void _expectRelated(List<List<Object>> equalityGroups, int groupNumber,
+    int itemNumber, int relatedItemNumber) {
+    var itemInfo = _createItem(equalityGroups, groupNumber, itemNumber);
+    var relatedInfo = _createItem(equalityGroups, groupNumber,
+        relatedItemNumber);
 
     var item = itemInfo.value;
     var related = relatedInfo.value;
@@ -142,19 +144,21 @@ class EqualsTester {
     }
   }
 
-  void _expectUnrelated(int groupNumber, int itemNumber,
-                        int unrelatedGroupNumber, int unrelatedItemNumber) {
-    var itemInfo = _createItem(groupNumber, itemNumber);
-    var unrelatedInfo = _createItem(unrelatedGroupNumber, unrelatedItemNumber);
+  void _expectUnrelated(List<List<Object>> equalityGroups, int groupNumber,
+    int itemNumber, int unrelatedGroupNumber, int unrelatedItemNumber) {
+    var itemInfo = _createItem(equalityGroups, groupNumber, itemNumber);
+    var unrelatedInfo = _createItem(equalityGroups, unrelatedGroupNumber,
+        unrelatedItemNumber);
 
     if (itemInfo.value == unrelatedInfo.value) {
       fail("$itemInfo must not be Object#equals to $unrelatedInfo)");
     }
   }
 
-  _Item _createItem(int groupNumber, int itemNumber) =>
+  _Item _createItem(List<List<Object>> equalityGroups,
+    int groupNumber, int itemNumber) =>
     new _Item(
-        _equalityGroups[groupNumber][itemNumber],
+        equalityGroups[groupNumber][itemNumber],
         groupNumber,
         itemNumber);
 }
