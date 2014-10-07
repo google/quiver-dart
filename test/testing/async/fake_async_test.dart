@@ -459,6 +459,26 @@ main() {
           expect(count, 4);
         });
       });
+
+      test('should compute absolute timeout as elapsed + timeout', () {
+        new FakeAsync().run((async) {
+          final log = [];
+          int count = 0;
+          createTimer() {
+            new Future.delayed(new Duration(minutes: 30), () {
+              log.add(count);
+              count++;
+              if (count < 4) {
+                createTimer();
+              }
+            });
+          }
+          createTimer();
+          async.elapse(new Duration(hours: 1));
+          async.flushTimers(timeout: new Duration(hours: 1));
+          expect(count, 4);
+        });
+      });
     });
   });
 }
