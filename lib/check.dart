@@ -12,10 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// TODO(danielwhite): Where should documentation like this go (if anywhere)? It
-// applies to all the methods in the file and I'd rather not repeat it.
 /// A simple set of precondition checkers based on the Guava Preconditions class
-/// in Java. These checks are stronger than 'assert' statements, which can be
+/// in Java.
+///
+/// These checks are stronger than 'assert' statements, which can be
 /// switched off, so they must only be used in situations where we actively
 /// want the program to break when the precondition does not hold.
 ///
@@ -36,10 +36,10 @@
 ///
 /// If the message parameter is null or returns null, a default error message
 /// will be used.
-part of quiver.core;
+library quiver.check;
 
 /// Throws an [ArgumentError] if the given [expression] is false.
-void checkArgument(bool expression, {message}) {
+void argument(bool expression, {message}) {
   if (!expression) {
     throw new ArgumentError(_resolveMessage(message, null));
   }
@@ -47,26 +47,26 @@ void checkArgument(bool expression, {message}) {
 
 /// Throws a [RangeError] if the given [index] is not a valid index for a list
 /// with [size] elements.
-int checkListIndex(int index, int size, {message}) {
+int listIndex(int index, int size, {message}) {
   if (index < 0 || index >= size) {
     throw new RangeError(_resolveMessage(
-        message, "index $index not valid for list of size $size"));
+        message, 'index $index not valid for list of size $size'));
   }
   return index;
 }
 
-/// Throws a [StateError] if the given [reference] is null.
-dynamic checkNotNull(reference, {message}) {
+/// Throws an [ArgumentError] if the given [reference] is null.
+dynamic notNull(reference, {message}) {
   if (reference == null) {
-    throw new StateError(_resolveMessage(message, "null pointer"));
+    throw new ArgumentError(_resolveMessage(message, 'null pointer'));
   }
   return reference;
 }
 
 /// Throws a [StateError] if the given [expression] is false.
-void checkState(bool expression, {message}) {
+void state(bool expression, {message}) {
   if (!expression) {
-    throw new StateError(_resolveMessage(message, "failed precondition"));
+    throw new StateError(_resolveMessage(message, 'failed precondition'));
   }
 }
 

@@ -18,6 +18,7 @@ import 'package:unittest/compact_vm_config.dart';
 
 import 'async/all_tests.dart' as async;
 import 'cache/map_cache_test.dart' as cache;
+import 'check_test.dart' as check;
 import 'collection/all_tests.dart' as collection;
 import 'core/all_tests.dart' as core;
 import 'io_test.dart' as io;
@@ -33,6 +34,7 @@ main() {
   useCompactVMConfiguration();
   async.main();
   cache.main();
+  check.main();
   collection.main();
   core.main();
   io.main();

@@ -19,7 +19,6 @@ library quiver.core;
 
 part 'src/core/hash.dart';
 part 'src/core/optional.dart';
-part 'src/core/preconditions.dart';
 
 /**
  * Returns the first non-null argument. If all arguments are null, throws
