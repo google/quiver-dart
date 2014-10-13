@@ -12,8 +12,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/// A simple set of precondition checkers based on the Guava Preconditions class
-/// in Java.
+/// A simple set of pre/post-condition checkers based on the Guava Preconditions
+/// class in Java. It is recommended to import this library with a prefix. For
+/// example, `import 'package:quiver/check.dart as check`, which means
+/// the calls to the library methods take the form  `check.notNull(x)`,
+/// `check.argument(input.contains(5))`, etc.
 ///
 /// These checks are stronger than 'assert' statements, which can be
 /// switched off, so they must only be used in situations where we actively
@@ -28,7 +31,7 @@
 /// be used until the end of the method call.
 ///
 /// ## Error messages
-/// The message parameter can be either a '() => Object' or any other Object.
+/// The message parameter can be either a `() => Object` or any other Object.
 /// The object will be converted to an error message by calling its toString(),
 /// The Function should be preferred if the message is complex to construct
 /// (i.e., it uses String interpolation), because it is only called when the
