@@ -12,15 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/// A simple set of pre/post-condition checkers based on the Guava Preconditions
-/// class in Java. It is recommended to import this library with a prefix. For
-/// example, `import 'package:quiver/check.dart as check`, which means
-/// the calls to the library methods take the form  `check.notNull(x)`,
-/// `check.argument(input.contains(5))`, etc.
+/// A simple set of pre/post-condition checkers based on the
+/// [Guava](https://code.google.com/p/guava-libraries/) Preconditions
+/// class in Java.
 ///
 /// These checks are stronger than 'assert' statements, which can be
 /// switched off, so they must only be used in situations where we actively
-/// want the program to break when the precondition does not hold.
+/// want the program to break when the check fails.
 ///
 /// ## Performance
 /// Performance may be an issue with these checks if complex logic is computed
@@ -31,26 +29,26 @@
 /// be used until the end of the method call.
 ///
 /// ## Error messages
-/// The message parameter can be either a `() => Object` or any other Object.
-/// The object will be converted to an error message by calling its toString(),
-/// The Function should be preferred if the message is complex to construct
-/// (i.e., it uses String interpolation), because it is only called when the
-/// precondition fails.
+/// The message parameter can be either a `() => Object` or any other `Object`.
+/// The object will be converted to an error message by calling its
+/// `toString()`. The `Function` should be preferred if the message is complex
+/// to construct (i.e., it uses `String` interpolation), because it is only
+/// called when the check fails.
 ///
-/// If the message parameter is null or returns null, a default error message
-/// will be used.
+/// If the message parameter is `null` or returns `null`, a default error
+/// message will be used.
 library quiver.check;
 
-/// Throws an [ArgumentError] if the given [expression] is false.
-void argument(bool expression, {message}) {
+/// Throws an [ArgumentError] if the given [expression] is `false`.
+void checkArgument(bool expression, {message}) {
   if (!expression) {
     throw new ArgumentError(_resolveMessage(message, null));
   }
 }
 
 /// Throws a [RangeError] if the given [index] is not a valid index for a list
-/// with [size] elements.
-int listIndex(int index, int size, {message}) {
+/// with [size] elements. Otherwise, returns the [index] parameter.
+int checkListIndex(int index, int size, {message}) {
   if (index < 0 || index >= size) {
     throw new RangeError(_resolveMessage(
         message, 'index $index not valid for list of size $size'));
@@ -58,16 +56,17 @@ int listIndex(int index, int size, {message}) {
   return index;
 }
 
-/// Throws an [ArgumentError] if the given [reference] is null.
-dynamic notNull(reference, {message}) {
+/// Throws an [ArgumentError] if the given [reference] is `null`. Otherwise,
+/// returns the [reference] parameter.
+dynamic checkNotNull(reference, {message}) {
   if (reference == null) {
     throw new ArgumentError(_resolveMessage(message, 'null pointer'));
   }
   return reference;
 }
 
-/// Throws a [StateError] if the given [expression] is false.
-void state(bool expression, {message}) {
+/// Throws a [StateError] if the given [expression] is `false`.
+void checkState(bool expression, {message}) {
   if (!expression) {
     throw new StateError(_resolveMessage(message, 'failed precondition'));
   }
