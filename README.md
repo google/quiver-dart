@@ -63,6 +63,20 @@ might have eviction policies.
 
 [quiver.cache]: http://google.github.io/quiver-dart/#quiver/quiver-cache
 
+## [quiver.check][]
+
+`checkArgument` throws `ArgumentError` if the specifed argument check expression
+is false.
+
+`checkListIndex` throws `RangeError` if the specified index is out of bounds.
+
+`checkNotNull` throws `ArgumentError` if the specified argument is null.
+
+`checkState` throws `StateError` if the specifed state check expression is
+false.
+
+[quiver.check]: http://google.github.io/quiver-dart/#quiver/quiver-check
+
 ## [quiver.collection][]
 
 `listsEqual`, `mapsEqual` and `setsEqual` check collections for equality.
