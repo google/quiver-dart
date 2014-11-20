@@ -347,7 +347,7 @@ class _WrappedIterable<K, V> implements Iterable<V> {
 
   fold(initialValue, combine(previousValue, V element)) {
     _syncDelegate();
-    _delegate.fold(initialValue, combine);
+    return _delegate.fold(initialValue, combine);
   }
 
   void forEach(void f(V element)) {
