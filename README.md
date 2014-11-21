@@ -177,6 +177,8 @@ as a socket.
 
 `isBlank` checks if a string is `null`, empty or made of whitespace characters.
 
+`isEmpty` checks if a string is `null` or empty.
+
 `equalsIgnoreCase` checks if two strings are equal, ignoring case.
 
 `compareIgnoreCase` compares two strings, ignoring case.
