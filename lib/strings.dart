@@ -21,6 +21,11 @@ library quiver.strings;
 bool isBlank(String s) => s == null || s.trim().isEmpty;
 
 /**
+ * Returns [true] if [s] is either null or empty.
+ */
+bool isEmpty(String s) => s == null || s.isEmpty;
+
+/**
  * Returns a string with characters from the given [s] in reverse order.
  */
 String flip(String s) {
