@@ -443,11 +443,12 @@ void main() {
       List y = mmap['k1'];
       List z = mmap['k1'];
       List w = mmap['k1'];
-      x.add('v1');
-      y.addAll(['v2', 'v3']);
+      mmap['k1'].add('v1');
+      x.add('v2');
+      y.addAll(['v3', 'v4']);
       z.insert(0, 'v0');
-      w.insertAll(4, ['v4', 'v5']);
-      expect(mmap['k1'], ['v0', 'v1', 'v2', 'v3', 'v4', 'v5']);
+      w.insertAll(5, ['v5', 'v6']);
+      expect(mmap['k1'], ['v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6']);
     });
   });
 
@@ -846,9 +847,10 @@ void main() {
       var mmap = new SetMultimap<String, String>();
       Set x = mmap['k1'];
       Set y = mmap['k1'];
+      mmap['k1'].add('v0');
       x.add('v1');
       y.addAll(['v2', 'v3']);
-      expect(mmap['k1'], unorderedEquals(['v1', 'v2', 'v3']));
+      expect(mmap['k1'], unorderedEquals(['v0', 'v1', 'v2', 'v3']));
     });
   });
 }
