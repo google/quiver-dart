@@ -453,16 +453,19 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V> implements List<V> {
   V operator [](int index) => elementAt(index);
 
   void operator []=(int index, V value) {
+    _syncDelegate();
     (_delegate as List)[index] = value;
   }
 
   void add(V value) {
+    _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
     (_delegate as List).add(value);
     if (wasEmpty) _addToMap();
   }
 
   void addAll(Iterable<V> iterable) {
+    _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
     (_delegate as List).addAll(iterable);
     if (wasEmpty) _addToMap();
@@ -495,12 +498,14 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V> implements List<V> {
   }
 
   void insert(int index, V element) {
+    _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
     (_delegate as List).insert(index, element);
     if (wasEmpty) _addToMap();
   }
 
   void insertAll(int index, Iterable<V> iterable) {
+    _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
     (_delegate as List).insertAll(index, iterable);
     if (wasEmpty) _addToMap();
@@ -512,6 +517,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V> implements List<V> {
   }
 
   void set length(int newLength) {
+    _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
     (_delegate as List).length = newLength;
     if (wasEmpty) _addToMap();
@@ -597,6 +603,7 @@ class _WrappedSet<K, V> extends _WrappedIterable<K, V> implements Set<V> {
       super(map, key, delegate);
 
   bool add(V value) {
+    _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
     bool wasAdded = (_delegate as Set).add(value);
     if (wasEmpty) _addToMap();
@@ -604,6 +611,7 @@ class _WrappedSet<K, V> extends _WrappedIterable<K, V> implements Set<V> {
   }
 
   void addAll(Iterable<V> elements) {
+    _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
     (_delegate as Set).addAll(elements);
     if (wasEmpty) _addToMap();
@@ -631,6 +639,7 @@ class _WrappedSet<K, V> extends _WrappedIterable<K, V> implements Set<V> {
   }
 
   V lookup(Object object) {
+    _syncDelegate();
     return (_delegate as Set).lookup(object);
   }
 

@@ -436,6 +436,19 @@ void main() {
       expect(map['k1'], ['v1', 'v2']);
       expect(map['k2'], ['v3']);
     });
+
+    test('should support operations on empty map views without breaking delegate synchronization', () {
+      var mmap = new ListMultimap<String, String>();
+      List x = mmap['k1'];
+      List y = mmap['k1'];
+      List z = mmap['k1'];
+      List w = mmap['k1'];
+      x.add('v1');
+      y.addAll(['v2', 'v3']);
+      z.insert(0, 'v0');
+      w.insertAll(4, ['v4', 'v5']);
+      expect(mmap['k1'], ['v0', 'v1', 'v2', 'v3', 'v4', 'v5']);
+    });
   });
 
   group('SetMultimap', () {
@@ -827,6 +840,15 @@ void main() {
       expect(map.length, mmap.length);
       expect(map['k1'], unorderedEquals(['v1', 'v2']));
       expect(map['k2'], unorderedEquals(['v3']));
+    });
+
+    test('should support operations on empty map views without breaking delegate synchronization', () {
+      var mmap = new SetMultimap<String, String>();
+      Set x = mmap['k1'];
+      Set y = mmap['k1'];
+      x.add('v1');
+      y.addAll(['v2', 'v3']);
+      expect(mmap['k1'], unorderedEquals(['v1', 'v2', 'v3']));
     });
   });
 }
