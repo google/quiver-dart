@@ -440,6 +440,11 @@ class _WrappedIterable<K, V> implements Iterable<V> {
     return _delegate.toSet();
   }
 
+  String toString() {
+    _syncDelegate();
+    return _delegate.toString();
+  }
+
   Iterable<V> where(bool test(V element)) {
     _syncDelegate();
     return _delegate.where(test);
