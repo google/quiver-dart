@@ -1,8 +1,8 @@
 #### 0.20.0
    * Multimap: better toString() on returned collections.
    * Multimap: Bugfix: support edits on empty value collections.
+   * Multimap: Added missing return statment in `fold`.
    * Added isEmpty() in `strings`.
-   * Added missing return statment in `fold` in `interables`.
    * Added max SDK constraint <2.0.0
    * Minor updates to README.md.
    * CHANGELOG.md added
