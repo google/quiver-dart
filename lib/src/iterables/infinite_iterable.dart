@@ -36,7 +36,7 @@ abstract class InfiniteIterable<T> extends IterableBase<T> {
 
   void forEach(void f(T element)) => throw new UnsupportedError('forEach');
 
-  String join([String separator]) => throw new UnsupportedError('join');
+  String join([String separator = '']) => throw new UnsupportedError('join');
 
   dynamic lastWhere(bool test(T value), {Object orElse()}) =>
       throw new UnsupportedError('lastWhere');

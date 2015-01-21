@@ -115,7 +115,6 @@ class _FakeAsync extends FakeAsync {
   Duration _elapsingTo;
   Queue<Function> _microtasks = new Queue();
   Set<_FakeTimer> _timers = new Set<_FakeTimer>();
-  bool _waitingForTimer = false;
 
   _FakeAsync() : super._() {
     _elapsed;

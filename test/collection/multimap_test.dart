@@ -416,7 +416,7 @@ void main() {
 
     test('should support iteration over all {key, value} pairs', () {
       Set s = new Set();
-      var mmap = new ListMultimap<String, String>()
+      new ListMultimap<String, String>()
         ..add('k1', 'v1')
         ..add('k1', 'v2')
         ..add('k2', 'v3')
@@ -826,7 +826,7 @@ void main() {
 
     test('should support iteration over all {key, value} pairs', () {
       Set s = new Set();
-      var mmap = new SetMultimap<String, String>()
+      new SetMultimap<String, String>()
         ..add('k1', 'v1')
         ..add('k1', 'v2')
         ..add('k2', 'v3')

@@ -97,7 +97,7 @@ main() {
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00");
         Clock clock = async.getClock(start);
-        var sub = new Metronome.periodic(aMinute*10, clock: clock,
+        new Metronome.periodic(aMinute*10, clock: clock,
             anchor: clock.minutesAgo(59)).listen((d) {
           callbacks++;
           times.add(d);
@@ -120,7 +120,7 @@ main() {
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00");
         Clock clock = async.getClock(start);
-        var sub = new Metronome.periodic(aMinute*10, clock: clock,
+        new Metronome.periodic(aMinute*10, clock: clock,
             anchor: clock.minutesFromNow(61)).listen((d) {
           callbacks++;
           times.add(d);
@@ -142,7 +142,7 @@ main() {
         int callbacks = 0;
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00.004");
-        var sub = new Metronome.periodic(aMillisecond*100,
+        new Metronome.periodic(aMillisecond*100,
             clock: async.getClock(start), anchor: start).listen((d) {
           callbacks++;
           times.add(d);

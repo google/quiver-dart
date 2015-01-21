@@ -20,7 +20,6 @@ import 'package:quiver/streams.dart';
 
 void main() {
   group("StreamBuffer", () {
-    StreamBuffer<int> buf;
     test("returns orderly overlaps", () {
       StreamBuffer<int> buf = new StreamBuffer();
       new Stream.fromIterable([[1], [2,3,4], [5,6,7,8]]).pipe(buf);

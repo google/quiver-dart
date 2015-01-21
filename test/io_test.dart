@@ -90,7 +90,6 @@ main() {
         }
         return new Future.value(true);
       }).then((_) {
-        var testPathFull = new File(testPath).absolute.path;
         var expectation = [
          "file: $testPath/file_target",
          "dir: $testPath/dir_target",

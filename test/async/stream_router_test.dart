@@ -24,7 +24,7 @@ main() {
 
     test('should route an event to the correct stream', () {
       var controller = new StreamController<String>();
-      var router = new StreamRouter<String>(controller.stream)
+      new StreamRouter<String>(controller.stream)
         ..route((e) => e == 'foo').listen((e) {
             expect(e, 'foo');
           })
@@ -43,7 +43,7 @@ main() {
 
     test('should send events that match no predicate to defaultStream', () {
       var controller = new StreamController<String>();
-      var router = new StreamRouter<String>(controller.stream)
+      new StreamRouter<String>(controller.stream)
         ..route((e) => e == 'foo').listen((e) {
             fail('wrong stream');
           })

@@ -62,7 +62,7 @@ main() {
 
       var testCompleter = new Completer();
 
-      var sub = futureStream.listen((_) {}, onError: (e) {
+      futureStream.listen((_) {}, onError: (e) {
         expect(e, 'error');
         testCompleter.complete();
       });

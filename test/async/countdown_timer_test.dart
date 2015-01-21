@@ -14,8 +14,6 @@
 
 library quiver.async.countdown_timer_test;
 
-import 'dart:async';
-
 import 'package:unittest/unittest.dart';
 import 'package:quiver/async.dart';
 import 'package:quiver/time.dart';
@@ -39,7 +37,7 @@ main() {
         .map((c) => c.remaining.inMilliseconds);
 
         List<int> result;
-        var future = timings.toList().then((list) { result = list; });
+        timings.toList().then((list) { result = list; });
 
         async.elapse(aMillisecond * 500);
         expect(result, [400, 300, 200, 100, 0]);

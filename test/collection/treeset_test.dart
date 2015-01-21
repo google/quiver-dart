@@ -89,7 +89,6 @@ main() {
       });
 
       test("works bidirectionally", () {
-        var testList = new List.from([10, 15, 20, 21, 30]);
         var it = tree.iterator;
         while (it.moveNext());
         expect(it.movePrevious(), isTrue,
