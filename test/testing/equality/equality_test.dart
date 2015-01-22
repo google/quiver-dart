@@ -65,7 +65,7 @@ main() {
           fail('Should fail with null group');
         } catch(e) {
           expect(e.toString(), contains("$reference [group 'bad group', item 1]"
-              " must be Object#equals to null [group 'bad group', item 3]"));
+              " must be equal to null [group 'bad group', item 3]"));
         }
       });
 
@@ -77,7 +77,7 @@ main() {
           fail("Should get not equal to equal object error");
         } catch (e) {
           expect(e.toString(), contains("$equalObject1 [group 'not equal', item"
-              " 1] must be Object#equals to $notEqualObject1 [group 'not equal'"
+              " 1] must be equal to $notEqualObject1 [group 'not equal'"
               ", item 2]"));
         }
       });
@@ -101,11 +101,11 @@ main() {
           fail("Should get non-reflexive error");
         } catch (e) {
           expect(e.toString(),
-              contains("$obj must be Object#equals to itself"));
+              contains("$obj must be equal to itself"));
         }
       });
 
-      test('Test proper handling of case where hashcode is not consistent'
+      test('Test proper handling of case where hashcode is not idempotent'
           , () {
         Object obj = new _InconsistentHashCodeObject(1, 2);
         try {
@@ -113,7 +113,7 @@ main() {
           fail("Should get non-reflexive error");
         } catch (e) {
           expect(e.toString(),
-              contains("the Object#hashCode of $obj must be consistent"));
+              contains("the implementation of hashCode of $obj must be idempotent"));
         }
       });
 
@@ -124,7 +124,7 @@ main() {
           expect({'equals method broken': [obj]}, areEqualityGroups);
           fail("Should get equal to incompatible class error");
         } catch (e) {
-          expect(e.toString(), contains("$obj must not be Object#equals to an "
+          expect(e.toString(), contains("$obj must not be equal to an "
               "arbitrary object of another class"));
         }
       });
@@ -143,7 +143,6 @@ main() {
         }
       });
 
-
       test('Test for an invalid hashCode method, i.e., one that returns '
            'different value for objects that are equal according to the equals '
             'method', () {
@@ -154,9 +153,9 @@ main() {
           fail("Should get invalid hashCode error");
         } catch (e) {
           expect(
-              e.toString(), contains("the Object#hashCode (${a.hashCode}) of $a"
+              e.toString(), contains("the hashCode (${a.hashCode}) of $a"
               " [group 'invalid hashcode', item 1] must be equal to the"
-              " Object#hashCode (${b.hashCode}) of $b"));
+              " hashCode (${b.hashCode}) of $b"));
         }
       });
 
@@ -168,7 +167,7 @@ main() {
           fail("should fail because symmetry is broken");
         } catch (e) {
           expect(e.toString(), contains("bar [group 'broken symmetry', item 2] "
-            "must be Object#equals to foo [group 'broken symmetry', item 1]"));
+            "must be equal to foo [group 'broken symmetry', item 1]"));
         }
       });
 
@@ -182,7 +181,7 @@ main() {
           fail("should fail because transitivity is broken");
         } catch (e) {
           expect(e.toString(), contains("bar [group 'transitivity broken', "
-              "item 2] must be Object#equals to baz [group 'transitivity "
+              "item 2] must be equal to baz [group 'transitivity "
               "broken', item 3]"));
         }
       });
@@ -196,7 +195,7 @@ main() {
                 'group');
         } catch (e) {
           expect(e.toString(), contains("foo [group 'unequal objects', item 1] "
-            "must be Object#equals to bar [group 'unequal objects', item 2]"));
+            "must be equal to bar [group 'unequal objects', item 2]"));
         }
       });
 
@@ -215,7 +214,7 @@ main() {
           fail('should fail because transitivity is broken');
         } catch (e) {
           expect(e.toString(), contains("bar [group 'transitivity one', item 2]"
-              " must not be Object#equals to x [group 'transitivity two',"
+              " must not be equal to x [group 'transitivity two',"
               " item 2]"));
         }
       });
@@ -230,7 +229,7 @@ main() {
   });
 }
 
-/// Test class that violates reflexitivity.  It is not equal to itself
+/// Test class that violates reflexitivity.  It is not equal to itself.
 class _NonReflexiveObject {
   @override
   bool operator ==(Object o) => false;
@@ -240,7 +239,7 @@ class _NonReflexiveObject {
 }
 
 /**
- * Test class with valid equals and hashCode methods.  Testers created
+ * Test class with valid equals and hashCode methods. Testers created
  * with instances of this class should always pass.
  */
 class _ValidTestObject {
@@ -274,7 +273,7 @@ class _ValidTestObject {
 }
 
 
-///Test class that returns true even if the test object is of the wrong class
+///Test class that returns true even if the test object is of the wrong class.
 class _InvalidEqualsIncompatibleClassObject {
   @override
   bool operator ==(Object o) {
