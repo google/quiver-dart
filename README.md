@@ -239,6 +239,13 @@ supported.
 
 [quiver.testing.async]: http://google.github.io/quiver-dart/#quiver/quiver-testing-async
 
+## [quiver.testing.equality][]
+
+`areEqualityGroups` is a matcher that supports testing `operator==` and
+`hashCode` implementations.
+
+[quiver.testing.equality]: http://google.github.io/quiver-dart/#quiver/quiver-testing-equality
+
 ## [quiver.testing.runtime][]
 
 `assertCheckedMode` asserts the current runtime has checked mode enabled.
