@@ -50,6 +50,42 @@ code that depends on Timer.
 a simple, tracking periodic stream of `DateTime` events with optional anchor
 time.
 
+`retry` provides a mechanism for retrying a `Future` until it succeeds
+(or some terminal failure condition occurs, as decided by the caller-supplied
+`OnErrorFunc`), with additional features such as random back-off (via a
+caller-supplied `RetryDelayFunc`). `retry` also contains a number of
+pre-defined helper functions such as `makeDelayBackOffRandom` that simplify
+common usage. For example:
+```dart
+  import 'package:quiver/async.dart' as retry;
+  // Create a RetryDelayFunc that starts with a 500 microsecond delay and
+  // then backs off exponentially plus a random factor, up to a maximum
+  // retry delay of 5 milliseconds.
+  retry.RetryDelayFunc someDelay = retry.makeDelayBackOffRandom(
+      new Duration(microseconds: 500), cap: new Duration(milliseconds: 5));
+
+  // Trivial example Function that increments a counter and "fails" by
+  // throwing the value as an exception, until a maximum (arbitrarily 25 in
+  // this example) is reached, at which point the Function "succeeds" by
+  // *not* throwing an exception, but instead returning the value.
+  int val = 0;
+  someFunc() {
+    if (val < 25) { val += 1; throw val; }
+    return val;
+  };
+
+  // A NewFuture Function that returns a Future which invokes someFunc.
+  futureSomeFunc() => new Future(someFunc);
+
+  // Start retrying someFunc as a Future, with a retryDelay between attempts
+  // defined by someDelay (and with the default retriesInfinite as the
+  // OnErrorFunc).
+  retry.start(futureSomeFunc, retryDelay: someDelay).then(
+      (v) { ...on success, do something with final value... })
+    .catchError(
+      (e) { ...failed to succeed (will not happen in this example)... });
+```
+
 [quiver.async]: http://google.github.io/quiver-dart/#quiver/quiver-async
 
 ## [quiver.cache][]
