@@ -4,7 +4,7 @@
    * Added `areEqualityGroups` matcher for testing `operator==` and `hashCode`.
 
 #### 0.20.0
-   * Multimap: better toString() on returned collections.
+   * Multimap: better `toString()` on returned collections.
    * Multimap: Bugfix: support edits on empty value collections.
    * Multimap: Added missing return statment in `fold`.
    * Added isEmpty() in `strings`.
