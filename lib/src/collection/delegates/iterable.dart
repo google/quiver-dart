@@ -30,60 +30,60 @@ part of quiver.collection;
 abstract class DelegatingIterable<E> implements Iterable<E> {
   Iterable<E> get delegate;
 
-  bool any(bool test(element)) => delegate.any(test);
+  bool any(bool test(E element)) => delegate.any(test);
 
   bool contains(Object element) => delegate.contains(element);
 
-  elementAt(int index) => delegate.elementAt(index);
+  E elementAt(int index) => delegate.elementAt(index);
 
-  bool every(bool test(element)) => delegate.every(test);
+  bool every(bool test(E element)) => delegate.every(test);
 
-  Iterable expand(Iterable f(element)) => delegate.expand(f);
+  Iterable expand(Iterable f(E element)) => delegate.expand(f);
 
-  get first => delegate.first;
+  E get first => delegate.first;
 
-  firstWhere(bool test(element), {orElse()}) =>
+  E firstWhere(bool test(E element), {E orElse()}) =>
       delegate.firstWhere(test, orElse: orElse);
 
-  fold(initialValue, combine(previousValue, element)) =>
+  fold(initialValue, combine(previousValue, E element)) =>
       delegate.fold(initialValue, combine);
 
-  void forEach(void f(element)) => delegate.forEach(f);
+  void forEach(void f(E element)) => delegate.forEach(f);
 
   bool get isEmpty => delegate.isEmpty;
 
   bool get isNotEmpty => delegate.isNotEmpty;
 
-  Iterator get iterator => delegate.iterator;
+  Iterator<E> get iterator => delegate.iterator;
 
   String join([String separator = ""]) => delegate.join(separator);
 
-  get last => delegate.last;
+  E get last => delegate.last;
 
-  lastWhere(bool test(element), {orElse()}) =>
+  E lastWhere(bool test(E element), {E orElse()}) =>
       delegate.lastWhere(test, orElse: orElse);
 
   int get length => delegate.length;
 
-  Iterable map(f(element)) => delegate.map(f);
+  Iterable map(f(E element)) => delegate.map(f);
 
-  reduce(combine(value, element)) => delegate.reduce(combine);
+  E reduce(E combine(E value, E element)) => delegate.reduce(combine);
 
-  get single => delegate.single;
+  E get single => delegate.single;
 
-  singleWhere(bool test(element)) => delegate.singleWhere(test);
+  E singleWhere(bool test(E element)) => delegate.singleWhere(test);
 
-  Iterable skip(int n) => delegate.skip(n);
+  Iterable<E> skip(int n) => delegate.skip(n);
 
-  Iterable skipWhile(bool test(value)) => delegate.skipWhile(test);
+  Iterable<E> skipWhile(bool test(E value)) => delegate.skipWhile(test);
 
-  Iterable take(int n) => delegate.take(n);
+  Iterable<E> take(int n) => delegate.take(n);
 
-  Iterable takeWhile(bool test(value)) => delegate.takeWhile(test);
+  Iterable<E> takeWhile(bool test(E value)) => delegate.takeWhile(test);
 
-  List toList({bool growable: true}) => delegate.toList(growable: growable);
+  List<E> toList({bool growable: true}) => delegate.toList(growable: growable);
 
-  Set toSet() => delegate.toSet();
+  Set<E> toSet() => delegate.toSet();
 
-  Iterable where(bool test(element)) => delegate.where(test);
+  Iterable<E> where(bool test(E element)) => delegate.where(test);
 }

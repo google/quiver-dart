@@ -29,7 +29,7 @@ abstract class InfiniteIterable<T> extends IterableBase<T> {
 
   T get single => throw new StateError('single');
 
-  bool every(bool f(T)) => throw new UnsupportedError('every');
+  bool every(bool f(T element)) => throw new UnsupportedError('every');
 
   bool fold(initialValue, combine(previousValue, T element)) =>
       throw new UnsupportedError('fold');
@@ -38,7 +38,7 @@ abstract class InfiniteIterable<T> extends IterableBase<T> {
 
   String join([String separator = '']) => throw new UnsupportedError('join');
 
-  dynamic lastWhere(bool test(T value), {Object orElse()}) =>
+  T lastWhere(bool test(T value), {T orElse()}) =>
       throw new UnsupportedError('lastWhere');
 
   T reduce(T combine(T value, T element)) =>

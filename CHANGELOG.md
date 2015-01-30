@@ -1,4 +1,6 @@
 #### 0.21.0
+   * Cleanup method signatures that were inconsistent with the core library.
+   * CONTRIBUTING.md added.
    * Added `areEqualityGroups` matcher for testing `operator==` and `hashCode`.
 
 #### 0.20.0

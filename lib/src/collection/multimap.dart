@@ -132,11 +132,15 @@ abstract class Multimap<K, V> {
 abstract class _BaseMultimap<K, V> implements Multimap<K, V> {
   final Map<K, Iterable<V>> _map = new HashMap();
 
+  // TODO(jacobr): for the following 6 methods we would prefer to specify that
+  // iterable is the union type of Set<V> and List<V> but Dart does not
+  // support union types and Set and List lack a common interface containing
+  // add, addAll, clear, and remove (dartbug/4938).
   Iterable<V> _create();
-  void _add(Iterable<V> iterable, V value);
-  void _addAll(Iterable<V> iterable, Iterable<V> values);
-  void _clear(Iterable<V> iterable);
-  bool _remove(Iterable<V> iterable, V value);
+  void _add(Iterable<V> iterable, V value) { iterable.add(value); }
+  void _addAll(Iterable<V> iterable, Iterable<V> value) => iterable.addAll(value);
+  void _clear(Iterable<V> iterable) => iterable.clear();
+  bool _remove(Iterable<V> iterable, Object value) => iterable.remove(value);
   Iterable<V> _wrap(Object key, Iterable<V> iterable);
 
   bool containsValue(Object value) => values.contains(value);
@@ -218,11 +222,7 @@ abstract class _BaseMultimap<K, V> implements Multimap<K, V> {
 class ListMultimap<K, V> extends _BaseMultimap<K, V> {
   ListMultimap() : super();
   List<V> _create() => new List<V>();
-  void _add(List<V> iterable, V value) => iterable.add(value);
-  void _addAll(List<V> iterable, Iterable<V> value) => iterable.addAll(value);
-  void _clear(List<V> iterable) => iterable.clear();
-  bool _remove(List<V> iterable, V value) => iterable.remove(value);
-  List<V> _wrap(Object key, List<V> iterable) =>
+  List<V> _wrap(Object key, Iterable<V> iterable) =>
       new _WrappedList(_map, key, iterable);
   List<V> operator [](Object key) => super[key];
   List<V> removeAll(Object key) => super.removeAll(key);
@@ -236,11 +236,7 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V> {
 class SetMultimap<K, V> extends _BaseMultimap<K, V> {
   SetMultimap() : super();
   Set<V> _create() => new Set<V>();
-  void _add(Set<V> iterable, V value) { iterable.add(value); }
-  void _addAll(Set<V> iterable, Iterable<V> value) => iterable.addAll(value);
-  void _clear(Set<V> iterable) => iterable.clear();
-  bool _remove(Set<V> iterable, V value) => iterable.remove(value);
-  Set<V> _wrap(Object key, Set<V> iterable) =>
+  Set<V> _wrap(Object key, Iterable<V> iterable) =>
       new _WrappedSet(_map, key, iterable);
   Set<V> operator [](Object key) => super[key];
   Set<V> removeAll(Object key) => super.removeAll(key);
@@ -272,7 +268,7 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   void clear() => _multimap.clear();
   bool containsKey(Object key) => _multimap.containsKey(key);
   bool containsValue(Object value) => _multimap.containsValue(value);
-  void forEach(void f(K key, Iterable<V> value)) => _multimap.forEachKey(f);
+  void forEach(void f(K key, C value)) => _multimap.forEachKey(f);
   bool get isEmpty => _multimap.isEmpty;
   bool get isNotEmpty => _multimap.isNotEmpty;
   Iterable<K> get keys => _multimap.keys;
