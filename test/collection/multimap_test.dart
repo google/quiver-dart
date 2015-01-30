@@ -363,7 +363,7 @@ void main() {
         ..add('k1', 'v1')
         ..add('k1', 'v2')
         ..add('k2', 'v3');
-      Map map = mmap.toMap();
+      Map map = mmap.asMap();
       expect(map.keys, unorderedEquals(['k1', 'k2']));
       expect(map.values, hasLength(2));
       expect(map.values, anyElement(unorderedEquals(['v1', 'v2'])));
@@ -373,13 +373,13 @@ void main() {
     });
 
     test('should return an empty iterable on map view unmapped key', () {
-      Map map = new ListMultimap<String, String>().toMap();
+      Map map = new ListMultimap<String, String>().asMap();
       expect(map['k1'], []);
     });
 
     test('should allow addition via unmapped key lookup on map view', () {
       var mmap = new ListMultimap<String, String>();
-      Map map = mmap.toMap();
+      Map map = mmap.asMap();
       map['k1'].add('v1');
       map['k2'].addAll(['v1', 'v2']);
       expect(mmap['k1'], ['v1']);
@@ -390,7 +390,7 @@ void main() {
       var mmap = new ListMultimap<String, String>()
         ..add('k1', 'v1')
         ..add('k1', 'v2');
-      Map map = mmap.toMap();
+      Map map = mmap.asMap();
       map['k1'].add('v3');
       expect(mmap['k1'], ['v1', 'v2', 'v3']);
     });
@@ -399,7 +399,7 @@ void main() {
       var mmap = new ListMultimap<String, String>()
         ..add('k1', 'v1')
         ..add('k1', 'v2');
-      Map map = mmap.toMap();
+      Map map = mmap.asMap();
       map.remove('k1');
       expect(mmap.containsKey('k1'), false);
     });
@@ -409,7 +409,7 @@ void main() {
         ..add('k1', 'v1')
         ..add('k1', 'v2')
         ..add('k2', 'v3');
-      Map map = mmap.toMap();
+      Map map = mmap.asMap();
       map.clear();
       expect(mmap.isEmpty, true);
     });
@@ -767,20 +767,20 @@ void main() {
         ..add('k1', 'v1')
         ..add('k1', 'v2')
         ..add('k2', 'v3');
-      Map map = mmap.toMap();
+      Map map = mmap.asMap();
       expect(map.keys, unorderedEquals(['k1', 'k2']));
       expect(map['k1'], ['v1', 'v2']);
       expect(map['k2'], ['v3']);
     });
 
     test('should return an empty iterable on map view unmapped key', () {
-      Map map = new SetMultimap<String, String>().toMap();
+      Map map = new SetMultimap<String, String>().asMap();
       expect(map['k1'], []);
     });
 
     test('should allow addition via unmapped key lookup on map view', () {
       var mmap = new SetMultimap<String, String>();
-      Map map = mmap.toMap();
+      Map map = mmap.asMap();
       map['k1'].add('v1');
       map['k2'].addAll(['v1', 'v2']);
       expect(mmap['k1'], ['v1']);
@@ -791,7 +791,7 @@ void main() {
       var mmap = new SetMultimap<String, String>()
         ..add('k1', 'v1')
         ..add('k1', 'v2');
-      Map map = mmap.toMap();
+      Map map = mmap.asMap();
       map['k1'].add('v3');
       expect(mmap['k1'], unorderedEquals(['v1', 'v2', 'v3']));
     });
@@ -800,7 +800,7 @@ void main() {
       var mmap = new SetMultimap<String, String>()
         ..add('k1', 'v1')
         ..add('k1', 'v2');
-      Map map = mmap.toMap();
+      Map map = mmap.asMap();
       map['k1'].add('v3');
       expect(mmap['k1'], unorderedEquals(['v1', 'v2', 'v3']));
     });
@@ -809,7 +809,7 @@ void main() {
       var mmap = new SetMultimap<String, String>()
         ..add('k1', 'v1')
         ..add('k1', 'v2');
-      Map map = mmap.toMap();
+      Map map = mmap.asMap();
       map.remove('k1');
       expect(mmap.containsKey('k1'), false);
     });
@@ -819,7 +819,7 @@ void main() {
         ..add('k1', 'v1')
         ..add('k1', 'v2')
         ..add('k2', 'v3');
-      Map map = mmap.toMap();
+      Map map = mmap.asMap();
       map.clear();
       expect(mmap.isEmpty, true);
     });

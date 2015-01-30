@@ -106,8 +106,16 @@ abstract class Multimap<K, V> {
   Iterable<V> get values;
 
   /**
-   * Returns a copy of this multimap as a map.
+   * Returns a view of this multimap as a map.
    */
+  Map<K, Iterable<V>> asMap();
+
+  /**
+   * Returns a view of this multimap as a map.
+   *
+   * DEPRECATED: this method is replaced with `asMap`.
+   */
+  @Deprecated('Will be removed in 0.22.0')
   Map<K, Iterable<V>> toMap();
 
   /**
@@ -226,7 +234,9 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V> {
       new _WrappedList(_map, key, iterable);
   List<V> operator [](Object key) => super[key];
   List<V> removeAll(Object key) => super.removeAll(key);
-  Map<K, List<V>> toMap() => new _WrappedMap<K, V, List<V>>(this);
+  Map<K, List<V>> asMap() => new _WrappedMap<K, V, List<V>>(this);
+  @Deprecated('Will be removed in 0.22.0')
+  Map<K, List<V>> toMap() => asMap();
 }
 
 /**
@@ -240,7 +250,9 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V> {
       new _WrappedSet(_map, key, iterable);
   Set<V> operator [](Object key) => super[key];
   Set<V> removeAll(Object key) => super.removeAll(key);
-  Map<K, Set<V>> toMap() => new _WrappedMap<K, V, Set<V>>(this);
+  Map<K, Set<V>> asMap() => new _WrappedMap<K, V, Set<V>>(this);
+  @Deprecated('Will be removed in 0.22.0')
+  Map<K, Set<V>> toMap() => asMap();
 }
 
 /**
