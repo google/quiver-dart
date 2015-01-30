@@ -17,7 +17,6 @@
  */
 library quiver.testing.equality;
 
-import 'dart:collection';
 import 'package:quiver/iterables.dart';
 import 'package:unittest/unittest.dart';
 
