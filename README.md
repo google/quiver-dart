@@ -50,7 +50,7 @@ code that depends on Timer.
 a simple, tracking periodic stream of `DateTime` events with optional anchor
 time.
 
-[quiver.async]: http://google.github.io/quiver-dart/#quiver/quiver-async
+[quiver.async]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-async
 
 ## [quiver.cache][]
 
@@ -61,7 +61,7 @@ might have eviction policies.
 
 `MapCache` is a Cache implementation backed by a Map.
 
-[quiver.cache]: http://google.github.io/quiver-dart/#quiver/quiver-cache
+[quiver.cache]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-cache
 
 ## [quiver.check][]
 
@@ -75,7 +75,7 @@ is false.
 `checkState` throws `StateError` if the specifed state check expression is
 false.
 
-[quiver.check]: http://google.github.io/quiver-dart/#quiver/quiver-check
+[quiver.check]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-check
 
 ## [quiver.collection][]
 
@@ -90,7 +90,7 @@ lookup of key by value.
 `TreeSet` is a balanced binary tree that offers a bidirectional iterator,
 the ability to iterate from an arbitrary anchor, and 'nearest' search.
 
-[quiver.collection]: http://google.github.io/quiver-dart/#quiver/quiver-collection
+[quiver.collection]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-collection
 
 ## [quiver.core][]
 
@@ -101,14 +101,14 @@ the ability to iterate from an arbitrary anchor, and 'nearest' search.
 `hashObjects`, `hash2`, `hash3`, and `hash4` generate high-quality hashCodes for
 a list of objects, or 2, 3, or 4 arguments respectively.
 
-[quiver.core]: http://google.github.io/quiver-dart/#quiver/quiver-core
+[quiver.core]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-core
 
 ## [quiver.io][]
 
 `visitDirectory` is a recursive directory lister that conditionally recurses
 into sub-directories based on the result of a handler function.
 
-[quiver.io]: http://google.github.io/quiver-dart/#quiver/quiver-io
+[quiver.io]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-io
 
 ## [quiver.iterables][]
 
@@ -126,7 +126,7 @@ an object graph, like the parent relationship in a tree.
 `InfiniteIterable` is a base class for Iterables that throws on operations that
 require a finite length.
 
-[quiver.iterables]: http://google.github.io/quiver-dart/#quiver/quiver-iterables
+[quiver.iterables]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-iterables
 
 ## [quiver.mirrors][]
 
@@ -143,7 +143,7 @@ contain members from interfaces or superclasses.
 `Method` wraps an InstanceMirror and Symbol to create a callable that invokes
 a method on the instance. It in effect closurizes a method reflectively.
 
-[quiver.mirrors]: http://google.github.io/quiver-dart/#quiver/quiver-mirrors
+[quiver.mirrors]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-mirrors
 
 ## [quiver.pattern][]
 
@@ -158,7 +158,7 @@ pattern.dart container utilities for work with `Pattern`s and `RegExp`s.
 `escapeRegex` escapes special regex characters in a String so that it can be
 used as a literal match inside of a RegExp.
 
-[quiver.pattern]: http://google.github.io/quiver-dart/#quiver/quiver-pattern
+[quiver.pattern]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-pattern
 
 ## [quiver.streams][]
 
@@ -171,7 +171,7 @@ used as a literal match inside of a RegExp.
 `StreamBuffer` allows for the orderly reading of elements from a stream, such
 as a socket.
 
-[quiver.streams]: http://google.github.io/quiver-dart/#quiver/quiver-streams
+[quiver.streams]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-streams
 
 ## [quiver.strings][]
 
@@ -203,7 +203,7 @@ supporting a number of use-cases, including:
   * Tailing: `loop('/path/to/some/file.txt', -3) => 'txt'`
   * Reversing: `loop('top', 3, 0) => 'pot'`
 
-[quiver.strings]: http://google.github.io/quiver-dart/#quiver/quiver-strings
+[quiver.strings]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-strings
 
 ## [quiver.time][]
 
@@ -221,7 +221,7 @@ since Clock deals in DateTime which only have millisecond accuracy.
 * `aDay` vs. `const Duration(days: 1)`
 * `aSecond * 30` vs. `const Duration(seconds: 30)`
 
-[quiver.time]: http://google.github.io/quiver-dart/#quiver/quiver-time
+[quiver.time]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-time
 
 # Testing Libraries
 
@@ -237,24 +237,24 @@ timers and microtasks to be processed. A `Clock` is provided from which to read
 the current fake time.  Faking synchronous or blocking time advancement is also 
 supported.
 
-[quiver.testing.async]: http://google.github.io/quiver-dart/#quiver/quiver-testing-async
+[quiver.testing.async]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-testing-async
 
 ## [quiver.testing.equality][]
 
 `areEqualityGroups` is a matcher that supports testing `operator==` and
 `hashCode` implementations.
 
-[quiver.testing.equality]: http://google.github.io/quiver-dart/#quiver/quiver-testing-equality
+[quiver.testing.equality]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-testing-equality
 
 ## [quiver.testing.runtime][]
 
 `assertCheckedMode` asserts the current runtime has checked mode enabled.
 
-[quiver.testing.runtime]: http://google.github.io/quiver-dart/#quiver/quiver-testing-runtime
+[quiver.testing.runtime]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-testing-runtime
 
 ## [quiver.testing.time][]
 
 `FakeStopwatch` is a Stopwatch that uses a provided `now()` function to get the
 current time.
 
-[quiver.testing.time]: http://google.github.io/quiver-dart/#quiver/quiver-testing-time
+[quiver.testing.time]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-testing-time
