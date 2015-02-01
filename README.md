@@ -8,7 +8,7 @@ libraries easier and more convenient, or adds additional functionality.
 
 ## Documentation
 
-API Docs can be found here: http://www.dartdocs.org/documentation/quiver/latest
+[API Docs](http://www.dartdocs.org/documentation/quiver/latest) are available.
 
 ## Installation
 
