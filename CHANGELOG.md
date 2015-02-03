@@ -1,3 +1,7 @@
+#### 0.21.0+1
+   * Replace `equalsTester` dependency on `unittest` with finer-grained
+     dependency on `matcher`.
+
 #### 0.21.0
    * Multimap: `toMap()` is deprecated and replaced with `asMap()`. `toMap()`
      will be removed in v0.22.0.
