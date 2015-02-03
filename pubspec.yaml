@@ -12,7 +12,7 @@ homepage: https://github.com/google/quiver-dart
 environment:
   sdk: '>=1.0.0 <2.0.0'
 dependencies:
-  matcher: '>=0.10.0'
+  matcher: '>=0.10.0 <0.12.0'
 dev_dependencies:
   path: '>=1.0.0 <2.0.0'
   unittest: '>=0.11.0'
