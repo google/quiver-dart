@@ -1,6 +1,7 @@
 #### 0.21.0+1
    * Replace `equalsTester` dependency on `unittest` with finer-grained
      dependency on `matcher`.
+   * `path` is now a dev dependency.
 
 #### 0.21.0
    * Multimap: `toMap()` is deprecated and replaced with `asMap()`. `toMap()`
