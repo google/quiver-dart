@@ -137,7 +137,8 @@ abstract class Multimap<K, V> {
 /**
  * Abstract base class for multimap implementations.
  */
-abstract class _BaseMultimap<K, V> implements Multimap<K, V> {
+abstract class _BaseMultimap<K, V, C extends Iterable<V>>
+    implements Multimap<K, V> {
   final Map<K, Iterable<V>> _map = new HashMap();
 
   // TODO(jacobr): for the following 6 methods we would prefer to specify that
@@ -145,11 +146,11 @@ abstract class _BaseMultimap<K, V> implements Multimap<K, V> {
   // support union types and Set and List lack a common interface containing
   // add, addAll, clear, and remove (dartbug/4938).
   Iterable<V> _create();
-  void _add(Iterable<V> iterable, V value) { iterable.add(value); }
-  void _addAll(Iterable<V> iterable, Iterable<V> value) => iterable.addAll(value);
-  void _clear(Iterable<V> iterable) => iterable.clear();
-  bool _remove(Iterable<V> iterable, Object value) => iterable.remove(value);
-  Iterable<V> _wrap(Object key, Iterable<V> iterable);
+  void _add(C iterable, V value);
+  void _addAll(C iterable, Iterable<V> value);
+  void _clear(C iterable);
+  bool _remove(C iterable, Object value);
+  Iterable<V> _wrap(Object key, C iterable);
 
   bool containsValue(Object value) => values.contains(value);
   bool containsKey(Object key) => _map.keys.contains(key);
@@ -227,10 +228,20 @@ abstract class _BaseMultimap<K, V> implements Multimap<K, V> {
  * A multimap implementation that uses [List]s to store the values associated
  * with each key.
  */
-class ListMultimap<K, V> extends _BaseMultimap<K, V> {
+class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
   ListMultimap() : super();
+  @override
   List<V> _create() => new List<V>();
-  List<V> _wrap(Object key, Iterable<V> iterable) =>
+  @override
+  void _add(List<V> iterable, V value) { iterable.add(value); }
+  @override
+  void _addAll(List<V> iterable, Iterable<V> value) => iterable.addAll(value);
+  @override
+  void _clear(List<V> iterable) => iterable.clear();
+  @override
+  bool _remove(List<V> iterable, Object value) => iterable.remove(value);
+  @override
+  List<V> _wrap(Object key, List<V> iterable) =>
       new _WrappedList(_map, key, iterable);
   List<V> operator [](Object key) => super[key];
   List<V> removeAll(Object key) => super.removeAll(key);
@@ -243,9 +254,19 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V> {
  * A multimap implementation that uses [Set]s to store the values associated
  * with each key.
  */
-class SetMultimap<K, V> extends _BaseMultimap<K, V> {
+class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
   SetMultimap() : super();
+  @override
   Set<V> _create() => new Set<V>();
+  @override
+  void _add(Set<V> iterable, V value) { iterable.add(value); }
+  @override
+  void _addAll(Set<V> iterable, Iterable<V> value) => iterable.addAll(value);
+  @override
+  void _clear(Set<V> iterable) => iterable.clear();
+  @override
+  bool _remove(Set<V> iterable, Object value) => iterable.remove(value);
+  @override
   Set<V> _wrap(Object key, Iterable<V> iterable) =>
       new _WrappedSet(_map, key, iterable);
   Set<V> operator [](Object key) => super[key];
@@ -259,7 +280,7 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V> {
  * A [Map] that delegates its operations to an underlying multimap.
  */
 class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
-  final _BaseMultimap<K, V> _multimap;
+  final _BaseMultimap<K, V, C> _multimap;
 
   _WrappedMap(this._multimap);
 
@@ -292,10 +313,10 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
 /**
  * Iterable wrapper that syncs to an underlying map.
  */
-class _WrappedIterable<K, V> implements Iterable<V> {
+class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   final K _key;
-  final Map<K, Iterable<V>> _map;
-  Iterable<V> _delegate;
+  final Map<K, C> _map;
+  C _delegate;
 
   _WrappedIterable(this._map, this._key, this._delegate);
 
@@ -418,22 +439,22 @@ class _WrappedIterable<K, V> implements Iterable<V> {
     return _delegate.singleWhere(test);
   }
 
-  Iterable<V> skip(int n) {
+  C skip(int n) {
     _syncDelegate();
     return _delegate.skip(n);
   }
 
-  Iterable<V> skipWhile(bool test(V value)) {
+  C skipWhile(bool test(V value)) {
     _syncDelegate();
     return _delegate.skipWhile(test);
   }
 
-  Iterable<V> take(int n) {
+  C take(int n) {
     _syncDelegate();
     return _delegate.take(n);
   }
 
-  Iterable<V> takeWhile(bool test(V value)) {
+  C takeWhile(bool test(V value)) {
     _syncDelegate();
     return _delegate.takeWhile(test);
   }
@@ -453,142 +474,144 @@ class _WrappedIterable<K, V> implements Iterable<V> {
     return _delegate.toString();
   }
 
-  Iterable<V> where(bool test(V element)) {
+  C where(bool test(V element)) {
     _syncDelegate();
     return _delegate.where(test);
   }
 }
 
-class _WrappedList<K, V> extends _WrappedIterable<K, V> implements List<V> {
-  _WrappedList(Map<K, Iterable<V>> map, K key, List<V> delegate) :
+class _WrappedList<K, V>
+    extends _WrappedIterable<K, V, List<V>>
+    implements List<V> {
+  _WrappedList(Map<K, List<V>> map, K key, List<V> delegate) :
       super(map, key, delegate);
 
   V operator [](int index) => elementAt(index);
 
   void operator []=(int index, V value) {
     _syncDelegate();
-    (_delegate as List)[index] = value;
+    _delegate[index] = value;
   }
 
   void add(V value) {
     _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
-    (_delegate as List).add(value);
+    _delegate.add(value);
     if (wasEmpty) _addToMap();
   }
 
   void addAll(Iterable<V> iterable) {
     _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
-    (_delegate as List).addAll(iterable);
+    _delegate.addAll(iterable);
     if (wasEmpty) _addToMap();
   }
 
   Map<int, V> asMap() {
     _syncDelegate();
-    return (_delegate as List).asMap();
+    return _delegate.asMap();
   }
 
   void clear() {
     _syncDelegate();
-    (_delegate as List).clear();
+    _delegate.clear();
     _map.remove(_key);
   }
 
   void fillRange(int start, int end, [V fillValue]) {
     _syncDelegate();
-    (_delegate as List).fillRange(start, end, fillValue);
+    _delegate.fillRange(start, end, fillValue);
   }
 
-  Iterable<V> getRange(int start, int end) {
+  List<V> getRange(int start, int end) {
     _syncDelegate();
-    return (_delegate as List).getRange(start, end);
+    return _delegate.getRange(start, end);
   }
 
   int indexOf(V element, [int start = 0]) {
     _syncDelegate();
-    return (_delegate as List).indexOf(element, start);
+    return _delegate.indexOf(element, start);
   }
 
   void insert(int index, V element) {
     _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
-    (_delegate as List).insert(index, element);
+    _delegate.insert(index, element);
     if (wasEmpty) _addToMap();
   }
 
   void insertAll(int index, Iterable<V> iterable) {
     _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
-    (_delegate as List).insertAll(index, iterable);
+    _delegate.insertAll(index, iterable);
     if (wasEmpty) _addToMap();
   }
 
   int lastIndexOf(V element, [int start]) {
     _syncDelegate();
-    return (_delegate as List).lastIndexOf(element, start);
+    return _delegate.lastIndexOf(element, start);
   }
 
   void set length(int newLength) {
     _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
-    (_delegate as List).length = newLength;
+    _delegate.length = newLength;
     if (wasEmpty) _addToMap();
   }
 
   bool remove(Object value) {
     _syncDelegate();
-    bool removed = (_delegate as List).remove(value);
+    bool removed = _delegate.remove(value);
     if (_delegate.isEmpty) _map.remove(_key);
     return removed;
   }
 
   V removeAt(int index) {
     _syncDelegate();
-    V removed = (_delegate as List).removeAt(index);
+    V removed = _delegate.removeAt(index);
     if (_delegate.isEmpty) _map.remove(_key);
     return removed;
   }
 
   V removeLast() {
     _syncDelegate();
-    V removed = (_delegate as List).removeLast();
+    V removed = _delegate.removeLast();
     if (_delegate.isEmpty) _map.remove(_key);
     return removed;
   }
 
   void removeRange(int start, int end) {
     _syncDelegate();
-    (_delegate as List).removeRange(start, end);
+    _delegate.removeRange(start, end);
     if (_delegate.isEmpty) _map.remove(_key);
   }
 
   void removeWhere(bool test(V element)) {
     _syncDelegate();
-    (_delegate as List).removeWhere(test);
+    _delegate.removeWhere(test);
     if (_delegate.isEmpty) _map.remove(_key);
   }
 
   void replaceRange(int start, int end, Iterable<V> iterable) {
     _syncDelegate();
-    (_delegate as List).replaceRange(start, end, iterable);
+    _delegate.replaceRange(start, end, iterable);
     if (_delegate.isEmpty) _map.remove(_key);
   }
 
   void retainWhere(bool test(V element)) {
     _syncDelegate();
-    (_delegate as List).retainWhere(test);
+    _delegate.retainWhere(test);
     if (_delegate.isEmpty) _map.remove(_key);
   }
 
   Iterable<V> get reversed {
     _syncDelegate();
-    return (_delegate as List).reversed;
+    return _delegate.reversed;
   }
 
   void setAll(int index, Iterable<V> iterable) {
     _syncDelegate();
-    (_delegate as List).setAll(index, iterable);
+    _delegate.setAll(index, iterable);
   }
 
   void setRange(int start, int end, Iterable<V> iterable, [int skipCount = 0]) {
@@ -597,28 +620,28 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V> implements List<V> {
 
   void shuffle([Random random]) {
     _syncDelegate();
-    (_delegate as List).shuffle(random);
+    _delegate.shuffle(random);
   }
 
   void sort([int compare(V a, V b)]) {
     _syncDelegate();
-    (_delegate as List).sort(compare);
+    _delegate.sort(compare);
   }
 
   List<V> sublist(int start, [int end]) {
     _syncDelegate();
-    return (_delegate as List).sublist(start, end);
+    return _delegate.sublist(start, end);
   }
 }
 
-class _WrappedSet<K, V> extends _WrappedIterable<K, V> implements Set<V> {
+class _WrappedSet<K, V> extends _WrappedIterable<K, V, Set<V>> implements Set<V> {
   _WrappedSet(Map<K, Iterable<V>> map, K key, Iterable<V> delegate) :
       super(map, key, delegate);
 
   bool add(V value) {
     _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
-    bool wasAdded = (_delegate as Set).add(value);
+    bool wasAdded = _delegate.add(value);
     if (wasEmpty) _addToMap();
     return wasAdded;
   }
@@ -626,69 +649,69 @@ class _WrappedSet<K, V> extends _WrappedIterable<K, V> implements Set<V> {
   void addAll(Iterable<V> elements) {
     _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
-    (_delegate as Set).addAll(elements);
+    _delegate.addAll(elements);
     if (wasEmpty) _addToMap();
   }
 
   void clear() {
     _syncDelegate();
-    (_delegate as Set).clear();
+    _delegate.clear();
     _map.remove(_key);
   }
 
   bool containsAll(Iterable<Object> other) {
     _syncDelegate();
-    return (_delegate as Set).containsAll(other);
+    return _delegate.containsAll(other);
   }
 
   Set<V> difference(Set<V> other) {
     _syncDelegate();
-    return (_delegate as Set).difference(other);
+    return _delegate.difference(other);
   }
 
   Set<V> intersection(Set<Object> other) {
     _syncDelegate();
-    return (_delegate as Set).intersection(other);
+    return _delegate.intersection(other);
   }
 
   V lookup(Object object) {
     _syncDelegate();
-    return (_delegate as Set).lookup(object);
+    return _delegate.lookup(object);
   }
 
   bool remove(Object value) {
     _syncDelegate();
-    bool removed = (_delegate as Set).remove(value);
+    bool removed = _delegate.remove(value);
     if (_delegate.isEmpty) _map.remove(_key);
     return removed;
   }
 
   void removeAll(Iterable<Object> elements) {
     _syncDelegate();
-    (_delegate as Set).removeAll(elements);
+    _delegate.removeAll(elements);
     if (_delegate.isEmpty) _map.remove(_key);
   }
 
   void removeWhere(bool test(V element)) {
     _syncDelegate();
-    (_delegate as Set).removeWhere(test);
+    _delegate.removeWhere(test);
     if (_delegate.isEmpty) _map.remove(_key);
   }
 
   void retainAll(Iterable<Object> elements) {
     _syncDelegate();
-    (_delegate as Set).retainAll(elements);
+    _delegate.retainAll(elements);
     if (_delegate.isEmpty) _map.remove(_key);
   }
 
   void retainWhere(bool test(V element)) {
     _syncDelegate();
-    (_delegate as Set).retainWhere(test);
+    _delegate.retainWhere(test);
     if (_delegate.isEmpty) _map.remove(_key);
   }
 
   Set<V> union(Set<V> other) {
     _syncDelegate();
-    return (_delegate as Set).union(other);
+    return _delegate.union(other);
   }
 }
