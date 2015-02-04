@@ -1,3 +1,8 @@
+#### 0.21.0+3
+   * Travis CI integration support added.
+   * Document that the deprecated functions `padLeft`, `padRight`, `trimLeft`,
+     `trimRight` will be removed in 0.22.0.
+
 #### 0.21.0+2
    * Fix hanging `FakeAsync` unit test.
 
