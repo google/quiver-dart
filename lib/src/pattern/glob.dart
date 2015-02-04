@@ -35,7 +35,7 @@ class Glob implements Pattern {
       : pattern = pattern,
         regex = _regexpFromGlobPattern(pattern);
 
-  Iterable<Match> allMatches(String str) => regex.allMatches(str);
+  Iterable<Match> allMatches(String str, [int start = 0]) => regex.allMatches(str, start);
 
   Match matchAsPrefix(String string, [int start = 0]) => regex.matchAsPrefix(string, start);
 
