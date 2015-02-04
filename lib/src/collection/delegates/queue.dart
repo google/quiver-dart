@@ -26,7 +26,8 @@ part of quiver.collection;
  *       // custom methods
  *     }
  */
-abstract class DelegatingQueue<E> extends DelegatingIterable<E> implements Queue<E> {
+abstract class DelegatingQueue<E> extends DelegatingIterable<E>
+    implements Queue<E> {
   Queue<E> get delegate;
 
   void add(E value) => delegate.add(value);

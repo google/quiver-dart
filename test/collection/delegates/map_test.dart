@@ -29,7 +29,7 @@ void main() {
   group('DelegatingMap', () {
     DelegatingMap<String, int> delegatingMap;
 
-    setUp((){
+    setUp(() {
       delegatingMap = new MyMap({'a': 1, 'bb': 2});
     });
 
@@ -67,7 +67,7 @@ void main() {
 
     test('forEach', () {
       final s = new StringBuffer();
-      delegatingMap.forEach((k,v) => s.write('$k$v'));
+      delegatingMap.forEach((k, v) => s.write('$k$v'));
       expect(s.toString(), equals('a1bb2'));
     });
 
@@ -82,7 +82,7 @@ void main() {
     });
 
     test('keys', () {
-      expect(delegatingMap.keys, equals(['a','bb']));
+      expect(delegatingMap.keys, equals(['a', 'bb']));
     });
 
     test('length', () {

@@ -29,7 +29,7 @@ void main() {
   group('DelegatingIterable', () {
     DelegatingIterable<String> delegatingIterable;
 
-    setUp((){
+    setUp(() {
       delegatingIterable = new MyIterable(['a', 'b', 'cc']);
     });
 
@@ -121,7 +121,7 @@ void main() {
 
     test('map', () {
       expect(delegatingIterable.map((e) => e.toUpperCase()),
-          equals(['A','B','CC']));
+          equals(['A', 'B', 'CC']));
     });
 
     test('reduce', () {
@@ -144,8 +144,8 @@ void main() {
     });
 
     test('skipWhile', () {
-      expect(delegatingIterable.skipWhile((e) => e == 'a'),
-          equals(['b', 'cc']));
+      expect(
+          delegatingIterable.skipWhile((e) => e == 'a'), equals(['b', 'cc']));
     });
 
     test('take', () {
@@ -166,8 +166,8 @@ void main() {
     });
 
     test('where', () {
-      expect(delegatingIterable.where((e) => e.length == 1),
-          equals(['a', 'b']));
+      expect(
+          delegatingIterable.where((e) => e.length == 1), equals(['a', 'b']));
     });
   });
 }

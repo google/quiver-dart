@@ -31,7 +31,7 @@ void main() {
   group('DelegatingQueue', () {
     DelegatingQueue<String> delegatingQueue;
 
-    setUp((){
+    setUp(() {
       delegatingQueue = new MyQueue(new Queue<String>.from(['a', 'b', 'cc']));
     });
 

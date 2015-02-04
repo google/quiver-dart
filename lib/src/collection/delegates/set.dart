@@ -26,7 +26,8 @@ part of quiver.collection;
  *       // custom methods
  *     }
  */
-abstract class DelegatingSet<E> extends DelegatingIterable<E> implements Set<E> {
+abstract class DelegatingSet<E> extends DelegatingIterable<E>
+    implements Set<E> {
   Set<E> get delegate;
 
   bool add(E value) => delegate.add(value);

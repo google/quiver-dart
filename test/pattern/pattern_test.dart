@@ -14,14 +14,12 @@
 
 library quiver.pattern_test;
 
-
 import 'package:unittest/unittest.dart';
 import 'package:quiver/pattern.dart';
 
 final _specialChars = r'\^$.|+[](){}';
 
 main() {
-
   group('escapeRegex', () {
     test('should escape special characters', () {
       for (var c in _specialChars.split('')) {

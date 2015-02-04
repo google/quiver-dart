@@ -74,8 +74,8 @@ class _EqualityGroupMatcher extends Matcher {
     }
   }
 
-  Description describeMismatch(
-      item, Description mismatchDescription, Map matchState, bool verbose) =>
+  Description describeMismatch(item, Description mismatchDescription,
+          Map matchState, bool verbose) =>
       mismatchDescription.add(" ${matchState[failureReason]}");
 
   void _verifyEqualityGroups(Map<String, List> equalityGroups, Map matchState) {
@@ -185,7 +185,7 @@ class _EqualityGroupMatcher extends Matcher {
   }
 
   _Item _createItem(
-      Map<String, List> equalityGroups, String groupName, int itemNumber) =>
+          Map<String, List> equalityGroups, String groupName, int itemNumber) =>
       new _Item(equalityGroups[groupName][itemNumber], groupName, itemNumber);
 }
 

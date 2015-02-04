@@ -28,14 +28,15 @@ int hash2(a, b) => _finish(_combine(_combine(0, a.hashCode), b.hashCode));
 /**
  * Generates a hash code for three objects.
  */
-int hash3(a, b, c) => _finish(_combine(_combine(
-    _combine(0, a.hashCode), b.hashCode), c.hashCode));
+int hash3(a, b, c) => _finish(
+    _combine(_combine(_combine(0, a.hashCode), b.hashCode), c.hashCode));
 
 /**
  * Generates a hash code for four objects.
  */
-int hash4(a, b, c, d) => _finish(_combine(_combine(_combine(
-    _combine(0, a.hashCode), b.hashCode), c.hashCode), d.hashCode));
+int hash4(a, b, c, d) => _finish(_combine(
+    _combine(_combine(_combine(0, a.hashCode), b.hashCode), c.hashCode),
+    d.hashCode));
 
 // Jenkins hash functions
 
@@ -46,7 +47,7 @@ int _combine(int hash, int value) {
 }
 
 int _finish(int hash) {
-  hash = 0x1fffffff & (hash + ((0x03ffffff & hash) <<  3));
+  hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
   hash = hash ^ (hash >> 11);
   return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
 }

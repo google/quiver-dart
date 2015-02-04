@@ -21,7 +21,9 @@ main() {
   group("TreeSet", () {
     group("when empty", () {
       TreeSet<num> tree;
-      setUp(() { tree = new TreeSet<num>(); });
+      setUp(() {
+        tree = new TreeSet<num>();
+      });
       test("should actually be empty", () => expect(tree, isEmpty));
       test("should not contain an element",
           () => expect(tree.lookup(0), isNull));
@@ -67,8 +69,7 @@ main() {
     group("with repeated elements", () {
       TreeSet<num> tree;
       setUp(() {
-        tree = new TreeSet<num>()
-            ..addAll([10, 20, 15, 21, 30, 20]);
+        tree = new TreeSet<num>()..addAll([10, 20, 15, 21, 30, 20]);
       });
 
       test("only contains subset", () {
@@ -84,8 +85,7 @@ main() {
     group("iteration", () {
       TreeSet<num> tree;
       setUp(() {
-        tree = new TreeSet<num>()
-            ..addAll([10, 20, 15, 21, 30]);
+        tree = new TreeSet<num>()..addAll([10, 20, 15, 21, 30]);
       });
 
       test("works bidirectionally", () {
@@ -190,18 +190,21 @@ main() {
 
           it = tree.fromIterator(30, inclusive: false);
           expect(it.current, isNull, reason: "iteration starts with null");
-          expect(it.movePrevious(), isTrue, reason: "moveNext() from spot works");
+          expect(
+              it.movePrevious(), isTrue, reason: "moveNext() from spot works");
           expect(it.current, equals(21));
         });
 
-        test("inserted midpoint, non-inclusive and reversed, works foreward", () {
+        test("inserted midpoint, non-inclusive and reversed, works foreward",
+            () {
           var it = tree.fromIterator(20, inclusive: false, reversed: true);
           expect(it.current, isNull, reason: "iteration starts with null");
           expect(it.moveNext(), isTrue, reason: "moveNext() from spot works");
           expect(it.current, equals(15));
         });
 
-        test("inserted endpoint, non-inclusive and reversed, works foreward", () {
+        test("inserted endpoint, non-inclusive and reversed, works foreward",
+            () {
           var it = tree.fromIterator(30, inclusive: false, reversed: true);
           expect(it.current, isNull, reason: "iteration starts with null");
           expect(it.moveNext(), isTrue, reason: "moveNext() from spot works");
@@ -212,15 +215,18 @@ main() {
           expect(it.moveNext(), isFalse, reason: "moveNext() works");
         });
 
-        test("inserted endpoint, non-inclusive and reversed, works backward", () {
+        test("inserted endpoint, non-inclusive and reversed, works backward",
+            () {
           var it = tree.fromIterator(10, inclusive: false, reversed: true);
           expect(it.current, isNull, reason: "iteration starts with null");
-          expect(it.movePrevious(), isTrue, reason: "moveNext() from spot works");
+          expect(
+              it.movePrevious(), isTrue, reason: "moveNext() from spot works");
           expect(it.current, equals(15));
 
           it = tree.fromIterator(30, inclusive: false, reversed: true);
           expect(it.current, isNull, reason: "iteration starts with null");
-          expect(it.movePrevious(), isFalse, reason: "moveNext() from spot works");
+          expect(
+              it.movePrevious(), isFalse, reason: "moveNext() from spot works");
         });
       });
 
@@ -231,7 +237,9 @@ main() {
         test("after tree is cleared", () {
           tree.clear();
           var error;
-          try { it.moveNext(); } catch (e) {
+          try {
+            it.moveNext();
+          } catch (e) {
             error = e;
           }
           expect(error, isConcurrentModificationError);
@@ -240,7 +248,9 @@ main() {
         test("after inserting an element", () {
           tree.add(101);
           var error;
-          try { it.moveNext(); } catch (e) {
+          try {
+            it.moveNext();
+          } catch (e) {
             error = e;
           }
           expect(error, isConcurrentModificationError);
@@ -249,7 +259,9 @@ main() {
         test("after removing an element", () {
           tree.remove(10);
           var error;
-          try { it.moveNext(); } catch (e) {
+          try {
+            it.moveNext();
+          } catch (e) {
             error = e;
           }
           expect(error, isConcurrentModificationError);
@@ -263,7 +275,9 @@ main() {
         test("when removing non-existing element", () {
           tree.remove(42);
           var error;
-          try { it.moveNext(); } catch (e) {
+          try {
+            it.moveNext();
+          } catch (e) {
             error = e;
           }
           expect(error, isNull, reason: "set was not modified");
@@ -271,7 +285,9 @@ main() {
         test("when adding an already existing element", () {
           tree.add(10);
           var error;
-          try { it.moveNext(); } catch (e) {
+          try {
+            it.moveNext();
+          } catch (e) {
             error = e;
           }
           expect(error, isNull, reason: "set was not modified");
@@ -295,33 +311,26 @@ main() {
         tree = new TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
         expectedUnion = [10, 15, 18, 20, 21, 22, 30];
         expectedIntersection = [10, 15];
-        expectedDifference= [20, 21, 30];
+        expectedDifference = [20, 21, 30];
         nonSortedTestSet = new Set.from([10, 18, 22, 15]);
         sortedTestSet = new TreeSet()..addAll(nonSortedTestSet);
       });
 
       test("union with non sorted set", () =>
-        expect(tree.union(nonSortedTestSet).toList(), equals(expectedUnion))
-      );
+          expect(tree.union(nonSortedTestSet).toList(), equals(expectedUnion)));
       test("union with sorted set", () =>
-        expect(tree.union(sortedTestSet).toList(), equals(expectedUnion))
-      );
-      test("intersection with non sorted set", () =>
-        expect(tree.intersection(nonSortedTestSet).toList(),
-            equals(expectedIntersection))
-      );
-      test("intersection with sorted set", () =>
-        expect(tree.intersection(sortedTestSet).toList(),
-            equals(expectedIntersection))
-      );
-      test("difference with non sorted set", () =>
-        expect(tree.difference(nonSortedTestSet).toList(),
-            equals(expectedDifference))
-      );
-      test("difference with sorted set", () =>
-        expect(tree.difference(sortedTestSet).toList(),
-            equals(expectedDifference))
-      );
+          expect(tree.union(sortedTestSet).toList(), equals(expectedUnion)));
+      test("intersection with non sorted set", () => expect(
+          tree.intersection(nonSortedTestSet).toList(),
+          equals(expectedIntersection)));
+      test("intersection with sorted set", () => expect(
+          tree.intersection(sortedTestSet).toList(),
+          equals(expectedIntersection)));
+      test("difference with non sorted set", () => expect(
+          tree.difference(nonSortedTestSet).toList(),
+          equals(expectedDifference)));
+      test("difference with sorted set", () => expect(
+          tree.difference(sortedTestSet).toList(), equals(expectedDifference)));
     });
 
     group("AVL implementaiton", () {
@@ -431,14 +440,12 @@ main() {
       });
     });
 
-
     group("nearest search", () {
       TreeSet<num> tree;
       setUp(() {
-        tree = new TreeSet<num>(comparator:
-          (num left, num right) {
-            return left - right;
-          })..addAll([300,200,100]);
+        tree = new TreeSet<num>(comparator: (num left, num right) {
+          return left - right;
+        })..addAll([300, 200, 100]);
       });
 
       test("NEAREST is sane", () {
