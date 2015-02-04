@@ -21,7 +21,6 @@ import 'dart:mirrors';
  */
 Symbol getTypeName(Type t) => reflectClass(t).qualifiedName;
 
-
 /**
  * Returns true if [o] implements [type].
  */
@@ -37,8 +36,8 @@ bool classImplements(ClassMirror classMirror, ClassMirror interfaceMirror) {
   // TODO: change to comparing mirrors when dartbug.com/19781 is fixed
   if (classMirror.qualifiedName == interfaceMirror.qualifiedName) return true;
   if (classImplements(classMirror.superclass, interfaceMirror)) return true;
-  if (classMirror.superinterfaces.any(
-      (i) => classImplements(i, interfaceMirror))) return true;
+  if (classMirror.superinterfaces
+      .any((i) => classImplements(i, interfaceMirror))) return true;
   return false;
 }
 
@@ -71,7 +70,8 @@ DeclarationMirror getDeclaration(ClassMirror classMirror, Symbol name) {
 /**
  * Closurzes a method reflectively.
  */
-class Method { // implements Function
+class Method {
+  // implements Function
   final InstanceMirror mirror;
   final Symbol symbol;
 
@@ -81,8 +81,8 @@ class Method { // implements Function
     if (i.isMethod && i.memberName == const Symbol('call')) {
       if (i.namedArguments != null && i.namedArguments.isNotEmpty) {
         // this will fail until named argument support is implemented
-        return mirror.invoke(symbol, i.positionalArguments, i.namedArguments)
-            .reflectee;
+        return mirror.invoke(
+            symbol, i.positionalArguments, i.namedArguments).reflectee;
       }
       return mirror.invoke(symbol, i.positionalArguments).reflectee;
     }

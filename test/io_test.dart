@@ -91,14 +91,14 @@ main() {
         return new Future.value(true);
       }).then((_) {
         var expectation = [
-         "file: $testPath/file_target",
-         "dir: $testPath/dir_target",
-         "file: $testPath/dir_target/file",
-         "link: $testPath/file_link, file_target",
-         "link: $testPath/dir_link, dir_target",
-         "file: $testPath/dir_link/file",
-         "link: $testPath/broken_link, broken_target",
-         ];
+          "file: $testPath/file_target",
+          "dir: $testPath/dir_target",
+          "file: $testPath/dir_target/file",
+          "link: $testPath/file_link, file_target",
+          "link: $testPath/dir_link, dir_target",
+          "file: $testPath/dir_link/file",
+          "link: $testPath/broken_link, broken_target",
+        ];
         expect(results, unorderedEquals(expectation));
       });
     });
@@ -114,11 +114,8 @@ main() {
         files.add(e);
         return new Future.value(!e.path.endsWith('dir2'));
       }).then((_) {
-        expect(files.map((e) => e.path), unorderedEquals([
-            "$testPath/dir",
-            "$testPath/dir/file",
-            "$testPath/dir2",
-        ]));
+        expect(files.map((e) => e.path), unorderedEquals(
+            ["$testPath/dir", "$testPath/dir/file", "$testPath/dir2",]));
       });
     });
 

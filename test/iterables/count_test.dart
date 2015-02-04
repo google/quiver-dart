@@ -19,8 +19,8 @@ import 'package:quiver/iterables.dart';
 
 main() {
   group('count', () {
-
-    test("should create an infinite sequence starting from 0 given no args", () {
+    test("should create an infinite sequence starting from 0 given no args",
+        () {
       expect(count().first, 0);
       expect(count().take(5), [0, 1, 2, 3, 4]);
     });
@@ -36,6 +36,5 @@ main() {
       expect(count(3.5, 2).first, 3.5);
       expect(count(3.5, .5).take(5), [3.5, 4, 4.5, 5, 5.5]);
     });
-
   });
 }

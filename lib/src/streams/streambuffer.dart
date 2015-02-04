@@ -14,7 +14,6 @@
 
 part of quiver.streams;
 
-
 /**
  * Underflow errors happen when the socket feeding a buffer is finished while
  * there are still blocked readers. Each reader will complete with this error.
@@ -48,7 +47,6 @@ class UnderflowError extends Error {
  * [Socket] disconnects.
  */
 class StreamBuffer<T> implements StreamConsumer {
-
   List _chunks = [];
   int _offset = 0;
   int _counter = 0; // sum(_chunks[*].length) - _offset
@@ -97,7 +95,7 @@ class StreamBuffer<T> implements StreamConsumer {
     var leftToRead = size;
     while (leftToRead > 0) {
       var chunk = _chunks.first;
-      var listCap = (chunk is List)  ? chunk.length - _offset : 1;
+      var listCap = (chunk is List) ? chunk.length - _offset : 1;
       var subsize = leftToRead > listCap ? listCap : leftToRead;
       if (chunk is List) {
         ret.setRange(follower, follower + subsize,
@@ -160,15 +158,13 @@ class StreamBuffer<T> implements StreamConsumer {
         var waiting = _readers.removeAt(0);
         waiting.completer.complete(_consume(waiting.size));
       }
-    },
-    onDone: () {
+    }, onDone: () {
       // User is piping in a new stream
       if (stream == lastStream && _throwOnError) {
         _closed(new UnderflowError());
       }
       streamDone.complete();
-    },
-    onError: (e) {
+    }, onError: (e) {
       _closed(e);
     });
     return streamDone.future;
@@ -198,4 +194,3 @@ class _ReaderInWaiting<T> {
   Completer<T> completer;
   _ReaderInWaiting(this.size, this.completer);
 }
-

@@ -21,8 +21,16 @@ main() {
   group('Glob', () {
     test('should match "*" against sequences of word chars', () {
       expectGlob("*.html",
-          matches: ["a.html", "_-\a.html", r"^$*?.html", "()[]{}.html", "↭.html",
-                    "\u21ad.html", "♥.html", "\u2665.html"],
+          matches: [
+        "a.html",
+        "_-\a.html",
+        r"^$*?.html",
+        "()[]{}.html",
+        "↭.html",
+        "\u21ad.html",
+        "♥.html",
+        "\u2665.html"
+      ],
           nonMatches: ["a.htm", "a.htmlx", "/a.html"]);
       expectGlob("foo.*",
           matches: ["foo.html"],
@@ -43,7 +51,7 @@ main() {
   });
 }
 
-expectGlob(String pattern, { List<String> matches, List<String> nonMatches}) {
+expectGlob(String pattern, {List<String> matches, List<String> nonMatches}) {
   var glob = new Glob(pattern);
   for (var str in matches) {
     expect(glob.hasMatch(str), true);

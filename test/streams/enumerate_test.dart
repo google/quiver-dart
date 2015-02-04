@@ -21,7 +21,6 @@ import 'package:quiver/streams.dart';
 
 main() {
   group('enumerate', () {
-
     test('should add indices to its argument', () {
       var controller = new StreamController<String>();
       var enumerated = enumerate(controller.stream);

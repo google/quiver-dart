@@ -19,7 +19,6 @@ import 'package:matcher/matcher.dart';
 import 'package:unittest/unittest.dart';
 
 main() {
-
   test('hashObjects should return an int', () {
     int h = hashObjects(['123', 456]);
     expect(h, new isInstanceOf<int>());
@@ -39,5 +38,4 @@ main() {
     int h = hash4('123', 456, true, []);
     expect(h, new isInstanceOf<int>());
   });
-
 }

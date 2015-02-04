@@ -21,7 +21,6 @@ import 'package:quiver/async.dart';
 
 main() {
   group('FutureStream', () {
-
     test('should forward an event', () {
       var completer = new Completer<Stream<String>>();
       var controller = new StreamController<String>();
@@ -78,6 +77,5 @@ main() {
       var futureStream = new FutureStream(completer.future, broadcast: true);
       expect(futureStream.isBroadcast, isTrue);
     });
-
   });
 }

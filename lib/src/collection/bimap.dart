@@ -64,8 +64,12 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   HashBiMap._from(this._map, this._inverse);
 
   V operator [](Object key) => _map[key];
-  void operator []=(K key, V value) { _add(key, value, false); }
-  void replace(K key, V value) { _add(key, value, true); }
+  void operator []=(K key, V value) {
+    _add(key, value, false);
+  }
+  void replace(K key, V value) {
+    _add(key, value, true);
+  }
   void addAll(Map<K, V> other) => other.forEach((k, v) => _add(k, v, false));
   bool containsKey(Object key) => _map.containsKey(key);
   bool containsValue(Object value) => _inverse.containsKey(value);
@@ -115,4 +119,3 @@ class HashBiMap<K, V> implements BiMap<K, V> {
     return value;
   }
 }
-

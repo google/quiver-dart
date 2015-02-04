@@ -22,7 +22,7 @@ void main() {
   group("StreamBuffer", () {
     test("returns orderly overlaps", () {
       StreamBuffer<int> buf = new StreamBuffer();
-      new Stream.fromIterable([[1], [2,3,4], [5,6,7,8]]).pipe(buf);
+      new Stream.fromIterable([[1], [2, 3, 4], [5, 6, 7, 8]]).pipe(buf);
       return Future.wait([buf.read(2), buf.read(4), buf.read(2)]).then((vals) {
         expect(vals[0], equals([1, 2]));
         expect(vals[1], equals([3, 4, 5, 6]));
@@ -76,11 +76,11 @@ void main() {
       }).catchError((e) {
         error = e;
       }).then((_) {
-        expect(error is UnderflowError, isTrue, reason: "!UnderflowError: $error");
+        expect(error is UnderflowError, isTrue,
+            reason: "!UnderflowError: $error");
       });
       new Stream.fromIterable([1, 2, 3]).pipe(buf);
       return future;
     });
   });
 }
-

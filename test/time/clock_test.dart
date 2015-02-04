@@ -40,12 +40,11 @@ main() {
     test('should be close enough to system clock', () {
       // At 10ms the test doesn't seem to be flaky.
       var epsilon = 10;
-      expect(new DateTime.now().difference(
-          new Clock().now()).inMilliseconds.abs(),
-              lessThan(epsilon));
-      expect(new DateTime.now().difference(
-          const Clock().now()).inMilliseconds.abs(),
-              lessThan(epsilon));
+      expect(
+          new DateTime.now().difference(new Clock().now()).inMilliseconds.abs(),
+          lessThan(epsilon));
+      expect(new DateTime.now().difference(const Clock().now()).inMilliseconds
+          .abs(), lessThan(epsilon));
     });
 
     test('should return time provided by custom TimeFunction', () {
@@ -90,53 +89,47 @@ main() {
     });
 
     test('should return time micros ago', () {
-      expect(subject.microsAgo(1000),
-          new DateTime(2012, 12, 31, 23, 59, 59, 999));
+      expect(
+          subject.microsAgo(1000), new DateTime(2012, 12, 31, 23, 59, 59, 999));
     });
 
     test('should return time micros from now', () {
-      expect(subject.microsFromNow(1000),
-          new DateTime(2013, 1, 1, 0, 0, 0, 1));
+      expect(subject.microsFromNow(1000), new DateTime(2013, 1, 1, 0, 0, 0, 1));
     });
 
     test('should return time millis ago', () {
-      expect(subject.millisAgo(1000),
-          new DateTime(2012, 12, 31, 23, 59, 59, 000));
+      expect(
+          subject.millisAgo(1000), new DateTime(2012, 12, 31, 23, 59, 59, 000));
     });
 
     test('should return time millis from now', () {
-      expect(subject.millisFromNow(3),
-          new DateTime(2013, 1, 1, 0, 0, 0, 3));
+      expect(subject.millisFromNow(3), new DateTime(2013, 1, 1, 0, 0, 0, 3));
     });
 
     test('should return time seconds ago', () {
-      expect(subject.secondsAgo(10),
-          new DateTime(2012, 12, 31, 23, 59, 50, 000));
+      expect(
+          subject.secondsAgo(10), new DateTime(2012, 12, 31, 23, 59, 50, 000));
     });
 
     test('should return time seconds from now', () {
-      expect(subject.secondsFromNow(3),
-          new DateTime(2013, 1, 1, 0, 0, 3, 0));
+      expect(subject.secondsFromNow(3), new DateTime(2013, 1, 1, 0, 0, 3, 0));
     });
 
     test('should return time minutes ago', () {
-      expect(subject.minutesAgo(10),
-          new DateTime(2012, 12, 31, 23, 50, 0, 000));
+      expect(
+          subject.minutesAgo(10), new DateTime(2012, 12, 31, 23, 50, 0, 000));
     });
 
     test('should return time minutes from now', () {
-      expect(subject.minutesFromNow(3),
-          new DateTime(2013, 1, 1, 0, 3, 0, 0));
+      expect(subject.minutesFromNow(3), new DateTime(2013, 1, 1, 0, 3, 0, 0));
     });
 
     test('should return time hours ago', () {
-      expect(subject.hoursAgo(10),
-          new DateTime(2012, 12, 31, 14, 0, 0, 000));
+      expect(subject.hoursAgo(10), new DateTime(2012, 12, 31, 14, 0, 0, 000));
     });
 
     test('should return time hours from now', () {
-      expect(subject.hoursFromNow(3),
-          new DateTime(2013, 1, 1, 3, 0, 0, 0));
+      expect(subject.hoursFromNow(3), new DateTime(2013, 1, 1, 3, 0, 0, 0));
     });
 
     test('should return time days ago', () {
@@ -202,11 +195,11 @@ main() {
     });
 
     test('should return time years ago on the same date', () {
-      expectDate(subject.yearsAgo(1), 2012, 1, 1);  // leap year
+      expectDate(subject.yearsAgo(1), 2012, 1, 1); // leap year
       expectDate(subject.yearsAgo(2), 2011, 1, 1);
       expectDate(subject.yearsAgo(3), 2010, 1, 1);
       expectDate(subject.yearsAgo(4), 2009, 1, 1);
-      expectDate(subject.yearsAgo(5), 2008, 1, 1);  // leap year
+      expectDate(subject.yearsAgo(5), 2008, 1, 1); // leap year
       expectDate(subject.yearsAgo(6), 2007, 1, 1);
       expectDate(subject.yearsAgo(30), 1983, 1, 1);
       expectDate(subject.yearsAgo(2013), 0, 1, 1);
@@ -222,6 +215,5 @@ main() {
       expectDate(subject.yearsFromNow(30), 2043, 1, 1);
       expectDate(subject.yearsFromNow(1000), 3013, 1, 1);
     });
-
   });
 }
