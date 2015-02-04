@@ -1,3 +1,7 @@
+#### 0.21.1
+   * Add optional start param to `Glob.allMatches()` to match superclass
+     method signature.
+
 #### 0.21.0+3
    * Travis CI integration support added.
    * Document that the deprecated functions `padLeft`, `padRight`, `trimLeft`,
