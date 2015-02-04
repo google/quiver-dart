@@ -33,9 +33,10 @@ main() {
 
       test('should elapse time without calling timers', () {
         var timerCalled = false;
-        new Timer(elapseBy ~/ 2, () => timerCalled = true);
+        var timer = new Timer(elapseBy ~/ 2, () => timerCalled = true);
         new FakeAsync().elapseBlocking(elapseBy);
         expect(timerCalled, isFalse);
+        timer.cancel();
       });
 
       test('should elapse time by the specified amount', () {

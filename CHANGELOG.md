@@ -1,3 +1,6 @@
+#### 0.21.0+2
+   * Fix hanging `FakeAsync` unit test.
+
 #### 0.21.0+1
    * Replace `equalsTester` dependency on `unittest` with finer-grained
      dependency on `matcher`.
