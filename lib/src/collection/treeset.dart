@@ -27,10 +27,14 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
 
   /**
    * Create a new [TreeSet] with an ordering defined by [comparator] or the
-   * default [Comparable.compare].
+   * default `(a, b) => a.compareTo(b)`.
    */
-  factory TreeSet({Comparator<V> comparator: Comparable.compare}) =>
-    new AvlTreeSet(comparator: comparator);
+  factory TreeSet({Comparator<V> comparator}) {
+    if (comparator == null) {
+      comparator = (a, b) => a.compareTo(b);
+    }
+    return new AvlTreeSet(comparator: comparator);
+  }
 
   TreeSet._(this.comparator);
 
@@ -178,7 +182,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
 
   int get length => _length;
 
-  AvlTreeSet({Comparator<V> comparator: Comparable.compare})
+  AvlTreeSet({Comparator<V> comparator})
       : super._(comparator);
 
   /**
