@@ -1,6 +1,8 @@
 #### 0.21.1
    * Add optional start param to `Glob.allMatches()` to match superclass
      method signature.
+   * Add optional start param to `Pattern` returned by `matchesAny()` to match
+     superclass method signature.
    * Deprecate Glob. Use package:glob. Will be removed in 0.22.0.
 
 #### 0.21.0+3
