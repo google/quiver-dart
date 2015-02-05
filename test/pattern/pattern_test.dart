@@ -14,14 +14,12 @@
 
 library quiver.pattern_test;
 
-
 import 'package:unittest/unittest.dart';
 import 'package:quiver/pattern.dart';
 
 final _specialChars = r'\^$.|+[](){}';
 
 main() {
-
   group('escapeRegex', () {
     test('should escape special characters', () {
       for (var c in _specialChars.split('')) {
@@ -32,16 +30,31 @@ main() {
 
   group('matchesAny', () {
     test('should match multiple include patterns', () {
-      expectMatch(matchAny(['a', 'b']), 'a', ['a']);
-      expectMatch(matchAny(['a', 'b']), 'b', ['b']);
+      expectMatch(matchAny(['a', 'b']), 'a', 0, ['a']);
+      expectMatch(matchAny(['a', 'b']), 'b', 0, ['b']);
     });
 
-    test('should return multiple matches when more than one matches', () {
-      expectMatch(matchAny(['a', 'b']), 'ab', ['a', 'b']);
+    test('should match multiple include patterns (non-zero start)', () {
+      expectMatch(matchAny(['a', 'b']), 'ba', 1, ['a']);
+      expectMatch(matchAny(['a', 'b']), 'aab', 2, ['b']);
+    });
+
+    test('should return multiple matches', () {
+      expectMatch(matchAny(['a', 'b']), 'ab', 0, ['a', 'b']);
+    });
+
+    test('should return multiple matches (non-zero start)', () {
+      expectMatch(matchAny(['a', 'b', 'c']), 'cab', 1, ['a', 'b']);
     });
 
     test('should exclude', () {
-      expectMatch(matchAny(['foo', 'bar'], exclude: ['foobar']), 'foobar', []);
+      expectMatch(
+          matchAny(['foo', 'bar'], exclude: ['foobar']), 'foobar', 0, []);
+    });
+
+    test('should exclude (non-zero start)', () {
+      expectMatch(
+          matchAny(['foo', 'bar'], exclude: ['foobar']), 'xyfoobar', 2, []);
     });
   });
 
@@ -60,7 +73,7 @@ main() {
   });
 }
 
-expectMatch(Pattern pattern, String str, List<String> matches) {
-  var actual = pattern.allMatches(str).map((m) => m.group(0)).toList();
+expectMatch(Pattern pattern, String str, int start, List<String> matches) {
+  var actual = pattern.allMatches(str, start).map((m) => m.group(0)).toList();
   expect(actual, matches);
 }
