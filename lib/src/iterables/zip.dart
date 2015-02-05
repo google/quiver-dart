@@ -28,8 +28,8 @@ class _Zip extends IterableBase<List> {
 
   _Zip(Iterable<Iterable> this.iterables);
 
-  Iterator<List> get iterator =>
-      new _ZipIterator(iterables.map((i) => i.iterator).toList(growable: false));
+  Iterator<List> get iterator => new _ZipIterator(
+      iterables.map((i) => i.iterator).toList(growable: false));
 }
 
 class _ZipIterator implements Iterator<List> {

@@ -21,29 +21,29 @@ import 'package:unittest/unittest.dart';
 
 main() {
   group("Metronome", () {
-
     test("delivers events as expected", () {
       new FakeAsync().run((async) {
         int callbacks = 0;
         DateTime lastTime;
-        var sub = new Metronome.epoch(aMinute, clock: async.getClock(
-            DateTime.parse("2014-05-05 20:00:30"))).listen((d) {
+        var sub = new Metronome.epoch(aMinute,
+                clock: async.getClock(DateTime.parse("2014-05-05 20:00:30")))
+            .listen((d) {
           callbacks++;
           lastTime = d;
         });
         expect(callbacks, 0, reason: "Should be no callbacks at start");
-        async.elapse(aSecond*15);
+        async.elapse(aSecond * 15);
         expect(callbacks, 0, reason: "Should be no callbacks before trigger");
-        async.elapse(aSecond*15);
+        async.elapse(aSecond * 15);
         expect(callbacks, 1, reason: "Calledback on rollover");
         expect(lastTime, DateTime.parse("2014-05-05 20:01:00"),
             reason: "And that time was correct");
-        async.elapse(aMinute*1);
+        async.elapse(aMinute * 1);
         expect(callbacks, 2, reason: "Callback is repeated");
         expect(lastTime, DateTime.parse("2014-05-05 20:02:00"),
             reason: "And that time was correct");
         sub.cancel();
-        async.elapse(aMinute*2);
+        async.elapse(aMinute * 2);
         expect(callbacks, 2, reason: "No callbacks after subscription cancel");
       });
     });
@@ -71,7 +71,7 @@ main() {
 
     test("supports multiple listeners joining and leaving", () {
       new FakeAsync().run((async) {
-        List<int> callbacks = [0,0];
+        List<int> callbacks = [0, 0];
         var clock = new Metronome.epoch(aMinute,
             clock: async.getClock(DateTime.parse("2014-05-05 20:00:30")));
         List subs = [
@@ -97,19 +97,19 @@ main() {
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00");
         Clock clock = async.getClock(start);
-        new Metronome.periodic(aMinute*10, clock: clock,
-            anchor: clock.minutesAgo(59)).listen((d) {
+        new Metronome.periodic(aMinute * 10,
+            clock: clock, anchor: clock.minutesAgo(59)).listen((d) {
           callbacks++;
           times.add(d);
         });
         async.elapse(anHour);
         expect(times, [
-            DateTime.parse("2014-05-05 20:07:00"),
-            DateTime.parse("2014-05-05 20:17:00"),
-            DateTime.parse("2014-05-05 20:27:00"),
-            DateTime.parse("2014-05-05 20:37:00"),
-            DateTime.parse("2014-05-05 20:47:00"),
-            DateTime.parse("2014-05-05 20:57:00"),
+          DateTime.parse("2014-05-05 20:07:00"),
+          DateTime.parse("2014-05-05 20:17:00"),
+          DateTime.parse("2014-05-05 20:27:00"),
+          DateTime.parse("2014-05-05 20:37:00"),
+          DateTime.parse("2014-05-05 20:47:00"),
+          DateTime.parse("2014-05-05 20:57:00"),
         ]);
       });
     });
@@ -120,19 +120,19 @@ main() {
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00");
         Clock clock = async.getClock(start);
-        new Metronome.periodic(aMinute*10, clock: clock,
-            anchor: clock.minutesFromNow(61)).listen((d) {
+        new Metronome.periodic(aMinute * 10,
+            clock: clock, anchor: clock.minutesFromNow(61)).listen((d) {
           callbacks++;
           times.add(d);
         });
         async.elapse(anHour);
         expect(times, [
-            DateTime.parse("2014-05-05 20:07:00"),
-            DateTime.parse("2014-05-05 20:17:00"),
-            DateTime.parse("2014-05-05 20:27:00"),
-            DateTime.parse("2014-05-05 20:37:00"),
-            DateTime.parse("2014-05-05 20:47:00"),
-            DateTime.parse("2014-05-05 20:57:00"),
+          DateTime.parse("2014-05-05 20:07:00"),
+          DateTime.parse("2014-05-05 20:17:00"),
+          DateTime.parse("2014-05-05 20:27:00"),
+          DateTime.parse("2014-05-05 20:37:00"),
+          DateTime.parse("2014-05-05 20:47:00"),
+          DateTime.parse("2014-05-05 20:57:00"),
         ]);
       });
     });
@@ -142,16 +142,16 @@ main() {
         int callbacks = 0;
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00.004");
-        new Metronome.periodic(aMillisecond*100,
+        new Metronome.periodic(aMillisecond * 100,
             clock: async.getClock(start), anchor: start).listen((d) {
           callbacks++;
           times.add(d);
         });
-        async.elapse(aMillisecond*304);
+        async.elapse(aMillisecond * 304);
         expect(times, [
-            DateTime.parse("2014-05-05 20:06:00.104"),
-            DateTime.parse("2014-05-05 20:06:00.204"),
-            DateTime.parse("2014-05-05 20:06:00.304"),
+          DateTime.parse("2014-05-05 20:06:00.104"),
+          DateTime.parse("2014-05-05 20:06:00.204"),
+          DateTime.parse("2014-05-05 20:06:00.304"),
         ]);
       });
     });

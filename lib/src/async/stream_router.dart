@@ -33,7 +33,6 @@ part of quiver.async;
  *   var onOtherClick router.defaultStream;
  */
 class StreamRouter<T> {
-
   final Stream<T> _incoming;
   StreamSubscription _subscription;
 
@@ -67,8 +66,8 @@ class StreamRouter<T> {
   }
 
   void _handle(T event) {
-    var route = _routes.firstWhere((r) => r.predicate(event),
-        orElse: () => null);
+    var route =
+        _routes.firstWhere((r) => r.predicate(event), orElse: () => null);
     var controller = (route != null) ? route.controller : _defaultController;
     controller.add(event);
   }

@@ -21,7 +21,6 @@ import 'package:unittest/unittest.dart';
 
 main() {
   group('FakeAsync', () {
-
     var initialTime = new DateTime(2000);
     var elapseBy = const Duration(days: 1);
 
@@ -30,7 +29,6 @@ main() {
     });
 
     group('elapseBlocking', () {
-
       test('should elapse time without calling timers', () {
         var timerCalled = false;
         var timer = new Timer(elapseBy ~/ 2, () => timerCalled = true);
@@ -45,17 +43,14 @@ main() {
         expect(it.getClock(initialTime).now(), initialTime.add(elapseBy));
       });
 
-      test('should throw when called with a negative duration',
-          () {
-            expect(() {
-              new FakeAsync().elapseBlocking(const Duration(days: -1));
-            }, throwsA(new isInstanceOf<ArgumentError>()));
-          });
-
+      test('should throw when called with a negative duration', () {
+        expect(() {
+          new FakeAsync().elapseBlocking(const Duration(days: -1));
+        }, throwsA(new isInstanceOf<ArgumentError>()));
+      });
     });
 
     group('elapse', () {
-
       test('should elapse time by the specified amount', () {
         new FakeAsync().run((async) {
           async.elapse(elapseBy);
@@ -65,17 +60,17 @@ main() {
 
       test('should throw ArgumentError when called with a negative duration',
           () {
-            expect(
-                () => new FakeAsync().elapse(const Duration(days: -1)),
-                throwsA(new isInstanceOf<ArgumentError>()));
-          });
+        expect(() => new FakeAsync().elapse(const Duration(days: -1)),
+            throwsA(new isInstanceOf<ArgumentError>()));
+      });
 
       test('should throw when called before previous call is complete', () {
         new FakeAsync().run((async) {
           var error;
           new Timer(elapseBy ~/ 2, () {
-            try { async.elapse(elapseBy); }
-            catch (e) {
+            try {
+              async.elapse(elapseBy);
+            } catch (e) {
               error = e;
             }
           });
@@ -85,13 +80,16 @@ main() {
       });
 
       group('when creating timers', () {
-
         test('should call timers expiring before or at end time', () {
           new FakeAsync().run((async) {
             var beforeCallCount = 0;
             var atCallCount = 0;
-            new Timer(elapseBy ~/ 2, () {beforeCallCount++;});
-            new Timer(elapseBy, () {atCallCount++;});
+            new Timer(elapseBy ~/ 2, () {
+              beforeCallCount++;
+            });
+            new Timer(elapseBy, () {
+              atCallCount++;
+            });
             async.elapse(elapseBy);
             expect(beforeCallCount, 1);
             expect(atCallCount, 1);
@@ -101,32 +99,42 @@ main() {
         test('should call timers expiring due to elapseBlocking', () {
           new FakeAsync().run((async) {
             bool secondaryCalled = false;
-            new Timer(elapseBy, () { async.elapseBlocking(elapseBy); });
-            new Timer(elapseBy * 2, () { secondaryCalled = true; });
+            new Timer(elapseBy, () {
+              async.elapseBlocking(elapseBy);
+            });
+            new Timer(elapseBy * 2, () {
+              secondaryCalled = true;
+            });
             async.elapse(elapseBy);
             expect(secondaryCalled, isTrue);
-            expect(async.getClock(initialTime).now(), initialTime.add(elapseBy * 2));
+            expect(async.getClock(initialTime).now(),
+                initialTime.add(elapseBy * 2));
           });
         });
 
         test('should call timers at their scheduled time', () {
           new FakeAsync().run((async) {
             DateTime calledAt;
-            var periodicCalledAt = <DateTime> [];
-            new Timer(elapseBy ~/ 2, () {calledAt = async.getClock(initialTime).now();});
+            var periodicCalledAt = <DateTime>[];
+            new Timer(elapseBy ~/ 2, () {
+              calledAt = async.getClock(initialTime).now();
+            });
             new Timer.periodic(elapseBy ~/ 2, (_) {
-              periodicCalledAt.add(async.getClock(initialTime).now());});
+              periodicCalledAt.add(async.getClock(initialTime).now());
+            });
             async.elapse(elapseBy);
             expect(calledAt, initialTime.add(elapseBy ~/ 2));
-            expect(periodicCalledAt, [elapseBy ~/ 2, elapseBy]
-                .map(initialTime.add));
+            expect(periodicCalledAt,
+                [elapseBy ~/ 2, elapseBy].map(initialTime.add));
           });
         });
 
         test('should not call timers expiring after end time', () {
           new FakeAsync().run((async) {
             var timerCallCount = 0;
-            new Timer(elapseBy * 2, () {timerCallCount++;});
+            new Timer(elapseBy * 2, () {
+              timerCallCount++;
+            });
             async.elapse(elapseBy);
             expect(timerCallCount, 0);
           });
@@ -135,7 +143,9 @@ main() {
         test('should not call canceled timers', () {
           new FakeAsync().run((async) {
             int timerCallCount = 0;
-            var timer = new Timer(elapseBy ~/ 2, () {timerCallCount++;});
+            var timer = new Timer(elapseBy ~/ 2, () {
+              timerCallCount++;
+            });
             timer.cancel();
             async.elapse(elapseBy);
             expect(timerCallCount, 0);
@@ -145,7 +155,9 @@ main() {
         test('should call periodic timers each time the duration elapses', () {
           new FakeAsync().run((async) {
             var periodicCallCount = 0;
-            new Timer.periodic(elapseBy ~/ 10, (_) {periodicCallCount++;});
+            new Timer.periodic(elapseBy ~/ 10, (_) {
+              periodicCallCount++;
+            });
             async.elapse(elapseBy);
             expect(periodicCallCount, 10);
           });
@@ -156,7 +168,7 @@ main() {
             var microtaskCalls = 0;
             var timerCalls = 0;
             scheduleMicrotasks() {
-              for(int i = 0; i < 5; i++) {
+              for (int i = 0; i < 5; i++) {
                 scheduleMicrotask(() => microtaskCalls++);
               }
             }
@@ -175,8 +187,9 @@ main() {
         test('should pass the periodic timer itself to callbacks', () {
           new FakeAsync().run((async) {
             Timer passedTimer;
-            Timer periodic = new Timer.periodic(elapseBy,
-                (timer) {passedTimer = timer;});
+            Timer periodic = new Timer.periodic(elapseBy, (timer) {
+              passedTimer = timer;
+            });
             async.elapse(elapseBy);
             expect(periodic, same(passedTimer));
           });
@@ -185,7 +198,7 @@ main() {
         test('should call microtasks before advancing time', () {
           new FakeAsync().run((async) {
             DateTime calledAt;
-            scheduleMicrotask((){
+            scheduleMicrotask(() {
               calledAt = async.getClock(initialTime).now();
             });
             async.elapse(const Duration(minutes: 1));
@@ -227,7 +240,6 @@ main() {
         });
 
         group('isActive', () {
-
           test('should be false after timer is run', () {
             new FakeAsync().run((async) {
               var timer = new Timer(elapseBy ~/ 2, () {});
@@ -238,7 +250,7 @@ main() {
 
           test('should be true after periodic timer is run', () {
             new FakeAsync().run((async) {
-              var timer= new Timer.periodic(elapseBy ~/ 2, (_) {});
+              var timer = new Timer.periodic(elapseBy ~/ 2, (_) {});
               async.elapse(elapseBy);
               expect(timer.isActive, isTrue);
             });
@@ -251,7 +263,6 @@ main() {
               expect(timer.isActive, isFalse);
             });
           });
-
         });
 
         test('should work with new Future()', () {
@@ -288,26 +299,25 @@ main() {
         // See https://code.google.com/p/dart/issues/detail?id=18149
         test('should work with Stream.periodic', () {
           new FakeAsync().run((async) {
-            var events = <int> [];
+            var events = <int>[];
             StreamSubscription subscription;
-            var periodic = new Stream.periodic(const Duration(minutes: 1),
-                (i) => i);
+            var periodic =
+                new Stream.periodic(const Duration(minutes: 1), (i) => i);
             subscription = periodic.listen(events.add, cancelOnError: true);
             async.elapse(const Duration(minutes: 3));
             subscription.cancel();
             expect(events, [0, 1, 2]);
           });
-
         });
 
         test('should work with Stream.timeout', () {
           new FakeAsync().run((async) {
-            var events = <int> [];
+            var events = <int>[];
             var errors = [];
             var controller = new StreamController();
             var timed = controller.stream.timeout(const Duration(minutes: 2));
-            var subscription = timed.listen(events.add, onError: errors.add,
-                cancelOnError: true);
+            var subscription = timed.listen(events.add,
+                onError: errors.add, cancelOnError: true);
             controller.add(0);
             async.elapse(const Duration(minutes: 1));
             expect(events, [0]);
@@ -429,8 +439,9 @@ main() {
             });
           }
           createTimer();
-          expect(() => async.flushTimers(timeout: new Duration(hours: 2),
-              flushPeriodicTimers: false), throwsStateError);
+          expect(() => async.flushTimers(
+                  timeout: new Duration(hours: 2), flushPeriodicTimers: false),
+              throwsStateError);
           expect(count, 4);
         });
       });

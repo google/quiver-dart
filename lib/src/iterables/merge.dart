@@ -27,7 +27,7 @@ part of quiver.iterables;
  * thrown.
  */
 Iterable merge(Iterable<Iterable> iterables,
-               [Comparator compare = Comparable.compare]) =>
+        [Comparator compare = Comparable.compare]) =>
     (iterables.isEmpty) ? const [] : new _Merge(iterables, compare);
 
 class _Merge extends IterableBase {
@@ -36,10 +36,8 @@ class _Merge extends IterableBase {
 
   _Merge(this._iterables, this._compare);
 
-  Iterator get iterator =>
-      new _MergeIterator(
-          _iterables.map((i) => i.iterator).toList(growable: false),
-          _compare);
+  Iterator get iterator => new _MergeIterator(
+      _iterables.map((i) => i.iterator).toList(growable: false), _compare);
 
   String toString() => this.toList().toString();
 }

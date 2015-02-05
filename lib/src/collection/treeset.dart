@@ -14,13 +14,11 @@
 
 part of quiver.collection;
 
-
 /**
  * A [Set] of items stored in a binary tree according to [comparator].
  * Supports bidirectional iteration.
  */
 abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
-
   final Comparator<V> comparator;
 
   int get length;
@@ -69,7 +67,6 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   // TODO: toString or not toString, that is the question.
 }
 
-
 /**
  * Controls the results for [TreeSet.searchNearest]()
  */
@@ -94,12 +91,10 @@ class TreeSearch {
   const TreeSearch._(this._val);
 }
 
-
 /**
  * A node in the [TreeSet].
  */
 abstract class _TreeNode<V> {
-
   _TreeNode<V> get left;
   _TreeNode<V> get right;
 
@@ -163,7 +158,6 @@ abstract class _TreeNode<V> {
   }
 }
 
-
 /**
  * AVL implementation of a self-balancing binary tree. Optimized for lookup
  * operations.
@@ -174,7 +168,6 @@ abstract class _TreeNode<V> {
  *        chapter 13.2
  */
 class AvlTreeSet<V> extends TreeSet<V> {
-
   int _length = 0;
   AvlNode<V> _root;
   // Modification count to the tree, monotonically increasing
@@ -182,8 +175,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
 
   int get length => _length;
 
-  AvlTreeSet({Comparator<V> comparator})
-      : super._(comparator);
+  AvlTreeSet({Comparator<V> comparator}) : super._(comparator);
 
   /**
    * Add the element to the tree.
@@ -206,8 +198,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
         if (x._left == null) {
           AvlNode<V> node = new AvlNode<V>(object: element).._parent = x;
           x
-              .._left = node
-              .._balanceFactor -= 1;
+            .._left = node
+            .._balanceFactor -= 1;
           break;
         }
         x = x.left;
@@ -215,8 +207,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
         if (x._right == null) {
           AvlNode<V> node = new AvlNode<V>(object: element).._parent = x;
           x
-              .._right = node
-              .._balanceFactor += 1;
+            .._right = node
+            .._balanceFactor += 1;
           break;
         }
         x = x.right;
@@ -443,7 +435,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
 
   bool containsAll(Iterable<Object> items) {
     for (var ele in items) {
-      if (!contains(ele)) return false;;
+      if (!contains(ele)) return false;
     }
     return true;
   }
@@ -697,8 +689,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
    * See [Set.lookup]
    */
   V lookup(Object element) {
-    if (element == null || _root == null)
-      return null;
+    if (element == null || _root == null) return null;
     AvlNode<V> x = _root;
     int compare = 0;
     while (x != null) {
@@ -770,8 +761,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   /**
    * See [IterableBase.iterator]
    */
-  BidirectionalIterator<V> get iterator =>
-      new _AvlTreeIterator._(this);
+  BidirectionalIterator<V> get iterator => new _AvlTreeIterator._(this);
 
   /**
    * See [TreeSet.reverseIterator]
@@ -783,9 +773,9 @@ class AvlTreeSet<V> extends TreeSet<V> {
    * See [TreeSet.fromIterator]
    */
   BidirectionalIterator<V> fromIterator(V anchor,
-      {bool reversed: false, bool inclusive: true}) =>
-    new _AvlTreeIterator<V>._(this, anchorObject: anchor, reversed: reversed,
-        inclusive: inclusive);
+          {bool reversed: false, bool inclusive: true}) =>
+      new _AvlTreeIterator<V>._(this,
+          anchorObject: anchor, reversed: reversed, inclusive: inclusive);
 
   /**
    * See [IterableBase.contains]
@@ -871,8 +861,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
 
     // Non-optimized version.
     return set
-        ..addAll(this)
-        ..addAll(other);
+      ..addAll(this)
+      ..addAll(other);
   }
 
   /**
@@ -921,7 +911,6 @@ class AvlTreeSet<V> extends TreeSet<V> {
   AvlNode<V> getNode(V object) => _getNode(object);
 }
 
-
 typedef bool _IteratorMove();
 
 /**
@@ -932,7 +921,6 @@ typedef bool _IteratorMove();
  * [movePrevious]) but can optionally be excluded in the constructor.
  */
 class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
-
   static const LEFT = -1;
   static const WALK = 0;
   static const RIGHT = 1;
@@ -949,12 +937,11 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
   int state;
   _TreeNode<V> _current;
 
-  _AvlTreeIterator._(AvlTreeSet<V> tree, {reversed: false,
-    this.inclusive: true, this.anchorObject: null})
+  _AvlTreeIterator._(AvlTreeSet<V> tree,
+      {reversed: false, this.inclusive: true, this.anchorObject: null})
       : this.tree = tree,
         this._modCountGuard = tree._modCount,
         this.reversed = reversed {
-
     if (anchorObject == null || tree.length == 0) {
       // If the anchor is far left or right, we're just a normal iterator.
       state = reversed ? RIGHT : LEFT;
@@ -967,13 +954,13 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
     // Else we've got an anchor we have to worry about initalizing from.
     // This isn't known till the caller actually performs a previous/next.
     _moveNext = () {
-      _current = tree._searchNearest(anchorObject, option: reversed ?
-          TreeSearch.LESS_THAN : TreeSearch.GREATER_THAN);
+      _current = tree._searchNearest(anchorObject,
+          option: reversed ? TreeSearch.LESS_THAN : TreeSearch.GREATER_THAN);
       _moveNext = reversed ? _movePreviousNormal : _moveNextNormal;
       _movePrevious = reversed ? _moveNextNormal : _movePreviousNormal;
       if (_current == null) {
         state = reversed ? LEFT : RIGHT;
-      } else  if (tree.comparator(_current.object, anchorObject) == 0 &&
+      } else if (tree.comparator(_current.object, anchorObject) == 0 &&
           !inclusive) {
         _moveNext();
       }
@@ -981,8 +968,8 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
     };
 
     _movePrevious = () {
-      _current = tree._searchNearest(anchorObject, option: reversed ?
-          TreeSearch.GREATER_THAN : TreeSearch.LESS_THAN);
+      _current = tree._searchNearest(anchorObject,
+          option: reversed ? TreeSearch.GREATER_THAN : TreeSearch.LESS_THAN);
       _moveNext = reversed ? _movePreviousNormal : _moveNextNormal;
       _movePrevious = reversed ? _moveNextNormal : _movePreviousNormal;
       if (_current == null) {
@@ -995,8 +982,7 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
     };
   }
 
-  V get current => (state != WALK || _current == null) ?
-      null : _current.object;
+  V get current => (state != WALK || _current == null) ? null : _current.object;
 
   bool moveNext() => _moveNext();
   bool movePrevious() => _movePrevious();
@@ -1006,7 +992,7 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
       throw new ConcurrentModificationError(tree);
     }
     if (state == RIGHT || tree.length == 0) return false;
-    switch(state) {
+    switch (state) {
       case LEFT:
         _current = tree._root.minimumNode;
         state = WALK;
@@ -1026,7 +1012,7 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
       throw new ConcurrentModificationError(tree);
     }
     if (state == LEFT || tree.length == 0) return false;
-    switch(state) {
+    switch (state) {
       case RIGHT:
         _current = tree._root.maximumNode;
         state = WALK;
@@ -1042,12 +1028,10 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
   }
 }
 
-
 /**
  * Private class used to track element insertions in the [TreeSet].
  */
 class AvlNode<V> extends _TreeNode<V> {
-
   AvlNode<V> _left;
   AvlNode<V> _right;
   //TODO(codefu): Remove need for [parent]; this is just an implementation note
@@ -1059,9 +1043,8 @@ class AvlNode<V> extends _TreeNode<V> {
   AvlNode<V> get parent => _parent;
   int get balance => _balanceFactor;
 
-  AvlNode({V object}) :
-      super(object: object);
+  AvlNode({V object}) : super(object: object);
 
   String toString() =>
-    "(b:$balance o: $object l:${left != null} r:${right != null})";
+      "(b:$balance o: $object l:${left != null} r:${right != null})";
 }

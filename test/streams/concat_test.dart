@@ -21,9 +21,8 @@ import 'package:quiver/streams.dart';
 
 main() {
   group('concat', () {
-
-    test('should produce no events for no streams', () =>
-        concat([]).toList().then((events) => expect(events, isEmpty)));
+    test('should produce no events for no streams',
+        () => concat([]).toList().then((events) => expect(events, isEmpty)));
 
     test('should echo events of a single stream', () {
       var controller = new StreamController<String>();
@@ -51,8 +50,8 @@ main() {
       });
       ['a', 'b', 'c'].forEach(controller1.add);
       ['d', 'e', 'f'].forEach(controller2.add);
-      return Future.wait(
-          [controller1.close(), controller2.close(), expectation]);
+      return Future
+          .wait([controller1.close(), controller2.close(), expectation]);
     });
 
     test('should concatenate stream error events', () {
@@ -63,10 +62,9 @@ main() {
       concatenated.listen(null, onError: errors.add);
       ['e1', 'e2'].forEach(controller1.addError);
       ['e3', 'e4'].forEach(controller2.addError);
-      return Future.wait([controller1.close(), controller2.close()])
-          .then((_) {
-            expect(errors, ['e1', 'e2', 'e3', 'e4']);
-          });
+      return Future.wait([controller1.close(), controller2.close()]).then((_) {
+        expect(errors, ['e1', 'e2', 'e3', 'e4']);
+      });
     });
 
     test('should forward pause, resume, and cancel to current stream', () {
@@ -76,7 +74,9 @@ main() {
       var controller = new StreamController<String>(
           onPause: () => wasPaused = true,
           onResume: () => wasResumed = true,
-          onCancel: () { wasCanceled = true; });
+          onCancel: () {
+        wasCanceled = true;
+      });
       var concatenated = concat([controller.stream]);
       var subscription = concatenated.listen(null);
       controller.add('a');
@@ -87,24 +87,22 @@ main() {
           // Give resume a chance to take effect.
           .then((_) => controller.add('b'))
           .then((_) => new Future(subscription.cancel))
-
           .then((_) {
-            expect(wasPaused, isTrue, reason: 'was not paused');
-            expect(wasResumed, isTrue, reason: 'was not resumed');
-            expect(wasCanceled, isTrue, reason: 'was not canceled');
-          })
-          .then((_) => controller.close());
+        expect(wasPaused, isTrue, reason: 'was not paused');
+        expect(wasResumed, isTrue, reason: 'was not resumed');
+        expect(wasCanceled, isTrue, reason: 'was not canceled');
+      }).then((_) => controller.close());
     });
 
     test('should forward iteration error and stop', () {
       var data = [],
           errors = [];
-      var badIteration = ['e', 'this should not get thrown']
-          .map((message) => throw message);
+      var badIteration =
+          ['e', 'this should not get thrown'].map((message) => throw message);
       var concatenated = concat(badIteration);
       var completer = new Completer();
-      concatenated.listen(data.add, onError: errors.add,
-          onDone: completer.complete);
+      concatenated
+          .listen(data.add, onError: errors.add, onDone: completer.complete);
       return completer.future.then((_) {
         expect(data, []);
         expect(errors, ['e']);

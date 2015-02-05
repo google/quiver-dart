@@ -35,8 +35,7 @@ class _Range extends IterableBase<num> {
   _Range(num start_or_stop, num _stop, num _step)
       : start = (_stop == null) ? 0 : start_or_stop,
         stop = (_stop == null) ? start_or_stop : _stop,
-        step = (_step == null) ? 1 : _step
-  {
+        step = (_step == null) ? 1 : _step {
     if (step == 0) {
       throw new ArgumentError("step cannot be 0");
     }

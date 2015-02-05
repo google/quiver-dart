@@ -56,7 +56,9 @@ class Optional<T> {
    * Throws [StateError] if [value] is null.
    */
   T get value {
-    if (this._value == null) throw new StateError('value called on absent Optional.');
+    if (this._value == null) {
+      throw new StateError('value called on absent Optional.');
+    }
     return _value;
   }
 
@@ -86,7 +88,9 @@ class Optional<T> {
    * Throws [ArgumentError] if [defaultValue] is null.
    */
   T or(T defaultValue) {
-    if (defaultValue == null) throw new ArgumentError('defaultValue must not be null.');
+    if (defaultValue == null) {
+      throw new ArgumentError('defaultValue must not be null.');
+    }
     return _value == null ? defaultValue : _value;
   }
 
@@ -116,7 +120,7 @@ class Optional<T> {
   /**
    * Delegates to the underlying [value] operator==.
    */
-  bool operator==(o) => o is Optional && o._value == _value;
+  bool operator ==(o) => o is Optional && o._value == _value;
 
   String toString() {
     return _value == null

@@ -19,7 +19,6 @@ import 'package:quiver/iterables.dart';
 
 main() {
   group('zip', () {
-
     test("should create an empty iterable if given no iterables", () {
       expect(zip([]), []);
     });
@@ -33,6 +32,5 @@ main() {
       expect(zip([[1, 2], ['a', 'b'], []]), []);
       expect(zip([range(2), range(4)]), [[0, 0], [1, 1]]);
     });
-
   });
 }
