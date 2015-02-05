@@ -4,7 +4,7 @@ Quiver
 Quiver is a set of utility libraries for Dart that makes using many Dart
 libraries easier and more convenient, or adds additional functionality.
 
-[![Build Status](https://drone.io/github.com/google/quiver-dart/status.png)](https://drone.io/github.com/google/quiver-dart/latest)
+[![Build Status](https://travis-ci.org/google/quiver-dart.svg?branch=master)](https://travis-ci.org/google/quiver-dart)
 
 ## Documentation
 
