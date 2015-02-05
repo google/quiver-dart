@@ -141,10 +141,6 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
     implements Multimap<K, V> {
   final Map<K, Iterable<V>> _map = new HashMap();
 
-  // TODO(jacobr): for the following 6 methods we would prefer to specify that
-  // iterable is the union type of Set<V> and List<V> but Dart does not
-  // support union types and Set and List lack a common interface containing
-  // add, addAll, clear, and remove (dartbug/4938).
   Iterable<V> _create();
   void _add(C iterable, V value);
   void _addAll(C iterable, Iterable<V> value);
