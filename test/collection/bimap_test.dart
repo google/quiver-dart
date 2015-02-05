@@ -26,8 +26,12 @@ main() {
 
   group('HashBiMap', () {
     BiMap<String, int> map;
-    String k1 = 'k1', k2 = 'k2', k3 = 'k3';
-    int v1 = 1, v2 = 2, v3 = 3;
+    String k1 = 'k1',
+        k2 = 'k2',
+        k3 = 'k3';
+    int v1 = 1,
+        v2 = 2,
+        v3 = 3;
 
     setUp(() {
       map = new HashBiMap();
@@ -47,9 +51,9 @@ main() {
 
     test('should throw when adding a null key or value via its inverse', () {
       expect(() => map.inverse[null] = k1,
-             throwsA(new isInstanceOf<ArgumentError>()));
+          throwsA(new isInstanceOf<ArgumentError>()));
       expect(() => map.inverse[v1] = null,
-             throwsA(new isInstanceOf<ArgumentError>()));
+          throwsA(new isInstanceOf<ArgumentError>()));
     });
 
     test('should not be empty after adding a mapping', () {
@@ -110,7 +114,8 @@ main() {
       expect(map.inverse[v1], k1);
     });
 
-    test('should allow overwriting existing key-value pairs via its inverse', () {
+    test('should allow overwriting existing key-value pairs via its inverse',
+        () {
       map.inverse[v1] = k1;
       map.inverse[v1] = k1;
       expect(map[k1], v1);
@@ -125,10 +130,12 @@ main() {
       expect(map.inverse.containsValue(k2), false);
     });
 
-    test('should throw on overwriting unmapped keys with a mapped value via inverse', () {
+    test(
+        'should throw on overwriting unmapped keys with a mapped value via inverse',
+        () {
       map[k1] = v1;
       expect(() => map.inverse[v2] = k1,
-             throwsA(new isInstanceOf<ArgumentError>()));
+          throwsA(new isInstanceOf<ArgumentError>()));
       expect(map.containsValue(v2), false);
       expect(map.inverse.containsKey(v2), false);
     });
@@ -142,7 +149,9 @@ main() {
       expect(map.inverse.containsValue(k1), false);
     });
 
-    test('should allow force-adding unmapped keys with a mapped value via inverse', () {
+    test(
+        'should allow force-adding unmapped keys with a mapped value via inverse',
+        () {
       map.inverse[v1] = k1;
       map.inverse.replace(v2, k1);
       expect(map[k1], v2);
@@ -254,11 +263,7 @@ main() {
     });
 
     test('should contain mappings added from another map', () {
-      map.addAll({
-        k1: v1,
-        k2: v2,
-        k3: v3
-      });
+      map.addAll({k1: v1, k2: v2, k3: v3});
       expect(map[k1], v1);
       expect(map[k2], v2);
       expect(map[k3], v3);
@@ -268,11 +273,7 @@ main() {
     });
 
     test('should contain mappings added via its inverse from another map', () {
-      map.inverse.addAll({
-        v1: k1,
-        v2: k2,
-        v3: k3
-      });
+      map.inverse.addAll({v1: k1, v2: k2, v3: k3});
       expect(map[k1], v1);
       expect(map[k2], v2);
       expect(map[k3], v3);
@@ -282,19 +283,15 @@ main() {
     });
 
     test('should throw on adding from another map with duplicate values', () {
-      expect(() => map.addAll({
-        k1: v1,
-        k2: v2,
-        k3: v2
-      }), throwsA(new isInstanceOf<ArgumentError>()));
+      expect(() => map.addAll({k1: v1, k2: v2, k3: v2}),
+          throwsA(new isInstanceOf<ArgumentError>()));
     });
 
-    test('should throw on adding from another map with duplicate values via inverse', () {
-      expect(() => map.inverse.addAll({
-        v1: k1,
-        v2: k2,
-        v3: k2
-      }), throwsA(new isInstanceOf<ArgumentError>()));
+    test(
+        'should throw on adding from another map with duplicate values via inverse',
+        () {
+      expect(() => map.inverse.addAll({v1: k1, v2: k2, v3: k2}),
+          throwsA(new isInstanceOf<ArgumentError>()));
     });
 
     test('should return the number of key-value pairs as its length', () {
@@ -336,4 +333,3 @@ main() {
     });
   });
 }
-

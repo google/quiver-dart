@@ -53,7 +53,7 @@ abstract class Multimap<K, V> {
   /**
    * Adds an association from the given key to each of the given values.
    */
-   void addValues(K key, Iterable<V> values);
+  void addValues(K key, Iterable<V> values);
 
   /**
    * Adds all associations of [other] to this multimap.
@@ -233,7 +233,9 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
   @override
   List<V> _create() => new List<V>();
   @override
-  void _add(List<V> iterable, V value) { iterable.add(value); }
+  void _add(List<V> iterable, V value) {
+    iterable.add(value);
+  }
   @override
   void _addAll(List<V> iterable, Iterable<V> value) => iterable.addAll(value);
   @override
@@ -259,7 +261,9 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
   @override
   Set<V> _create() => new Set<V>();
   @override
-  void _add(Set<V> iterable, V value) { iterable.add(value); }
+  void _add(Set<V> iterable, V value) {
+    iterable.add(value);
+  }
   @override
   void _addAll(Set<V> iterable, Iterable<V> value) => iterable.addAll(value);
   @override
@@ -480,11 +484,10 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   }
 }
 
-class _WrappedList<K, V>
-    extends _WrappedIterable<K, V, List<V>>
+class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
     implements List<V> {
-  _WrappedList(Map<K, List<V>> map, K key, List<V> delegate) :
-      super(map, key, delegate);
+  _WrappedList(Map<K, List<V>> map, K key, List<V> delegate)
+      : super(map, key, delegate);
 
   V operator [](int index) => elementAt(index);
 
@@ -634,9 +637,10 @@ class _WrappedList<K, V>
   }
 }
 
-class _WrappedSet<K, V> extends _WrappedIterable<K, V, Set<V>> implements Set<V> {
-  _WrappedSet(Map<K, Iterable<V>> map, K key, Iterable<V> delegate) :
-      super(map, key, delegate);
+class _WrappedSet<K, V> extends _WrappedIterable<K, V, Set<V>>
+    implements Set<V> {
+  _WrappedSet(Map<K, Iterable<V>> map, K key, Iterable<V> delegate)
+      : super(map, key, delegate);
 
   bool add(V value) {
     _syncDelegate();

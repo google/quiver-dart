@@ -32,8 +32,7 @@ final _specialChars = new RegExp(r'([\\\^\$\.\|\+\[\]\(\)\{\}])');
  * as defined here: http://ecma-international.org/ecma-262/5.1/#sec-15.10
  */
 String escapeRegex(String str) => str.splitMapJoin(_specialChars,
-    onMatch: (Match m) => '\\${m.group(0)}',
-    onNonMatch: (s) => s);
+    onMatch: (Match m) => '\\${m.group(0)}', onNonMatch: (s) => s);
 
 /**
  * Returns a [Pattern] that matches against every pattern in [include] and

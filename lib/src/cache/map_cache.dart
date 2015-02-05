@@ -18,14 +18,12 @@ part of quiver.cache;
  * A [Cache] that's backed by a [Map].
  */
 class MapCache<K, V> implements Cache<K, V> {
-
   final Map<K, V> _map;
 
   /**
    * Creates a new [LocalCache], optionally using [map] as the backing [Map].
    */
-  MapCache({Map<K, V> map})
-      : _map = map != null ? map : new HashMap<K, V>();
+  MapCache({Map<K, V> map}) : _map = map != null ? map : new HashMap<K, V>();
 
   Future<V> get(K key, {Loader<K> ifAbsent}) {
     if (!_map.containsKey(key) && ifAbsent != null) {

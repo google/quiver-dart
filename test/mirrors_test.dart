@@ -42,7 +42,6 @@ main() {
       expect(implements(foo, String), false);
       expect(implements(foo, num), false);
     });
-
   });
 
   group('classImplements', () {
@@ -61,7 +60,6 @@ main() {
       expect(classImplements(mirror, reflectClass(String)), false);
       expect(classImplements(mirror, reflectClass(num)), false);
     });
-
   });
 
   group('getMemberMirror', () {
@@ -89,7 +87,6 @@ main() {
       var method = new Method(mirror, const Symbol('toList'));
       expect(method(growable: false), [1, 2]);
     });
-
   });
 }
 

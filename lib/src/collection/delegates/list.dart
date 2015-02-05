@@ -26,7 +26,8 @@ part of quiver.collection;
  *       // custom methods
  *     }
  */
-abstract class DelegatingList<E> extends DelegatingIterable<E> implements List<E> {
+abstract class DelegatingList<E> extends DelegatingIterable<E>
+    implements List<E> {
   List<E> get delegate;
 
   E operator [](int index) => delegate[index];
@@ -82,8 +83,9 @@ abstract class DelegatingList<E> extends DelegatingIterable<E> implements List<E
   void setAll(int index, Iterable<E> iterable) =>
       delegate.setAll(index, iterable);
 
-  void setRange(int start, int end, Iterable<E> iterable, [int skipCount = 0])
-      => delegate.setRange(start, end, iterable, skipCount);
+  void setRange(int start, int end, Iterable<E> iterable,
+          [int skipCount = 0]) =>
+      delegate.setRange(start, end, iterable, skipCount);
 
   void shuffle([Random random]) => delegate.shuffle(random);
 

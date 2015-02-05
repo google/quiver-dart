@@ -37,13 +37,11 @@ typedef Future<T> AsyncCombiner<T>(T previous, e);
 Future doWhileAsync(Iterable iterable, AsyncAction<bool> action) =>
     _doWhileAsync(iterable.iterator, action);
 
-Future _doWhileAsync(Iterator iterator, AsyncAction<bool> action) =>
-  (iterator.moveNext())
-      ? action(iterator.current).then((bool result) =>
-        (result)
-            ? _doWhileAsync(iterator, action)
-            : new Future.value(false))
-      : new Future.value(true);
+Future _doWhileAsync(
+    Iterator iterator, AsyncAction<bool> action) => (iterator.moveNext())
+    ? action(iterator.current).then((bool result) =>
+        (result) ? _doWhileAsync(iterator, action) : new Future.value(false))
+    : new Future.value(true);
 
 /**
  * Reduces a collection to a single value by iteratively combining elements
@@ -51,14 +49,13 @@ Future _doWhileAsync(Iterator iterator, AsyncAction<bool> action) =>
  * [Iterable.reduce], except that [combine] is an async function that returns a
  * [Future].
  */
-Future reduceAsync(Iterable iterable, initialValue, AsyncCombiner combine)
-    => _reduceAsync(iterable.iterator, initialValue, combine);
+Future reduceAsync(Iterable iterable, initialValue, AsyncCombiner combine) =>
+    _reduceAsync(iterable.iterator, initialValue, combine);
 
-Future _reduceAsync(Iterator iterator, currentValue,
-                    AsyncCombiner combine) {
+Future _reduceAsync(Iterator iterator, currentValue, AsyncCombiner combine) {
   if (iterator.moveNext()) {
-    return combine(currentValue, iterator.current).then((result) =>
-        _reduceAsync(iterator, result, combine));
+    return combine(currentValue, iterator.current)
+        .then((result) => _reduceAsync(iterator, result, combine));
   }
   return new Future.value(currentValue);
 }
@@ -67,9 +64,7 @@ Future _reduceAsync(Iterator iterator, currentValue,
  * Schedules calls to [action] for each element in [iterable]. No more than
  * [maxTasks] calls to [action] will be pending at once.
  */
-Future forEachAsync(Iterable iterable, AsyncAction action, {
-    int maxTasks: 1 }) {
-
+Future forEachAsync(Iterable iterable, AsyncAction action, {int maxTasks: 1}) {
   if (maxTasks == null || maxTasks < 1) {
     throw new ArgumentError("maxTasks must be greater than 0, was: $maxTasks");
   }

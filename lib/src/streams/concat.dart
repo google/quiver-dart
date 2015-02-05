@@ -38,17 +38,12 @@ part of quiver.streams;
 Stream concat(Iterable<Stream> streams) => new _ConcatStream(streams);
 
 class _ConcatStream extends Stream {
-
   final Iterable<Stream> _streams;
 
   _ConcatStream(Iterable<Stream> streams) : _streams = streams;
 
-  StreamSubscription listen(
-      void onData(var data),
-      {Function onError,
-       void onDone(),
-       bool cancelOnError}) {
-
+  StreamSubscription listen(void onData(var data),
+      {Function onError, void onDone(), bool cancelOnError}) {
     cancelOnError = true == cancelOnError;
     StreamSubscription currentSubscription;
     StreamController controller;
@@ -58,13 +53,14 @@ class _ConcatStream extends Stream {
       bool hasNext;
       try {
         hasNext = iterator.moveNext();
-      } catch(e, s) {
-        controller..addError(e, s)..close();
+      } catch (e, s) {
+        controller
+          ..addError(e, s)
+          ..close();
         return;
       }
       if (hasNext) {
-        currentSubscription = iterator.current.listen(
-            controller.add,
+        currentSubscription = iterator.current.listen(controller.add,
             onError: controller.addError,
             onDone: nextStream,
             cancelOnError: cancelOnError);
@@ -73,24 +69,17 @@ class _ConcatStream extends Stream {
       }
     }
 
-    controller = new StreamController(
-        onPause: () {
-          if (currentSubscription != null) currentSubscription.pause();
-        },
-        onResume: () {
-          if (currentSubscription != null) currentSubscription.resume();
-        },
-        onCancel: () {
-          if (currentSubscription != null) return currentSubscription.cancel();
-        }
-    );
+    controller = new StreamController(onPause: () {
+      if (currentSubscription != null) currentSubscription.pause();
+    }, onResume: () {
+      if (currentSubscription != null) currentSubscription.resume();
+    }, onCancel: () {
+      if (currentSubscription != null) return currentSubscription.cancel();
+    });
 
     nextStream();
 
-    return controller.stream.listen(
-        onData,
-        onError: onError,
-        onDone: onDone,
-        cancelOnError: cancelOnError);
+    return controller.stream.listen(onData,
+        onError: onError, onDone: onDone, cancelOnError: cancelOnError);
   }
 }

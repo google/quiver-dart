@@ -33,31 +33,35 @@ main() {
     });
 
     test("should return a previously set key/value pair", () {
-      return cache.set('foo', 'bar')
-        .then((_) => cache.get('foo'))
-        .then((value) {
-          expect(value, 'bar');
-        });
+      return cache
+          .set('foo', 'bar')
+          .then((_) => cache.get('foo'))
+          .then((value) {
+        expect(value, 'bar');
+      });
     });
 
     test("should invalidate a key", () {
-      return cache.set('foo', 'bar')
-        .then((_) => cache.invalidate('foo'))
-        .then((_) => cache.get('foo'))
-        .then((value) {
-          expect(value, null);
-        });
+      return cache
+          .set('foo', 'bar')
+          .then((_) => cache.invalidate('foo'))
+          .then((_) => cache.get('foo'))
+          .then((value) {
+        expect(value, null);
+      });
     });
 
     test("should load a value given a synchronous loader", () {
-      return cache.get('foo', ifAbsent: (k) => k + k)
-        .then((value) { expect(value, 'foofoo');
+      return cache.get('foo', ifAbsent: (k) => k + k).then((value) {
+        expect(value, 'foofoo');
       });
     });
 
     test("should load a value given an asynchronous loader", () {
-      return cache.get('foo', ifAbsent: (k) => new Future.value(k + k))
-        .then((value) { expect(value, 'foofoo');
+      return cache
+          .get('foo', ifAbsent: (k) => new Future.value(k + k))
+          .then((value) {
+        expect(value, 'foofoo');
       });
     });
   });

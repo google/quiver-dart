@@ -23,11 +23,10 @@ DateTime systemTime() => new DateTime.now();
 /// Days in a month. This array uses 1-based month numbers, i.e. January is
 /// the 1-st element in the array, not the 0-th.
 const _DAYS_IN_MONTH =
-    const [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
 
-int _daysInMonth(int year, int month) =>
-    (month == DateTime.FEBRUARY && _isLeapYear(year))
-    ? 29 : _DAYS_IN_MONTH[month];
+int _daysInMonth(int year, int month) => (month == DateTime.FEBRUARY &&
+    _isLeapYear(year)) ? 29 : _DAYS_IN_MONTH[month];
 
 bool _isLeapYear(int year) =>
     (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
@@ -58,7 +57,6 @@ int _clampDate(int date, int year, int month) =>
 /// exactly what time a [Clock] returns and base your test expectations on
 /// that. See specific constructors for how to supply time functions.
 class Clock {
-
   final TimeFunction _time;
 
   /// Creates a clock based on the given [timeFunc].
@@ -85,34 +83,26 @@ class Clock {
   /// Returns the point in time that's given amount of time ago. The
   /// amount of time is the sum of individual parts. Parts are compatible with
   /// ones defined in [Duration].
-  DateTime ago({int days: 0,
-                int hours: 0,
-                int minutes: 0,
-                int seconds: 0,
-                int milliseconds: 0,
-                int microseconds: 0}) =>
-      agoBy(new Duration(days: days,
-                         hours: hours,
-                         minutes: minutes,
-                         seconds: seconds,
-                         milliseconds: milliseconds,
-                         microseconds: microseconds));
+  DateTime ago({int days: 0, int hours: 0, int minutes: 0, int seconds: 0,
+      int milliseconds: 0, int microseconds: 0}) => agoBy(new Duration(
+          days: days,
+          hours: hours,
+          minutes: minutes,
+          seconds: seconds,
+          milliseconds: milliseconds,
+          microseconds: microseconds));
 
   /// Returns the point in time that's given amount of time from now. The
   /// amount of time is the sum of individual parts. Parts are compatible with
   /// ones defined in [Duration].
-  DateTime fromNow({int days: 0,
-                int hours: 0,
-                int minutes: 0,
-                int seconds: 0,
-                int milliseconds: 0,
-                int microseconds: 0}) =>
-      fromNowBy(new Duration(days: days,
-                         hours: hours,
-                         minutes: minutes,
-                         seconds: seconds,
-                         milliseconds: milliseconds,
-                         microseconds: microseconds));
+  DateTime fromNow({int days: 0, int hours: 0, int minutes: 0, int seconds: 0,
+      int milliseconds: 0, int microseconds: 0}) => fromNowBy(new Duration(
+          days: days,
+          hours: hours,
+          minutes: minutes,
+          seconds: seconds,
+          milliseconds: milliseconds,
+          microseconds: microseconds));
 
   /// Return the point in time [micros] microseconds ago.
   DateTime microsAgo(int micros) => ago(microseconds: micros);
@@ -163,14 +153,7 @@ class Clock {
     var y = time.year - (months + 12 - time.month) ~/ 12;
     var d = _clampDate(time.day, y, m);
     return new DateTime(
-        y,
-        m,
-        d,
-        time.hour,
-        time.minute,
-        time.second,
-        time.millisecond
-    );
+        y, m, d, time.hour, time.minute, time.second, time.millisecond);
   }
 
   /// Return the point in time [months] from now on the same date.
@@ -180,14 +163,7 @@ class Clock {
     var y = time.year + (months + time.month - 1) ~/ 12;
     var d = _clampDate(time.day, y, m);
     return new DateTime(
-        y,
-        m,
-        d,
-        time.hour,
-        time.minute,
-        time.second,
-        time.millisecond
-    );
+        y, m, d, time.hour, time.minute, time.second, time.millisecond);
   }
 
   /// Return the point in time [years] ago on the same date.
@@ -195,15 +171,8 @@ class Clock {
     var time = now();
     var y = time.year - years;
     var d = _clampDate(time.day, y, time.month);
-    return new DateTime(
-        y,
-        time.month,
-        d,
-        time.hour,
-        time.minute,
-        time.second,
-        time.millisecond
-    );
+    return new DateTime(y, time.month, d, time.hour, time.minute, time.second,
+        time.millisecond);
   }
 
   /// Return the point in time [years] from now on the same date.

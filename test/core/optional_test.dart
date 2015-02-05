@@ -31,17 +31,25 @@ main() {
 
     test('isPresent should execute only if present', () {
       int value;
-      new Optional<int>.of(7).ifPresent((v) { value = v; });
+      new Optional<int>.of(7).ifPresent((v) {
+        value = v;
+      });
       expect(value, 7);
-      new Optional<int>.absent().ifPresent((v) { value = v; });
+      new Optional<int>.absent().ifPresent((v) {
+        value = v;
+      });
       expect(value, 7);
     });
 
     test('isAbsent should execute only if absent', () {
       int value;
-      new Optional<int>.of(7).ifAbsent(() { value = 7; });
+      new Optional<int>.of(7).ifAbsent(() {
+        value = 7;
+      });
       expect(value, null);
-      new Optional<int>.absent().ifAbsent(() { value = 7; });
+      new Optional<int>.absent().ifAbsent(() {
+        value = 7;
+      });
       expect(value, 7);
     });
 
@@ -61,38 +69,42 @@ main() {
     });
 
     test('transform should return transformed value or absent', () {
-      expect(
-          new Optional<int>.fromNullable(7).transform((a) => a + 1),
+      expect(new Optional<int>.fromNullable(7).transform((a) => a + 1),
           equals(new Optional<int>.of(8)));
-      expect(
-          new Optional<int>.fromNullable(null).transform((a) => a + 1).isPresent,
-          isFalse);
+      expect(new Optional<int>.fromNullable(null)
+          .transform((a) => a + 1).isPresent, isFalse);
     });
 
     test('hashCode should allow optionals to be in hash sets', () {
-      expect(
-          new Set.from(
-              [new Optional<int>.of(7), new Optional<int>.of(8), new Optional<int>.absent()]),
-              equals(new Set.from(
-                  [new Optional<int>.of(7), new Optional<int>.of(8), new Optional<int>.absent()])));
-      expect(
-          new Set.from([new Optional<int>.of(7), new Optional<int>.of(8)]),
-          isNot(equals(new Set.from([new Optional<int>.of(7), new Optional<int>.of(9)]))));
+      expect(new Set.from([
+        new Optional<int>.of(7),
+        new Optional<int>.of(8),
+        new Optional<int>.absent()
+      ]), equals(new Set.from([
+        new Optional<int>.of(7),
+        new Optional<int>.of(8),
+        new Optional<int>.absent()
+      ])));
+      expect(new Set.from([
+        new Optional<int>.of(7),
+        new Optional<int>.of(8)
+      ]), isNot(equals(
+          new Set.from([new Optional<int>.of(7), new Optional<int>.of(9)]))));
     });
 
     test('== should compare by value', () {
       expect(new Optional<int>.of(7), equals(new Optional<int>.of(7)));
-      expect(
-          new Optional<int>.fromNullable(null),
+      expect(new Optional<int>.fromNullable(null),
           equals(new Optional<int>.fromNullable(null)));
-      expect(new Optional<int>.fromNullable(null), isNot(equals(new Optional<int>.of(7))));
+      expect(new Optional<int>.fromNullable(null),
+          isNot(equals(new Optional<int>.of(7))));
       expect(new Optional<int>.of(7), isNot(equals(new Optional<int>.of(8))));
     });
 
     test('toString should show the value or absent', () {
-      expect(new Optional<int>.of(7).toString(), equals('Optional { value: 7 }'));
       expect(
-          new Optional<int>.fromNullable(null).toString(),
+          new Optional<int>.of(7).toString(), equals('Optional { value: 7 }'));
+      expect(new Optional<int>.fromNullable(null).toString(),
           equals('Optional { absent }'));
     });
   });

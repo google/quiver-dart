@@ -19,33 +19,28 @@ import 'package:quiver/iterables.dart';
 
 main() {
   group('max', () {
-
     test('should return the maximum element', () {
-      expect(max([2,5,1,4]), 5);
+      expect(max([2, 5, 1, 4]), 5);
     });
 
     test('should return null if the iterable is empty', () {
       expect(max([]), null);
     });
-
   });
 
   group('min', () {
-
     test('should return the minimum element', () {
-      expect(min([2,5,1,4]), 1);
+      expect(min([2, 5, 1, 4]), 1);
     });
 
     test('should return null if the iterable is empty', () {
       expect(min([]), null);
     });
-
   });
 
   group('extent', () {
-
     test('should return the max and min elements', () {
-      var ext = extent([2,5,1,4]);
+      var ext = extent([2, 5, 1, 4]);
       expect(ext.min, 1);
       expect(ext.max, 5);
     });
@@ -56,13 +51,10 @@ main() {
       expect(ext.max, 2);
     });
 
-
     test('should return null if the iterable is empty', () {
       var ext = extent([]);
       expect(ext.min, null);
       expect(ext.max, null);
     });
-
   });
-
 }

@@ -19,7 +19,6 @@ import 'package:quiver/iterables.dart';
 
 main() {
   group('merge', () {
-
     test("should merge no iterables into empty iterable", () {
       expect(merge([]), []);
     });
@@ -45,7 +44,7 @@ main() {
     test("should honor the comparator", () {
       var a = ['c', 'b', 'a'];
       expect(merge([a, a], (x, y) => -x.compareTo(y)),
-          ['c', 'c', 'b', 'b', 'a', 'a']);
+          [ 'c', 'c', 'b', 'b', 'a', 'a' ]);
     });
 
     test("should merge empty iterables with non-empty ones", () {
@@ -70,7 +69,7 @@ main() {
     test("should handle max(a) < min(b) case", () {
       var a = <String>['a', 'b'];
       var b = <String>['c', 'd'];
-      expect(max(a).compareTo(min(b)) < 0, isTrue);  // test the test
+      expect(max(a).compareTo(min(b)) < 0, isTrue); // test the test
       expect(merge([a, b]), ['a', 'b', 'c', 'd']);
     });
 
@@ -78,10 +77,12 @@ main() {
       var a = ['a', 'd', 'g', 'j'];
       var b = ['b', 'e', 'h', 'k'];
       var c = ['c', 'f', 'i', 'l'];
-      var expected = ['a', 'b', 'c',
-                      'd', 'e', 'f',
-                      'g', 'h', 'i',
-                      'j', 'k', 'l'];
+      var expected = [
+        'a', 'b', 'c',
+        'd', 'e', 'f',
+        'g', 'h', 'i',
+        'j', 'k', 'l'
+      ];
       expect(merge([a, b, c]), expected);
       expect(merge([a, c, b]), expected);
       expect(merge([b, a, c]), expected);

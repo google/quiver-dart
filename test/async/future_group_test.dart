@@ -21,7 +21,6 @@ import 'package:quiver/async.dart';
 
 main() {
   group('FutureGroup', () {
-
     test('should complete when all added futures are complete', () {
       var group = new FutureGroup();
       var completer1 = new Completer();
@@ -58,6 +57,5 @@ main() {
         expect(() => group.add(completer2.future), throws);
       });
     });
-
   });
 }
