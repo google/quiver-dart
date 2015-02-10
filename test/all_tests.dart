@@ -31,7 +31,6 @@ import 'testing/all_tests.dart' as testing;
 import 'time/all_tests.dart' as time;
 
 main() {
-  useCompactVMConfiguration();
   async.main();
   cache.main();
   check.main();
