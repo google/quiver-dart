@@ -18,8 +18,6 @@
  */
 library quiver.pattern;
 
-part 'src/pattern/glob.dart';
-
 // From the PatternCharacter rule here:
 // http://ecma-international.org/ecma-262/5.1/#sec-15.10
 final _specialChars = new RegExp(r'([\\\^\$\.\|\+\[\]\(\)\{\}])');
