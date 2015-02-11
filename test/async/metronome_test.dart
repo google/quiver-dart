@@ -93,13 +93,11 @@ main() {
 
     test("can be anchored at any time", () {
       new FakeAsync().run((async) {
-        int callbacks = 0;
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00");
         Clock clock = async.getClock(start);
         new Metronome.periodic(aMinute * 10,
             clock: clock, anchor: clock.minutesAgo(59)).listen((d) {
-          callbacks++;
           times.add(d);
         });
         async.elapse(anHour);
@@ -116,13 +114,11 @@ main() {
 
     test("can be anchored in the future", () {
       new FakeAsync().run((async) {
-        int callbacks = 0;
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00");
         Clock clock = async.getClock(start);
         new Metronome.periodic(aMinute * 10,
             clock: clock, anchor: clock.minutesFromNow(61)).listen((d) {
-          callbacks++;
           times.add(d);
         });
         async.elapse(anHour);
@@ -139,12 +135,10 @@ main() {
 
     test("can be a periodic timer", () {
       new FakeAsync().run((async) {
-        int callbacks = 0;
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00.004");
         new Metronome.periodic(aMillisecond * 100,
             clock: async.getClock(start), anchor: start).listen((d) {
-          callbacks++;
           times.add(d);
         });
         async.elapse(aMillisecond * 304);
@@ -158,12 +152,10 @@ main() {
 
     test("resyncs when workers taking some time", () {
       new FakeAsync().run((async) {
-        int callbacks = 0;
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00.004");
         new Metronome.periodic(aMillisecond * 100,
             clock: async.getClock(start), anchor: start).listen((d) {
-          callbacks++;
           times.add(d);
           async.elapseBlocking(const Duration(milliseconds: 80));
         });
@@ -178,12 +170,10 @@ main() {
 
     test("drops time when workers taking longer than interval", () {
       new FakeAsync().run((async) {
-        int callbacks = 0;
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00.004");
         new Metronome.periodic(aMillisecond * 100,
             clock: async.getClock(start), anchor: start).listen((d) {
-          callbacks++;
           times.add(d);
           async.elapseBlocking(const Duration(milliseconds: 105));
         });
