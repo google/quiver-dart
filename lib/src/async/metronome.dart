@@ -98,6 +98,6 @@ class Metronome extends Stream<DateTime> {
   _tickDate() {
     DateTime now = clock.now();
     _controller.add(now);
-    _startTimer(now);
+    _startTimer(clock.now());
   }
 }

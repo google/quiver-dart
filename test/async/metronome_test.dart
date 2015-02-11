@@ -155,5 +155,45 @@ main() {
         ]);
       });
     });
+
+    test("resyncs when workers taking some time", () {
+      new FakeAsync().run((async) {
+        int callbacks = 0;
+        List<DateTime> times = [];
+        DateTime start = DateTime.parse("2014-05-05 20:06:00.004");
+        new Metronome.periodic(aMillisecond * 100,
+            clock: async.getClock(start), anchor: start).listen((d) {
+          callbacks++;
+          times.add(d);
+          async.elapseBlocking(const Duration(milliseconds: 80));
+        });
+        async.elapse(aMillisecond * 304);
+        expect(times, [
+          DateTime.parse("2014-05-05 20:06:00.104"),
+          DateTime.parse("2014-05-05 20:06:00.204"),
+          DateTime.parse("2014-05-05 20:06:00.304"),
+        ]);
+      });
+    });
+
+    test("drops time when workers taking longer than interval", () {
+      new FakeAsync().run((async) {
+        int callbacks = 0;
+        List<DateTime> times = [];
+        DateTime start = DateTime.parse("2014-05-05 20:06:00.004");
+        new Metronome.periodic(aMillisecond * 100,
+            clock: async.getClock(start), anchor: start).listen((d) {
+          callbacks++;
+          times.add(d);
+          async.elapseBlocking(const Duration(milliseconds: 105));
+        });
+        async.elapse(aMillisecond * 504);
+        expect(times, [
+          DateTime.parse("2014-05-05 20:06:00.104"),
+          DateTime.parse("2014-05-05 20:06:00.304"),
+          DateTime.parse("2014-05-05 20:06:00.504"),
+        ]);
+      });
+    });
   });
 }
