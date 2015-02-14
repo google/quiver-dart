@@ -96,8 +96,11 @@ class Metronome extends Stream<DateTime> {
   }
 
   _tickDate() {
-    DateTime now = clock.now();
-    _controller.add(now);
+    // Hey now, what's all this hinky clock.now() calls? Simple, if the workers
+    // on the receiving end of _controller.add() take a non-zero amount of time
+    // to do their thing (e.g. rendering a large scene with canvas), the next
+    // timer must be adjusted to account for the lapsed time.
+    _controller.add(clock.now());
     _startTimer(clock.now());
   }
 }
