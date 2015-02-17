@@ -1,4 +1,7 @@
 language: dart
+dart:
+  - stable
+  - dev
 script: ./tool/travis.sh
 env:
   - DARTANALYZER_FLAGS=--fatal-warnings
