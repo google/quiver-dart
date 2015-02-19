@@ -1,5 +1,6 @@
 #### Unreleased
    * Bugfix: fix drifting times in `Metronome`.
+   * Add `LruMap` to quiver/collection.
 
 #### 0.21.1 - 2015-02-05
    * Add optional start param to `Glob.allMatches()` to match superclass
