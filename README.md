@@ -82,6 +82,9 @@ false.
 
 `listsEqual`, `mapsEqual` and `setsEqual` check collections for equality.
 
+`LruMap` is a map that removes the least recently used item when a threshold
+length is exceeded.
+
 `Multimap` is an associative collection that maps keys to collections of
 values.
 
@@ -216,7 +219,7 @@ can use a fake time function in your tests to control time.
 `Now` is a typedef for functions that return the current time in microseconds,
 since Clock deals in DateTime which only have millisecond accuracy.
 
-`aMicrosecond`, `aMillisecond`, `aSecond`, `aMinute`, `anHour`, `aDay`, and 
+`aMicrosecond`, `aMillisecond`, `aSecond`, `aMinute`, `anHour`, `aDay`, and
 `aWeek` are unit duration constants to allow writing for example:
 
 * `aDay` vs. `const Duration(days: 1)`
@@ -232,10 +235,10 @@ interfaces.
 
 ## [quiver.testing.async][]
 
-`FakeAsync` enables testing of units which depend upon timers and microtasks.  
-It supports fake advancements of time and the microtask queue, which cause fake 
-timers and microtasks to be processed. A `Clock` is provided from which to read 
-the current fake time.  Faking synchronous or blocking time advancement is also 
+`FakeAsync` enables testing of units which depend upon timers and microtasks.
+It supports fake advancements of time and the microtask queue, which cause fake
+timers and microtasks to be processed. A `Clock` is provided from which to read
+the current fake time.  Faking synchronous or blocking time advancement is also
 supported.
 
 [quiver.testing.async]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-testing-async

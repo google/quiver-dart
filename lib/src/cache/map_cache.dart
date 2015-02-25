@@ -21,9 +21,17 @@ class MapCache<K, V> implements Cache<K, V> {
   final Map<K, V> _map;
 
   /**
-   * Creates a new [LocalCache], optionally using [map] as the backing [Map].
+   * Creates a new [MapCache], optionally using [map] as the backing [Map].
    */
   MapCache({Map<K, V> map}) : _map = map != null ? map : new HashMap<K, V>();
+
+  /**
+   * Creates a new [MapCache], using [LruMap] as the backing [Map].
+   * Optionally specify [maximumSize].
+   */
+  factory MapCache.lru({int maximumSize}) {
+    return new MapCache<K, V>(map: new LruMap(maximumSize: maximumSize));
+  }
 
   Future<V> get(K key, {Loader<K> ifAbsent}) {
     if (!_map.containsKey(key) && ifAbsent != null) {
