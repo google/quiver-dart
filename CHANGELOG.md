@@ -1,6 +1,9 @@
 #### Unreleased
    * Bugfix: fix drifting times in `Metronome`.
    * Add `LruMap` to quiver/collection.
+   * Un-deprecate Glob; feedback was that package:glob was not a suitable
+     replacement in many cases. Key reasons: dependency on dart:io and
+     significantly poorer performance.
 
 #### 0.21.1 - 2015-02-05
    * Add optional start param to `Glob.allMatches()` to match superclass

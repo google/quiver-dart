@@ -27,7 +27,6 @@ part of quiver.pattern;
  *   * '?' matches exactly one character except '/'
  *   * '**' matches one or more characters including '/'
  */
-@Deprecated('Will be removed in 0.22.0. Use package:glob.')
 class Glob implements Pattern {
   final RegExp regex;
   final String pattern;
