@@ -1,4 +1,4 @@
-#### Unreleased
+#### 0.21.2 - 2015-03-03
    * Bugfix: fix drifting times in `Metronome`.
    * Add `LruMap` to quiver/collection.
    * Un-deprecate Glob; feedback was that package:glob was not a suitable
