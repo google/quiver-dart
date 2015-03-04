@@ -25,6 +25,68 @@ void main() {
     });
   });
 
+  group('Multimap asMap() view', () {
+    var mmap;
+    var map;
+    setUp(() {
+      mmap = new Multimap()
+        ..add('k1', 'v1')
+        ..add('k1', 'v2')
+        ..add('k2', 'v3');
+      map = mmap.asMap();
+    });
+
+    test('operator[]= should throw UnsupportedError', () {
+      expect(() => map['k1'] = [1, 2, 3], throwsUnsupportedError);
+    });
+
+    test('containsKey() should return false for missing key', () {
+      expect(map.containsKey('k3'), isFalse);
+    });
+
+    test('containsKey() should return true for key in map', () {
+      expect(map.containsKey('k1'), isTrue);
+    });
+
+    test('containsValue() should return false for missing value', () {
+      expect(map.containsValue('k3'), isFalse);
+    });
+
+    test('containsValue() should return true for value in map', () {
+      expect(map.containsValue('v1'), isTrue);
+    });
+
+    test('forEach should iterate over all key-value pairs', () {
+      var results = [];
+      map.forEach((k, v) => results.add(new Pair(k, v)));
+      expect(results, unorderedEquals([
+          new Pair('k1', ['v1', 'v2']),
+          new Pair('k2', ['v3'])
+      ]));
+    });
+
+    test('isEmpty should return whether the map contains key-value pairs', () {
+      expect(map.isEmpty, isFalse);
+      expect(map.isNotEmpty, isTrue);
+      expect(new Multimap().asMap().isEmpty, isTrue);
+      expect(new Multimap().asMap().isNotEmpty, isFalse);
+    });
+
+    test('length should return the number of key-value pairs', () {
+      expect(new Multimap().asMap().length, equals(0));
+      expect(map.length, equals(2));
+    });
+
+    test('addAll(Map m) should throw UnsupportedError', () {
+      expect(() => map.addAll({'k1': [1, 2, 3]}), throwsUnsupportedError);
+    });
+
+    test('putIfAbsent() should throw UnsupportedError', () {
+      var map = new Multimap().asMap();
+      expect(() => map.putIfAbsent('k1', () => [1]), throwsUnsupportedError);
+    });
+  });
+
   group('ListMultimap', () {
     test('should initialize empty', () {
       var map = new ListMultimap();
@@ -836,6 +898,9 @@ class Pair {
   final x;
   final y;
   Pair(this.x, this.y);
-  bool operator ==(Pair other) => (x == other.x && y == other.y);
+  bool operator ==(Pair other) {
+    if (x != other.x) return false;
+    return equals(y).matches(other.y, {});
+  }
   String toString() => "($x, $y)";
 }
