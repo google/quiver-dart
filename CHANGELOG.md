@@ -1,4 +1,4 @@
-#### Unreleased
+#### 0.21.3 - 2015-03-03
    * Bugfix: fixed return type on some methods (e.g. `where` of `Iterable`s
      returned by Multimap.
 
