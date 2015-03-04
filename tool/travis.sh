@@ -18,7 +18,7 @@ echo "Running tests..."
 dart -c test/all_tests.dart
 
 # Gather and send coverage data.
-if [ "$REPO_TOKEN" ]; then
+if [ "$REPO_TOKEN" ] && [ "$TRAVIS_DART_VERSION" = "stable" ]; then
   echo "Collecting coverage..."
   pub global activate dart_coveralls
   pub global run dart_coveralls report \
