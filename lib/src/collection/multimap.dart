@@ -439,22 +439,22 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
     return _delegate.singleWhere(test);
   }
 
-  C skip(int n) {
+  Iterable<V> skip(int n) {
     _syncDelegate();
     return _delegate.skip(n);
   }
 
-  C skipWhile(bool test(V value)) {
+  Iterable<V> skipWhile(bool test(V value)) {
     _syncDelegate();
     return _delegate.skipWhile(test);
   }
 
-  C take(int n) {
+  Iterable<V> take(int n) {
     _syncDelegate();
     return _delegate.take(n);
   }
 
-  C takeWhile(bool test(V value)) {
+  Iterable<V> takeWhile(bool test(V value)) {
     _syncDelegate();
     return _delegate.takeWhile(test);
   }
@@ -474,7 +474,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
     return _delegate.toString();
   }
 
-  C where(bool test(V element)) {
+  Iterable<V> where(bool test(V element)) {
     _syncDelegate();
     return _delegate.where(test);
   }
@@ -522,7 +522,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
     _delegate.fillRange(start, end, fillValue);
   }
 
-  List<V> getRange(int start, int end) {
+  Iterable<V> getRange(int start, int end) {
     _syncDelegate();
     return _delegate.getRange(start, end);
   }
