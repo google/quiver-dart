@@ -34,14 +34,14 @@ typedef Future<T> AsyncCombiner<T>(T previous, e);
  * The Future returned completes to [true] if the entire iterable was processed,
  * otherwise [false].
  */
-Future doWhileAsync(Iterable iterable, AsyncAction<bool> action) =>
-    _doWhileAsync(iterable.iterator, action);
-
-Future _doWhileAsync(
-    Iterator iterator, AsyncAction<bool> action) => (iterator.moveNext())
-    ? action(iterator.current).then((bool result) =>
-        (result) ? _doWhileAsync(iterator, action) : new Future.value(false))
-    : new Future.value(true);
+Future doWhileAsync(Iterable iterable, AsyncAction<bool> action) async {
+  for (var i in iterable) {
+     if (! await action(i)) {
+       return false;
+     }
+  }
+  return true;
+}
 
 /**
  * Reduces a collection to a single value by iteratively combining elements
@@ -49,15 +49,13 @@ Future _doWhileAsync(
  * [Iterable.reduce], except that [combine] is an async function that returns a
  * [Future].
  */
-Future reduceAsync(Iterable iterable, initialValue, AsyncCombiner combine) =>
-    _reduceAsync(iterable.iterator, initialValue, combine);
-
-Future _reduceAsync(Iterator iterator, currentValue, AsyncCombiner combine) {
-  if (iterator.moveNext()) {
-    return combine(currentValue, iterator.current)
-        .then((result) => _reduceAsync(iterator, result, combine));
+Future reduceAsync(Iterable iterable, initialValue, AsyncCombiner combine) async
+{
+  var currentValue = initialValue;
+  for (var i in iterable) {
+    currentValue = await combine(currentValue, i);
   }
-  return new Future.value(currentValue);
+  return currentValue;
 }
 
 /**
