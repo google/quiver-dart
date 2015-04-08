@@ -12,12 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.streams.enumerate_test;
+library quiver.async.enumerate_test;
 
 import 'dart:async';
 
 import 'package:test/test.dart';
-import 'package:quiver/streams.dart';
+import 'package:quiver/async.dart';
 
 main() {
   group('enumerate', () {

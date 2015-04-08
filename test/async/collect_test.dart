@@ -12,13 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.streams.collect_test;
+library quiver.async.collect_test;
 
 import 'dart:async';
 import 'dart:math';
 
 import 'package:test/test.dart';
-import 'package:quiver/streams.dart';
+import 'package:quiver/async.dart';
 
 main() {
   group('collect', () {

@@ -1,4 +1,4 @@
-// Copyright 2013 Google Inc. All Rights Reserved.
+// Copyright 2014 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,12 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.streams;
+part of quiver.async;
 
-import 'dart:async';
-import 'package:quiver/iterables.dart' show IndexedValue;
-
-part 'src/streams/collect.dart';
-part 'src/streams/concat.dart';
-part 'src/streams/enumerate.dart';
-part 'src/streams/streambuffer.dart';
+/**
+ * Returns a [Stream] of [IndexedValue]s where the nth value holds the nth
+ * element of [stream] and its index.
+ */
+Stream<IndexedValue> enumerate(Stream stream) {
+  var index = 0;
+  return stream.map((value) => new IndexedValue(index++, value));
+}
