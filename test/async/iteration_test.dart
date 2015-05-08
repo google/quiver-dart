@@ -16,7 +16,7 @@ library quiver.async.iteration_test;
 
 import 'dart:async';
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'package:quiver/async.dart';
 
 main() {

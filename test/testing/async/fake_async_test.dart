@@ -17,7 +17,7 @@ library quiver.testing.async.fake_async_test;
 import 'dart:async';
 
 import 'package:quiver/testing/async.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 main() {
   group('FakeAsync', () {

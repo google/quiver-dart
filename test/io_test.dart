@@ -20,7 +20,7 @@ import 'dart:io';
 
 import 'package:path/path.dart' as path;
 import 'package:quiver/io.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 main() {
   group('byteStreamToString', () {

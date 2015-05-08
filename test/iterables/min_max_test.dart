@@ -14,7 +14,7 @@
 
 library quiver.iterables.min_max_test;
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'package:quiver/iterables.dart';
 
 main() {

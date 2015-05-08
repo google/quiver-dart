@@ -15,7 +15,7 @@
 library quiver.collection.multimap_test;
 
 import 'package:quiver/collection.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('Multimap', () {

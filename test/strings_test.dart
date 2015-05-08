@@ -15,7 +15,7 @@
 library quiver.strings;
 
 import 'package:quiver/strings.dart';
-import 'package:unittest/unittest.dart' hide isEmpty;
+import 'package:test/test.dart' hide isEmpty;
 
 main() {
   group('isBlank', () {

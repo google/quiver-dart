@@ -15,7 +15,7 @@
 library quiver.collection.treeset_test;
 
 import 'package:quiver/collection.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 main() {
   group("TreeSet", () {

@@ -14,8 +14,6 @@
 
 library quiver.all_tests;
 
-import 'package:unittest/compact_vm_config.dart';
-
 import 'async/all_tests.dart' as async;
 import 'cache/map_cache_test.dart' as cache;
 import 'check_test.dart' as check;

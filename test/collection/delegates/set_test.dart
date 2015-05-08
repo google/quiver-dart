@@ -17,7 +17,7 @@ library quiver.collection.delegates.set_test;
 import 'dart:collection' show LinkedHashSet;
 
 import 'package:quiver/collection.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 class MySet extends DelegatingSet<String> {
   final Set<String> _delegate;
@@ -58,15 +58,12 @@ void main() {
       expect(delegatingSet.containsAll(['a', 'c']), isFalse);
     });
 
-    // skip because :
-    // Test failed: Caught type 'LinkedHashSet<String>' is not a subtype of type
-    // 'HashSet<String>' of 'result'.
-    skip_test('difference', () {
+    test('difference', () {
       expect(delegatingSet.difference(new Set<String>.from(['a', 'cc'])),
           equals(['b']));
       expect(delegatingSet.difference(new Set<String>.from(['cc'])),
           equals(['a', 'b']));
-    });
+    }, skip: "Test failing: Caught type 'LinkedHashSet<String>' is not a subtype of type 'HashSet<String>' of 'result'.");
 
     test('intersection', () {
       expect(delegatingSet.intersection(new Set<String>.from(['a', 'dd'])),

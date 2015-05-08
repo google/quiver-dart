@@ -15,7 +15,7 @@
 library quiver.collection.delegates.list_test;
 
 import 'package:quiver/collection.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 class MyList extends DelegatingList<String> {
   final List<String> _delegate;
