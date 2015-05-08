@@ -16,7 +16,7 @@ library quiver.core.hash_test;
 
 import 'package:quiver/core.dart';
 import 'package:matcher/matcher.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 main() {
   test('hashObjects should return an int', () {

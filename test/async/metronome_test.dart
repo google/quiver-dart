@@ -17,7 +17,7 @@ library quiver.time.clock_test;
 import 'package:quiver/testing/async.dart';
 import 'package:quiver/async.dart';
 import 'package:quiver/time.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 main() {
   group("Metronome", () {

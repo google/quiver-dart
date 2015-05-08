@@ -15,8 +15,7 @@
 library quiver.core_test;
 
 import 'package:quiver/core.dart';
-import 'package:matcher/matcher.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 main() {
   group('firstNonNull', () {

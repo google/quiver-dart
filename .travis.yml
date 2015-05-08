@@ -3,6 +3,6 @@ sudo: false
 dart:
   - stable
   - dev
-script: ./tool/travis.sh
+script: pub run test:test
 env:
   - DARTANALYZER_FLAGS=--fatal-warnings

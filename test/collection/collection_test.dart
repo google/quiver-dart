@@ -15,7 +15,7 @@
 library quiver.collection.collection_test;
 
 import 'package:quiver/collection.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 main() {
   group('listsEqual', () {

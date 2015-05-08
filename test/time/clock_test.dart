@@ -14,7 +14,7 @@
 
 library quiver.time.clock_test;
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'package:quiver/time.dart';
 
 Clock from(int y, int m, int d) => new Clock.fixed(new DateTime(y, m, d));

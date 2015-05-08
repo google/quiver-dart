@@ -15,7 +15,7 @@
 library quiver.testing.util.equalstester;
 
 import 'package:quiver/testing/equality.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 main() {
   group('expectEquals', () {
