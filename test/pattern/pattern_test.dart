@@ -14,7 +14,7 @@
 
 library quiver.pattern_test;
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'package:quiver/pattern.dart';
 
 final _specialChars = r'\^$.|+[](){}';

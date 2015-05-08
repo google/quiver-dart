@@ -15,7 +15,7 @@
 library quiver.collection.delegates.iterable_test;
 
 import 'package:quiver/collection.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 class MyIterable extends DelegatingIterable<String> {
   final Iterable<String> _delegate;

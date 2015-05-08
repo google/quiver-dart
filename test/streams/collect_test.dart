@@ -17,7 +17,7 @@ library quiver.streams.collect_test;
 import 'dart:async';
 import 'dart:math';
 
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 import 'package:quiver/streams.dart';
 
 main() {

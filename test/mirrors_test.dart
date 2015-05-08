@@ -18,7 +18,7 @@ import 'dart:collection';
 import 'dart:mirrors';
 
 import 'package:quiver/mirrors.dart';
-import 'package:unittest/unittest.dart';
+import 'package:test/test.dart';
 
 main() {
   group('getTypeName', () {
