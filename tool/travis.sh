@@ -15,7 +15,7 @@ dartanalyzer $DARTANALYZER_FLAGS $libs $testing_libs test/all_tests.dart
 
 # Run the tests.
 echo "Running tests..."
-dart -c test/all_tests.dart
+pub run test:test
 
 # Gather and send coverage data.
 if [ "$REPO_TOKEN" ] && [ "$TRAVIS_DART_VERSION" = "stable" ]; then
