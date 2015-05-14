@@ -106,6 +106,15 @@ abstract class FakeAsync {
   /// is 1 hour. [timeout] is relative to the elapsed time.
   void flushTimers({Duration timeout: const Duration(hours: 1),
       bool flushPeriodicTimers: true});
+
+  /// The number of created periodic timers that have not been canceled.
+  int get periodicTimerCount;
+
+  /// The number of pending non periodic timers that have not been canceled.
+  int get nonPeriodicTimerCount;
+
+  /// The number of pending microtasks.
+  int get microtaskCount;
 }
 
 class _FakeAsync extends FakeAsync {
@@ -118,9 +127,11 @@ class _FakeAsync extends FakeAsync {
     _elapsed;
   }
 
+  @override
   Clock getClock(DateTime initialTime) =>
       new Clock(() => initialTime.add(_elapsed));
 
+  @override
   void elapse(Duration duration) {
     if (duration.inMicroseconds < 0) {
       throw new ArgumentError('Cannot call elapse with negative duration');
@@ -134,6 +145,7 @@ class _FakeAsync extends FakeAsync {
     _elapsingTo = null;
   }
 
+  @override
   void elapseBlocking(Duration duration) {
     if (duration.inMicroseconds < 0) {
       throw new ArgumentError('Cannot call elapse with negative duration');
@@ -167,6 +179,7 @@ class _FakeAsync extends FakeAsync {
     });
   }
 
+  @override
   run(callback(FakeAsync self)) {
     if (_zone == null) {
       _zone = Zone.current.fork(specification: _zoneSpec);
@@ -174,6 +187,17 @@ class _FakeAsync extends FakeAsync {
     return _zone.runGuarded(() => callback(this));
   }
   Zone _zone;
+
+  @override
+  int get periodicTimerCount =>
+      _timers.where((_FakeTimer timer) => timer._isPeriodic).length;
+
+  @override
+  int get nonPeriodicTimerCount =>
+      _timers.where((_FakeTimer timer) => !timer._isPeriodic).length;
+
+  @override
+  int get microtaskCount => _microtasks.length;
 
   ZoneSpecification get _zoneSpec => new ZoneSpecification(
       createTimer: (_, __, ___, Duration duration, Function callback) {

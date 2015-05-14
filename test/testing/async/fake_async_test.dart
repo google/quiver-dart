@@ -492,5 +492,48 @@ main() {
         });
       });
     });
+
+    group('stats', () {
+      test('should report the number of pending microtasks', () {
+        new FakeAsync().run((async) {
+          expect(async.microtaskCount, 0);
+          scheduleMicrotask(() => null);
+          expect(async.microtaskCount, 1);
+          scheduleMicrotask(() => null);
+          expect(async.microtaskCount, 2);
+          async.flushMicrotasks();
+          expect(async.microtaskCount, 0);
+        });
+      });
+
+      test('it should report the number of pending periodic timers', () {
+        new FakeAsync().run((async) {
+          expect(async.periodicTimerCount, 0);
+          Timer timer = new Timer.periodic(new Duration(minutes: 30),
+              (Timer timer) { });
+          expect(async.periodicTimerCount, 1);
+          new Timer.periodic(new Duration(minutes: 20), (Timer timer) { });
+          expect(async.periodicTimerCount, 2);
+          async.elapse(new Duration(minutes: 20));
+          expect(async.periodicTimerCount, 2);
+          timer.cancel();
+          expect(async.periodicTimerCount, 1);
+        });
+      });
+
+      test('it should report the number of pending non periodic timers', () {
+        new FakeAsync().run((async) {
+          expect(async.nonPeriodicTimerCount, 0);
+          Timer timer = new Timer(new Duration(minutes: 30), () { });
+          expect(async.nonPeriodicTimerCount, 1);
+          new Timer(new Duration(minutes: 20), () { });
+          expect(async.nonPeriodicTimerCount, 2);
+          async.elapse(new Duration(minutes: 25));
+          expect(async.nonPeriodicTimerCount, 1);
+          timer.cancel();
+          expect(async.nonPeriodicTimerCount, 0);
+        });
+      });
+    });
   });
 }
