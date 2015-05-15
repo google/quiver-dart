@@ -9,6 +9,8 @@ authors:
 - John McDole <codefu@google.com>
 - Matan Lurey <matanl@google.com>
 - Günter Zöchbauer <guenter@gzoechbauer.com>
+- Sean Eagan <seaneagan1@gmail.com>
+- Victor Berchet <victor@suumit.com>
 description: A set of utility libraries for Dart
 homepage: https://github.com/google/quiver-dart
 environment:
