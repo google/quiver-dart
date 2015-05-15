@@ -1,3 +1,8 @@
+#### 0.21.4 - 2015-05-15
+   * Add stats reporting for fake async tests. You can query the number of 
+     pending microtasks and timers via `microtaskCount`, `periodicTimerCount`, 
+     `nonPeriodicTimerCount`.
+                                         
 #### 0.21.3+1 - 2015-05-11
    * Switch from unittest to test.
 
