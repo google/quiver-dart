@@ -15,7 +15,6 @@
 library quiver.core.optional_test;
 
 import 'package:quiver/core.dart';
-import 'package:matcher/matcher.dart';
 import 'package:test/test.dart';
 
 main() {

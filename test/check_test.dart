@@ -15,7 +15,6 @@
 library quiver.check_test;
 
 import 'package:quiver/check.dart';
-import 'package:matcher/matcher.dart';
 import 'package:test/test.dart';
 
 main() {
