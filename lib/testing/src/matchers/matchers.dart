@@ -25,7 +25,7 @@ part of quiver.testing.matchers;
 ///
 /// will fail.
 Matcher isBefore(DateTime value) =>
-new _DateTimeMatcher(value, _DateTimeComparator.before);
+    new _DateTimeMatcher(value, _DateTimeComparator.before);
 
 /// Compares two [DateTime] methods and returns true iff [value] is after
 /// the compared date. For example:
@@ -38,7 +38,7 @@ new _DateTimeMatcher(value, _DateTimeComparator.before);
 ///
 /// will fail.
 Matcher isAfter(DateTime value) =>
-new _DateTimeMatcher(value, _DateTimeComparator.after);
+    new _DateTimeMatcher(value, _DateTimeComparator.after);
 
 /// Compares two [DateTime] methods and returns true iff [value] is at the same
 ///  moment as the compared date. For example:
@@ -51,7 +51,7 @@ new _DateTimeMatcher(value, _DateTimeComparator.after);
 ///
 /// will fail.
 Matcher isTheSameMomentAs(DateTime value) =>
-new _DateTimeMatcher(value, _DateTimeComparator.atTheSameMoment);
+    new _DateTimeMatcher(value, _DateTimeComparator.atTheSameMoment);
 
 class _DateTimeMatcher extends Matcher {
   final DateTime _value;
@@ -61,12 +61,13 @@ class _DateTimeMatcher extends Matcher {
 
   @override
   Description describe(Description description) => description
-  .add('a DateTime ${_comparator.description}')
-  .add(' ')
-  .add(_value.toIso8601String());
+      .add('a DateTime ${_comparator.description}')
+      .add(' ')
+      .add(_value.toIso8601String());
 
   @override
-  bool matches(DateTime item, Map matchState) => _comparator._compare(item, _value);
+  bool matches(DateTime item, Map matchState) =>
+      _comparator._compare(item, _value);
 
   Description describeMismatch(
       item, Description mismatchDescription, Map matchState, bool verbose) {
@@ -79,11 +80,11 @@ typedef bool BooleanComparator<T>(T a, T b);
 
 class _DateTimeComparator {
   static final before = new _DateTimeComparator._internal(
-          (DateTime a, DateTime b) => a.isBefore(b), 'before');
+      (DateTime a, DateTime b) => a.isBefore(b), 'before');
   static final after = new _DateTimeComparator._internal(
-          (DateTime a, DateTime b) => a.isAfter(b), 'after');
+      (DateTime a, DateTime b) => a.isAfter(b), 'after');
   static final atTheSameMoment = new _DateTimeComparator._internal(
-          (DateTime a, DateTime b) => a.isAtSameMomentAs(b), 'at the same moment');
+      (DateTime a, DateTime b) => a.isAtSameMomentAs(b), 'at the same moment');
 
   final String _description;
   final BooleanComparator _compare;
