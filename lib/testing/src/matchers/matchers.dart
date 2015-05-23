@@ -61,7 +61,7 @@ class _DateTimeMatcher extends Matcher {
 
   @override
   Description describe(Description description) => description
-      .add('a DateTime ${_comparator.description}')
+      .add('a DateTime ${_comparator._description}')
       .add(' ')
       .add(_value.toIso8601String());
 
