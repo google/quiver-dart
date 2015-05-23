@@ -12,14 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.testing.all_tests;
+library quiver.testing.matchers.all_tests;
 
-import 'async/all_tests.dart' as async;
-import 'equality/all_tests.dart' as equality;
-import 'matchers/all_tests.dart' as matchers;
+import 'matchers_test.dart' as matchers_test;
 
 main() {
-  async.main();
-  equality.main();
-  matchers.main();
+  matchers_test.main();
 }
