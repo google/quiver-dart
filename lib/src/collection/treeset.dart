@@ -75,20 +75,20 @@ class TreeSearch {
   /**
    * If result not found, always chose the smaler element
    */
-  static const LESS_THAN = const TreeSearch._(1);
+  static const LESS_THAN = const TreeSearch._('lessThan');
 
   /**
    * If result not found, chose the nearest based on comparison
    */
-  static const NEAREST = const TreeSearch._(2);
+  static const NEAREST = const TreeSearch._('nearest');
 
   /**
    * If result not found, always chose the greater element
    */
-  static const GREATER_THAN = const TreeSearch._(3);
+  static const GREATER_THAN = const TreeSearch._('greaterThan');
 
-  final int _val;
-  const TreeSearch._(this._val);
+  final String name;
+  const TreeSearch._(this.name);
 }
 
 /**
