@@ -164,16 +164,16 @@ class StreamBuffer<T> implements StreamConsumer {
         _closed(new UnderflowError());
       }
       streamDone.complete();
-    }, onError: (e) {
-      _closed(e);
+    }, onError: (e, stack) {
+      _closed(e, stack);
     });
     return streamDone.future;
   }
 
-  _closed(e) {
+  void _closed(e, [StackTrace stack]) {
     for (var reader in _readers) {
       if (!reader.completer.isCompleted) {
-        reader.completer.completeError(e);
+        reader.completer.completeError(e, stack);
       }
     }
     _readers.clear();
