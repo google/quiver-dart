@@ -1,3 +1,6 @@
+#### 0.21.5
+   * Change `TreeSearch` from `class` to `enum`.
+
 #### 0.21.4 - 2015-05-15
    * Add stats reporting for fake async tests. You can query the number of 
      pending microtasks and timers via `microtaskCount`, `periodicTimerCount`, 
