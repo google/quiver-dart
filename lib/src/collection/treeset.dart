@@ -70,25 +70,22 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
 /**
  * Controls the results for [TreeSet.searchNearest]()
  */
-class TreeSearch {
+enum TreeSearch {
 
   /**
-   * If result not found, always chose the smaler element
+   * If result not found, always chose the smaller element
    */
-  static const LESS_THAN = const TreeSearch._(1);
+  LESS_THAN,
 
   /**
    * If result not found, chose the nearest based on comparison
    */
-  static const NEAREST = const TreeSearch._(2);
+  NEAREST,
 
   /**
    * If result not found, always chose the greater element
    */
-  static const GREATER_THAN = const TreeSearch._(3);
-
-  final int _val;
-  const TreeSearch._(this._val);
+  GREATER_THAN
 }
 
 /**
