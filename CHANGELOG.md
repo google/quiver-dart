@@ -1,4 +1,5 @@
-#### 0.21.5
+#### 0.22.0
+   * Pre-1.8.0 SDKs are no longer supported.
    * Change `TreeSearch` from `class` to `enum`.
 
 #### 0.21.4 - 2015-05-15
