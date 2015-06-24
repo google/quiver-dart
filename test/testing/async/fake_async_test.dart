@@ -286,9 +286,12 @@ main() {
         test('should work with Future.timeout', () {
           new FakeAsync().run((async) {
             var completer = new Completer();
-            var timed = completer.future.timeout(elapseBy ~/ 2);
-            expect(timed, throwsA(new isInstanceOf<TimeoutException>()));
+            TimeoutException timeout;
+            completer.future.timeout(elapseBy ~/ 2).catchError((err) {
+              timeout = err;
+            });
             async.elapse(elapseBy);
+            expect(timeout, new isInstanceOf<TimeoutException>());
             completer.complete();
           });
         });
