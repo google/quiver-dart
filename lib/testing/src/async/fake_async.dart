@@ -39,8 +39,6 @@ part of quiver.testing.async;
 abstract class FakeAsync {
   factory FakeAsync() = _FakeAsync;
 
-  FakeAsync._();
-
   /// Returns a fake [Clock] whose time can is elapsed by calls to [elapse] and
   /// [elapseBlocking].
   ///
@@ -89,8 +87,9 @@ abstract class FakeAsync {
   /// and [ZoneSpecification.scheduleMicrotask] to store callbacks for later
   /// execution within the zone via calls to [elapse].
   ///
-  /// [callback] is called with `this` as argument.
-  run(callback(FakeAsync self));
+  /// Calls [callback] with `this` as argument and returns the result returned
+  /// by [callback].
+  dynamic run(callback(FakeAsync self));
 
   /// Runs all remaining microtasks, including those scheduled as a result of
   /// running them, until there are no more microtasks scheduled.
@@ -117,15 +116,11 @@ abstract class FakeAsync {
   int get microtaskCount;
 }
 
-class _FakeAsync extends FakeAsync {
+class _FakeAsync implements FakeAsync {
   Duration _elapsed = Duration.ZERO;
   Duration _elapsingTo;
   Queue<Function> _microtasks = new Queue();
   Set<_FakeTimer> _timers = new Set<_FakeTimer>();
-
-  _FakeAsync() : super._() {
-    _elapsed;
-  }
 
   @override
   Clock getClock(DateTime initialTime) =>
