@@ -63,7 +63,7 @@ void main() {
           equals(['b']));
       expect(delegatingSet.difference(new Set<String>.from(['cc'])),
           equals(['a', 'b']));
-    }, skip: "Test failing: Caught type 'LinkedHashSet<String>' is not a subtype of type 'HashSet<String>' of 'result'.");
+    });
 
     test('intersection', () {
       expect(delegatingSet.intersection(new Set<String>.from(['a', 'dd'])),
