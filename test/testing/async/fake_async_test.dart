@@ -163,6 +163,46 @@ main() {
           });
         });
 
+        test('should call timers occurring at the same time in FIFO order', () {
+          new FakeAsync().run((async) {
+            var log = [];
+            new Timer(elapseBy ~/ 2, () {
+              log.add('1');
+            });
+            new Timer(elapseBy ~/ 2, () {
+              log.add('2');
+            });
+            async.elapse(elapseBy);
+            expect(log, ['1', '2']);
+          });
+        });
+
+        test('should maintain FIFO order even with periodic timers', () {
+          new FakeAsync().run((async) {
+            var log = [];
+            new Timer.periodic(elapseBy ~/ 2, (_) {
+              log.add('periodic 1');
+            });
+            new Timer(elapseBy ~/ 2, () {
+              log.add('delayed 1');
+            });
+            new Timer(elapseBy, () {
+              log.add('delayed 2');
+            });
+            new Timer.periodic(elapseBy, (_) {
+              log.add('periodic 2');
+            });
+            async.elapse(elapseBy);
+            expect(log, [
+              'periodic 1',
+              'delayed 1',
+              'periodic 1',
+              'delayed 2',
+              'periodic 2'
+            ]);
+          });
+        });
+
         test('should process microtasks surrounding each timer', () {
           new FakeAsync().run((async) {
             var microtaskCalls = 0;
