@@ -170,7 +170,8 @@ class _FakeAsync implements FakeAsync {
       } else {
         // translation: drain every timer (periodic or not) that will occur up
         // until the latest non-periodic timer
-        return _timers.any((_FakeTimer t) => !t._isPeriodic || t._nextCall <= _elapsed);
+        return _timers.any((_FakeTimer timer) =>
+            !timer._isPeriodic || timer._nextCall <= _elapsed);
       }
     });
   }
