@@ -1,3 +1,8 @@
+#### 0.27.0-dev
+
+   * Fix: Use FIFO ordering in `FakeAsync`. PR
+     [#265](https://github.com/google/quiver-dart/pull/265)
+
 #### 0.26.2 - 2017-11-16
 
    * Fix: re-adding the most-recently-used entry to a `LinkedLruHashMap`
