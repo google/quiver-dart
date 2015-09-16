@@ -3,6 +3,6 @@ sudo: false
 dart:
   - stable
   - dev
-script: ./tool/travis.sh
+script: ./quiver/tool/travis.sh
 env:
   - DARTANALYZER_FLAGS=--fatal-warnings
