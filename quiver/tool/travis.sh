@@ -7,6 +7,9 @@
 # Fast fail the script on failures.
 set -e
 
+cd quiver
+pub get
+
 # Verify that the libraries are error and warning-free.
 echo "Running dartanalyzer..."
 libs=$(find lib -maxdepth 1 -type f -name '*.dart')
