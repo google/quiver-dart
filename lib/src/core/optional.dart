@@ -128,3 +128,9 @@ class Optional<T> {
         : 'Optional { value: ${_value} }';
   }
 }
+
+/*
+ * Returns a new Optional from a nullable value. Just a terse shortcut for a
+ * common use case.
+ */
+Optional optional(dynamic value) => new Optional.fromNullable(T value);
