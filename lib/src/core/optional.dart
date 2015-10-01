@@ -130,7 +130,7 @@ class Optional<T> {
 }
 
 /*
- * Returns a new Optional from a nullable value. Just a terse shortcut for a
- * common use case.
+ * Returns a new Optional from a nullable value.
+ * Just a terse shortcut for a common use case.
  */
-Optional optional(dynamic value) => new Optional.fromNullable(T value);
+Optional optional(dynamic value) => new Optional.fromNullable(value);
