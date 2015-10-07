@@ -52,3 +52,43 @@ class _ZipIterator implements Iterator<List> {
     return hasNext;
   }
 }
+
+/**
+ * Returns an [Iterable] where the nth element in the returned iterable
+ * contains the result of applying [combine] function on the nth element from
+ * [a] and [b]. The returned Iterable is as long as the shortest Iterable
+ * in the argument.
+ */
+Iterable zipWith(Iterable a, Iterable b, dynamic combine(a, b)) =>
+    new _ZipWith(a, b, combine);
+
+class _ZipWith extends IterableBase {
+  final Iterable _a;
+  final Iterable _b;
+  final Function _combine;
+
+  _ZipWith(this._a, this._b, this._combine);
+
+  @override
+  Iterator get iterator =>
+      new _ZipWithIterator(_a.iterator, _b.iterator, _combine);
+}
+
+class _ZipWithIterator implements Iterator {
+  final Iterator _a;
+  final Iterator _b;
+  final Function _combine;
+  dynamic _current;
+
+  _ZipWithIterator(this._a, this._b, this._combine);
+
+  @override
+  dynamic get current => _current;
+
+  @override
+  bool moveNext() {
+    bool hasNext = _a.moveNext() && _b.moveNext();
+    _current = hasNext ? _combine(_a.current, _b.current) : null;
+    return hasNext;
+  }
+}

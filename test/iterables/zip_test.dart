@@ -33,4 +33,21 @@ main() {
       expect(zip([range(2), range(4)]), [[0, 0], [1, 1]]);
     });
   });
+
+  group('zipWith', () {
+    int add(int a, b) => a + b;
+
+    test("should create an empty iterable if given no iterables", () {
+      expect(zipWith([], [], add), []);
+    });
+
+    test("should zipWith equal length lists", () {
+      expect(zipWith([1, 2, 3], [4, 5, 6], add), [5, 7, 9]);
+    });
+
+    test("should stop at the end of the shortest iterable", () {
+      expect(zipWith([1, 2, 3], [4, 5], add), [5, 7]);
+      expect(zipWith(range(2), range(4), add), [0, 2]);
+    });
+  });
 }
