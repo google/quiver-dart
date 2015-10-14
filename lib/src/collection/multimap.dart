@@ -28,6 +28,14 @@ abstract class Multimap<K, V> {
   factory Multimap() => new ListMultimap<K, V>();
 
   /**
+   * Constructs a new list-backed multimap. For each element e of [iterable],
+   * adds an association from [key](e) to [value](e). [key] and [value] each
+   * default to the identity function.
+   */
+  factory Multimap.fromIterable(Iterable iterable,
+      {K key(element), V value(element)}) = ListMultimap<K, V>.fromIterable;
+
+  /**
    * Returns whether this multimap contains the given [value].
    */
   bool containsValue(Object value);
@@ -139,6 +147,24 @@ abstract class Multimap<K, V> {
  */
 abstract class _BaseMultimap<K, V, C extends Iterable<V>>
     implements Multimap<K, V> {
+  static _id(x) => x;
+
+  _BaseMultimap();
+
+  /**
+   * Constructs a new multimap. For each element e of [iterable], adds an
+   * association from [key](e) to [value](e). [key] and [value] each default to
+   * the identity function.
+   */
+  _BaseMultimap.fromIterable(Iterable iterable,
+      {K key(element), V value(element)}) {
+    key ??= _id;
+    value ??= _id;
+    for (var element in iterable) {
+      add(key(element), value(element));
+    }
+  }
+
   final Map<K, Iterable<V>> _map = new HashMap();
 
   Iterable<V> _create();
@@ -225,13 +251,24 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
  * with each key.
  */
 class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
-  ListMultimap() : super();
+  ListMultimap();
+
+  /**
+   * Constructs a new list-backed multimap. For each element e of [iterable],
+   * adds an association from [key](e) to [value](e). [key] and [value] each
+   * default to the identity function.
+   */
+  ListMultimap.fromIterable(Iterable iterable,
+      {K key(element), V value(element)})
+      : super.fromIterable(iterable, key: key, value: value);
+
   @override
   List<V> _create() => new List<V>();
   @override
   void _add(List<V> iterable, V value) {
     iterable.add(value);
   }
+
   @override
   void _addAll(List<V> iterable, Iterable<V> value) => iterable.addAll(value);
   @override
@@ -253,13 +290,24 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
  * with each key.
  */
 class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
-  SetMultimap() : super();
+  SetMultimap();
+
+  /**
+   * Constructs a new set-backed multimap. For each element e of [iterable],
+   * adds an association from [key](e) to [value](e). [key] and [value] each
+   * default to the identity function.
+   */
+  SetMultimap.fromIterable(Iterable iterable,
+      {K key(element), V value(element)})
+      : super.fromIterable(iterable, key: key, value: value);
+
   @override
   Set<V> _create() => new Set<V>();
   @override
   void _add(Set<V> iterable, V value) {
     iterable.add(value);
   }
+
   @override
   void _addAll(Set<V> iterable, Iterable<V> value) => iterable.addAll(value);
   @override

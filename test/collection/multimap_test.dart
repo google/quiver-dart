@@ -25,6 +25,45 @@ void main() {
     });
   });
 
+  group('Multimap.fromIterable', () {
+    test('should default to the identity for key and value', () {
+      var map = new Multimap<int, int>.fromIterable([1, 2, 1]);
+      expect(map.asMap(), {
+        1: [1, 1],
+        2: [2],
+      });
+    });
+
+    test('should default to the identity for value', () {
+      var i = 0;
+      var map = new Multimap<int, String>.fromIterable(
+          [1, 2, 1], value: (x) => '$x:${i++}');
+      expect(map.asMap(), {
+        1: ['1:0', '1:2'],
+        2: ['2:1'],
+      });
+    });
+
+    test('should default to the identity for key', () {
+      var map = new Multimap<String, int>.fromIterable(
+          [1, 2, 1], key: (x) => '($x)');
+      expect(map.asMap(), {
+        '(1)': [1, 1],
+        '(2)': [2],
+      });
+    });
+
+    test('should allow setting both key and value', () {
+      var i = 0;
+      var map = new Multimap<int, String>.fromIterable(
+          [1, 2, 1], key: (x) => -x, value: (x) => '$x:${i++}');
+      expect(map.asMap(), {
+        -1: ['1:0', '1:2'],
+        -2: ['2:1'],
+      });
+    });
+  });
+
   group('Multimap asMap() view', () {
     var mmap;
     var map;
@@ -163,6 +202,13 @@ void main() {
       var map = new ListMultimap<String, String>()
         ..add('k', 'v1')
         ..add('k', 'v1');
+      expect(map['k'], ['v1', 'v1']);
+    });
+
+    test('should support adding duplicate values for a key when initialized '
+        'from an iterable', () {
+      var map = new ListMultimap<String, String>.fromIterable(
+          ['k', 'k'], value: (x) => 'v1');
       expect(map['k'], ['v1', 'v1']);
     });
 
@@ -563,6 +609,13 @@ void main() {
       var map = new SetMultimap<String, String>()
         ..add('k', 'v1')
         ..add('k', 'v1');
+      expect(map['k'], ['v1']);
+    });
+
+    test('should not support adding duplicate values for a key when '
+        'initialized from an iterable', () {
+      var map = new SetMultimap<String, String>.fromIterable(
+          ['k', 'k'], value: (x) => 'v1');
       expect(map['k'], ['v1']);
     });
 
