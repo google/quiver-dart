@@ -18,39 +18,29 @@ part of quiver.iterables;
  * Partitions the input iterable into lists of the specified size.
  */
 Iterable<List> partition(Iterable iterable, int size) {
-  return iterable.isEmpty ? [] : new _Partition(iterable, size);
+  if (size <= 0) throw new ArgumentError(size);
+  if (iterable.isEmpty) return const [];
+  return _partition(iterable, size);
 }
 
-class _Partition extends IterableBase<List> {
-  final Iterable _iterable;
-  final int _size;
-
-  _Partition(this._iterable, this._size) {
-    if (_size <= 0) throw new ArgumentError(_size);
-  }
-
-  Iterator<List> get iterator =>
-      new _PartitionIterator(_iterable.iterator, _size);
-}
-
-class _PartitionIterator implements Iterator<List> {
-  final Iterator _iterator;
-  final int _size;
-  List _current;
-
-  _PartitionIterator(this._iterator, this._size);
-
-  @override
-  List get current => _current;
-
-  @override
-  bool moveNext() {
-    var newValue = [];
-    var count = 0;
-    for (; count < _size && _iterator.moveNext(); count++) {
-      newValue.add(_iterator.current);
+Iterable<List> _partition(Iterable iterable, int size) sync* {
+  var iterator = iterable.iterator;
+  iterator.moveNext();
+  var first = iterator.current;
+  while (true) {
+    var part = [first];
+    for (var i = 0; i < size - 1; i++) {
+      if (!iterator.moveNext()) {
+        yield part;
+        return;
+      }
+      part.add(iterator.current);
     }
-    _current = (count > 0) ? newValue : null;
-    return _current != null;
+    yield part;
+    if (iterator.moveNext()) {
+      first = iterator.current;
+    } else {
+      return;
+    }
   }
 }

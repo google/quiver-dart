@@ -18,29 +18,9 @@ part of quiver.iterables;
  * Returns an infinite [Iterable] of [num]s, starting from [start] and
  * increasing by [step].
  */
-Iterable<num> count([num start = 0, num step = 1]) => new _Count(start, step);
-
-class _Count extends InfiniteIterable<num> {
-  final num start, step;
-
-  _Count(num this.start, num this.step);
-
-  Iterator<num> get iterator => new _CountIterator(start, step);
-
-  // TODO(justin): return an infinite list for toList() and a special Set
-  // implmentation for toSet()?
-}
-
-class _CountIterator implements Iterator<num> {
-  final num _start, _step;
-  num _current;
-
-  _CountIterator(num this._start, this._step);
-
-  num get current => _current;
-
-  bool moveNext() {
-    _current = (_current == null) ? _start : _current + _step;
-    return true;
+Iterable<num> count([num start = 0, num step = 1]) sync* {
+  while (true) {
+    yield start;
+    start += step;
   }
 }
