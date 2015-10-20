@@ -18,37 +18,7 @@ part of quiver.iterables;
  * Returns an [Iterable] that infinitely cycles through the elements of
  * [iterable]. If [iterable] is empty, the returned Iterable will also be empty.
  */
-Iterable cycle(Iterable iterable) => new _Cycle(iterable);
-
-class _Cycle<T> extends InfiniteIterable<T> {
-  final Iterable<T> _iterable;
-
-  _Cycle(this._iterable);
-
-  Iterator<T> get iterator => new _CycleIterator(_iterable);
-
-  bool get isEmpty => _iterable.isEmpty;
-
-  bool get isNotEmpty => _iterable.isNotEmpty;
-
-  // TODO(justin): add methods that can be answered by the wrapped iterable
-}
-
-class _CycleIterator<T> implements Iterator<T> {
-  final Iterable<T> _iterable;
-  Iterator<T> _iterator;
-
-  _CycleIterator(_iterable)
-      : _iterable = _iterable,
-        _iterator = _iterable.iterator;
-
-  T get current => _iterator.current;
-
-  bool moveNext() {
-    if (!_iterator.moveNext()) {
-      _iterator = _iterable.iterator;
-      return _iterator.moveNext();
-    }
-    return true;
-  }
+Iterable cycle(Iterable iterable) sync* {
+  if (iterable.isEmpty) return;
+  while (true) yield* iterable;
 }
