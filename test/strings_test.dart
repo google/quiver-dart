@@ -48,6 +48,19 @@ main() {
     });
   });
 
+  group('isDigit', () {
+    test('should return true for standard digits', () {
+      for (var i = 0; i <= 9; i++) {
+        expect(isDigit('$i'.codeUnitAt(0)), isTrue);
+      }
+    });
+    test('should return false for non-digits', () {
+      expect(isDigit('a'.codeUnitAt(0)), isFalse);
+      expect(isDigit(' '.codeUnitAt(0)), isFalse);
+      expect(isDigit('%'.codeUnitAt(0)), isFalse);
+    });
+  });
+
   group('flip', () {
     test('should flip characters in a string', () {
       expect(flip('ab'), 'ba');

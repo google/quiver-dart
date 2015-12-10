@@ -194,6 +194,14 @@ String trimRight(String input) {
 }
 
 /**
+ * Returns `true` if [rune] represents a digit.
+ *
+ * The definition of digit matches the Unicode `0x3?` range of Western European
+ * digits.
+ */
+bool isDigit(int rune) => rune ^ 0x30 <= 9;
+
+/**
  * Returns `true` if [rune] represents a whitespace character.
  *
  * The definition of whitespace matches that used in [String.trim] which is
