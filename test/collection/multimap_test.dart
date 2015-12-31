@@ -34,7 +34,7 @@ void main() {
       });
     });
 
-    test('should default to the identity for value', () {
+    test('should allow setting value', () {
       var i = 0;
       var map = new Multimap<int, String>.fromIterable(
           [1, 2, 1], value: (x) => '$x:${i++}');
@@ -44,7 +44,7 @@ void main() {
       });
     });
 
-    test('should default to the identity for key', () {
+    test('should allow setting key', () {
       var map = new Multimap<String, int>.fromIterable(
           [1, 2, 1], key: (x) => '($x)');
       expect(map.asMap(), {
