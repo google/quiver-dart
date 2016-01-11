@@ -91,7 +91,7 @@ false.
 
 `listsEqual`, `mapsEqual` and `setsEqual` check collections for equality.
 
-`LruMap` is a map that removes the least recently used item when a threshold
+`LruSet` and `LruMap` are collections that remove the least recently used item when a threshold
 length is exceeded.
 
 `Multimap` is an associative collection that maps keys to collections of
