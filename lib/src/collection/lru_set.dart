@@ -196,9 +196,9 @@ class LinkedLruHashSet<E> extends SetBase<E> implements LruSet<E> {
       } else {
         entry.previous.next = entry.next;
       }
-      return entry.element;
+      return true;
     }
-    return null;
+    return false;
   }
 
   @override
