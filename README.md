@@ -136,6 +136,9 @@ iterable.
 elements by calling a function. A common use-case is to traverse properties in
 an object graph, like the parent relationship in a tree.
 
+`TwoWayGeneratingIterable` is similar to `GeneratingIterable`, but can be used when both the first and last element
+are known and elements can be traversed in both directions.
+
 `InfiniteIterable` is a base class for Iterables that throws on operations that
 require a finite length.
 
