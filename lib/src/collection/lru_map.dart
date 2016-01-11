@@ -134,14 +134,15 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
    * Creates an [Iterable] around the entries of the map.
    */
   Iterable<_LinkedEntry<K, V>> _iterable() {
-    return new GeneratingIterable<_LinkedEntry<K, V>>(
-        () => _head, (n) => n.next);
+    return new TwoWayGeneratingIterable<_LinkedEntry<K, V>>(
+        () => _head, (n) => n.next, ()=> _tail, (n) => n.previous);
   }
 
   /**
    * The keys of [this] - in order of MRU to LRU.
    *
-   * The returned iterable does *not* have efficient `length` or `contains`.
+   * The returned iterable does *not* have efficient `length` or `contains`,
+   * but has efficient `last`.
    */
   @override
   Iterable<K> get keys => _iterable().map((e) => e.key);

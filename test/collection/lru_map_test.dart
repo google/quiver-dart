@@ -168,6 +168,16 @@ void main() {
       expect(lruMap.containsValue('Delta'), isFalse);
     });
 
+    test('`keys.last` returns last value', () {
+      lruMap = new LruMap()..addAll({
+        'A': 'Alpha',
+        'B': 'Beta',
+        'C': 'Charlie'
+      });
+
+      expect(lruMap.keys.last, 'A');
+    });
+
     test('`forEach` returns all key-value pairs without modifying order', () {
       final keys = [];
       final values = [];
