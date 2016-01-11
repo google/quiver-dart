@@ -138,6 +138,23 @@ class LinkedLruHashSet<E> extends SetBase<E> implements LruSet<E> {
   @override
   bool contains(E element) => _entries.containsKey(element);
 
+  @override
+  E get first {
+    if(isEmpty) throw new StateError("Set is empty");
+    return _head.element;
+  }
+
+  /**
+   * Returns the last element.
+   *
+   * This operation is performed in constant time.
+   */
+  @override
+  E get last {
+    if(isEmpty) throw new StateError("Set is empty");
+    return _tail.element;
+  }
+
   /**
    * Applies [action] to each key-value pair of the map in order of MRU to LRU.
    *
