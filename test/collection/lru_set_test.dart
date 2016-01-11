@@ -137,6 +137,27 @@ void main() {
       expect(lruSet.contains('D'), isFalse);
     });
 
+    test('`first` returns first element', () {
+      lruSet = new LruSet()..addAll(new Set.from([
+        'A',
+        'B',
+        'C'
+      ]));
+
+      expect(lruSet.first, 'C');
+    });
+
+    test('`last` returns last element and does not change order', () {
+      lruSet = new LruSet()..addAll(new Set.from([
+        'A',
+        'B',
+        'C'
+      ]));
+
+      expect(lruSet.last, 'A');
+      expect(lruSet.toList(), ['C', 'B', 'A']);
+    });
+
     test('`forEach` returns all items without modifying order', () {
       final elements = [];
 
