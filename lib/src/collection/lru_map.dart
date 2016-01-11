@@ -154,6 +154,10 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   @override
   Iterable<V> get values => _iterable().map((e) => e.value);
 
+  K get first => _head.key;
+
+  K get last => _tail.key;
+
   @override
   int get maximumSize => _maximumSize;
 
