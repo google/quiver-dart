@@ -44,13 +44,14 @@ abstract class LruSet<E> implements Set<E> {
 class LinkedLruHashSet<E> extends SetBase<E> implements LruSet<E> {
   static const _DEFAULT_MAXIMUM_SIZE = 100;
 
-  final LruMap<E, bool> _entries;
+  final LinkedLruHashMap<E, bool> _entries;
 
   /**
    * Create a new LinkedLruHashSet with a [maximumSize].
    */
   factory LinkedLruHashSet({int maximumSize}) =>
-    new LinkedLruHashSet._fromMap(new LruMap<E, bool>(maximumSize: maximumSize));
+    new LinkedLruHashSet._fromMap(
+      new LinkedLruHashMap<E, bool>(maximumSize: maximumSize));
 
   LinkedLruHashSet._fromMap(this._entries);
 
@@ -83,6 +84,23 @@ class LinkedLruHashSet<E> extends SetBase<E> implements LruSet<E> {
       _entries[element] = true;
     }
     return wasPresent;
+  }
+
+  @override
+  E get first {
+    if(isEmpty) throw new StateError("Set is empty");
+    return _entries._head.key;
+  }
+
+  /**
+   * Returns the last element.
+   *
+   * This operation is performed in constant time.
+   */
+  @override
+  E get last {
+    if(isEmpty) throw new StateError("Set is empty");
+    return _entries._tail.key;
   }
 
   @override
