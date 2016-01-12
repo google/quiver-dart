@@ -26,6 +26,11 @@ bool isBlank(String s) => s == null || s.trim().isEmpty;
 bool isEmpty(String s) => s == null || s.isEmpty;
 
 /**
+ * Returns [true] if [s] is a not empty string.
+ */
+bool isEmpty(String s) => s != null && s.isNotEmpty;
+
+/**
  * Returns a string with characters from the given [s] in reverse order.
  */
 String flip(String s) {

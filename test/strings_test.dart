@@ -48,6 +48,21 @@ main() {
     });
   });
 
+  group('isNonEmpty', () {
+    test('should consider null to be empty', () {
+      expect(isNotEmpty(null), isFalse);
+    });
+    test('should consider the empty string to be empty', () {
+      expect(isNotEmpty(''), isFalse);
+    });
+    test('should consider whitespace string to be not empty', () {
+      expect(isNotEmpty(' '), isTrue);
+    });
+    test('should consider non-whitespace string to be not empty', () {
+      expect(isNotEmpty('hello'), isTrue);
+    });
+  });
+
   group('isDigit', () {
     test('should return true for standard digits', () {
       for (var i = 0; i <= 9; i++) {
