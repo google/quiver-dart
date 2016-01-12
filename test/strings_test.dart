@@ -48,7 +48,7 @@ main() {
     });
   });
 
-  group('isNonEmpty', () {
+  group('isNotEmpty', () {
     test('should consider null to be empty', () {
       expect(isNotEmpty(null), isFalse);
     });
