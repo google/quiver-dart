@@ -208,14 +208,14 @@ main() {
 
         test('should add event before advancing time', () {
           return new Future(() => new FakeAsync().run((async) {
-            var controller = new StreamController();
-            var ret = controller.stream.first.then((_) {
-              expect(async.getClock(initialTime).now(), initialTime);
-            });
-            controller.add(null);
-            async.elapse(const Duration(minutes: 1));
-            return ret;
-          }));
+                var controller = new StreamController();
+                var ret = controller.stream.first.then((_) {
+                  expect(async.getClock(initialTime).now(), initialTime);
+                });
+                controller.add(null);
+                async.elapse(const Duration(minutes: 1));
+                return ret;
+              }));
         });
 
         test('should increase negative duration timers to zero duration', () {
@@ -442,7 +442,8 @@ main() {
             });
           }
           createTimer();
-          expect(() => async.flushTimers(
+          expect(
+              () => async.flushTimers(
                   timeout: new Duration(hours: 2), flushPeriodicTimers: false),
               throwsStateError);
           expect(count, 4);
@@ -512,10 +513,10 @@ main() {
       test('it should report the number of pending periodic timers', () {
         new FakeAsync().run((async) {
           expect(async.periodicTimerCount, 0);
-          Timer timer = new Timer.periodic(new Duration(minutes: 30),
-              (Timer timer) { });
+          Timer timer =
+              new Timer.periodic(new Duration(minutes: 30), (Timer timer) {});
           expect(async.periodicTimerCount, 1);
-          new Timer.periodic(new Duration(minutes: 20), (Timer timer) { });
+          new Timer.periodic(new Duration(minutes: 20), (Timer timer) {});
           expect(async.periodicTimerCount, 2);
           async.elapse(new Duration(minutes: 20));
           expect(async.periodicTimerCount, 2);
@@ -527,14 +528,35 @@ main() {
       test('it should report the number of pending non periodic timers', () {
         new FakeAsync().run((async) {
           expect(async.nonPeriodicTimerCount, 0);
-          Timer timer = new Timer(new Duration(minutes: 30), () { });
+          Timer timer = new Timer(new Duration(minutes: 30), () {});
           expect(async.nonPeriodicTimerCount, 1);
-          new Timer(new Duration(minutes: 20), () { });
+          new Timer(new Duration(minutes: 20), () {});
           expect(async.nonPeriodicTimerCount, 2);
           async.elapse(new Duration(minutes: 25));
           expect(async.nonPeriodicTimerCount, 1);
           timer.cancel();
           expect(async.nonPeriodicTimerCount, 0);
+        });
+      });
+    });
+
+    group('timers', () {
+      test('should behave like real timers', () {
+        return new FakeAsync().run((async) {
+          var timeout = const Duration(minutes: 1);
+          int counter = 0;
+          var timer;
+          timer = new Timer(timeout, () {
+            counter++;
+            expect(timer.isActive, isFalse,
+                reason: "is not active while executing callback");
+          });
+          expect(timer.isActive, isTrue,
+              reason: "is active before executing callback");
+          async.elapse(timeout);
+          expect(counter, equals(1), reason: "timer executed");
+          expect(timer.isActive, isFalse,
+              reason: "is not active after executing callback");
         });
       });
     });
