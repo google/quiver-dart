@@ -20,7 +20,7 @@ part of quiver.testing.async;
  * A [Timer] implementation that stores its duration and callback for access
  * in tests.
  */
-@deprecated
+@Deprecated('Will be removed in 0.23.0')
 class FakeTimer implements Timer {
   Duration duration;
   var callback;

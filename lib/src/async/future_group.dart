@@ -15,12 +15,16 @@
 part of quiver.async;
 
 /**
+ * DEPRECATED: Use a much more feature-rich `FutureGroup` from the
+ * [async package](https://pub.dartlang.org/packages/async).
+ *
  * A collection of [Future]s that signals when all added Futures complete. New
  * Futures can be added to the group as long as it hasn't completed.
  *
  * FutureGroup is useful for managing a set of async tasks that may spawn new
  * async tasks as they execute.
  */
+@Deprecated('Will be removed in 0.22.0')
 class FutureGroup<E> {
   static const _FINISHED = -1;
 
