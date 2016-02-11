@@ -44,10 +44,10 @@ main() {
     });
   });
 
-  group('reduceAsync', () {
-    test('should reduce iterable', () {
+  group('foldAsync', () {
+    test('should fold iterable', () {
       var items = [];
-      return reduceAsync([1, 2, 3], 0, (v, e) {
+      return foldAsync([1, 2, 3], 0, (v, e) {
         items.add(e);
         return new Future(() => v + e);
       }).then((r) {

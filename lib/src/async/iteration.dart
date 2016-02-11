@@ -21,7 +21,7 @@ typedef Future<T> AsyncAction<T>(e);
 
 /**
  * An asynchronous funcuntion that combines an element [e] with a previous value
- * [previous], for use with [reduceAsync].
+ * [previous], for use with [foldAsync].
  */
 typedef Future<T> AsyncCombiner<T>(T previous, e);
 
@@ -49,13 +49,13 @@ Future _doWhileAsync(
  * [Iterable.reduce], except that [combine] is an async function that returns a
  * [Future].
  */
-Future reduceAsync(Iterable iterable, initialValue, AsyncCombiner combine) =>
-    _reduceAsync(iterable.iterator, initialValue, combine);
+Future foldAsync(Iterable iterable, initialValue, AsyncCombiner combine) =>
+    _foldAsync(iterable.iterator, initialValue, combine);
 
-Future _reduceAsync(Iterator iterator, currentValue, AsyncCombiner combine) {
+Future _foldAsync(Iterator iterator, currentValue, AsyncCombiner combine) {
   if (iterator.moveNext()) {
     return combine(currentValue, iterator.current)
-        .then((result) => _reduceAsync(iterator, result, combine));
+        .then((result) => _foldAsync(iterator, result, combine));
   }
   return new Future.value(currentValue);
 }
