@@ -3,6 +3,7 @@ packages
 pubspec.lock
 build/
 .pub
+.packages
 
 # IDE
 .project

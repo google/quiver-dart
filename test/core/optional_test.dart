@@ -70,25 +70,29 @@ main() {
     test('transform should return transformed value or absent', () {
       expect(new Optional<int>.fromNullable(7).transform((a) => a + 1),
           equals(new Optional<int>.of(8)));
-      expect(new Optional<int>.fromNullable(null)
-          .transform((a) => a + 1).isPresent, isFalse);
+      expect(
+          new Optional<int>.fromNullable(null)
+              .transform((a) => a + 1)
+              .isPresent,
+          isFalse);
     });
 
     test('hashCode should allow optionals to be in hash sets', () {
-      expect(new Set.from([
-        new Optional<int>.of(7),
-        new Optional<int>.of(8),
-        new Optional<int>.absent()
-      ]), equals(new Set.from([
-        new Optional<int>.of(7),
-        new Optional<int>.of(8),
-        new Optional<int>.absent()
-      ])));
-      expect(new Set.from([
-        new Optional<int>.of(7),
-        new Optional<int>.of(8)
-      ]), isNot(equals(
-          new Set.from([new Optional<int>.of(7), new Optional<int>.of(9)]))));
+      expect(
+          new Set.from([
+            new Optional<int>.of(7),
+            new Optional<int>.of(8),
+            new Optional<int>.absent()
+          ]),
+          equals(new Set.from([
+            new Optional<int>.of(7),
+            new Optional<int>.of(8),
+            new Optional<int>.absent()
+          ])));
+      expect(
+          new Set.from([new Optional<int>.of(7), new Optional<int>.of(8)]),
+          isNot(equals(new Set.from(
+              [new Optional<int>.of(7), new Optional<int>.of(9)]))));
     });
 
     test('== should compare by value', () {
@@ -105,6 +109,23 @@ main() {
           new Optional<int>.of(7).toString(), equals('Optional { value: 7 }'));
       expect(new Optional<int>.fromNullable(null).toString(),
           equals('Optional { absent }'));
+    });
+
+    test('length when absent should return 0', () {
+      expect(const Optional.absent().length, equals(0));
+    });
+
+    test('length when present should return 1', () {
+      expect(new Optional<int>.of(1).length, equals(1));
+    });
+
+    test('expand should behave as equivalent iterable', () {
+      final optionals = <Optional<int>>[
+        new Optional<int>.of(1),
+        const Optional.absent(),
+        new Optional<int>.of(2)
+      ].expand((i) => i);
+      expect(optionals, orderedEquals([1, 2]));
     });
   });
 }
