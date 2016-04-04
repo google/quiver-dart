@@ -1,6 +1,7 @@
 #### 0.22.0
    * Pre-1.8.0 SDKs are no longer supported.
    * Change `TreeSearch` from `class` to `enum`.
+   * `Optional` now implements `Iterable`
 
 #### 0.21.4 - 2015-05-15
    * Add stats reporting for fake async tests. You can query the number of 
