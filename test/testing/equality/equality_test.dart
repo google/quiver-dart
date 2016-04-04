@@ -220,8 +220,8 @@ main() {
     test('EqualityGroups', () {
       expect({
         'valid groups one': [
-          named('foo').addPeers(['bar']),
-          named('bar').addPeers(['foo'])
+          named('foo')..addPeers(['bar']),
+          named('bar')..addPeers(['foo'])
         ],
         'valid groups two': [named('baz'), named('baz')]
       }, areEqualityGroups);

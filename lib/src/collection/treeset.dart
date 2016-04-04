@@ -28,9 +28,7 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
    * default `(a, b) => a.compareTo(b)`.
    */
   factory TreeSet({Comparator<V> comparator}) {
-    if (comparator == null) {
-      comparator = (a, b) => a.compareTo(b);
-    }
+    comparator ??= (a, b) => (a as dynamic).compareTo(b);
     return new AvlTreeSet(comparator: comparator);
   }
 
@@ -148,7 +146,7 @@ abstract class _TreeNode<V> {
     if (node.left != null) {
       return node.left.maximumNode;
     }
-    while (node.parent != null && node.parent._left == node) {
+    while (node.parent != null && node.parent.left == node) {
       node = node.parent;
     }
     return node.parent;
@@ -438,7 +436,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   bool remove(Object item) {
-    AvlNode<V> x = _getNode(item);
+    AvlNode<V> x = _getNode(item as V);
     if (x != null) {
       _removeNode(x);
       return true;
@@ -627,10 +625,10 @@ class AvlTreeSet<V> extends TreeSet<V> {
    * See [Set.retainAll]
    */
   void retainAll(Iterable<Object> elements) {
-    List<V> chosen = [];
+    List<V> chosen = <V>[];
     for (var target in elements) {
       if (contains(target)) {
-        chosen.add(target);
+        chosen.add(target as V);
       }
     }
     clear();
@@ -690,7 +688,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
     AvlNode<V> x = _root;
     int compare = 0;
     while (x != null) {
-      compare = comparator(element, x.object);
+      compare = comparator(element as V, x.object);
       if (compare == 0) {
         return x.object;
       } else if (compare < 0) {
@@ -792,14 +790,14 @@ class AvlTreeSet<V> extends TreeSet<V> {
   Set<V> intersection(Set<Object> other) {
     TreeSet<V> set = new TreeSet(comparator: comparator);
 
-    // Opitimized for sorted sets
+    // Optimized for sorted sets
     if (other is TreeSet) {
       var i1 = iterator;
       var i2 = other.iterator;
       var hasMore1 = i1.moveNext();
       var hasMore2 = i2.moveNext();
       while (hasMore1 && hasMore2) {
-        var c = comparator(i1.current, i2.current);
+        var c = comparator(i1.current, i2.current as V);
         if (c == 0) {
           set.add(i1.current);
           hasMore1 = i1.moveNext();
@@ -925,7 +923,7 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
   final bool reversed;
   final AvlTreeSet<V> tree;
   final int _modCountGuard;
-  final Object anchorObject;
+  final V anchorObject;
   final bool inclusive;
 
   _IteratorMove _moveNext;

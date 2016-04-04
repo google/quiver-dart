@@ -26,7 +26,7 @@ main() {
         () => collect([]).toList().then((events) => expect(events, isEmpty)));
 
     test('should produce events for future completions in input order', () {
-      var futures = new Iterable.generate(
+      var futures = new Iterable<Future>.generate(
           5, (int i) => i.isEven ? new Future.value(i) : new Future.error(i));
       var events = [];
       var done = new Completer();

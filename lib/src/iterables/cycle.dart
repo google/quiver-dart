@@ -38,7 +38,7 @@ class _CycleIterator<T> implements Iterator<T> {
   final Iterable<T> _iterable;
   Iterator<T> _iterator;
 
-  _CycleIterator(_iterable)
+  _CycleIterator(Iterable<T> _iterable)
       : _iterable = _iterable,
         _iterator = _iterable.iterator;
 

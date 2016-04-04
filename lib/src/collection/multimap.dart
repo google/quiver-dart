@@ -147,7 +147,7 @@ abstract class Multimap<K, V> {
  */
 abstract class _BaseMultimap<K, V, C extends Iterable<V>>
     implements Multimap<K, V> {
-  static _id(x) => x;
+  static /*=T*/ _id/*<T>*/(/*=T*/ x) => x;
 
   _BaseMultimap();
 
@@ -165,7 +165,7 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
     }
   }
 
-  final Map<K, Iterable<V>> _map = new HashMap();
+  final Map<K, C> _map = new HashMap();
 
   Iterable<V> _create();
   void _add(C iterable, V value);
@@ -186,12 +186,12 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
   }
 
   void add(K key, V value) {
-    _map.putIfAbsent(key, _create);
+    _map.putIfAbsent(key, () => _create() as C);
     _add(_map[key], value);
   }
 
   void addValues(K key, Iterable<V> values) {
-    _map.putIfAbsent(key, _create);
+    _map.putIfAbsent(key, () => _create() as C);
     _addAll(_map[key], values);
   }
 
@@ -222,7 +222,7 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
       retValues.addAll(values);
       values.clear();
     }
-    return retValues;
+    return retValues as Iterable<V>;
   }
 
   void clear() {
@@ -230,7 +230,7 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
     _map.clear();
   }
 
-  void forEachKey(void f(K key, Iterable<V> value)) => _map.forEach(f);
+  void forEachKey(void f(K key, C value)) => _map.forEach(f);
 
   void forEach(void f(K key, V value)) {
     _map.forEach((K key, Iterable<V> values) {
@@ -407,7 +407,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
     return _delegate.every(test);
   }
 
-  Iterable expand(Iterable f(V element)) {
+  Iterable/*<T>*/ expand/*<T>*/(Iterable/*<T>*/ f(V element)) {
     _syncDelegate();
     return _delegate.expand(f);
   }
@@ -422,7 +422,8 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
     return _delegate.firstWhere(test, orElse: orElse);
   }
 
-  fold(initialValue, combine(previousValue, V element)) {
+  dynamic/*=T*/ fold/*<T>*/(var/*=T*/ initialValue,
+      dynamic/*=T*/ combine(var/*=T*/ previousValue, V element)) {
     _syncDelegate();
     return _delegate.fold(initialValue, combine);
   }
@@ -467,7 +468,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
     return _delegate.length;
   }
 
-  Iterable map(f(V element)) {
+  Iterable/*<T>*/ map/*<T>*/(/*=T*/ f(V element)) {
     _syncDelegate();
     return _delegate.map(f);
   }
@@ -530,7 +531,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
 
 class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
     implements List<V> {
-  _WrappedList(Map<K, List<V>> map, K key, List<V> delegate)
+  _WrappedList(Map<K, Iterable<V>> map, K key, List<V> delegate)
       : super(map, key, delegate);
 
   V operator [](int index) => elementAt(index);

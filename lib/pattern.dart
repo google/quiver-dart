@@ -50,7 +50,7 @@ class _MultiPattern extends Pattern {
       {Iterable<Pattern> this.exclude});
 
   Iterable<Match> allMatches(String str, [int start = 0]) {
-    var _allMatches = [];
+    final _allMatches = <Iterable<Match>>[];
     for (var pattern in include) {
       var matches = pattern.allMatches(str, start);
       if (_hasMatch(matches)) {

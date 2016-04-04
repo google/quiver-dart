@@ -47,7 +47,7 @@ class FutureStream<T> extends Stream<T> {
         _controller.close();
       }
       _controller = null;
-    });
+    }) as Future<Stream<T>>;
 
     if (broadcast == true) {
       _controller = new StreamController.broadcast(

@@ -76,7 +76,7 @@ main() {
     test('should be callable', () {
       var i = 2;
       var mirror = reflect(i);
-      var method = new Method(mirror, const Symbol('+'));
+      var method = new Method(mirror, const Symbol('+')) as dynamic;
       expect(method(3), 5);
     });
 
@@ -84,7 +84,7 @@ main() {
       // this test will fail when named argument support is added
       var i = [1, 2];
       var mirror = reflect(i);
-      var method = new Method(mirror, const Symbol('toList'));
+      var method = new Method(mirror, const Symbol('toList')) as dynamic;
       expect(method(growable: false), [1, 2]);
     });
   });

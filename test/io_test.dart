@@ -28,7 +28,7 @@ main() {
       var string = '箙、靫';
       var encoded = UTF8.encoder.convert(string);
       var data = [encoded.sublist(0, 3), encoded.sublist(3)];
-      var stream = new Stream.fromIterable(data);
+      var stream = new Stream<List<int>>.fromIterable(data);
       byteStreamToString(stream).then((decoded) {
         expect(decoded, string);
       });
@@ -38,7 +38,7 @@ main() {
       var string = 'blåbærgrød';
       var encoded = LATIN1.encoder.convert(string);
       var data = [encoded.sublist(0, 4), encoded.sublist(4)];
-      var stream = new Stream.fromIterable(data);
+      var stream = new Stream<List<int>>.fromIterable(data);
       byteStreamToString(stream, encoding: LATIN1).then((decoded) {
         expect(decoded, string);
       });
