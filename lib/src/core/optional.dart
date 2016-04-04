@@ -21,7 +21,7 @@ part of quiver.core;
  * values to be null. It signals that a value is not required and provides
  * convenience methods for dealing with the absent case.
  */
-class Optional<T> {
+class Optional<T> extends IterableBase<T> {
   final T _value;
 
   /**
@@ -111,6 +111,10 @@ class Optional<T> {
         ? new Optional.absent()
         : new Optional.of(transformer(_value));
   }
+
+  @override
+  Iterator<T> get iterator =>
+    isPresent ? <T>[_value].iterator : new Iterable<T>.empty().iterator;
 
   /**
    * Delegates to the underlying [value] hashCode.
