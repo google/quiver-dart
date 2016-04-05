@@ -167,7 +167,7 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
 
   final Map<K, C> _map = new HashMap();
 
-  Iterable<V> _create();
+  C _create();
   void _add(C iterable, V value);
   void _addAll(C iterable, Iterable<V> value);
   void _clear(C iterable);
@@ -186,12 +186,12 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
   }
 
   void add(K key, V value) {
-    _map.putIfAbsent(key, () => _create() as C);
+    _map.putIfAbsent(key, _create);
     _add(_map[key], value);
   }
 
   void addValues(K key, Iterable<V> values) {
-    _map.putIfAbsent(key, () => _create() as C);
+    _map.putIfAbsent(key, _create);
     _addAll(_map[key], values);
   }
 

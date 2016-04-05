@@ -91,7 +91,7 @@ class StreamBuffer<T> implements StreamConsumer<T> {
 
   List<T> _consume(int size) {
     var follower = 0;
-    final ret = new List<T>(size);
+    var ret = new List<T>(size);
     var leftToRead = size;
     while (leftToRead > 0) {
       var chunk = _chunks.first;

@@ -436,6 +436,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   bool remove(Object item) {
+    if (item is! V) return false;
+
     AvlNode<V> x = _getNode(item as V);
     if (x != null) {
       _removeNode(x);
@@ -627,8 +629,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
   void retainAll(Iterable<Object> elements) {
     List<V> chosen = <V>[];
     for (var target in elements) {
-      if (contains(target)) {
-        chosen.add(target as V);
+      if (target is V && contains(target)) {
+        chosen.add(target);
       }
     }
     clear();
@@ -684,7 +686,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
    * See [Set.lookup]
    */
   V lookup(Object element) {
-    if (element == null || _root == null) return null;
+    if (element is! V || _root == null) return null;
     AvlNode<V> x = _root;
     int compare = 0;
     while (x != null) {
@@ -791,13 +793,13 @@ class AvlTreeSet<V> extends TreeSet<V> {
     TreeSet<V> set = new TreeSet(comparator: comparator);
 
     // Optimized for sorted sets
-    if (other is TreeSet) {
+    if (other is TreeSet<V>) {
       var i1 = iterator;
       var i2 = other.iterator;
       var hasMore1 = i1.moveNext();
       var hasMore2 = i2.moveNext();
       while (hasMore1 && hasMore2) {
-        var c = comparator(i1.current, i2.current as V);
+        var c = comparator(i1.current, i2.current);
         if (c == 0) {
           set.add(i1.current);
           hasMore1 = i1.moveNext();
