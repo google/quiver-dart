@@ -106,7 +106,8 @@ class Optional<T> extends IterableBase<T> {
    *
    * The transformer must not return [null]. If it does, an [ArgumentError] is thrown.
    */
-  Optional transform(dynamic transformer(T value)) {
+  Optional/*=Optional<S>*/ transform/*<S>*/(
+      dynamic/*=S*/ transformer(T value)) {
     return _value == null
         ? new Optional.absent()
         : new Optional.of(transformer(_value));
