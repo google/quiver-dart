@@ -38,12 +38,12 @@ class MapCache<K, V> implements Cache<K, V> {
       var valOrFuture = ifAbsent(key);
       if (valOrFuture is Future) {
         return valOrFuture.then((v) {
-          _map[key] = v;
-          return v;
+          _map[key] = v as V;
+          return v as V;
         });
       } else {
-        _map[key] = valOrFuture;
-        return new Future.value(valOrFuture);
+        _map[key] = valOrFuture as V;
+        return new Future<V>.value(valOrFuture);
       }
     }
     return new Future.value(_map[key]);

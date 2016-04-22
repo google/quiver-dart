@@ -49,5 +49,5 @@ typedef Timer CreateTimerPeriodic(Duration duration, void callback(Timer));
  * Creates a new periodic [Timer] using
  * `new Timer.periodic(duration, callback)`.
  */
-Timer createTimerPeriodic(Duration duration, void callback(Timer)) =>
+Timer createTimerPeriodic(Duration duration, void callback(Timer t)) =>
     new Timer.periodic(duration, callback);

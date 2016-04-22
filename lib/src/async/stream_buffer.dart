@@ -46,7 +46,7 @@ class UnderflowError extends Error {
  * Throws [UnderflowError] if [throwOnError] is true. Useful for unexpected
  * [Socket] disconnects.
  */
-class StreamBuffer<T> implements StreamConsumer {
+class StreamBuffer<T> implements StreamConsumer<T> {
   List _chunks = [];
   int _offset = 0;
   int _counter = 0; // sum(_chunks[*].length) - _offset
@@ -91,7 +91,7 @@ class StreamBuffer<T> implements StreamConsumer {
 
   List<T> _consume(int size) {
     var follower = 0;
-    var ret = new List(size);
+    var ret = new List<T>(size);
     var leftToRead = size;
     while (leftToRead > 0) {
       var chunk = _chunks.first;
@@ -99,9 +99,9 @@ class StreamBuffer<T> implements StreamConsumer {
       var subsize = leftToRead > listCap ? listCap : leftToRead;
       if (chunk is List) {
         ret.setRange(follower, follower + subsize,
-            chunk.getRange(_offset, _offset + subsize));
+            (chunk as List<T>).getRange(_offset, _offset + subsize));
       } else {
-        ret[follower] = chunk;
+        ret[follower] = chunk as T;
       }
       follower += subsize;
       _offset += subsize;
@@ -133,7 +133,7 @@ class StreamBuffer<T> implements StreamConsumer {
     if (size <= buffered && _readers.isEmpty) {
       return new Future.value(_consume(size));
     }
-    Completer completer = new Completer<List<T>>();
+    final completer = new Completer<List<T>>();
     _readers.add(new _ReaderInWaiting<List<T>>(size, completer));
     return completer.future;
   }
@@ -149,7 +149,7 @@ class StreamBuffer<T> implements StreamConsumer {
     Completer streamDone = new Completer();
     _sub = stream.listen((items) {
       _chunks.add(items);
-      _counter += items is List ? items.length : 1;
+      _counter += items is List ? (items as List).length : 1;
       if (limited && _counter >= limit) {
         _sub.pause();
       }

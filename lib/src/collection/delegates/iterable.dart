@@ -38,14 +38,15 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
 
   bool every(bool test(E element)) => delegate.every(test);
 
-  Iterable expand(Iterable f(E element)) => delegate.expand(f);
+  Iterable/*<T>*/ expand/*<T>*/(Iterable/*<T>*/ f(E element)) => delegate.expand(f);
 
   E get first => delegate.first;
 
   E firstWhere(bool test(E element), {E orElse()}) =>
       delegate.firstWhere(test, orElse: orElse);
 
-  fold(initialValue, combine(previousValue, E element)) =>
+  dynamic/*=T*/ fold/*<T>*/(var/*=T*/ initialValue,
+      dynamic/*=T*/ combine(var/*=T*/ previousValue, E element)) =>
       delegate.fold(initialValue, combine);
 
   void forEach(void f(E element)) => delegate.forEach(f);
@@ -65,7 +66,7 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
 
   int get length => delegate.length;
 
-  Iterable map(f(E element)) => delegate.map(f);
+  Iterable/*<T>*/ map/*<T>*/(/*=T*/ f(E e)) => delegate.map(f);
 
   E reduce(E combine(E value, E element)) => delegate.reduce(combine);
 

@@ -82,7 +82,7 @@ class _EqualityGroupMatcher extends Matcher {
     if (equalityGroups == null) {
       throw new MatchError('Equality Group must not be null');
     }
-    var equalityGroupsCopy = {};
+    final equalityGroupsCopy = <String, List>{};
     equalityGroups.forEach((String groupName, List group) {
       if (groupName == null) {
         throw new MatchError('Group name must not be null');

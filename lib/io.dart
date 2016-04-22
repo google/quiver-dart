@@ -25,7 +25,8 @@ import 'package:quiver/async.dart';
  */
 Future<String> byteStreamToString(Stream<List<int>> stream,
     {Encoding encoding: UTF8}) {
-  return stream.transform(encoding.decoder).join();
+ return stream.transform(
+     encoding.decoder as StreamTransformer<List<int>, dynamic>).join();
 }
 
 /**

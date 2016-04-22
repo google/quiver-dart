@@ -29,7 +29,7 @@ abstract class LruMap<K, V> implements Map<K, V> {
   /**
    * Creates a [LruMap] instance with the default implementation.
    */
-  factory LruMap({int maximumSize}) = LinkedLruHashMap;
+  factory LruMap({int maximumSize}) = LinkedLruHashMap<K, V>;
 
   /**
    * Maximum size of the [Map]. If [length] exceeds this value at any time,
@@ -102,10 +102,10 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   }
 
   @override
-  bool containsKey(K key) => _entries.containsKey(key);
+  bool containsKey(Object key) => _entries.containsKey(key);
 
   @override
-  bool containsValue(V value) => values.contains(value);
+  bool containsValue(Object value) => values.contains(value);
 
   /**
    * Applies [action] to each key-value pair of the map in order of MRU to LRU.
@@ -193,7 +193,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
    * need information about entries without modifying their position.
    */
   @override
-  V operator[](K key) {
+  V operator[](Object key) {
     final entry = _entries[key];
     if (entry != null) {
       _promoteEntry(entry);
@@ -222,7 +222,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   }
 
   @override
-  V remove(K key) {
+  V remove(Object key) {
     final entry = _entries.remove(key);
     if (entry != null) {
       if (entry == _head) {

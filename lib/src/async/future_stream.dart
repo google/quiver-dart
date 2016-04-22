@@ -34,12 +34,14 @@ part of quiver.async;
  *     return new FutureStream(futureOfStream);
  */
 class FutureStream<T> extends Stream<T> {
+  static /*=T*/ _identity/*<T>*/(/*=T*/ t) => t;
+
   Future<Stream<T>> _future;
   StreamController<T> _controller;
   StreamSubscription _subscription;
 
   FutureStream(Future<Stream<T>> future, {bool broadcast: false}) {
-    _future = future.catchError((e, stackTrace) {
+    _future = future.then(_identity, onError: (e, stackTrace) {
       // Since [controller] is synchronous, it's likely that emitting an error
       // will cause it to be cancelled before we call close.
       if (_controller != null) {
