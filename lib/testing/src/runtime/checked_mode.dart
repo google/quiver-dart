@@ -33,10 +33,12 @@ bool _checkForCheckedMode() {
   Object sentinal = new Object();
   try {
     var i = 1 as dynamic;
-    String string = i;
+    _takeString(i);
     throw sentinal;
   } catch (e) {
     if (e == sentinal) return false;
   }
   return true;
 }
+
+void _takeString(String value) {}

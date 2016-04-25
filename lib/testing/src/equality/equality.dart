@@ -94,7 +94,7 @@ class _EqualityGroupMatcher extends Matcher {
     });
 
     // Run the test multiple times to ensure deterministic equals
-    for (var run in range(_repetitions)) {
+    for (var i = 0; i < _repetitions; i++) {
       _checkBasicIdentity(equalityGroupsCopy, matchState);
       _checkGroupBasedEquality(equalityGroupsCopy);
     }
