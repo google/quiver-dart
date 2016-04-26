@@ -18,6 +18,5 @@
 library quiver.testing.equality;
 
 import 'package:matcher/matcher.dart';
-import 'package:quiver/iterables.dart';
 
 part 'src/equality/equality.dart';
