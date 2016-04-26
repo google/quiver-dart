@@ -20,25 +20,11 @@ part of quiver.testing.runtime;
  * Otherwise, throws [StateError].
  */
 void assertCheckedMode() {
-  if (_isCheckedMode == null) _isCheckedMode = _checkForCheckedMode();
+  bool isCheckedMode = false;
+  // Assertions are only enabled in checked mode
+  assert((isCheckedMode = true));
 
-  if (!_isCheckedMode) {
+  if (!isCheckedMode) {
     throw new StateError('Not in checked mode.');
   }
 }
-
-bool _isCheckedMode = null;
-
-bool _checkForCheckedMode() {
-  Object sentinal = new Object();
-  try {
-    var i = 1 as dynamic;
-    _takeString(i);
-    throw sentinal;
-  } catch (e) {
-    if (e == sentinal) return false;
-  }
-  return true;
-}
-
-void _takeString(String value) {}
