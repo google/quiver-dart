@@ -51,6 +51,11 @@ class Optional<T> extends IterableBase<T> {
   bool get isPresent => _value != null;
 
   /**
+   * Whether the Optional does not contain a value.
+   */
+  bool get isAbsent => _value == null;
+
+  /**
    * Gets the Optional value.
    *
    * Throws [StateError] if [value] is null.
