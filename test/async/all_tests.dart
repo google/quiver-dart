@@ -23,6 +23,7 @@ import 'future_group_test.dart' as future_group;
 import 'future_stream_test.dart' as future_stream;
 import 'iteration_test.dart' as iteration;
 import 'metronome_test.dart' as metronome;
+import 'retry_test.dart' as retry;
 import 'stream_buffer_test.dart' as stream_buffer;
 import 'stream_router_test.dart' as stream_router;
 
@@ -34,8 +35,9 @@ main() {
   enumerate.main();
   future_group.main();
   future_stream.main();
-  metronome.main();
   iteration.main();
+  metronome.main();
+  retry.main();
   stream_buffer.main();
   stream_router.main();
 }
