@@ -30,21 +30,21 @@ void main() {
       await retry(task, interval: const Duration(milliseconds: 1));
       expect(runCount, 2);
     });
-  });
 
-  test('should return the result of the task', () async {
-    var task = () async => 'result';
-    expect(await retry(task), 'result');
-  });
+    test('should return the result of the task', () async {
+      var task = () async => 'result';
+      expect(await retry(task), 'result');
+    });
 
-  test('should rethrow after timeout', () async {
-    var task = () async {
-      throw 'error';
-    };
-    expect(
-        retry(task,
-            interval: const Duration(milliseconds: 1),
-            timeout: const Duration(milliseconds: 1)),
-        throwsA(equals('error')));
+    test('should rethrow after timeout', () async {
+      var task = () async {
+        throw 'error';
+      };
+      expect(
+          retry(task,
+              interval: const Duration(milliseconds: 1),
+              timeout: const Duration(milliseconds: 1)),
+          throwsA(equals('error')));
+    });
   });
 }
