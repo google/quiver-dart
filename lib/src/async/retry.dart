@@ -21,13 +21,22 @@ const _defaultTimeout = const Duration(seconds: 60);
 /// reached.
 ///
 /// Waits [interval] to perform the retry after a failed attempt.
+///
+/// If the task fails to complete once within the timeout it will resolve as an
+/// error with a TimeoutException. If the task completes with an error at least
+/// once before the timeout and never succeeds it will resolve as an error with
+/// the last exception from a task run that did not time out.
 Future/*<T>*/ retry/*<T>*/(Future/*<T>*/ task(),
     {Duration interval: _defaultInterval,
     Duration timeout: _defaultTimeout}) async {
   var end = new DateTime.now().add(timeout);
+  dynamic lastCaught;
   while (true) {
     try {
-      return await task();
+      return await task().timeout(end.difference(new DateTime.now()));
+    } on TimeoutException catch (_) {
+      if (lastCaught == null) rethrow;
+      throw lastCaught;
     } catch (error) {
       if (new DateTime.now().isAfter(end)) rethrow;
       await new Future.delayed(interval);

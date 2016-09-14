@@ -14,6 +14,8 @@
 
 library quiver.async.retry_test;
 
+import 'dart:async';
+
 import 'package:test/test.dart';
 import 'package:quiver/async.dart';
 
@@ -36,7 +38,7 @@ void main() {
       expect(await retry(task), 'result');
     });
 
-    test('should rethrow after timeout', () async {
+    test('should rethrow the actual exception after timeout', () async {
       var task = () async {
         throw 'error';
       };
@@ -45,6 +47,13 @@ void main() {
               interval: const Duration(milliseconds: 1),
               timeout: const Duration(milliseconds: 1)),
           throwsA(equals('error')));
+    });
+
+    test('should timeout long tasks', () async {
+      var task = () => new Completer().future;
+
+      expect(retry(task, timeout: const Duration(milliseconds: 100)),
+          throwsA(new isInstanceOf<TimeoutException>()));
     });
   });
 }
