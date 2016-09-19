@@ -39,13 +39,16 @@ void main() {
     });
 
     test('should rethrow the actual exception after timeout', () async {
+      var runCount = 0;
       var task = () async {
-        throw 'error';
+        runCount++;
+        if (runCount < 2) throw 'error';
+        return new Completer().future;
       };
       expect(
           retry(task,
               interval: const Duration(milliseconds: 1),
-              timeout: const Duration(milliseconds: 1)),
+              timeout: const Duration(milliseconds: 100)),
           throwsA(equals('error')));
     });
 

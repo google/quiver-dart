@@ -38,6 +38,7 @@ Future/*<T>*/ retry/*<T>*/(Future/*<T>*/ task(),
       if (lastCaught == null) rethrow;
       throw lastCaught;
     } catch (error) {
+      lastCaught = error;
       if (new DateTime.now().isAfter(end)) rethrow;
       await new Future<Null>.delayed(interval);
     }
