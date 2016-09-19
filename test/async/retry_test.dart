@@ -58,5 +58,19 @@ void main() {
       expect(retry(task, timeout: const Duration(milliseconds: 100)),
           throwsA(new isInstanceOf<TimeoutException>()));
     });
+
+    test('Reruns task if it throws a TimeoutException before the retry timeout',
+        () async {
+      var runCount = 0;
+      var task = () async {
+        runCount++;
+        if (runCount < 2) {
+          throw new TimeoutException('Test timeout');
+        }
+      };
+
+      await retry(task, interval: const Duration(milliseconds: 1));
+      expect(runCount, 2);
+    });
   });
 }

@@ -33,10 +33,11 @@ Future/*<T>*/ retry/*<T>*/(Future/*<T>*/ task(),
   dynamic lastCaught;
   while (true) {
     try {
-      return await task().timeout(end.difference(new DateTime.now()));
-    } on TimeoutException catch (_) {
-      if (lastCaught == null) rethrow;
-      throw lastCaught;
+      return await task().timeout(end.difference(new DateTime.now()),
+          onTimeout: () {
+        throw lastCaught ??
+            new TimeoutException('Timeout during first task run.');
+      });
     } catch (error) {
       lastCaught = error;
       if (new DateTime.now().isAfter(end)) rethrow;
