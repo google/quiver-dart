@@ -1,3 +1,6 @@
+#### 0.22.1
+   * BREAKING CHANGE: eliminated deprecated `pad*`, `trim*` string functions.
+
 #### 0.22.0 - 2015-04-21
    * BREAKING CHANGE: `streams` and `async` libraries have been [merged](https://github.com/google/quiver-dart/commit/671f1bc75742b4393e203c9520a3bf1e031967dc) into one `async` library
    * BREAKING CHANGE: Pre-1.8.0 SDKs are no longer supported.

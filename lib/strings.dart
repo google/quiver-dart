@@ -123,82 +123,6 @@ void _repeat(StringBuffer sink, String s, int times) {
 }
 
 /**
- * Returns a [String] of length [width] padded on the left with characters from
- * [fill] if `input.length` is less than [width]. [fill] is repeated if
- * neccessary to pad.
- *
- * Returns [input] if `input.length` is equal to or greater than width. [input]
- * can be `null` and is treated as an empty string.
- */
-@Deprecated('Will be removed in 0.22.0')
-String padLeft(String input, int width, String fill) {
-  if (fill == null || fill.length == 0) {
-    throw new ArgumentError('fill cannot be null or empty');
-  }
-  if (input == null || input.length == 0) return loop(fill, 0, width);
-  if (input.length >= width) return input;
-  return loop(fill, 0, width - input.length) + input;
-}
-
-/**
- * Returns a [String] of length [width] padded on the right with characters from
- * [fill] if `input.length` is less than [width]. Characters are selected from
- * [fill] starting at the end, so that the last character in [fill] is the last
- * character in the result. [fill] is repeated if neccessary to pad.
- *
- * Returns [input] if `input.length` is equal to or greater than width. [input]
- * can be `null` and is treated as an empty string.
- */
-@Deprecated('Will be removed in 0.22.0')
-String padRight(String input, int width, String fill) {
-  if (fill == null || fill.length == 0) {
-    throw new ArgumentError('fill cannot be null or empty');
-  }
-  if (input == null || input.length == 0) {
-    return loop(fill, -width, 0);
-  }
-  if (input.length >= width) return input;
-  return input + loop(fill, input.length - width, 0);
-}
-
-/**
- * Removes leading whitespace from a string.
- *
- * Whitespace is defined to be the same as [String.trim].
- */
-@Deprecated('Will be removed in 0.22.0')
-String trimLeft(String input) {
-  int i = 0;
-  for (var rune in input.runes) {
-    if (isWhitespace(rune)) {
-      i++;
-    } else {
-      break;
-    }
-  }
-  return input.substring(i);
-}
-
-/**
- * Removes trailing whitespace from a string.
- *
- * Whitespace is defined to be the same as [String.trim].
- */
-@Deprecated('Will be removed in 0.22.0')
-String trimRight(String input) {
-  int i = 0;
-  int lastNonWhitespace = -1;
-  for (var rune in input.runes) {
-    i++;
-    if (!isWhitespace(rune)) {
-      lastNonWhitespace = i;
-    }
-  }
-  if (lastNonWhitespace == -1) return '';
-  return input.substring(0, lastNonWhitespace);
-}
-
-/**
  * Returns `true` if [rune] represents a digit.
  *
  * The definition of digit matches the Unicode `0x3?` range of Western European
@@ -245,8 +169,13 @@ String center(String input, int width, String fill) {
     throw new ArgumentError('fill cannot be null or empty');
   }
   if (input == null) input = '';
-  var leftWidth = input.length + (width - input.length) ~/ 2;
-  return padRight(padLeft(input, leftWidth, fill), width, fill);
+  if (input.length >= width) return input;
+
+  var padding = width - input.length;
+  if (padding ~/ 2 > 0) {
+    input = loop(fill, 0, padding ~/ 2) + input;
+  }
+  return input + loop(fill, input.length - width, 0);
 }
 
 /**
