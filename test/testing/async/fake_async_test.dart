@@ -306,10 +306,10 @@ main() {
             StreamSubscription subscription;
             var periodic =
                 new Stream.periodic(const Duration(minutes: 1), (i) => i);
-            subscription = periodic.listen(events.add, cancelOnError: true);
+            subscription = periodic.listen(events.add);
             async.elapse(const Duration(minutes: 3));
-            subscription.cancel();
             expect(events, [0, 1, 2]);
+            subscription.cancel();
           });
         });
 
@@ -319,16 +319,15 @@ main() {
             var errors = [];
             var controller = new StreamController();
             var timed = controller.stream.timeout(const Duration(minutes: 2));
-            var subscription = timed.listen(events.add,
-                onError: errors.add, cancelOnError: true);
+            var subscription = timed.listen(events.add, onError: errors.add);
             controller.add(0);
             async.elapse(const Duration(minutes: 1));
             expect(events, [0]);
             async.elapse(const Duration(minutes: 1));
-            subscription.cancel();
             expect(errors, hasLength(1));
             expect(errors.first, new isInstanceOf<TimeoutException>());
-            return controller.close();
+            subscription.cancel();
+            controller.close();
           });
         });
       });
