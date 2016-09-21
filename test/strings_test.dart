@@ -88,30 +88,6 @@ main() {
     });
   });
 
-  group('nullToEmpty', () {
-    test('should turn null to empty string', () {
-      expect(nullToEmpty(null), '');
-    });
-    test('should leave non-null string unchanged', () {
-      expect(nullToEmpty('hi!'), 'hi!');
-    });
-    test('should leave empty string unchanged', () {
-      expect(nullToEmpty(''), '');
-    });
-  });
-
-  group('emptyToNull', () {
-    test('should turn empty string to null', () {
-      expect(emptyToNull(''), null);
-    });
-    test('should leave non-null string unchanged', () {
-      expect(emptyToNull('hi!'), 'hi!');
-    });
-    test('should leave null as null', () {
-      expect(emptyToNull(null), null);
-    });
-  });
-
   group('repeat', () {
     test('should repeat a non-empty string', () {
       expect(repeat('ab', 3), 'ababab');

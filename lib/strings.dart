@@ -44,18 +44,6 @@ String flip(String s) {
 }
 
 /**
- * If [s] is [null] returns empty string, otherwise returns [s] as is.
- */
-@Deprecated('Use ?? ""')
-String nullToEmpty(String s) => s == null ? '' : s;
-
-/**
- * If [s] is an empty string returns [null], otherwise returns [s] as is.
- */
-@Deprecated('Use s == '' ? null : s')
-String emptyToNull(String s) => s == '' ? null : s;
-
-/**
  * Concatenates [s] to itself a given number of [times]. Empty and null
  * strings will always result in empty and null strings respectively no matter
  * how many [times] they are [repeat]ed.

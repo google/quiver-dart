@@ -1,3 +1,6 @@
+#### Unreleased
+   * BREAKING CHANGE: eliminated deprecated `nullToEmpty`, `emptyToNull`.
+
 #### 0.23.0 - 2016-09-21
    * Strings: `nullToEmpty`, `emptyToNull` deprecated. Removal in 0.24.0.
    * BREAKING CHANGE: eliminated deprecated multimap `toMap`.
