@@ -1,5 +1,5 @@
-#### 0.22.1
-   * Strings: `nullToEmpty`, `emptyToNull` deprecated. Removal in 0.23.0.
+#### 0.23.0 - 2016-09-21
+   * Strings: `nullToEmpty`, `emptyToNull` deprecated. Removal in 0.24.0.
    * BREAKING CHANGE: eliminated deprecated multimap `toMap`.
    * BREAKING CHANGE: eliminated deprecated `pad*`, `trim*` string functions.
 
