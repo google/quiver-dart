@@ -1,4 +1,5 @@
 #### 0.22.1
+   * BREAKING CHANGE: eliminated deprecated multimap `toMap`.
    * BREAKING CHANGE: eliminated deprecated `pad*`, `trim*` string functions.
 
 #### 0.22.0 - 2015-04-21
