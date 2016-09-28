@@ -34,6 +34,7 @@ part of quiver.async;
  */
 class StreamRouter<T> {
   final Stream<T> _incoming;
+  int _listenerCount = 0;
   StreamSubscription _subscription;
 
   final List<_Route<T>> _routes = <_Route<T>>[];
@@ -41,18 +42,21 @@ class StreamRouter<T> {
       new StreamController<T>.broadcast();
 
   /**
-   * Create a new StreamRouter that listens to the [incoming] stream.
+   * Create a new StreamRouter that listens to the [incoming] stream once
+   * the first listener has been added to one of the child streams and stops
+   * listening when the last child listener has been removed.
    */
-  StreamRouter(Stream<T> incoming) : _incoming = incoming {
-    _subscription = _incoming.listen(_handle, onDone: close);
-  }
+  StreamRouter(Stream<T> incoming) : _incoming = incoming;
 
   /**
    * Events that match [predicate] are sent to the stream created by this
    * method, and not sent to any other router streams.
    */
   Stream<T> route(bool predicate(T event)) {
-    var controller = new StreamController<T>.broadcast();
+    var controller = new StreamController<T>.broadcast(
+      onListen: _maybeListen,
+      onCancel: _maybeCancel
+    );
     _routes.add(new _Route(predicate, controller));
     return controller.stream;
   }
@@ -60,9 +64,9 @@ class StreamRouter<T> {
   Stream<T> get defaultStream => _defaultController.stream;
 
   Future close() {
-    return Future.wait(_routes.map((r) => r.controller.close())).then((_) {
-      _subscription.cancel();
-    });
+    _subscription.cancel();
+    _subscription = null;
+    return Future.wait(_routes.map((r) => r.controller.close()));
   }
 
   void _handle(T event) {
@@ -70,6 +74,21 @@ class StreamRouter<T> {
         _routes.firstWhere((r) => r.predicate(event), orElse: () => null);
     var controller = (route != null) ? route.controller : _defaultController;
     controller.add(event);
+  }
+
+  void _maybeCancel() {
+    _listenerCount--;
+    if (_listenerCount == 0) {
+      _subscription.cancel();
+      _subscription = null;
+    }
+  }
+
+  void _maybeListen() {
+    _listenerCount++;
+    if (_listenerCount == 1) {
+      _subscription = _incoming.listen(_handle, onDone: close);
+    }
   }
 }
 
