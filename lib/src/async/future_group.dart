@@ -26,8 +26,7 @@ class FutureGroup<E> {
 
   int _pending = 0;
   Future _failedTask;
-  final Completer<List> _completer = new Completer<List>();
-  final List results = [];
+  final StreamController<E> _controller = new StreamController<E>();
 
   /** Gets the task that failed, if any. */
   Future get failedTask => _failedTask;
@@ -46,29 +45,35 @@ class FutureGroup<E> {
     if (_pending == _FINISHED) throw new StateError("Future already completed");
 
     _pending++;
-    var i = results.length;
-    results.add(null);
     task.then((res) {
-      results[i] = res;
+      _controller.add(res);
+    }, onError: (e, s) {
+      _controller.addError(e, s);
       if (_failedTask != null) return;
+      _failedTask = task;
+    }).whenComplete(() {
       _pending--;
       if (_pending == 0) {
         _pending = _FINISHED;
-        _completer.complete(results);
+        _controller.close();
       }
-    }, onError: (e, s) {
-      if (_failedTask != null) return;
-      _failedTask = task;
-      _completer.completeError(e, s);
     });
   }
 
   /**
-   * A Future that complets with a List of the values from all the added
+   * A Future that completes with a List of the values from all the added
    * tasks, when they have all completed.
+   *
+   * The list of values is in the order in which the futures complete.
    *
    * If any task fails, this Future will receive the error. Only the first
    * error will be sent to the Future.
    */
-  Future<List<E>> get future => _completer.future;
+  Future<List<E>> get future => stream.toList();
+
+  /**
+   * A Stream of the results of all of the added tasks, in the order in which
+   * they completed.
+   */
+  Stream<E> get stream => _controller.stream;
 }
