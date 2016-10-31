@@ -14,10 +14,8 @@
 
 part of quiver.iterables;
 
-/**
- * Returns an infinite [Iterable] of [num]s, starting from [start] and
- * increasing by [step].
- */
+/// Returns an infinite [Iterable] of [num]s, starting from [start] and
+/// increasing by [step].
 Iterable<num> count([num start = 0, num step = 1]) => new _Count(start, step);
 
 class _Count extends InfiniteIterable<num> {

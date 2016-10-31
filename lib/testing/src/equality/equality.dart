@@ -14,43 +14,40 @@
 
 part of quiver.testing.equality;
 
-/**
- * Matcher for == and hashCode methods of a class.
- *
- * To use, invoke areEqualityGroups with a list of equality groups where each
- * group contains objects that are supposed to be equal to each other, and
- * objects of different groups are expected to be unequal. For example:
- *
- *     expect({
- *      'hello': ["hello", "h" + "ello"],
- *      'world': ["world", "wor" + "ld"],
- *      'three': [2, 1 + 1]
- *     }, areEqualityGroups);
- *
- * This tests that:
- *
- * * comparing each object against itself returns true
- * * comparing each object against an instance of an incompatible class
- *     returns false
- * * comparing each pair of objects within the same equality group returns
- *     true
- * * comparing each pair of objects from different equality groups returns
- *     false
- * * the hash codes of any two equal objects are equal
- * * equals implementation is idempotent
- *
- * The format of the Map passed to expect is such that the map keys are used in
- * error messages to identify the group described by the map value.
- *
- * When a test fails, the error message labels the objects involved in
- * the failed comparison as follows:
- *
- *      "`[group x, item j]`" refers to the ith item in the xth equality group,
- *       where both equality groups and the items within equality groups are
- *       numbered starting from 1.  When either a constructor argument or an
- *       equal object is provided, that becomes group 1.
- *
- */
+/// Matcher for == and hashCode methods of a class.
+///
+/// To use, invoke areEqualityGroups with a list of equality groups where each
+/// group contains objects that are supposed to be equal to each other, and
+/// objects of different groups are expected to be unequal. For example:
+///
+///     expect({
+///      'hello': ["hello", "h" + "ello"],
+///      'world': ["world", "wor" + "ld"],
+///      'three': [2, 1 + 1]
+///     }, areEqualityGroups);
+///
+/// This tests that:
+///
+///    * comparing each object against itself returns true
+///    * comparing each object against an instance of an incompatible class
+///      returns false
+///    * comparing each pair of objects within the same equality group returns
+///      true
+///    * comparing each pair of objects from different equality groups returns
+///      false
+///    * the hash codes of any two equal objects are equal
+///    * equals implementation is idempotent
+///
+/// The format of the Map passed to expect is such that the map keys are used in
+/// error messages to identify the group described by the map value.
+///
+/// When a test fails, the error message labels the objects involved in
+/// the failed comparison as follows:
+///
+///     "`[group x, item j]`" refers to the ith item in the xth equality group,
+///      where both equality groups and the items within equality groups are
+///      numbered starting from 1.  When either a constructor argument or an
+///      equal object is provided, that becomes group 1.
 const Matcher areEqualityGroups = const _EqualityGroupMatcher();
 
 const _repetitions = 3;

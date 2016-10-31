@@ -20,27 +20,21 @@ import 'dart:io';
 
 import 'package:quiver/async.dart';
 
-/**
- * Converts a [Stream] of byte lists to a [String].
- */
+///  Converts a [Stream] of byte lists to a [String].
 Future<String> byteStreamToString(Stream<List<int>> stream,
     {Encoding encoding: UTF8}) {
   return stream.transform(encoding.decoder).join();
 }
 
-/**
- * Gets the full path of [path] by using [File.fullPathSync].
- */
+/// Gets the full path of [path] by using [File.fullPathSync].
 String getFullPath(path) => new File(path).resolveSymbolicLinksSync();
 
-/**
- * Lists the sub-directories and files of this Directory, optionally recursing
- * into sub-directories based on the return value of [visit].
- *
- * [visit] is called with a [File], [Directory] or [Link] to a directory,
- * never a Symlink to a File. If [visit] returns true, then it's argument is
- * listed recursively.
- */
+/// Lists the sub-directories and files of this Directory, optionally recursing
+/// into sub-directories based on the return value of [visit].
+///
+/// [visit] is called with a [File], [Directory] or [Link] to a directory,
+/// never a Symlink to a File. If [visit] returns true, then it's argument is
+/// listed recursively.
 Future visitDirectory(Directory dir, Future<bool> visit(FileSystemEntity f)) {
   var futureGroup = new FutureGroup();
 

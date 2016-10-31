@@ -14,24 +14,22 @@
 
 part of quiver.async;
 
-/**
- * Splits a [Stream] of events into multiple Streams based on a set of
- * predicates.
- *
- * Using StreamRouter differs from [Stream.where] because events are only sent
- * to one Stream. If more than one predicate matches the event, the event is
- * sent to the stream created by the earlier call to [route]. Events not matched
- * by a call to [route] are sent to the [defaultStream].
- *
- * Example:
- *   import 'dart:html';
- *   import 'package:quiver/async.dart';
- *
- *   var router = new StreamRouter(window.onClick);
- *   var onRightClick = router.route((e) => e.button == 2);
- *   var onAltClick = router.route((e) => e.altKey);
- *   var onOtherClick router.defaultStream;
- */
+/// Splits a [Stream] of events into multiple Streams based on a set of
+/// predicates.
+///
+/// Using StreamRouter differs from [Stream.where] because events are only sent
+/// to one Stream. If more than one predicate matches the event, the event is
+/// sent to the stream created by the earlier call to [route]. Events not
+/// matched by a call to [route] are sent to the [defaultStream].
+///
+/// Example:
+///    import 'dart:html';
+///    import 'package:quiver/async.dart';
+///
+///    var router = new StreamRouter(window.onClick);
+///    var onRightClick = router.route((e) => e.button == 2);
+///    var onAltClick = router.route((e) => e.altKey);
+///    var onOtherClick router.defaultStream;
 class StreamRouter<T> {
   final Stream<T> _incoming;
   StreamSubscription _subscription;
@@ -40,17 +38,13 @@ class StreamRouter<T> {
   final StreamController<T> _defaultController =
       new StreamController<T>.broadcast();
 
-  /**
-   * Create a new StreamRouter that listens to the [incoming] stream.
-   */
+  /// Create a new StreamRouter that listens to the [incoming] stream.
   StreamRouter(Stream<T> incoming) : _incoming = incoming {
     _subscription = _incoming.listen(_handle, onDone: close);
   }
 
-  /**
-   * Events that match [predicate] are sent to the stream created by this
-   * method, and not sent to any other router streams.
-   */
+  /// Events that match [predicate] are sent to the stream created by this
+  /// method, and not sent to any other router streams.
   Stream<T> route(bool predicate(T event)) {
     var controller = new StreamController<T>.broadcast();
     _routes.add(new _Route(predicate, controller));

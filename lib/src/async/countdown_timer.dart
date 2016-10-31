@@ -14,13 +14,12 @@
 
 part of quiver.async;
 
-/**
- * A simple countdown timer that fires events in regular increments until a
- * duration has passed.
- *
- * CountdownTimer implements [Stream] and sends itself as the event. From the
- * timer you can get the [remaining] and [elapsed] time, or [cancel] the timer.
- */
+/// A simple countdown timer that fires events in regular increments until a
+/// duration has passed.
+///
+/// CountdownTimer implements [Stream] and sends itself as the event. From the
+/// timer you can get the [remaining] and [elapsed] time, or [cancel] the
+/// timer.
 class CountdownTimer extends Stream<CountdownTimer> {
   static const _THRESHOLD_MS = 4;
 
@@ -30,14 +29,12 @@ class CountdownTimer extends Stream<CountdownTimer> {
   final StreamController<CountdownTimer> _controller;
   Timer _timer;
 
-  /**
-   * Creates a new [CountdownTimer] that fires events in increments of
-   * [increment], until the [duration] has passed.
-   *
-   * [stopwatch] is for testing purposes. If you're using CountdownTimer and
-   * need to control time in a test, pass a mock or a fake. See [FakeAsync] and
-   * [FakeStopwatch].
-   */
+  /// Creates a new [CountdownTimer] that fires events in increments of
+  /// [increment], until the [duration] has passed.
+  ///
+  /// [stopwatch] is for testing purposes. If you're using CountdownTimer and
+  /// need to control time in a test, pass a mock or a fake. See [FakeAsync]
+  /// and [FakeStopwatch].
   CountdownTimer(Duration duration, Duration increment, {Stopwatch stopwatch})
       : _duration = duration,
         _increment = increment,

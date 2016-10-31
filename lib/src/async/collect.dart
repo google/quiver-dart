@@ -14,24 +14,21 @@
 
 part of quiver.async;
 
-/**
- * Returns a stream of completion events for the input [futures].
- *
- * Successfully completed futures yield data events, while futures completed
- * with errors yield error events.
- *
- * The iterator obtained from [futures] is only advanced once the previous
- * future completes and yields an event.  Thus, lazily creating the futures is
- * supported, for example:
- *
- *     collect(files.map((file) => file.readAsString()));
- *
- * If you need to modify [futures], or a backing collection thereof, before the
- * returned stream is done, pass a copy instead to avoid a
- * [ConcurrentModificationError]:
- *
- *     collect(files.toList().map((file) => file.readAsString()));
- *
- */
+/// Returns a stream of completion events for the input [futures].
+///
+/// Successfully completed futures yield data events, while futures completed
+/// with errors yield error events.
+///
+/// The iterator obtained from [futures] is only advanced once the previous
+/// future completes and yields an event.  Thus, lazily creating the futures is
+/// supported, for example:
+///
+///     collect(files.map((file) => file.readAsString()));
+///
+/// If you need to modify [futures], or a backing collection thereof, before
+/// the returned stream is done, pass a copy instead to avoid a
+/// [ConcurrentModificationError]:
+///
+///     collect(files.toList().map((file) => file.readAsString()));
 Stream collect(Iterable futures) =>
     new Stream.fromIterable(futures).asyncMap((f) => f);

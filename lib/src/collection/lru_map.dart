@@ -14,35 +14,27 @@
 
 part of quiver.collection;
 
-/**
- * An implementation of a [Map] which has a maximum size and uses a (Least
- * Recently Used)[http://en.wikipedia.org/wiki/Cache_algorithms#LRU] algorithm
- * to remove items from the [Map] when the [maximumSize] is reached and new
- * items are added.
- *
- * It is safe to access the [keys] and [values] collections without affecting
- * the "used" ordering - as well as using [forEach]. Other types of access,
- * including bracket, and [putIfAbsent], promotes the key-value pair to the MRU
- * position.
- */
+/// An implementation of a [Map] which has a maximum size and uses a (Least
+/// Recently Used)[http://en.wikipedia.org/wiki/Cache_algorithms#LRU] algorithm
+/// to remove items from the [Map] when the [maximumSize] is reached and new
+/// items are added.
+///
+/// It is safe to access the [keys] and [values] collections without affecting
+/// the "used" ordering - as well as using [forEach]. Other types of access,
+/// including bracket, and [putIfAbsent], promotes the key-value pair to the
+/// MRU position.
 abstract class LruMap<K, V> implements Map<K, V> {
-  /**
-   * Creates a [LruMap] instance with the default implementation.
-   */
+  /// Creates a [LruMap] instance with the default implementation.
   factory LruMap({int maximumSize}) = LinkedLruHashMap<K, V>;
 
-  /**
-   * Maximum size of the [Map]. If [length] exceeds this value at any time,
-   * n entries accessed the earliest are removed, where n is [length] -
-   * [maximumSize].
-   */
+  /// Maximum size of the [Map]. If [length] exceeds this value at any time, n
+  /// entries accessed the earliest are removed, where n is [length] -
+  /// [maximumSize].
   int maximumSize;
 }
 
-/**
- * Simple implementation of a linked-list entry that contains a [key] and
- * [value].
- */
+/// Simple implementation of a linked-list entry that contains a [key] and
+/// [value].
 class _LinkedEntry<K, V> {
   K key;
   V value;
@@ -53,9 +45,7 @@ class _LinkedEntry<K, V> {
   _LinkedEntry([this.key, this.value]);
 }
 
-/**
- * A linked hash-table based implementation of [LruMap].
- */
+/// A linked hash-table based implementation of [LruMap].
 class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   static const _DEFAULT_MAXIMUM_SIZE = 100;
 
@@ -66,9 +56,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   _LinkedEntry<K, V> _head;
   _LinkedEntry<K, V> _tail;
 
-  /**
-   * Create a new LinkedLruHashMap with a [maximumSize].
-   */
+  /// Create a new LinkedLruHashMap with a [maximumSize].
   factory LinkedLruHashMap({int maximumSize}) =>
       new LinkedLruHashMap._fromMap(new HashMap<K, _LinkedEntry<K, V>>(),
           maximumSize: maximumSize);
@@ -80,18 +68,16 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
           // be able to respect null values coming in from MapCache.lru.
           : _maximumSize = firstNonNull(maximumSize, _DEFAULT_MAXIMUM_SIZE);
 
-  /**
-   * Adds all key-value pairs of [other] to this map.
-   *
-   * The operation is equivalent to doing this[key] = value for each key and
-   * associated value in other. It iterates over other, which must therefore not
-   * change during the iteration.
-   *
-   * If a key of [other] is already in this map, its value is overwritten. If
-   * the number of unique keys is greater than [maximumSize] then the least
-   * recently use keys are evicted. For keys written to by [other], the least
-   * recently user order is determined by [other]'s iteration order.
-   */
+  /// Adds all key-value pairs of [other] to this map.
+  ///
+  /// The operation is equivalent to doing this[key] = value for each key and
+  /// associated value in other. It iterates over other, which must therefore
+  /// not change during the iteration.
+  ///
+  /// If a key of [other] is already in this map, its value is overwritten. If
+  /// the number of unique keys is greater than [maximumSize] then the least
+  /// recently use keys are evicted. For keys written to by [other], the least
+  /// recently user order is determined by [other]'s iteration order.
   @override
   void addAll(Map<K, V> other) => other.forEach((k, v) => this[k] = v);
 
@@ -107,11 +93,10 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   @override
   bool containsValue(Object value) => values.contains(value);
 
-  /**
-   * Applies [action] to each key-value pair of the map in order of MRU to LRU.
-   *
-   * Calling `action` must not add or remove keys from the map.
-   */
+  /// Applies [action] to each key-value pair of the map in order of MRU to
+  /// LRU.
+  ///
+  /// Calling `action` must not add or remove keys from the map.
   @override
   void forEach(void action(K key, V value)) {
     var head = _head;
@@ -130,27 +115,21 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   @override
   bool get isNotEmpty => _entries.isNotEmpty;
 
-  /**
-   * Creates an [Iterable] around the entries of the map.
-   */
+  /// Creates an [Iterable] around the entries of the map.
   Iterable<_LinkedEntry<K, V>> _iterable() {
     return new GeneratingIterable<_LinkedEntry<K, V>>(
         () => _head, (n) => n.next);
   }
 
-  /**
-   * The keys of [this] - in order of MRU to LRU.
-   *
-   * The returned iterable does *not* have efficient `length` or `contains`.
-   */
+  /// The keys of [this] - in order of MRU to LRU.
+  ///
+  /// The returned iterable does *not* have efficient `length` or `contains`.
   @override
   Iterable<K> get keys => _iterable().map((e) => e.key);
 
-  /**
-   * The values of [this] - in order of MRU to LRU.
-   *
-   * The returned iterable does *not* have efficient `length` or `contains`.
-   */
+  /// The values of [this] - in order of MRU to LRU.
+  ///
+  /// The returned iterable does *not* have efficient `length` or `contains`.
   @override
   Iterable<V> get values => _iterable().map((e) => e.value);
 
@@ -166,15 +145,13 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
     _maximumSize = maximumSize;
   }
 
-  /**
-   * Look up the value associated with [key], or add a new value if it isn't
-   * there. The pair is promoted to the MRU position.
-   *
-   * Otherwise calls [ifAbsent] to get a new value, associates [key] to that
-   * [value], and then returns the new [value], with the key-value pair in the
-   * MRU position. If this causes [length] to exceed [maximumSize], then the
-   * LRU position is removed.
-   */
+  /// Look up the value associated with [key], or add a new value if it isn't
+  /// there. The pair is promoted to the MRU position.
+  ///
+  /// Otherwise calls [ifAbsent] to get a new value, associates [key] to that
+  /// [value], and then returns the new [value], with the key-value pair in the
+  /// MRU position. If this causes [length] to exceed [maximumSize], then the
+  /// LRU position is removed.
   @override
   V putIfAbsent(K key, V ifAbsent()) {
     final entry =  _entries.putIfAbsent(
@@ -186,12 +163,10 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
     return entry.value;
   }
 
-  /**
-   * Get the value for a [key] in the [Map]. The [key] will be promoted to the
-   * 'Most Recently Used' position. *NOTE*: Calling [] inside an iteration over
-   * keys/values is currently unsupported; use [keys] or [values] if you
-   * need information about entries without modifying their position.
-   */
+  /// Get the value for a [key] in the [Map]. The [key] will be promoted to the
+  /// 'Most Recently Used' position. *NOTE*: Calling [] inside an iteration
+  /// over keys/values is currently unsupported; use [keys] or [values] if you
+  /// need information about entries without modifying their position.
   @override
   V operator[](Object key) {
     final entry = _entries[key];
@@ -203,12 +178,11 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
     }
   }
 
-  /**
-   * If [key] already exists, promotes it to the MRU position & assigns [value].
-   *
-   * Otherwise, adds [key] and [value] to the MRU position.
-   * If [length] exceeds [maximumSize] while adding, removes the LRU position.
-   */
+  /// If [key] already exists, promotes it to the MRU position & assigns
+  /// [value].
+  ///
+  /// Otherwise, adds [key] and [value] to the MRU position.  If [length]
+  /// exceeds [maximumSize] while adding, removes the LRU position.
   @override
   void operator []=(K key, V value) {
     // Add this item to the MRU position.
@@ -241,9 +215,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   @override
   String toString() => Maps.mapToString(this);
 
-  /**
-   * Moves [entry] to the MRU position, shifting the linked list if necessary.
-   */
+  /// Moves [entry] to the MRU position, shifting the linked list if necessary.
   void _promoteEntry(_LinkedEntry<K, V> entry) {
     if (entry.previous != null) {
       // If already existed in the map, link previous to next.
@@ -270,18 +242,14 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
     }
   }
 
-  /**
-   * Creates and returns an entry from [key] and [value].
-   */
+  /// Creates and returns an entry from [key] and [value].
   _LinkedEntry<K, V> _createEntry(K key, V value) {
     return new _LinkedEntry<K, V>(key, value);
   }
 
-  /**
-   * If [entry] does not exist, inserts it into the backing map.
-   * If it does, replaces the existing [_LinkedEntry.value] with [entry.value].
-   * Then, in either case, promotes [entry] to the MRU position.
-   */
+  /// If [entry] does not exist, inserts it into the backing map.  If it does,
+  /// replaces the existing [_LinkedEntry.value] with [entry.value].  Then, in
+  /// either case, promotes [entry] to the MRU position.
   void _insertMru(_LinkedEntry<K, V> entry) {
     // Insert a new entry if necessary (only 1 hash lookup in entire function).
     // Otherwise, just updates the existing value.
@@ -289,9 +257,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
     _promoteEntry(_entries.putIfAbsent(entry.key, () => entry)..value = value);
   }
 
-  /**
-   * Removes the LRU position, shifting the linked list if necessary.
-   */
+  /// Removes the LRU position, shifting the linked list if necessary.
   void _removeLru() {
     // Remove the tail from the internal map.
     _entries.remove(_tail.key);

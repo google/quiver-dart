@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Collection classes and related utilities.
- */
+/// Collection classes and related utilities.
 library quiver.collection;
 
 import 'dart:collection';
@@ -33,13 +31,11 @@ part 'src/collection/delegates/map.dart';
 part 'src/collection/delegates/queue.dart';
 part 'src/collection/delegates/set.dart';
 
-/**
- * Checks [List]s [a] and [b] for equality.
- *
- * Returns `true` if [a] and [b] are both null, or they are the same length and
- * every element of [a] is equal to the corresponding element at the same index
- * in [b].
- */
+/// Checks [List]s [a] and [b] for equality.
+///
+/// Returns `true` if [a] and [b] are both null, or they are the same length
+/// and every element of [a] is equal to the corresponding element at the same
+/// index in [b].
 bool listsEqual(List a, List b) {
   if (a == b) return true;
   if (a == null || b == null) return false;
@@ -52,12 +48,10 @@ bool listsEqual(List a, List b) {
   return true;
 }
 
-/**
- * Checks [Map]s [a] and [b] for equality.
- *
- * Returns `true` if [a] and [b] are both null, or they are the same length and
- * every key `k` in [a] exists in [b] and the values `a[k] == b[k]`.
- */
+/// Checks [Map]s [a] and [b] for equality.
+///
+/// Returns `true` if [a] and [b] are both null, or they are the same length
+/// and every key `k` in [a] exists in [b] and the values `a[k] == b[k]`.
 bool mapsEqual(Map a, Map b) {
   if (a == b) return true;
   if (a == null || b == null) return false;
@@ -72,12 +66,10 @@ bool mapsEqual(Map a, Map b) {
   return true;
 }
 
-/**
- * Checks [Set]s [a] and [b] for equality.
- *
- * Returns `true` if [a] and [b] are both null, or they are the same length and
- * every element in [b] exists in [a].
- */
+/// Checks [Set]s [a] and [b] for equality.
+///
+/// Returns `true` if [a] and [b] are both null, or they are the same length and
+/// every element in [b] exists in [a].
 bool setsEqual(Set a, Set b) {
   if (a == b) return true;
   if (a == null || b == null) return false;

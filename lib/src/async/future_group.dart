@@ -14,13 +14,11 @@
 
 part of quiver.async;
 
-/**
- * A collection of [Future]s that signals when all added Futures complete. New
- * Futures can be added to the group as long as it hasn't completed.
- *
- * FutureGroup is useful for managing a set of async tasks that may spawn new
- * async tasks as they execute.
- */
+/// A collection of [Future]s that signals when all added Futures complete. New
+/// Futures can be added to the group as long as it hasn't completed.
+///
+/// FutureGroup is useful for managing a set of async tasks that may spawn new
+/// async tasks as they execute.
 class FutureGroup<E> {
   static const _FINISHED = -1;
 
@@ -29,18 +27,16 @@ class FutureGroup<E> {
   final Completer<List> _completer = new Completer<List>();
   final List results = [];
 
-  /** Gets the task that failed, if any. */
+  /// Gets the task that failed, if any.
   Future get failedTask => _failedTask;
 
-  /**
-   * Wait for [task] to complete.
-   *
-   * If this group has already been marked as completed, a [StateError] will be
-   * thrown.
-   *
-   * If this group has a [failedTask], new tasks will be ignored, because the
-   * error has already been signaled.
-   */
+  /// Wait for [task] to complete.
+  ///
+  /// If this group has already been marked as completed, a [StateError] will
+  /// be thrown.
+  ///
+  /// If this group has a [failedTask], new tasks will be ignored, because the
+  /// error has already been signaled.
   void add(Future task) {
     if (_failedTask != null) return;
     if (_pending == _FINISHED) throw new StateError("Future already completed");
@@ -63,12 +59,10 @@ class FutureGroup<E> {
     });
   }
 
-  /**
-   * A Future that complets with a List of the values from all the added
-   * tasks, when they have all completed.
-   *
-   * If any task fails, this Future will receive the error. Only the first
-   * error will be sent to the Future.
-   */
+  /// A Future that complets with a List of the values from all the added
+  /// tasks, when they have all completed.
+  ///
+  /// If any task fails, this Future will receive the error. Only the first
+  /// error will be sent to the Future.
   Future<List<E>> get future => _completer.future;
 }

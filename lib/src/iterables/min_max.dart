@@ -14,41 +14,35 @@
 
 part of quiver.iterables;
 
-/**
- * Returns the maximum value in [i], according to the order specified by the
- * [compare] function, or `null` if [i] is empty.
- *
- * The compare function must act as a [Comparator]. If [compare] is omitted,
- * [Comparable.compare] is used. If [i] contains null elements, an exception
- * will be thrown.
- *
- */
+/// Returns the maximum value in [i], according to the order specified by the
+/// [compare] function, or `null` if [i] is empty.
+///
+/// The compare function must act as a [Comparator]. If [compare] is omitted,
+/// [Comparable.compare] is used. If [i] contains null elements, an exception
+/// will be thrown.
 dynamic max(Iterable i, [Comparator compare = Comparable.compare]) =>
     i.isEmpty ? null : i.reduce((a, b) => compare(a, b) > 0 ? a : b);
 
-/**
- * Returns the minimum value in [i], according to the order specified by the
- * [compare] function, or `null` if [i] is empty.
- *
- * The compare function must act as a [Comparator]. If [compare] is omitted,
- * [Comparable.compare] is used. If [i] contains null elements, an exception
- * will be thrown.
- */
+/// Returns the minimum value in [i], according to the order specified by the
+/// [compare] function, or `null` if [i] is empty.
+///
+/// The compare function must act as a [Comparator]. If [compare] is omitted,
+/// [Comparable.compare] is used. If [i] contains null elements, an exception
+/// will be thrown.
 dynamic min(Iterable i, [Comparator compare = Comparable.compare]) =>
     i.isEmpty ? null : i.reduce((a, b) => compare(a, b) < 0 ? a : b);
 
-/**
- * Returns the minimum and maximum values in [i], according to the order
- * specified by the [compare] function, in an [Extent] instance. Always returns
- * an [Extent], but [Extent.min] and [Extent.max] may be `null` if [i] is empty.
- *
- * The compare function must act as a [Comparator]. If [compare] is omitted,
- * [Comparable.compare] is used. If [i] contains null elements, an exception
- * will be thrown.
- *
- * If [i] is empty, an [Extent] is returned with [:null:] values for [:min:] and
- * [:max:], since there are no valid values for them.
- */
+/// Returns the minimum and maximum values in [i], according to the order
+/// specified by the [compare] function, in an [Extent] instance. Always
+/// returns an [Extent], but [Extent.min] and [Extent.max] may be `null` if [i]
+/// is empty.
+///
+/// The compare function must act as a [Comparator]. If [compare] is omitted,
+/// [Comparable.compare] is used. If [i] contains null elements, an exception
+/// will be thrown.
+///
+/// If [i] is empty, an [Extent] is returned with [:null:] values for [:min:]
+/// and [:max:], since there are no valid values for them.
 Extent extent(Iterable i, [Comparator compare = Comparable.compare]) {
   var iterator = i.iterator;
   var hasNext = iterator.moveNext();

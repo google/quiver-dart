@@ -14,11 +14,9 @@
 
 part of quiver.testing.runtime;
 
-/**
- * Asserts that the current runtime has checked mode enabled.
- *
- * Otherwise, throws [StateError].
- */
+/// Asserts that the current runtime has checked mode enabled.
+///
+/// Otherwise, throws [StateError].
 void assertCheckedMode() {
   if (_isCheckedMode == null) _isCheckedMode = _checkForCheckedMode();
 

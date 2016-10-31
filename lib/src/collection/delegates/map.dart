@@ -14,18 +14,16 @@
 
 part of quiver.collection;
 
-/**
- * An implementation of [Map] that delegates all methods to another [Map].
- * For instance you can create a FruitMap like this :
- *
- *     class FruitMap extends DelegatingMap<String, Fruit> {
- *       final Map<String, Fruit> _fruits = {};
- *
- *       Map<String, Fruit> get delegate => _fruits;
- *
- *       // custom methods
- *     }
- */
+/// An implementation of [Map] that delegates all methods to another [Map].
+/// For instance you can create a FruitMap like this :
+///
+///     class FruitMap extends DelegatingMap<String, Fruit> {
+///       final Map<String, Fruit> _fruits = {};
+///
+///       Map<String, Fruit> get delegate => _fruits;
+///
+///       // custom methods
+///     }
 abstract class DelegatingMap<K, V> implements Map<K, V> {
   Map<K, V> get delegate;
 

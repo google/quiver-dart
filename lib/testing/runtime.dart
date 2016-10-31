@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Testing support related to the Dart runtime.
- */
+/// Testing support related to the Dart runtime.
 library quiver.testing.runtime;
 
 part 'src/runtime/checked_mode.dart';
