@@ -865,7 +865,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   /**
    * See [Set.difference]
    */
-  Set<V> difference(Set<V> other) {
+  Set<V> difference(Set<Object> other) {
     TreeSet<V> set = new TreeSet(comparator: comparator);
 
     if (other is TreeSet) {

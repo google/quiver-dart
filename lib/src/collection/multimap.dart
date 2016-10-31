@@ -701,7 +701,7 @@ class _WrappedSet<K, V> extends _WrappedIterable<K, V, Set<V>>
     return _delegate.containsAll(other);
   }
 
-  Set<V> difference(Set<V> other) {
+  Set<V> difference(Set<Object> other) {
     _syncDelegate();
     return _delegate.difference(other);
   }

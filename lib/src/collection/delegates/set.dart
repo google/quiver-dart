@@ -38,7 +38,7 @@ abstract class DelegatingSet<E> extends DelegatingIterable<E>
 
   bool containsAll(Iterable<Object> other) => delegate.containsAll(other);
 
-  Set<E> difference(Set<E> other) => delegate.difference(other);
+  Set<E> difference(Set<Object> other) => delegate.difference(other);
 
   Set<E> intersection(Set<Object> other) => delegate.intersection(other);
 
