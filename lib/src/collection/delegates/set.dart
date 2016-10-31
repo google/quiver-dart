@@ -14,18 +14,16 @@
 
 part of quiver.collection;
 
-/**
- * An implementation of [Set] that delegates all methods to another [Set].
- * For instance you can create a FruitSet like this :
- *
- *     class FruitSet extends DelegatingSet<Fruit> {
- *       final Set<Fruit> _fruits = new Set<Fruit>();
- *
- *       Set<Fruit> get delegate => _fruits;
- *
- *       // custom methods
- *     }
- */
+/// An implementation of [Set] that delegates all methods to another [Set].
+/// For instance you can create a FruitSet like this :
+///
+///     class FruitSet extends DelegatingSet<Fruit> {
+///       final Set<Fruit> _fruits = new Set<Fruit>();
+///
+///       Set<Fruit> get delegate => _fruits;
+///
+///       // custom methods
+///     }
 abstract class DelegatingSet<E> extends DelegatingIterable<E>
     implements Set<E> {
   Set<E> get delegate;

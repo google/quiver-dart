@@ -14,9 +14,7 @@
 
 part of quiver.iterables;
 
-/**
- * Partitions the input iterable into lists of the specified size.
- */
+/// Partitions the input iterable into lists of the specified size.
 Iterable<List> partition(Iterable iterable, int size) {
   return iterable.isEmpty ? [] : new _Partition(iterable, size);
 }

@@ -14,18 +14,16 @@
 
 part of quiver.iterables;
 
-/**
- * Returns the result of merging an [Iterable] of [Iterable]s, according to
- * the order specified by the [compare] function. This function assumes the
- * provided iterables are already sorted according to the provided [compare]
- * function. It will not check for this condition or sort the iterables.
- *
- * The compare function must act as a [Comparator]. If [compare] is omitted,
- * [Comparable.compare] is used.
- *
- * If any of the [iterables] contain null elements, an exception will be
- * thrown.
- */
+/// Returns the result of merging an [Iterable] of [Iterable]s, according to
+/// the order specified by the [compare] function. This function assumes the
+/// provided iterables are already sorted according to the provided [compare]
+/// function. It will not check for this condition or sort the iterables.
+///
+/// The compare function must act as a [Comparator]. If [compare] is omitted,
+/// [Comparable.compare] is used.
+///
+/// If any of the [iterables] contain null elements, an exception will be
+/// thrown.
 Iterable merge(Iterable<Iterable> iterables,
         [Comparator compare = Comparable.compare]) =>
     (iterables.isEmpty) ? const [] : new _Merge(iterables, compare);

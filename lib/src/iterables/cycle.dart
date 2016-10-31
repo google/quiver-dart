@@ -14,10 +14,8 @@
 
 part of quiver.iterables;
 
-/**
- * Returns an [Iterable] that infinitely cycles through the elements of
- * [iterable]. If [iterable] is empty, the returned Iterable will also be empty.
- */
+/// Returns an [Iterable] that infinitely cycles through the elements of
+/// [iterable]. If [iterable] is empty, the returned Iterable will also be empty.
 Iterable cycle(Iterable iterable) => new _Cycle(iterable);
 
 class _Cycle<T> extends InfiniteIterable<T> {

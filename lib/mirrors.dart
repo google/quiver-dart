@@ -16,21 +16,15 @@ library quiver.mirrors;
 
 import 'dart:mirrors';
 
-/**
- * Returns the qualified name of [t].
- */
+/// Returns the qualified name of [t].
 Symbol getTypeName(Type t) => reflectClass(t).qualifiedName;
 
-/**
- * Returns true if [o] implements [type].
- */
+/// Returns true if [o] implements [type].
 bool implements(Object o, Type type) =>
     classImplements(reflect(o).type, reflectClass(type));
 
-/**
- * Returns true if the class represented by [classMirror] implements the class
- * represented by [interfaceMirror].
- */
+/// Returns true if the class represented by [classMirror] implements the class
+/// represented by [interfaceMirror].
 bool classImplements(ClassMirror classMirror, ClassMirror interfaceMirror) {
   if (classMirror == null) return false;
   // TODO: change to comparing mirrors when dartbug.com/19781 is fixed
@@ -41,13 +35,11 @@ bool classImplements(ClassMirror classMirror, ClassMirror interfaceMirror) {
   return false;
 }
 
-/**
- * Walks up the class hierarchy to find a method declaration with the given
- * [name].
- *
- * Note that it's not possible to tell if there's an implementation via
- * noSuchMethod().
- */
+/// Walks up the class hierarchy to find a method declaration with the given
+/// [name].
+///
+/// Note that it's not possible to tell if there's an implementation via
+/// noSuchMethod().
 DeclarationMirror getDeclaration(ClassMirror classMirror, Symbol name) {
   if (classMirror.declarations.containsKey(name)) {
     return classMirror.declarations[name];
@@ -67,9 +59,7 @@ DeclarationMirror getDeclaration(ClassMirror classMirror, Symbol name) {
   return null;
 }
 
-/**
- * Closurzes a method reflectively.
- */
+/// Closurizes a method reflectively.
 class Method /* implements Function */ {
   final InstanceMirror mirror;
   final Symbol symbol;

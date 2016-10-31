@@ -14,140 +14,96 @@
 
 part of quiver.collection;
 
-/**
- * An associative container that maps a key to multiple values.
- *
- * Key lookups return mutable collections that are views of the multimap.
- * Updates to the multimap are reflected in these collections and similarly,
- * modifications to the returned collections are reflected in the multimap.
- */
+/// An associative container that maps a key to multiple values.
+///
+/// Key lookups return mutable collections that are views of the multimap.
+/// Updates to the multimap are reflected in these collections and similarly,
+/// modifications to the returned collections are reflected in the multimap.
 abstract class Multimap<K, V> {
-  /**
-   * Constructs a new list-backed multimap.
-   */
+  /// Constructs a new list-backed multimap.
   factory Multimap() => new ListMultimap<K, V>();
 
-  /**
-   * Constructs a new list-backed multimap. For each element e of [iterable],
-   * adds an association from [key](e) to [value](e). [key] and [value] each
-   * default to the identity function.
-   */
+  /// Constructs a new list-backed multimap. For each element e of [iterable],
+  /// adds an association from [key](e) to [value](e). [key] and [value] each
+  /// default to the identity function.
   factory Multimap.fromIterable(Iterable iterable,
       {K key(element), V value(element)}) = ListMultimap<K, V>.fromIterable;
 
-  /**
-   * Returns whether this multimap contains the given [value].
-   */
+  /// Returns whether this multimap contains the given [value].
   bool containsValue(Object value);
 
-  /**
-   * Returns whether this multimap contains the given [key].
-   */
+  /// Returns whether this multimap contains the given [key].
   bool containsKey(Object key);
 
-  /**
-   * Returns the values for the given [key]. An empty iterable is returned if
-   * [key] is not mapped. The returned collection is a view on the multimap.
-   * Updates to the collection modify the multimap and likewise, modifications
-   * to the multimap are reflected in the returned collection.
-   */
+  /// Returns the values for the given [key]. An empty iterable is returned if
+  /// [key] is not mapped. The returned collection is a view on the multimap.
+  /// Updates to the collection modify the multimap and likewise, modifications
+  /// to the multimap are reflected in the returned collection.
   Iterable<V> operator [](Object key);
 
-  /**
-   * Adds an association from the given key to the given value.
-   */
+  /// Adds an association from the given key to the given value.
   void add(K key, V value);
 
-  /**
-   * Adds an association from the given key to each of the given values.
-   */
+  /// Adds an association from the given key to each of the given values.
   void addValues(K key, Iterable<V> values);
 
-  /**
-   * Adds all associations of [other] to this multimap.
-   *
-   * The operation is equivalent to doing `this[key] = value` for each key
-   * and associated value in other. It iterates over [other], which must
-   * therefore not change during the iteration.
-   */
+  /// Adds all associations of [other] to this multimap.
+  ///
+  /// The operation is equivalent to doing `this[key] = value` for each key and
+  /// associated value in other. It iterates over [other], which must therefore
+  /// not change during the iteration.
   void addAll(Multimap<K, V> other);
 
-  /**
-   * Removes the association between the given [key] and [value]. Returns
-   * `true` if the association existed, `false` otherwise.
-   */
+  /// Removes the association between the given [key] and [value]. Returns
+  /// `true` if the association existed, `false` otherwise.
   bool remove(Object key, V value);
 
-  /**
-   * Removes the association for the given [key]. Returns the collection of
-   * removed values, or an empty iterable if [key] was unmapped.
-   */
+  /// Removes the association for the given [key]. Returns the collection of
+  /// removed values, or an empty iterable if [key] was unmapped.
   Iterable<V> removeAll(Object key);
 
-  /**
-   * Removes all data from the multimap.
-   */
+  /// Removes all data from the multimap.
   void clear();
 
-  /**
-   * Applies [f] to each {key, Iterable<value>} pair of the multimap.
-   *
-   * It is an error to add or remove keys from the map during iteration.
-   */
+  /// Applies [f] to each {key, Iterable<value>} pair of the multimap.
+  ///
+  /// It is an error to add or remove keys from the map during iteration.
   void forEachKey(void f(K key, Iterable<V> value));
 
-  /**
-   * Applies [f] to each {key, value} pair of the multimap.
-   *
-   * It is an error to add or remove keys from the map during iteration.
-   */
+  /// Applies [f] to each {key, value} pair of the multimap.
+  ///
+  /// It is an error to add or remove keys from the map during iteration.
   void forEach(void f(K key, V value));
 
-  /**
-   * The keys of [this].
-   */
+  /// The keys of [this].
   Iterable<K> get keys;
 
-  /**
-   * The values of [this].
-   */
+  /// The values of [this].
   Iterable<V> get values;
 
-  /**
-   * Returns a view of this multimap as a map.
-   */
+  /// Returns a view of this multimap as a map.
   Map<K, Iterable<V>> asMap();
 
-  /**
-   * The number of keys in the multimap.
-   */
+  /// The number of keys in the multimap.
   int get length;
 
-  /**
-   * Returns true if there is no key in the multimap.
-   */
+  /// Returns true if there is no key in the multimap.
   bool get isEmpty;
 
-  /**
-   * Returns true if there is at least one key in the multimap.
-   */
+  /// Returns true if there is at least one key in the multimap.
   bool get isNotEmpty;
 }
 
-/**
- * Abstract base class for multimap implementations.
- */
+/// Abstract base class for multimap implementations.
 abstract class _BaseMultimap<K, V, C extends Iterable<V>>
     implements Multimap<K, V> {
   static /*=T*/ _id/*<T>*/(/*=T*/ x) => x;
 
   _BaseMultimap();
 
-  /**
-   * Constructs a new multimap. For each element e of [iterable], adds an
-   * association from [key](e) to [value](e). [key] and [value] each default to
-   * the identity function.
-   */
+  /// Constructs a new multimap. For each element e of [iterable], adds an
+  /// association from [key](e) to [value](e). [key] and [value] each default
+  /// to the identity function.
   _BaseMultimap.fromIterable(Iterable iterable,
       {K key(element), V value(element)}) {
     key ??= _id;
@@ -187,16 +143,14 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
     _addAll(_map[key], values);
   }
 
-  /**
-   * Adds all associations of [other] to this multimap.
-   *
-   * The operation is equivalent to doing `this[key] = value` for each key
-   * and associated value in other. It iterates over [other], which must
-   * therefore not change during the iteration.
-   *
-   * This implementation iterates through each key of [other] and adds the
-   * associated values to this instance via [addValues].
-   */
+  /// Adds all associations of [other] to this multimap.
+  ///
+  /// The operation is equivalent to doing `this[key] = value` for each key and
+  /// associated value in other. It iterates over [other], which must therefore
+  /// not change during the iteration.
+  ///
+  /// This implementation iterates through each key of [other] and adds the
+  /// associated values to this instance via [addValues].
   void addAll(Multimap<K, V> other) => other.forEachKey(addValues);
 
   bool remove(Object key, V value) {
@@ -238,18 +192,14 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
   bool get isNotEmpty => _map.isNotEmpty;
 }
 
-/**
- * A multimap implementation that uses [List]s to store the values associated
- * with each key.
- */
+/// A multimap implementation that uses [List]s to store the values associated
+/// with each key.
 class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
   ListMultimap();
 
-  /**
-   * Constructs a new list-backed multimap. For each element e of [iterable],
-   * adds an association from [key](e) to [value](e). [key] and [value] each
-   * default to the identity function.
-   */
+  /// Constructs a new list-backed multimap. For each element e of [iterable],
+  /// adds an association from [key](e) to [value](e). [key] and [value] each
+  /// default to the identity function.
   ListMultimap.fromIterable(Iterable iterable,
       {K key(element), V value(element)})
       : super.fromIterable(iterable, key: key, value: value);
@@ -275,18 +225,14 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
   Map<K, List<V>> asMap() => new _WrappedMap<K, V, List<V>>(this);
 }
 
-/**
- * A multimap implementation that uses [Set]s to store the values associated
- * with each key.
- */
+/// A multimap implementation that uses [Set]s to store the values associated
+/// with each key.
 class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
   SetMultimap();
 
-  /**
-   * Constructs a new set-backed multimap. For each element e of [iterable],
-   * adds an association from [key](e) to [value](e). [key] and [value] each
-   * default to the identity function.
-   */
+  /// Constructs a new set-backed multimap. For each element e of [iterable],
+  /// adds an association from [key](e) to [value](e). [key] and [value] each
+  /// default to the identity function.
   SetMultimap.fromIterable(Iterable iterable,
       {K key(element), V value(element)})
       : super.fromIterable(iterable, key: key, value: value);
@@ -312,9 +258,7 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
   Map<K, Set<V>> asMap() => new _WrappedMap<K, V, Set<V>>(this);
 }
 
-/**
- * A [Map] that delegates its operations to an underlying multimap.
- */
+/// A [Map] that delegates its operations to an underlying multimap.
 class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   final _BaseMultimap<K, V, C> _multimap;
 
@@ -346,9 +290,7 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   Iterable<C> get values => _multimap._groupedValues;
 }
 
-/**
- * Iterable wrapper that syncs to an underlying map.
- */
+/// Iterable wrapper that syncs to an underlying map.
 class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   final K _key;
   final Map<K, C> _map;
@@ -358,14 +300,12 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
 
   _addToMap() => _map[_key] = _delegate;
 
-  /**
-   * Ensures we hold an up-to-date delegate. In the case where all mappings for
-   * _key are removed from the multimap, the Iterable referenced by _delegate is
-   * removed from the underlying map. At that point, any new addition via the
-   * multimap triggers the creation of a new Iterable, and the empty delegate
-   * we hold would be stale. As such, we check the underlying map and update
-   * our delegate when the one we hold is empty.
-   */
+  /// Ensures we hold an up-to-date delegate. In the case where all mappings
+  /// for _key are removed from the multimap, the Iterable referenced by
+  /// _delegate is removed from the underlying map. At that point, any new
+  /// addition via the multimap triggers the creation of a new Iterable, and
+  /// the empty delegate we hold would be stale. As such, we check the
+  /// underlying map and update our delegate when the one we hold is empty.
   _syncDelegate() {
     if (_delegate.isEmpty) {
       var updated = _map[_key];

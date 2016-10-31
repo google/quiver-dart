@@ -14,47 +14,35 @@
 
 part of quiver.collection;
 
-/**
- * A bi-directional map whose key-value pairs form a one-to-one correspondence.
- * BiMaps support an `inverse` property which gives access to an inverted view
- * of the map, such that there is a mapping (v, k) for each pair (k, v) in the
- * original map. Since a one-to-one key-value invariant applies, it is an error
- * to insert duplicate values into this map. It is also an error to insert null
- * keys or values into this map.
- */
+/// A bi-directional map whose key-value pairs form a one-to-one
+/// correspondence.  BiMaps support an `inverse` property which gives access to
+/// an inverted view of the map, such that there is a mapping (v, k) for each
+/// pair (k, v) in the original map. Since a one-to-one key-value invariant
+/// applies, it is an error to insert duplicate values into this map. It is
+/// also an error to insert null keys or values into this map.
 abstract class BiMap<K, V> implements Map<K, V> {
-  /**
-   * Creates a BiMap instance with the default implementation.
-   */
+  /// Creates a BiMap instance with the default implementation.
   factory BiMap() => new HashBiMap();
 
-  /**
-   * Adds an association between key and value.
-   *
-   * Throws [ArgumentError] if an association involving [value] exists in the
-   * map; otherwise, the association is inserted, overwriting any existing
-   * association for the key.
-   */
+  /// Adds an association between key and value.
+  ///
+  /// Throws [ArgumentError] if an association involving [value] exists in the
+  /// map; otherwise, the association is inserted, overwriting any existing
+  /// association for the key.
   void operator []=(K key, V value);
 
-  /**
-   * Replaces any existing associations(s) involving key and value.
-   *
-   * If an association involving [key] or [value] exists in the map, it is
-   * removed.
-   */
+  /// Replaces any existing associations(s) involving key and value.
+  ///
+  /// If an association involving [key] or [value] exists in the map, it is
+  /// removed.
   void replace(K key, V value);
 
-  /**
-   * Returns the inverse of this map, with key-value pairs (v, k) for each
-   * pair (k, v) in this map.
-   */
+  /// Returns the inverse of this map, with key-value pairs (v, k) for each pair
+  /// (k, v) in this map.
   BiMap<V, K> get inverse;
 }
 
-/**
- * A hash-table based implementation of BiMap.
- */
+/// A hash-table based implementation of BiMap.
 class HashBiMap<K, V> implements BiMap<K, V> {
   final Map<K, V> _map;
   final Map<V, K> _inverse;

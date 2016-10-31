@@ -14,12 +14,10 @@
 
 part of quiver.iterables;
 
-/**
- * Returns an [Iterable] of [List]s where the nth element in the returned
- * iterable contains the nth element from every Iterable in [iterables]. The
- * returned Iterable is as long as the shortest Iterable in the argument. If
- * [iterables] is empty, it returns an empty list.
- */
+/// Returns an [Iterable] of [List]s where the nth element in the returned
+/// iterable contains the nth element from every Iterable in [iterables]. The
+/// returned Iterable is as long as the shortest Iterable in the argument. If
+/// [iterables] is empty, it returns an empty list.
 Iterable<List> zip(Iterable<Iterable> iterables) =>
     (iterables.isEmpty) ? const [] : new _Zip(iterables);
 

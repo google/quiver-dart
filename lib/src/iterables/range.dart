@@ -14,18 +14,17 @@
 
 part of quiver.iterables;
 
-/**
- * Returns an [Iterable] sequence of [num]s.
- *
- * If only one argument is provided, [start_or_stop] is the upper bound for the
- * sequence. If two or more arguments are provided, [stop] is the upper bound.
- *
- * The sequence starts at 0 if one argument is provided, or [start_or_stop] if
- * two or more arguments are provided. The sequence increments by 1, or [step]
- * if provided. [step] can be negative, in which case the sequence counts down
- * from the starting point and [stop] must be less than the starting point so
- * that it becomes the lower bound.
- */
+/// Returns an [Iterable] sequence of [num]s.
+///
+/// If only one argument is provided, [start_or_stop] is the upper bound for
+/// the sequence. If two or more arguments are provided, [stop] is the upper
+/// bound.
+///
+/// The sequence starts at 0 if one argument is provided, or [start_or_stop] if
+/// two or more arguments are provided. The sequence increments by 1, or [step]
+/// if provided. [step] can be negative, in which case the sequence counts down
+/// from the starting point and [stop] must be less than the starting point so
+/// that it becomes the lower bound.
 Iterable<num> range(num start_or_stop, [num stop, num step]) =>
     new _Range(start_or_stop, stop, step);
 

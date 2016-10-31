@@ -14,25 +14,21 @@
 
 part of quiver.testing.async;
 
-/**
- * DEPRECATED: Use a much more feature-rich FakeAsync instead.
- *
- * A [Timer] implementation that stores its duration and callback for access
- * in tests.
- */
+/// DEPRECATED: Use a much more feature-rich FakeAsync instead.
+///
+/// A [Timer] implementation that stores its duration and callback for access
+/// in tests.
 @deprecated
 class FakeTimer implements Timer {
   Duration duration;
   var callback;
   var onCancel;
 
-  /**
-   * Sets this timers [duration] and [callback] and returns [this].
-   *
-   * This method is usable as a [CreateTimer] or [CreateTimerPeriodic]
-   * function. In tests, construct a FakeTimer so that you have a refernece to
-   * it, then pass [create] to the function or class under test.
-   */
+  /// Sets this timers [duration] and [callback] and returns [this].
+  ///
+  /// This method is usable as a [CreateTimer] or [CreateTimerPeriodic]
+  /// function. In tests, construct a FakeTimer so that you have a refernece to
+  /// it, then pass [create] to the function or class under test.
   FakeTimer create(Duration duration, callback) {
     if (this.duration != null) {
       throw new StateError("FakeTimer.create already called");

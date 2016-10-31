@@ -14,19 +14,16 @@
 
 part of quiver.collection;
 
-/**
- * An implementation of [Iterable] that delegates all methods to another
- * [Iterable].
- * For instance you can create a FruitIterable like this :
- *
- *     class FruitIterable extends DelegatingIterable<Fruit> {
- *       final Iterable<Fruit> _fruits = [];
- *
- *       Iterable<Fruit> get delegate => _fruits;
- *
- *       // custom methods
- *     }
- */
+/// An implementation of [Iterable] that delegates all methods to another
+/// [Iterable].  For instance you can create a FruitIterable like this :
+///
+///     class FruitIterable extends DelegatingIterable<Fruit> {
+///       final Iterable<Fruit> _fruits = [];
+///
+///       Iterable<Fruit> get delegate => _fruits;
+///
+///       // custom methods
+///     }
 abstract class DelegatingIterable<E> implements Iterable<E> {
   Iterable<E> get delegate;
 

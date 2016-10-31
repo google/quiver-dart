@@ -14,25 +14,23 @@
 
 part of quiver.async;
 
-/**
- * A Stream that will emit the same values as the stream returned by [future]
- * once [future] completes.
- *
- * If [future] completes to an error, the return value will emit that error and
- * then close.
- *
- * If [broadcast] is true, this will be a broadcast stream. This assumes that
- * the stream returned by [future] will be a broadcast stream as well.
- * [broadcast] defaults to false.
- *
- * # Example
- *
- * This class is useful when you need to retreive some object via a `Future`,
- * then return a `Stream` from that object:
- *
- *     var futureOfStream = getResource().then((resource) => resource.stream);
- *     return new FutureStream(futureOfStream);
- */
+/// A Stream that will emit the same values as the stream returned by [future]
+/// once [future] completes.
+///
+/// If [future] completes to an error, the return value will emit that error
+/// and then close.
+///
+/// If [broadcast] is true, this will be a broadcast stream. This assumes that
+/// the stream returned by [future] will be a broadcast stream as well.
+/// [broadcast] defaults to false.
+///
+/// # Example
+///
+/// This class is useful when you need to retreive some object via a `Future`,
+/// then return a `Stream` from that object:
+///
+///     var futureOfStream = getResource().then((resource) => resource.stream);
+///     return new FutureStream(futureOfStream);
 class FutureStream<T> extends Stream<T> {
   static /*=T*/ _identity/*<T>*/(/*=T*/ t) => t;
 

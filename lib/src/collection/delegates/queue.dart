@@ -14,18 +14,16 @@
 
 part of quiver.collection;
 
-/**
- * An implementation of [Queue] that delegates all methods to another [Queue].
- * For instance you can create a FruitQueue like this :
- *
- *     class FruitQueue extends DelegatingQueue<Fruit> {
- *       final Queue<Fruit> _fruits = new Queue<Fruit>();
- *
- *       Queue<Fruit> get delegate => _fruits;
- *
- *       // custom methods
- *     }
- */
+/// An implementation of [Queue] that delegates all methods to another [Queue].
+/// For instance you can create a FruitQueue like this :
+///
+///     class FruitQueue extends DelegatingQueue<Fruit> {
+///       final Queue<Fruit> _fruits = new Queue<Fruit>();
+///
+///       Queue<Fruit> get delegate => _fruits;
+///
+///       // custom methods
+///     }
 abstract class DelegatingQueue<E> extends DelegatingIterable<E>
     implements Queue<E> {
   Queue<E> get delegate;

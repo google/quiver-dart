@@ -238,10 +238,8 @@ class _NonReflexiveObject {
   int get hashCode => super.hashCode;
 }
 
-/**
- * Test class with valid equals and hashCode methods. Testers created
- * with instances of this class should always pass.
- */
+/// Test class with valid equals and hashCode methods. Testers created
+/// with instances of this class should always pass.
 class _ValidTestObject {
   int aspect1;
   int aspect2;

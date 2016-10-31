@@ -14,10 +14,8 @@
 
 part of quiver.async;
 
-/**
- * Underflow errors happen when the socket feeding a buffer is finished while
- * there are still blocked readers. Each reader will complete with this error.
- */
+/// Underflow errors happen when the socket feeding a buffer is finished while
+/// there are still blocked readers. Each reader will complete with this error.
 class UnderflowError extends Error {
   final message;
 
@@ -32,20 +30,18 @@ class UnderflowError extends Error {
   }
 }
 
-/**
- * Allow orderly reading of elements from a datastream, such as Socket, which
- * might not receive List<int> bytes regular chunks.
- *
- * Example usage:
- *     StreamBuffer<int> buffer = new StreamBuffer();
- *     Socket.connect('127.0.0.1', 5555).then((sock) => sock.pipe(buffer));
- *     buffer.read(100).then((bytes) {
- *       // do something with 100 bytes;
- *     });
- *
- * Throws [UnderflowError] if [throwOnError] is true. Useful for unexpected
- * [Socket] disconnects.
- */
+/// Allow orderly reading of elements from a datastream, such as Socket, which
+/// might not receive List<int> bytes regular chunks.
+///
+/// Example usage:
+///     StreamBuffer<int> buffer = new StreamBuffer();
+///     Socket.connect('127.0.0.1', 5555).then((sock) => sock.pipe(buffer));
+///     buffer.read(100).then((bytes) {
+///       // do something with 100 bytes;
+///     });
+///
+/// Throws [UnderflowError] if [throwOnError] is true. Useful for unexpected
+/// [Socket] disconnects.
 class StreamBuffer<T> implements StreamConsumer<dynamic/*T|List<T>*/> {
   List _chunks = [];
   int _offset = 0;
@@ -75,18 +71,14 @@ class StreamBuffer<T> implements StreamConsumer<dynamic/*T|List<T>*/> {
 
   bool get limited => _limit > 0;
 
-  /**
-   * Create a stream buffer with optional, soft [limit] to the amount of data
-   * the buffer will hold before pausing the underlying stream. A limit of 0
-   * means no buffer limits.
-   */
+  /// Create a stream buffer with optional, soft [limit] to the amount of data
+  /// the buffer will hold before pausing the underlying stream. A limit of 0
+  /// means no buffer limits.
   StreamBuffer({bool throwOnError: false, int limit: 0})
       : this._throwOnError = throwOnError,
         this._limit = limit;
 
-  /**
-   * The amount of unread data buffered.
-   */
+  /// The amount of unread data buffered.
   int get buffered => _counter;
 
   List<T> _consume(int size) {
@@ -118,11 +110,9 @@ class StreamBuffer<T> implements StreamConsumer<dynamic/*T|List<T>*/> {
     return ret;
   }
 
-  /**
-   * Read fully [size] bytes from the stream and return in the future.
-   *
-   * Throws [ArgumentError] if size is larger than optional buffer [limit].
-   */
+  /// Read fully [size] bytes from the stream and return in the future.
+  ///
+  /// Throws [ArgumentError] if size is larger than optional buffer [limit].
   Future<List<T>> read(int size) {
     if (limited && size > limit) {
       throw new ArgumentError("Cannot read $size with limit $limit");

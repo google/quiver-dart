@@ -14,25 +14,17 @@
 
 library quiver.strings;
 
-/**
- * Returns [true] if [s] is either null, empty or is solely made of whitespace
- * characters (as defined by [String.trim]).
- */
+/// Returns [true] if [s] is either null, empty or is solely made of whitespace
+/// characters (as defined by [String.trim]).
 bool isBlank(String s) => s == null || s.trim().isEmpty;
 
-/**
- * Returns [true] if [s] is either null or empty.
- */
+/// Returns [true] if [s] is either null or empty.
 bool isEmpty(String s) => s == null || s.isEmpty;
 
-/**
- * Returns [true] if [s] is a not empty string.
- */
+/// Returns [true] if [s] is a not empty string.
 bool isNotEmpty(String s) => s != null && s.isNotEmpty;
 
-/**
- * Returns a string with characters from the given [s] in reverse order.
- */
+/// Returns a string with characters from the given [s] in reverse order.
 String flip(String s) {
   if (s == null || s == '') return s;
   StringBuffer sb = new StringBuffer();
@@ -43,14 +35,12 @@ String flip(String s) {
   return sb.toString();
 }
 
-/**
- * Concatenates [s] to itself a given number of [times]. Empty and null
- * strings will always result in empty and null strings respectively no matter
- * how many [times] they are [repeat]ed.
- *
- * If [times] is negative, returns the [flip]ped string repeated given number
- * of [times].
- */
+/// Concatenates [s] to itself a given number of [times]. Empty and null
+/// strings will always result in empty and null strings respectively no matter
+/// how many [times] they are [repeat]ed.
+///
+/// If [times] is negative, returns the [flip]ped string repeated given number
+/// of [times].
 String repeat(String s, int times) {
   if (s == null || s == '') return s;
   if (times < 0) {
@@ -61,28 +51,26 @@ String repeat(String s, int times) {
   return sink.toString();
 }
 
-/**
- * Loops over [s] and returns traversed characters. Takes arbitrary [from] and
- * [to] indices. Works as a substitute for [String.substring], except it never
- * throws [RangeError]. Supports negative indices. Think of an index as a
- * coordinate in an infinite in both directions vector filled with repeating
- * string [s], whose 0-th coordinate coincides with the 0-th character in [s].
- * Then [loop] returns the sub-vector defined by the interval ([from], [to]).
- * [from] is inclusive. [to] is exclusive.
- *
- * This method throws exceptions on [null] and empty strings.
- *
- * If [to] is omitted or is [null] the traversing ends at the end of the loop.
- *
- * If [to] < [from], traverses [s] in the opposite direction.
- *
- * For example:
- *
- * loop('Hello, World!', 7) == 'World!'
- * loop('ab', 0, 6) == 'ababab'
- * loop('test.txt', -3) == 'txt'
- * loop('ldwor', -3, 2) == 'world'
- */
+/// Loops over [s] and returns traversed characters. Takes arbitrary [from] and
+/// [to] indices. Works as a substitute for [String.substring], except it never
+/// throws [RangeError]. Supports negative indices. Think of an index as a
+/// coordinate in an infinite in both directions vector filled with repeating
+/// string [s], whose 0-th coordinate coincides with the 0-th character in [s].
+/// Then [loop] returns the sub-vector defined by the interval ([from], [to]).
+/// [from] is inclusive. [to] is exclusive.
+///
+/// This method throws exceptions on [null] and empty strings.
+///
+/// If [to] is omitted or is [null] the traversing ends at the end of the loop.
+///
+/// If [to] < [from], traverses [s] in the opposite direction.
+///
+/// For example:
+///
+/// loop('Hello, World!', 7) == 'World!'
+/// loop('ab', 0, 6) == 'ababab'
+/// loop('test.txt', -3) == 'txt'
+/// loop('ldwor', -3, 2) == 'world'
 String loop(String s, int from, [int to]) {
   if (s == null || s == '') {
     throw new ArgumentError('Input string cannot be null or empty');
@@ -112,22 +100,18 @@ void _repeat(StringBuffer sink, String s, int times) {
   }
 }
 
-/**
- * Returns `true` if [rune] represents a digit.
- *
- * The definition of digit matches the Unicode `0x3?` range of Western European
- * digits.
- */
+/// Returns `true` if [rune] represents a digit.
+///
+/// The definition of digit matches the Unicode `0x3?` range of Western
+/// European digits.
 bool isDigit(int rune) => rune ^ 0x30 <= 9;
 
-/**
- * Returns `true` if [rune] represents a whitespace character.
- *
- * The definition of whitespace matches that used in [String.trim] which is
- * based on Unicode 6.2. This maybe be a different set of characters than the
- * environment's [RegExp] definition for whitespace, which is given by the
- * ECMAScript standard: http://ecma-international.org/ecma-262/5.1/#sec-15.10
- */
+/// Returns `true` if [rune] represents a whitespace character.
+///
+/// The definition of whitespace matches that used in [String.trim] which is
+/// based on Unicode 6.2. This maybe be a different set of characters than the
+/// environment's [RegExp] definition for whitespace, which is given by the
+/// ECMAScript standard: http://ecma-international.org/ecma-262/5.1/#sec-15.10
 bool isWhitespace(int rune) => ((rune >= 0x0009 && rune <= 0x000D) ||
     rune == 0x0020 ||
     rune == 0x0085 ||
@@ -142,18 +126,17 @@ bool isWhitespace(int rune) => ((rune >= 0x0009 && rune <= 0x000D) ||
     rune == 0x3000 ||
     rune == 0xFEFF);
 
-/**
- * Returns a [String] of length [width] padded with the same number of
- * characters on the left and right from [fill].  On the right, characters are
- * selected from [fill] starting at the end so that the last character in [fill]
- * is the last character in the result. [fill] is repeated if neccessary to pad.
- *
- * Returns [input] if `input.length` is equal to or greater than width. [input]
- * can be `null` and is treated as an empty string.
- *
- * If there are an odd number of characters to pad, then the right will be
- * padded with one more than the left.
- */
+/// Returns a [String] of length [width] padded with the same number of
+/// characters on the left and right from [fill].  On the right, characters are
+/// selected from [fill] starting at the end so that the last character in
+/// [fill] is the last character in the result. [fill] is repeated if
+/// neccessary to pad.
+///
+/// Returns [input] if `input.length` is equal to or greater than width.
+/// [input] can be `null` and is treated as an empty string.
+///
+/// If there are an odd number of characters to pad, then the right will be
+/// padded with one more than the left.
 String center(String input, int width, String fill) {
   if (fill == null || fill.length == 0) {
     throw new ArgumentError('fill cannot be null or empty');
@@ -168,17 +151,13 @@ String center(String input, int width, String fill) {
   return input + loop(fill, input.length - width, 0);
 }
 
-/**
- * Returns `true` if [a] and [b] are equal after being converted to lower case,
- * or are both null.
- */
+/// Returns `true` if [a] and [b] are equal after being converted to lower
+/// case, or are both null.
 bool equalsIgnoreCase(String a, String b) => (a == null && b == null) ||
     (a != null && b != null && a.toLowerCase() == b.toLowerCase());
 
-/**
- * Compares [a] and [b] after converting to lower case.
- *
- * Both [a] and [b] must not be null.
- */
+/// Compares [a] and [b] after converting to lower case.
+///
+/// Both [a] and [b] must not be null.
 int compareIgnoreCase(String a, String b) =>
     a.toLowerCase().compareTo(b.toLowerCase());

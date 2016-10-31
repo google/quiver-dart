@@ -12,9 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Testing support for dart:core time functionality.
- */
+/// Testing support for dart:core time functionality.
 library quiver.testing.time;
 
 part 'src/time/time.dart';

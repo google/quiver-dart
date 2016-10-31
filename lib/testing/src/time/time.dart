@@ -14,15 +14,11 @@
 
 part of quiver.testing.time;
 
-/**
- * Returns the current test time in microseconds.
- */
+/// Returns the current test time in microseconds.
 typedef int Now();
 
-/**
- * A [Stopwatch] implementation that gets the current time in microseconds
- * via a user-supplied function.
- */
+/// A [Stopwatch] implementation that gets the current time in microseconds
+/// via a user-supplied function.
 class FakeStopwatch implements Stopwatch {
   Now _now;
   int frequency;

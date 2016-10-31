@@ -16,17 +16,15 @@ part of quiver.pattern;
 
 // TODO(justin): add more detailed documentation and explain how matching
 // differs or is similar to globs in Python and various shells.
-/**
- * A [Pattern] that matches against filesystem path-like strings with
- * wildcards.
- *
- * The pattern matches strings as follows:
- *   * The whole string must match, not a substring
- *   * Any non wildcard is matched as a literal
- *   * '*' matches one or more characters except '/'
- *   * '?' matches exactly one character except '/'
- *   * '**' matches one or more characters including '/'
- */
+/// A [Pattern] that matches against filesystem path-like strings with
+/// wildcards.
+///
+/// The pattern matches strings as follows:
+///   * The whole string must match, not a substring
+///   * Any non wildcard is matched as a literal
+///   * '*' matches one or more characters except '/'
+///   * '?' matches exactly one character except '/'
+///   * '**' matches one or more characters including '/'
 class Glob implements Pattern {
   final RegExp regex;
   final String pattern;
