@@ -64,9 +64,9 @@ class _EqualityGroupMatcher extends Matcher {
       description.add('to be equality groups');
 
   @override
-  bool matches(Map<String, List> item, Map matchState) {
+  bool matches(item, Map matchState) {
     try {
-      _verifyEqualityGroups(item, matchState);
+      _verifyEqualityGroups(item as Map<String, List>, matchState);
       return true;
     } on MatchError catch (e) {
       matchState[failureReason] = e.toString();
