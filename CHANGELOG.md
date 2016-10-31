@@ -1,5 +1,7 @@
-#### Unreleased
+#### 0.24.0 - 2016-10-31
    * BREAKING CHANGE: eliminated deprecated `nullToEmpty`, `emptyToNull`.
+   * Fix: Strong mode: As of Dart SDK 1.21.0, `Set.difference` takes a
+     `Set<Object>` parameter.
 
 #### 0.23.0 - 2016-09-21
    * Strings: `nullToEmpty`, `emptyToNull` deprecated. Removal in 0.24.0.
