@@ -28,9 +28,10 @@ main() {
         var stopwatch = new FakeStopwatch(
             () => 1000 * clock.now().millisecondsSinceEpoch, 1000000);
 
-        var timings = new CountdownTimer(
-            new Duration(milliseconds: 500), new Duration(milliseconds: 100),
-            stopwatch: stopwatch).map((c) => c.remaining.inMilliseconds);
+        var timings = new CountdownTimer(const Duration(milliseconds: 500),
+                const Duration(milliseconds: 100),
+                stopwatch: stopwatch)
+            .map((c) => c.remaining.inMilliseconds);
 
         List<int> result;
         timings.toList().then((list) {

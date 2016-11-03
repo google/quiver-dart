@@ -43,8 +43,12 @@ main() {
       expect(
           new DateTime.now().difference(new Clock().now()).inMilliseconds.abs(),
           lessThan(epsilon));
-      expect(new DateTime.now().difference(const Clock().now()).inMilliseconds
-          .abs(), lessThan(epsilon));
+      expect(
+          new DateTime.now()
+              .difference(const Clock().now())
+              .inMilliseconds
+              .abs(),
+          lessThan(epsilon));
     });
 
     test('should return time provided by custom TimeFunction', () {
@@ -61,31 +65,35 @@ main() {
     });
 
     test('should return time Duration ago', () {
-      expect(subject.agoBy(new Duration(days: 366)), new DateTime(2012));
+      expect(subject.agoBy(const Duration(days: 366)), new DateTime(2012));
     });
 
     test('should return time Duration from now', () {
-      expect(subject.fromNowBy(new Duration(days: 365)), new DateTime(2014));
+      expect(subject.fromNowBy(const Duration(days: 365)), new DateTime(2014));
     });
 
     test('should return time parts ago', () {
-      expect(subject.ago(
-          days: 1,
-          hours: 1,
-          minutes: 1,
-          seconds: 1,
-          milliseconds: 1,
-          microseconds: 1000), new DateTime(2012, 12, 30, 22, 58, 58, 998));
+      expect(
+          subject.ago(
+              days: 1,
+              hours: 1,
+              minutes: 1,
+              seconds: 1,
+              milliseconds: 1,
+              microseconds: 1000),
+          new DateTime(2012, 12, 30, 22, 58, 58, 998));
     });
 
     test('should return time parts from now', () {
-      expect(subject.fromNow(
-          days: 1,
-          hours: 1,
-          minutes: 1,
-          seconds: 1,
-          milliseconds: 1,
-          microseconds: 1000), new DateTime(2013, 1, 2, 1, 1, 1, 2));
+      expect(
+          subject.fromNow(
+              days: 1,
+              hours: 1,
+              minutes: 1,
+              seconds: 1,
+              milliseconds: 1,
+              microseconds: 1000),
+          new DateTime(2013, 1, 2, 1, 1, 1, 2));
     });
 
     test('should return time micros ago', () {
