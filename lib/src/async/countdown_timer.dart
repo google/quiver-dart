@@ -24,8 +24,9 @@ class CountdownTimer extends Stream<CountdownTimer> {
   static const _THRESHOLD_MS = 4;
 
   final Duration _duration;
-  final Duration _increment;
   final Stopwatch _stopwatch;
+
+  final Duration increment;
   final StreamController<CountdownTimer> _controller;
   Timer _timer;
 
@@ -37,7 +38,7 @@ class CountdownTimer extends Stream<CountdownTimer> {
   /// and [FakeStopwatch].
   CountdownTimer(Duration duration, Duration increment, {Stopwatch stopwatch})
       : _duration = duration,
-        _increment = increment,
+        increment = increment,
         _stopwatch = stopwatch == null ? new Stopwatch() : stopwatch,
         _controller = new StreamController<CountdownTimer>.broadcast(
             sync: true) {
