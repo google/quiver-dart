@@ -951,7 +951,7 @@ class Pair {
   final x;
   final y;
   Pair(this.x, this.y);
-  bool operator ==(Pair other) {
+  bool operator ==(other) {
     if (x != other.x) return false;
     return equals(y).matches(other.y, {});
   }
