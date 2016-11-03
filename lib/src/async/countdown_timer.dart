@@ -26,6 +26,7 @@ class CountdownTimer extends Stream<CountdownTimer> {
   final Duration _duration;
   final Stopwatch _stopwatch;
 
+  /// The duration between timer events.
   final Duration increment;
   final StreamController<CountdownTimer> _controller;
   Timer _timer;
