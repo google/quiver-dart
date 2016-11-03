@@ -96,12 +96,9 @@ void main() {
     });
 
     test('forEach should iterate over all key-value pairs', () {
-      var results = [];
-      map.forEach((k, v) => results.add(new Pair(k, v)));
-      expect(results, unorderedEquals([
-          new Pair('k1', ['v1', 'v2']),
-          new Pair('k2', ['v3'])
-      ]));
+      expect(map, hasLength(2));
+      expect(map, containsPair('k1', ['v1', 'v2']));
+      expect(map, containsPair('k2', ['v3']));
     });
 
     test('isEmpty should return whether the map contains key-value pairs', () {
