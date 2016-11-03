@@ -42,5 +42,11 @@ main() {
         expect(result, [400, 300, 200, 100, 0]);
       });
     });
+
+    test('should set increment to the initialized value', () {
+      var timer = new CountdownTimer(
+          const Duration(milliseconds: 321), const Duration(milliseconds: 123));
+      expect(timer.increment, const Duration(milliseconds: 123));
+    });
   });
 }
