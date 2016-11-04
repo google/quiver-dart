@@ -1,3 +1,8 @@
+#### Unreleased
+   * Deprecated: `FutureGroup`. Use the replacement in `package:async` which
+     requires a `close()` call to trigger auto-completion when the count of
+     pending tasks drops to 0.
+
 #### 0.24.0 - 2016-10-31
    * BREAKING CHANGE: eliminated deprecated `nullToEmpty`, `emptyToNull`.
    * Fix: Strong mode: As of Dart SDK 1.21.0, `Set.difference` takes a
