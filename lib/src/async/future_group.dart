@@ -19,6 +19,11 @@ part of quiver.async;
 ///
 /// FutureGroup is useful for managing a set of async tasks that may spawn new
 /// async tasks as they execute.
+///
+/// DEPRECATED: use `FutureGroup` from `package:async`. Note that it requires a
+/// `close()` call before auto-completion will be triggered upon the count of
+/// pending tasks dropping to 0.
+@deprecated
 class FutureGroup<E> {
   static const _FINISHED = -1;
 
