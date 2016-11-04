@@ -41,6 +41,9 @@ String flip(String s) {
 ///
 /// If [times] is negative, returns the [flip]ped string repeated given number
 /// of [times].
+///
+/// DEPRECATED: use the `*` operator on [String].
+@deprecated
 String repeat(String s, int times) {
   if (s == null || s == '') return s;
   if (times < 0) {
