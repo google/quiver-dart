@@ -14,7 +14,7 @@ authors:
 description: A set of utility libraries for Dart
 homepage: https://github.com/google/quiver-dart
 environment:
-  sdk: '>=1.8.0 <2.0.0'
+  sdk: '>=1.9.0 <2.0.0'
 dependencies:
   matcher: '>=0.10.0 <0.13.0'
 dev_dependencies:

@@ -1,4 +1,6 @@
 #### Unreleased
+   * BREAKING CHANGE: minimum SDK constraint increased to 1.9.0. This allows
+     use of async-await in Quiver.
    * BREAKING CHANGE: eliminated deprecated `FakeTimer`.
    * Deprecated: `FutureGroup`. Use the replacement in `package:async` which
      requires a `close()` call to trigger auto-completion when the count of
