@@ -1,4 +1,5 @@
 #### Unreleased
+   * BREAKING CHANGE: eliminated deprecated `FakeTimer`.
    * Deprecated: `FutureGroup`. Use the replacement in `package:async` which
      requires a `close()` call to trigger auto-completion when the count of
      pending tasks drops to 0.
