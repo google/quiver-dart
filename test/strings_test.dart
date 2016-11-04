@@ -76,15 +76,15 @@ main() {
     });
   });
 
-  group('flip', () {
-    test('should flip characters in a string', () {
-      expect(flip('ab'), 'ba');
+  group('reverse', () {
+    test('should reverse characters in a string', () {
+      expect(reverse('ab'), 'ba');
     });
     test('should return null as null', () {
-      expect(flip(null), null);
+      expect(reverse(null), null);
     });
     test('should return empty string as empty string', () {
-      expect(flip(''), '');
+      expect(reverse(''), '');
     });
   });
 

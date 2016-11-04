@@ -5,6 +5,8 @@
      pending tasks drops to 0.
    * Deprecated: `repeat` in the `strings` library. Use the `*` operator on
      the String class.
+   * Deprecated: in the strings library, `flip` has been renamed `reverse`.
+     `flip` is deprecated and will be removed in the next release.
 
 #### 0.24.0 - 2016-10-31
    * BREAKING CHANGE: eliminated deprecated `nullToEmpty`, `emptyToNull`.
