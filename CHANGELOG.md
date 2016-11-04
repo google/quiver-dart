@@ -3,6 +3,8 @@
    * Deprecated: `FutureGroup`. Use the replacement in `package:async` which
      requires a `close()` call to trigger auto-completion when the count of
      pending tasks drops to 0.
+   * Deprecated: `repeat` in the `strings` library. Use the `*` operator on
+     the String class.
 
 #### 0.24.0 - 2016-10-31
    * BREAKING CHANGE: eliminated deprecated `nullToEmpty`, `emptyToNull`.
