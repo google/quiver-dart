@@ -31,11 +31,14 @@ typedef Future<T> AsyncCombiner<T>(T previous, e);
 Future doWhileAsync(Iterable iterable, AsyncAction<bool> action) =>
     _doWhileAsync(iterable.iterator, action);
 
-Future _doWhileAsync(
-    Iterator iterator, AsyncAction<bool> action) => (iterator.moveNext())
-    ? action(iterator.current).then((bool result) =>
-        (result) ? _doWhileAsync(iterator, action) : new Future.value(false))
-    : new Future.value(true);
+Future _doWhileAsync(Iterator iterator, AsyncAction<bool> action) async {
+  if (iterator.moveNext()) {
+    return await action(iterator.current)
+      ? _doWhileAsync(iterator, action)
+      : false;
+  }
+  return true;
+}
 
 /// Reduces a collection to a single value by iteratively combining elements of
 /// the collection using the provided [combine] function. Similar to
@@ -44,12 +47,12 @@ Future _doWhileAsync(
 Future reduceAsync(Iterable iterable, initialValue, AsyncCombiner combine) =>
     _reduceAsync(iterable.iterator, initialValue, combine);
 
-Future _reduceAsync(Iterator iterator, currentValue, AsyncCombiner combine) {
+Future _reduceAsync(Iterator iterator, current, AsyncCombiner combine) async {
   if (iterator.moveNext()) {
-    return combine(currentValue, iterator.current)
-        .then((result) => _reduceAsync(iterator, result, combine));
+    var result = await combine(current, iterator.current);
+    return _reduceAsync(iterator, result, combine);
   }
-  return new Future.value(currentValue);
+  return current;
 }
 
 /// Schedules calls to [action] for each element in [iterable]. No more than
