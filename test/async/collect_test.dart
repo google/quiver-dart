@@ -39,7 +39,8 @@ main() {
       });
     });
 
-    test('should only advance iterator once '
+    test(
+        'should only advance iterator once '
         'event for previous future is sent', () {
       var eventCount = 0;
       var maxParallel = 0;

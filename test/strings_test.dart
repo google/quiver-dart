@@ -92,7 +92,8 @@ main() {
     test('should repeat a non-empty string', () {
       expect(repeat('ab', 3), 'ababab');
     });
-    test('should repeat flipped non-empty string '
+    test(
+        'should repeat flipped non-empty string '
         'on negative number of times', () {
       expect(repeat('ab', -3), 'bababa');
     });

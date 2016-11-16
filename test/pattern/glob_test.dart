@@ -20,8 +20,7 @@ import 'package:quiver/pattern.dart';
 main() {
   group('Glob', () {
     test('should match "*" against sequences of word chars', () {
-      expectGlob("*.html",
-          matches: [
+      expectGlob("*.html", matches: [
         "a.html",
         "_-\a.html",
         r"^$*?.html",
@@ -30,8 +29,11 @@ main() {
         "\u21ad.html",
         "♥.html",
         "\u2665.html"
-      ],
-          nonMatches: ["a.htm", "a.htmlx", "/a.html"]);
+      ], nonMatches: [
+        "a.htm",
+        "a.htmlx",
+        "/a.html"
+      ]);
       expectGlob("foo.*",
           matches: ["foo.html"],
           nonMatches: ["afoo.html", "foo/a.html", "foo.html/a"]);

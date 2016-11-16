@@ -23,8 +23,10 @@ main() {
       test('simple', () => checkArgument(true));
       test('null message', () => checkArgument(true, message: null));
       test('string message', () => checkArgument(true, message: 'foo'));
-      test('function message', () =>
-          checkArgument(true, message: () => fail("Shouldn't be called")));
+      test(
+          'function message',
+          () =>
+              checkArgument(true, message: () => fail("Shouldn't be called")));
     });
 
     group('failure', () {
@@ -41,14 +43,21 @@ main() {
       test('no message',
           () => checkArgumentShouldFail(() => checkArgument(false)));
 
-      test('failure and simple string message', () => checkArgumentShouldFail(
-          () => checkArgument(false, message: 'message'), 'message'));
+      test(
+          'failure and simple string message',
+          () => checkArgumentShouldFail(
+              () => checkArgument(false, message: 'message'), 'message'));
 
-      test('failure and null message', () =>
-          checkArgumentShouldFail(() => checkArgument(false, message: null)));
-      test('failure and object as message', () =>
-          checkArgumentShouldFail(() => checkArgument(false, message: 5), '5'));
-      test('failure and message closure returns object',
+      test(
+          'failure and null message',
+          () => checkArgumentShouldFail(
+              () => checkArgument(false, message: null)));
+      test(
+          'failure and object as message',
+          () => checkArgumentShouldFail(
+              () => checkArgument(false, message: 5), '5'));
+      test(
+          'failure and message closure returns object',
           () => checkArgumentShouldFail(
               () => checkArgument(false, message: () => 5), '5'));
 
@@ -84,13 +93,17 @@ main() {
 
       test('no message', () => checkStateShouldFail(() => checkState(false)));
 
-      test('failure and simple string message', () => checkStateShouldFail(
-          () => checkState(false, message: 'message'), 'message'));
+      test(
+          'failure and simple string message',
+          () => checkStateShouldFail(
+              () => checkState(false, message: 'message'), 'message'));
 
       test('failure and null message',
           () => checkStateShouldFail(() => checkState(false, message: null)));
-      test('message closure returns null', () =>
-          checkStateShouldFail(() => checkState(false, message: () => null)));
+      test(
+          'message closure returns null',
+          () => checkStateShouldFail(
+              () => checkState(false, message: () => null)));
 
       test('failure and message function', () {
         int five = 5;
@@ -105,8 +118,11 @@ main() {
     group('success', () {
       test('simple', () => expect(checkNotNull(''), ''));
       test('string message', () => expect(checkNotNull(5, message: 'foo'), 5));
-      test('function message', () => expect(checkNotNull(true,
-          message: () => fail("Shouldn't be called")), true));
+      test(
+          'function message',
+          () => expect(
+              checkNotNull(true, message: () => fail("Shouldn't be called")),
+              true));
     });
 
     group('failure', () {
@@ -124,14 +140,20 @@ main() {
       test(
           'no message', () => checkNotNullShouldFail(() => checkNotNull(null)));
 
-      test('simple failure message', () => checkNotNullShouldFail(
-          () => checkNotNull(null, message: 'message'), 'message'));
+      test(
+          'simple failure message',
+          () => checkNotNullShouldFail(
+              () => checkNotNull(null, message: 'message'), 'message'));
 
-      test('null message', () =>
-          checkNotNullShouldFail(() => checkNotNull(null, message: null)));
+      test(
+          'null message',
+          () =>
+              checkNotNullShouldFail(() => checkNotNull(null, message: null)));
 
-      test('message closure returns null', () => checkNotNullShouldFail(
-          () => checkNotNull(null, message: () => null)));
+      test(
+          'message closure returns null',
+          () => checkNotNullShouldFail(
+              () => checkNotNull(null, message: () => null)));
 
       test('failure and message function', () {
         int five = 5;
@@ -160,11 +182,14 @@ main() {
           fail('Should have thrown a RangeError');
         } catch (e) {
           expect(e, isRangeError);
-          expect(e.message, expectedMessage == null
-              ? 'index $index not valid for list of size $size'
-              : expectedMessage);
+          expect(
+              e.message,
+              expectedMessage == null
+                  ? 'index $index not valid for list of size $size'
+                  : expectedMessage);
         }
       }
+
       test('negative size', () => checkListIndexShouldFail(0, -1));
       test('negative index', () => checkListIndexShouldFail(-1, 1));
       test('index too high', () => checkListIndexShouldFail(1, 1));

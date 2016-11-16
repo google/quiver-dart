@@ -22,11 +22,26 @@ DateTime systemTime() => new DateTime.now();
 
 /// Days in a month. This array uses 1-based month numbers, i.e. January is
 /// the 1-st element in the array, not the 0-th.
-const _DAYS_IN_MONTH =
-    const [ 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 ];
+const _DAYS_IN_MONTH = const [
+  0,
+  31,
+  28,
+  31,
+  30,
+  31,
+  30,
+  31,
+  31,
+  30,
+  31,
+  30,
+  31
+];
 
-int _daysInMonth(int year, int month) => (month == DateTime.FEBRUARY &&
-    _isLeapYear(year)) ? 29 : _DAYS_IN_MONTH[month];
+int _daysInMonth(int year, int month) =>
+    (month == DateTime.FEBRUARY && _isLeapYear(year))
+        ? 29
+        : _DAYS_IN_MONTH[month];
 
 bool _isLeapYear(int year) =>
     (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
@@ -83,8 +98,14 @@ class Clock {
   /// Returns the point in time that's given amount of time ago. The
   /// amount of time is the sum of individual parts. Parts are compatible with
   /// ones defined in [Duration].
-  DateTime ago({int days: 0, int hours: 0, int minutes: 0, int seconds: 0,
-      int milliseconds: 0, int microseconds: 0}) => agoBy(new Duration(
+  DateTime ago(
+          {int days: 0,
+          int hours: 0,
+          int minutes: 0,
+          int seconds: 0,
+          int milliseconds: 0,
+          int microseconds: 0}) =>
+      agoBy(new Duration(
           days: days,
           hours: hours,
           minutes: minutes,
@@ -95,8 +116,14 @@ class Clock {
   /// Returns the point in time that's given amount of time from now. The
   /// amount of time is the sum of individual parts. Parts are compatible with
   /// ones defined in [Duration].
-  DateTime fromNow({int days: 0, int hours: 0, int minutes: 0, int seconds: 0,
-      int milliseconds: 0, int microseconds: 0}) => fromNowBy(new Duration(
+  DateTime fromNow(
+          {int days: 0,
+          int hours: 0,
+          int minutes: 0,
+          int seconds: 0,
+          int milliseconds: 0,
+          int microseconds: 0}) =>
+      fromNowBy(new Duration(
           days: days,
           hours: hours,
           minutes: minutes,

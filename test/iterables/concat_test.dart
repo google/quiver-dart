@@ -24,11 +24,20 @@ main() {
     });
 
     test('should handle single input iterables', () {
-      expect(concat([[1, 2, 3]]), [1, 2, 3]);
+      expect(
+          concat([
+            [1, 2, 3]
+          ]),
+          [1, 2, 3]);
     });
 
     test('should chain multiple input iterables', () {
-      expect(concat([[1, 2, 3], [-1, -2, -3]]), [1, 2, 3, -1, -2, -3]);
+      expect(
+          concat([
+            [1, 2, 3],
+            [-1, -2, -3]
+          ]),
+          [1, 2, 3, -1, -2, -3]);
     });
 
     test('should throw for null input', () {
@@ -36,7 +45,13 @@ main() {
     });
 
     test('should throw if any input is null', () {
-      expect(() => concat([[1, 2], null, [3, 4]]).toList(), throws);
+      expect(
+          () => concat([
+                [1, 2],
+                null,
+                [3, 4]
+              ]).toList(),
+          throws);
     });
 
     test('should reflectchanges in the inputs', () {

@@ -24,13 +24,40 @@ main() {
     });
 
     test("should zip equal length lists", () {
-      expect(zip([[1, 2, 3], ['a', 'b', 'c']]), [[1, 'a'], [2, 'b'], [3, 'c']]);
-      expect(zip([[1, 2], ['a', 'b'], [2, 4]]), [[1, 'a', 2], [2, 'b', 4]]);
+      expect(
+          zip([
+            [1, 2, 3],
+            ['a', 'b', 'c']
+          ]),
+          [
+            [1, 'a'],
+            [2, 'b'],
+            [3, 'c']
+          ]);
+      expect(
+          zip([
+            [1, 2],
+            ['a', 'b'],
+            [2, 4]
+          ]),
+          [
+            [1, 'a', 2],
+            [2, 'b', 4]
+          ]);
     });
 
     test("should stop at the end of the shortest iterable", () {
-      expect(zip([[1, 2], ['a', 'b'], []]), []);
-      expect(zip([range(2), range(4)]), [[0, 0], [1, 1]]);
+      expect(
+          zip([
+            [1, 2],
+            ['a', 'b'],
+            []
+          ]),
+          []);
+      expect(zip([range(2), range(4)]), [
+        [0, 0],
+        [1, 1]
+      ]);
     });
   });
 }

@@ -42,7 +42,10 @@ main() {
 
     test('Test null group name yields error', () {
       try {
-        expect({'null': [reference], null: [reference]}, areEqualityGroups);
+        expect({
+          'null': [reference],
+          null: [reference]
+        }, areEqualityGroups);
         fail('Should fail with null group name');
       } catch (e) {
         expect(e.toString(), contains('Group name must not be null'));
@@ -60,33 +63,43 @@ main() {
 
     test('Test after adding multiple instances at once with a null', () {
       try {
-        expect(
-            {'bad group': [reference, equalObject1, null]}, areEqualityGroups);
+        expect({
+          'bad group': [reference, equalObject1, null]
+        }, areEqualityGroups);
         fail('Should fail with null group');
       } catch (e) {
-        expect(e.toString(), contains("$reference [group 'bad group', item 1]"
-            " must be equal to null [group 'bad group', item 3]"));
+        expect(
+            e.toString(),
+            contains("$reference [group 'bad group', item 1]"
+                " must be equal to null [group 'bad group', item 3]"));
       }
     });
 
     test('Test adding non-equal objects only in single group.', () {
       try {
-        expect(
-            {'not equal': [equalObject1, notEqualObject1]}, areEqualityGroups);
+        expect({
+          'not equal': [equalObject1, notEqualObject1]
+        }, areEqualityGroups);
         fail("Should get not equal to equal object error");
       } catch (e) {
-        expect(e.toString(), contains("$equalObject1 [group 'not equal', item"
-            " 1] must be equal to $notEqualObject1 [group 'not equal'"
-            ", item 2]"));
+        expect(
+            e.toString(),
+            contains("$equalObject1 [group 'not equal', item"
+                " 1] must be equal to $notEqualObject1 [group 'not equal'"
+                ", item 2]"));
       }
     });
 
-    test('Test with no equals or not equals objects. This checks'
+    test(
+        'Test with no equals or not equals objects. This checks'
         ' proper handling of null, incompatible class and reflexive tests', () {
-      expect({'single object': [reference]}, areEqualityGroups);
+      expect({
+        'single object': [reference]
+      }, areEqualityGroups);
     });
 
-    test('Test after populating equal objects. This checks proper'
+    test(
+        'Test after populating equal objects. This checks proper'
         ' handling of equality and verifies hashCode for valid objects', () {
       expect({
         'all equal': [reference, equalObject1, equalObject2]
@@ -97,7 +110,9 @@ main() {
         () {
       Object obj = new _NonReflexiveObject();
       try {
-        expect({'non-reflexive': [obj]}, areEqualityGroups);
+        expect({
+          'non-reflexive': [obj]
+        }, areEqualityGroups);
         fail("Should get non-reflexive error");
       } catch (e) {
         expect(e.toString(), contains("$obj must be equal to itself"));
@@ -107,30 +122,42 @@ main() {
     test('Test proper handling of case where hashcode is not idempotent', () {
       Object obj = new _InconsistentHashCodeObject(1, 2);
       try {
-        expect({'non-reflexive': [obj]}, areEqualityGroups);
+        expect({
+          'non-reflexive': [obj]
+        }, areEqualityGroups);
         fail("Should get non-reflexive error");
       } catch (e) {
-        expect(e.toString(), contains(
-            "the implementation of hashCode of $obj must be idempotent"));
+        expect(
+            e.toString(),
+            contains(
+                "the implementation of hashCode of $obj must be idempotent"));
       }
     });
 
-    test('Test proper handling where an object incorrectly tests for an '
+    test(
+        'Test proper handling where an object incorrectly tests for an '
         'incompatible class', () {
       Object obj = new _InvalidEqualsIncompatibleClassObject();
       try {
-        expect({'equals method broken': [obj]}, areEqualityGroups);
+        expect({
+          'equals method broken': [obj]
+        }, areEqualityGroups);
         fail("Should get equal to incompatible class error");
       } catch (e) {
-        expect(e.toString(), contains("$obj must not be equal to an "
-            "arbitrary object of another class"));
+        expect(
+            e.toString(),
+            contains("$obj must not be equal to an "
+                "arbitrary object of another class"));
       }
     });
 
-    test('Test proper handling where an object is not equal to one the user '
+    test(
+        'Test proper handling where an object is not equal to one the user '
         'has said should be equal', () {
       try {
-        expect({'non-equal': [reference, notEqualObject1]}, areEqualityGroups);
+        expect({
+          'non-equal': [reference, notEqualObject1]
+        }, areEqualityGroups);
         fail("Should get not equal to equal object error");
       } catch (e) {
         expect(
@@ -140,30 +167,40 @@ main() {
       }
     });
 
-    test('Test for an invalid hashCode method, i.e., one that returns '
+    test(
+        'Test for an invalid hashCode method, i.e., one that returns '
         'different value for objects that are equal according to the equals '
         'method', () {
       Object a = new _InvalidHashCodeObject(1, 2);
       Object b = new _InvalidHashCodeObject(1, 2);
       try {
-        expect({'invalid hashcode': [a, b]}, areEqualityGroups);
+        expect({
+          'invalid hashcode': [a, b]
+        }, areEqualityGroups);
         fail("Should get invalid hashCode error");
       } catch (e) {
-        expect(e.toString(), contains("the hashCode (${a.hashCode}) of $a"
-            " [group 'invalid hashcode', item 1] must be equal to the"
-            " hashCode (${b.hashCode}) of $b"));
+        expect(
+            e.toString(),
+            contains("the hashCode (${a.hashCode}) of $a"
+                " [group 'invalid hashcode', item 1] must be equal to the"
+                " hashCode (${b.hashCode}) of $b"));
       }
     });
 
     test('Symmetry Broken', () {
       try {
         expect({
-          'broken symmetry': [named('foo')..addPeers(['bar']), named('bar')]
+          'broken symmetry': [
+            named('foo')..addPeers(['bar']),
+            named('bar')
+          ]
         }, areEqualityGroups);
         fail("should fail because symmetry is broken");
       } catch (e) {
-        expect(e.toString(), contains("bar [group 'broken symmetry', item 2] "
-            "must be equal to foo [group 'broken symmetry', item 1]"));
+        expect(
+            e.toString(),
+            contains("bar [group 'broken symmetry', item 2] "
+                "must be equal to foo [group 'broken symmetry', item 1]"));
       }
     });
 
@@ -178,9 +215,11 @@ main() {
         }, areEqualityGroups);
         fail("should fail because transitivity is broken");
       } catch (e) {
-        expect(e.toString(), contains("bar [group 'transitivity broken', "
-            "item 2] must be equal to baz [group 'transitivity "
-            "broken', item 3]"));
+        expect(
+            e.toString(),
+            contains("bar [group 'transitivity broken', "
+                "item 2] must be equal to baz [group 'transitivity "
+                "broken', item 3]"));
       }
     });
 
@@ -192,8 +231,10 @@ main() {
         fail('should fail because of unequal objects in the same equality '
             'group');
       } catch (e) {
-        expect(e.toString(), contains("foo [group 'unequal objects', item 1] "
-            "must be equal to bar [group 'unequal objects', item 2]"));
+        expect(
+            e.toString(),
+            contains("foo [group 'unequal objects', item 1] "
+                "must be equal to bar [group 'unequal objects', item 2]"));
       }
     });
 
@@ -211,9 +252,11 @@ main() {
         }, areEqualityGroups);
         fail('should fail because transitivity is broken');
       } catch (e) {
-        expect(e.toString(), contains("bar [group 'transitivity one', item 2]"
-            " must not be equal to x [group 'transitivity two',"
-            " item 2]"));
+        expect(
+            e.toString(),
+            contains("bar [group 'transitivity one', item 2]"
+                " must not be equal to x [group 'transitivity two',"
+                " item 2]"));
       }
     });
 
@@ -352,5 +395,6 @@ class _NamedObject {
   @override
   int get hashCode => 0;
 
-  @override String toString() => name;
+  @override
+  String toString() => name;
 }

@@ -68,8 +68,8 @@ class _MultiPattern extends Pattern {
   }
 
   Match matchAsPrefix(String str, [int start = 0]) {
-    return allMatches(str).firstWhere((match) => match.start == start,
-        orElse: () => null);
+    return allMatches(str)
+        .firstWhere((match) => match.start == start, orElse: () => null);
   }
 }
 

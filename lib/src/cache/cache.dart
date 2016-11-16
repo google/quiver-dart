@@ -27,7 +27,6 @@ typedef dynamic Loader<K>(K key);
 /// store their entries in remote systems, isolates, or otherwise have to do
 /// async IO to read and write.
 abstract class Cache<K, V> {
-
   /// Returns the value associated with [key].
   Future<V> get(K key, {Loader<K> ifAbsent});
 

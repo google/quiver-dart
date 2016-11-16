@@ -22,7 +22,11 @@ void main() {
   group("StreamBuffer", () {
     test("returns orderly overlaps", () {
       StreamBuffer<int> buf = new StreamBuffer();
-      new Stream.fromIterable([[1], [2, 3, 4], [5, 6, 7, 8]]).pipe(buf);
+      new Stream.fromIterable([
+        [1],
+        [2, 3, 4],
+        [5, 6, 7, 8]
+      ]).pipe(buf);
       return Future.wait([buf.read(2), buf.read(4), buf.read(2)]).then((vals) {
         expect(vals[0], equals([1, 2]));
         expect(vals[1], equals([3, 4, 5, 6]));
@@ -34,7 +38,12 @@ void main() {
 
     test("respects pausing of stream", () {
       StreamBuffer<int> buf = new StreamBuffer()..limit = 2;
-      new Stream.fromIterable([[1], [2], [3], [4]]).pipe(buf);
+      new Stream.fromIterable([
+        [1],
+        [2],
+        [3],
+        [4]
+      ]).pipe(buf);
       return buf.read(2).then((val) {
         expect(val, [1, 2]);
       }).then((_) {
@@ -46,7 +55,10 @@ void main() {
 
     test("throws when reading too much", () {
       StreamBuffer<int> buf = new StreamBuffer()..limit = 1;
-      new Stream.fromIterable([[1], [2]]).pipe(buf);
+      new Stream.fromIterable([
+        [1],
+        [2]
+      ]).pipe(buf);
       try {
         buf.read(2);
       } catch (e) {

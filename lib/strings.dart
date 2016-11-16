@@ -162,7 +162,8 @@ String center(String input, int width, String fill) {
 
 /// Returns `true` if [a] and [b] are equal after being converted to lower
 /// case, or are both null.
-bool equalsIgnoreCase(String a, String b) => (a == null && b == null) ||
+bool equalsIgnoreCase(String a, String b) =>
+    (a == null && b == null) ||
     (a != null && b != null && a.toLowerCase() == b.toLowerCase());
 
 /// Compares [a] and [b] after converting to lower case.

@@ -70,8 +70,9 @@ class Method /* implements Function */ {
     if (i.isMethod && i.memberName == const Symbol('call')) {
       if (i.namedArguments != null && i.namedArguments.isNotEmpty) {
         // this will fail until named argument support is implemented
-        return mirror.invoke(
-            symbol, i.positionalArguments, i.namedArguments).reflectee;
+        return mirror
+            .invoke(symbol, i.positionalArguments, i.namedArguments)
+            .reflectee;
       }
       return mirror.invoke(symbol, i.positionalArguments).reflectee;
     }
