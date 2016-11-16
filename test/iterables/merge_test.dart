@@ -33,7 +33,12 @@ main() {
     });
 
     test("should merge single-element iterables", () {
-      expect(merge([['a'], ['b']]), ['a', 'b']);
+      expect(
+          merge([
+            ['a'],
+            ['b']
+          ]),
+          ['a', 'b']);
     });
 
     test("should output the union of elements in both iterables", () {
@@ -44,7 +49,7 @@ main() {
     test("should honor the comparator", () {
       var a = ['c', 'b', 'a'];
       expect(merge([a, a], (x, y) => -x.compareTo(y)),
-          [ 'c', 'c', 'b', 'b', 'a', 'a' ]);
+          ['c', 'c', 'b', 'b', 'a', 'a']);
     });
 
     test("should merge empty iterables with non-empty ones", () {
@@ -78,10 +83,18 @@ main() {
       var b = ['b', 'e', 'h', 'k'];
       var c = ['c', 'f', 'i', 'l'];
       var expected = [
-        'a', 'b', 'c',
-        'd', 'e', 'f',
-        'g', 'h', 'i',
-        'j', 'k', 'l'
+        'a',
+        'b',
+        'c',
+        'd',
+        'e',
+        'f',
+        'g',
+        'h',
+        'i',
+        'j',
+        'k',
+        'l'
       ];
       expect(merge([a, b, c]), expected);
       expect(merge([a, c, b]), expected);

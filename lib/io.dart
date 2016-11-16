@@ -66,6 +66,7 @@ Future visitDirectory(Directory dir, Future<bool> visit(FileSystemEntity f)) {
       completer.complete(null);
     }, cancelOnError: true);
   }
+
   _list(dir);
 
   return futureGroup.future;

@@ -34,8 +34,8 @@ Future doWhileAsync(Iterable iterable, AsyncAction<bool> action) =>
 Future _doWhileAsync(Iterator iterator, AsyncAction<bool> action) async {
   if (iterator.moveNext()) {
     return await action(iterator.current)
-      ? _doWhileAsync(iterator, action)
-      : false;
+        ? _doWhileAsync(iterator, action)
+        : false;
   }
   return true;
 }
@@ -95,6 +95,7 @@ Future forEachAsync(Iterable iterable, AsyncAction action, {int maxTasks: 1}) {
     }
     return false;
   }
+
   while (scheduleTask()) {}
   return completer.future;
 }

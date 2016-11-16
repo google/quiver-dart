@@ -68,15 +68,13 @@ main() {
     });
 
     test('should forward pause, resume, and cancel to current stream', () {
-      var wasPaused = false,
-          wasResumed = false,
-          wasCanceled = false;
+      var wasPaused = false, wasResumed = false, wasCanceled = false;
       var controller = new StreamController<String>(
           onPause: () => wasPaused = true,
           onResume: () => wasResumed = true,
           onCancel: () {
-        wasCanceled = true;
-      });
+            wasCanceled = true;
+          });
       var concatenated = concat([controller.stream]);
       var subscription = concatenated.listen(null);
       controller.add('a');
@@ -95,14 +93,13 @@ main() {
     });
 
     test('should forward iteration error and stop', () {
-      var data = [],
-          errors = [];
+      var data = [], errors = [];
       var badIteration =
           ['e', 'this should not get thrown'].map((message) => throw message);
       var concatenated = concat(badIteration as Iterable<Stream>);
       var completer = new Completer();
-      concatenated
-          .listen(data.add, onError: errors.add, onDone: completer.complete);
+      concatenated.listen(data.add,
+          onError: errors.add, onDone: completer.complete);
       return completer.future.then((_) {
         expect(data, []);
         expect(errors, ['e']);

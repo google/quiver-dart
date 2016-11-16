@@ -93,7 +93,7 @@ class Optional<T> extends IterableBase<T> {
 
   @override
   Iterator<T> get iterator =>
-    isPresent ? <T>[_value].iterator : new Iterable<T>.empty().iterator;
+      isPresent ? <T>[_value].iterator : new Iterable<T>.empty().iterator;
 
   /// Delegates to the underlying [value] hashCode.
   int get hashCode => _value.hashCode;

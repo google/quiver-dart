@@ -58,7 +58,7 @@ int checkListIndex(int index, int size, {message}) {
 
 /// Throws an [ArgumentError] if the given [reference] is `null`. Otherwise,
 /// returns the [reference] parameter.
-dynamic/*=T*/ checkNotNull/*<T>*/(/*=T*/reference, {message}) {
+dynamic/*=T*/ checkNotNull/*<T>*/(/*=T*/ reference, {message}) {
   if (reference == null) {
     throw new ArgumentError(_resolveMessage(message, 'null pointer'));
   }

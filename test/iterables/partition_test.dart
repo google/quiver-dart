@@ -44,7 +44,8 @@ main() {
       expect(it.current, isNull);
     });
 
-    test('should return partitions of correct size if '
+    test(
+        'should return partitions of correct size if '
         'partition size > input size', () {
       var it = partition([1, 2, 3, 4, 5], 3).iterator;
       expect(it.moveNext(), isTrue);

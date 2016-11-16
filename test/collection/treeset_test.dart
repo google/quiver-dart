@@ -190,8 +190,8 @@ main() {
 
           it = tree.fromIterator(30, inclusive: false);
           expect(it.current, isNull, reason: "iteration starts with null");
-          expect(
-              it.movePrevious(), isTrue, reason: "moveNext() from spot works");
+          expect(it.movePrevious(), isTrue,
+              reason: "moveNext() from spot works");
           expect(it.current, equals(21));
         });
 
@@ -216,14 +216,14 @@ main() {
         test("inserted endpoint, non-inclusive, reversed, works backward", () {
           var it = tree.fromIterator(10, inclusive: false, reversed: true);
           expect(it.current, isNull, reason: "iteration starts with null");
-          expect(
-              it.movePrevious(), isTrue, reason: "moveNext() from spot works");
+          expect(it.movePrevious(), isTrue,
+              reason: "moveNext() from spot works");
           expect(it.current, equals(15));
 
           it = tree.fromIterator(30, inclusive: false, reversed: true);
           expect(it.current, isNull, reason: "iteration starts with null");
-          expect(
-              it.movePrevious(), isFalse, reason: "moveNext() from spot works");
+          expect(it.movePrevious(), isFalse,
+              reason: "moveNext() from spot works");
         });
       });
 
@@ -313,21 +313,30 @@ main() {
         sortedTestSet = new TreeSet()..addAll(nonSortedTestSet);
       });
 
-      test("union with non sorted set", () =>
-          expect(tree.union(nonSortedTestSet).toList(), equals(expectedUnion)));
-      test("union with sorted set", () =>
-          expect(tree.union(sortedTestSet).toList(), equals(expectedUnion)));
-      test("intersection with non sorted set", () => expect(
-          tree.intersection(nonSortedTestSet).toList(),
-          equals(expectedIntersection)));
-      test("intersection with sorted set", () => expect(
-          tree.intersection(sortedTestSet).toList(),
-          equals(expectedIntersection)));
-      test("difference with non sorted set", () => expect(
-          tree.difference(nonSortedTestSet).toList(),
-          equals(expectedDifference)));
-      test("difference with sorted set", () => expect(
-          tree.difference(sortedTestSet).toList(), equals(expectedDifference)));
+      test(
+          "union with non sorted set",
+          () => expect(
+              tree.union(nonSortedTestSet).toList(), equals(expectedUnion)));
+      test(
+          "union with sorted set",
+          () => expect(
+              tree.union(sortedTestSet).toList(), equals(expectedUnion)));
+      test(
+          "intersection with non sorted set",
+          () => expect(tree.intersection(nonSortedTestSet).toList(),
+              equals(expectedIntersection)));
+      test(
+          "intersection with sorted set",
+          () => expect(tree.intersection(sortedTestSet).toList(),
+              equals(expectedIntersection)));
+      test(
+          "difference with non sorted set",
+          () => expect(tree.difference(nonSortedTestSet).toList(),
+              equals(expectedDifference)));
+      test(
+          "difference with sorted set",
+          () => expect(tree.difference(sortedTestSet).toList(),
+              equals(expectedDifference)));
     });
 
     group("AVL implementaiton", () {

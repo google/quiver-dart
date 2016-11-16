@@ -60,17 +60,16 @@ main() {
       var controller = new StreamController<int>(sync: true);
       var router = new StreamRouter<int>(controller.stream);
       // toList() will only complete when the child streams are closed
-      var future = Future
-          .wait([
+      var future = Future.wait([
         router.route((e) => e % 2 == 0).toList(),
         router.route((e) => e % 2 == 1).toList(),
-      ])
-          .then((l) {
-        expect(l, [[4], [5]]);
+      ]).then((l) {
+        expect(l, [
+          [4],
+          [5]
+        ]);
       });
-      controller
-        ..add(4)
-        ..add(5);
+      controller..add(4)..add(5);
       router.close();
       return future;
     });

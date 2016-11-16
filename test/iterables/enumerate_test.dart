@@ -32,7 +32,7 @@ main() {
     test("should add indices to its argument", () {
       var e = enumerate(['a', 'b', 'c']);
       expect(e.map((v) => v.index), [0, 1, 2]);
-      expect(e.map((v) => v.index), [ 0, 1, 2 ],
+      expect(e.map((v) => v.index), [0, 1, 2],
           reason: 'should enumerate to the same values a second time');
     });
 

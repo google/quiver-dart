@@ -36,6 +36,7 @@ typedef Timer CreateTimer(Duration duration, void callback());
 /// Creates a new one-shot [Timer] using `new Timer(duration, callback)`.
 Timer createTimer(Duration duration, void callback()) =>
     new Timer(duration, callback);
+
 /// The signature of a periodic timer factory.
 typedef Timer CreateTimerPeriodic(Duration duration, void callback(Timer));
 

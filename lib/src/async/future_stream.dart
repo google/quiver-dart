@@ -32,7 +32,7 @@ part of quiver.async;
 ///     var futureOfStream = getResource().then((resource) => resource.stream);
 ///     return new FutureStream(futureOfStream);
 class FutureStream<T> extends Stream<T> {
-  static /*=T*/ _identity/*<T>*/(/*=T*/ t) => t;
+  static/*=T*/ _identity/*<T>*/(/*=T*/ t) => t;
 
   Future<Stream<T>> _future;
   StreamController<T> _controller;

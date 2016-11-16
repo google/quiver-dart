@@ -61,12 +61,10 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
       new LinkedLruHashMap._fromMap(new HashMap<K, _LinkedEntry<K, V>>(),
           maximumSize: maximumSize);
 
-  LinkedLruHashMap._fromMap(
-      this._entries, {
-      int maximumSize})
-          // This pattern is used instead of a default value because we want to
-          // be able to respect null values coming in from MapCache.lru.
-          : _maximumSize = firstNonNull(maximumSize, _DEFAULT_MAXIMUM_SIZE);
+  LinkedLruHashMap._fromMap(this._entries, {int maximumSize})
+      // This pattern is used instead of a default value because we want to
+      // be able to respect null values coming in from MapCache.lru.
+      : _maximumSize = firstNonNull(maximumSize, _DEFAULT_MAXIMUM_SIZE);
 
   /// Adds all key-value pairs of [other] to this map.
   ///
@@ -154,8 +152,8 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   /// LRU position is removed.
   @override
   V putIfAbsent(K key, V ifAbsent()) {
-    final entry =  _entries.putIfAbsent(
-        key, () => _createEntry(key, ifAbsent()));
+    final entry =
+        _entries.putIfAbsent(key, () => _createEntry(key, ifAbsent()));
     if (length > maximumSize) {
       _removeLru();
     }
@@ -168,7 +166,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   /// over keys/values is currently unsupported; use [keys] or [values] if you
   /// need information about entries without modifying their position.
   @override
-  V operator[](Object key) {
+  V operator [](Object key) {
     final entry = _entries[key];
     if (entry != null) {
       _promoteEntry(entry);

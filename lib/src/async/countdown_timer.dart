@@ -41,8 +41,8 @@ class CountdownTimer extends Stream<CountdownTimer> {
       : _duration = duration,
         increment = increment,
         _stopwatch = stopwatch == null ? new Stopwatch() : stopwatch,
-        _controller = new StreamController<CountdownTimer>.broadcast(
-            sync: true) {
+        _controller =
+            new StreamController<CountdownTimer>.broadcast(sync: true) {
     _timer = new Timer.periodic(increment, _tick);
     _stopwatch.start();
   }
