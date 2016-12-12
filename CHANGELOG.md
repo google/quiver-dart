@@ -1,6 +1,6 @@
 #### Unreleased
-   * BREAKING CHANGE: minimum SDK constraint increased to 1.9.0. This allows
-     use of async-await in Quiver.
+   * BREAKING CHANGE: minimum SDK constraint increased to 1.21.0. This allows
+     use of async-await and generic function in Quiver.
    * BREAKING CHANGE: eliminated deprecated `FakeTimer`.
    * Deprecated: `FutureGroup`. Use the replacement in `package:async` which
      requires a `close()` call to trigger auto-completion when the count of
@@ -9,6 +9,7 @@
      the String class.
    * Deprecated: in the strings library, `flip` has been renamed `reverse`.
      `flip` is deprecated and will be removed in the next release.
+   * Iterables: `enumerate` is now generic.
 
 #### 0.24.0 - 2016-10-31
    * BREAKING CHANGE: eliminated deprecated `nullToEmpty`, `emptyToNull`.
