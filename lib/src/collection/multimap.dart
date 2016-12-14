@@ -350,8 +350,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
     return _delegate.firstWhere(test, orElse: orElse);
   }
 
-  T fold<T>(T initialValue,
-      T combine(T previousValue, V element)) {
+  T fold<T>(T initialValue, T combine(T previousValue, V element)) {
     _syncDelegate();
     return _delegate.fold(initialValue, combine);
   }
