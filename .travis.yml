@@ -5,4 +5,4 @@ dart:
   - dev
 script: ./tool/travis.sh
 env:
-  - DARTANALYZER_FLAGS=--fatal-warnings
+  - DARTANALYZER_FLAGS='--fatal-warnings --strong'
