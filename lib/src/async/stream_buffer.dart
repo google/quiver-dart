@@ -42,12 +42,12 @@ class UnderflowError extends Error {
 ///
 /// Throws [UnderflowError] if [throwOnError] is true. Useful for unexpected
 /// [Socket] disconnects.
-class StreamBuffer<T> implements StreamConsumer<dynamic /*T|List<T>*/ > {
-  List _chunks = [];
+class StreamBuffer<T> implements StreamConsumer<T> {
+  List<T> _chunks = [];
   int _offset = 0;
   int _counter = 0; // sum(_chunks[*].length) - _offset
   List<_ReaderInWaiting<List<T>>> _readers = [];
-  StreamSubscription<dynamic /*T|List<T>*/ > _sub;
+  StreamSubscription<T> _sub;
   Completer _streamDone;
 
   final bool _throwOnError;
@@ -93,13 +93,13 @@ class StreamBuffer<T> implements StreamConsumer<dynamic /*T|List<T>*/ > {
         ret.setRange(follower, follower + subsize,
             (chunk as List<T>).getRange(_offset, _offset + subsize));
       } else {
-        ret[follower] = chunk as T;
+        ret[follower] = chunk;
       }
       follower += subsize;
       _offset += subsize;
       _counter -= subsize;
       leftToRead -= subsize;
-      if (chunk is! List || _offset >= chunk.length) {
+      if (chunk is! List || _offset >= (chunk as List).length) {
         _offset = 0;
         _chunks.removeAt(0);
       }
@@ -129,7 +129,7 @@ class StreamBuffer<T> implements StreamConsumer<dynamic /*T|List<T>*/ > {
   }
 
   @override
-  Future addStream(Stream<dynamic /*T|List<T>*/ > stream) {
+  Future addStream(Stream<T> stream) {
     var lastStream = _currentStream == null ? stream : _currentStream;
     if (_sub != null) {
       _sub.cancel();

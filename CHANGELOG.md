@@ -2,6 +2,8 @@
    * BREAKING CHANGE: minimum SDK constraint increased to 1.21.0. This allows
      use of async-await and generic function in Quiver.
    * BREAKING CHANGE: eliminated deprecated `FakeTimer`.
+   * BREAKING CHANGE: `StreamBuffer<T>` now implements `StreamConsumer<T>` as
+     opposed to `StreamConsumer<T|List<T>>`.
    * Deprecated: `FutureGroup`. Use the replacement in `package:async` which
      requires a `close()` call to trigger auto-completion when the count of
      pending tasks drops to 0.
