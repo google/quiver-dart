@@ -97,7 +97,7 @@ abstract class Multimap<K, V> {
 /// Abstract base class for multimap implementations.
 abstract class _BaseMultimap<K, V, C extends Iterable<V>>
     implements Multimap<K, V> {
-  static/*=T*/ _id/*<T>*/(/*=T*/ x) => x;
+  static T _id<T>(T x) => x;
 
   _BaseMultimap();
 
@@ -335,7 +335,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
     return _delegate.every(test);
   }
 
-  Iterable/*<T>*/ expand/*<T>*/(Iterable/*<T>*/ f(V element)) {
+  Iterable<T> expand<T>(Iterable<T> f(V element)) {
     _syncDelegate();
     return _delegate.expand(f);
   }
@@ -350,8 +350,8 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
     return _delegate.firstWhere(test, orElse: orElse);
   }
 
-  dynamic/*=T*/ fold/*<T>*/(var/*=T*/ initialValue,
-      dynamic/*=T*/ combine(var/*=T*/ previousValue, V element)) {
+  T fold<T>(T initialValue,
+      T combine(T previousValue, V element)) {
     _syncDelegate();
     return _delegate.fold(initialValue, combine);
   }
@@ -396,7 +396,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
     return _delegate.length;
   }
 
-  Iterable/*<T>*/ map/*<T>*/(/*=T*/ f(V element)) {
+  Iterable<T> map<T>(T f(V element)) {
     _syncDelegate();
     return _delegate.map(f);
   }

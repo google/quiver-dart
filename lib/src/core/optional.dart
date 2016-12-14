@@ -84,8 +84,7 @@ class Optional<T> extends IterableBase<T> {
   /// If the Optional is [absent()], returns [absent()] without applying the transformer.
   ///
   /// The transformer must not return [null]. If it does, an [ArgumentError] is thrown.
-  Optional/*=Optional<S>*/ transform/*<S>*/(
-      dynamic/*=S*/ transformer(T value)) {
+  Optional<S> transform<S>(S transformer(T value)) {
     return _value == null
         ? new Optional.absent()
         : new Optional.of(transformer(_value));

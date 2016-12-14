@@ -30,8 +30,7 @@ abstract class InfiniteIterable<T> extends IterableBase<T> {
 
   bool every(bool f(T element)) => throw new UnsupportedError('every');
 
-  bool/*=T1*/ fold/*<T1>*/(var/*=T1*/ initialValue,
-          dynamic/*=T1*/ combine(var/*=T1*/ previousValue, T element)) =>
+  T1 fold<T1>(T1 initialValue, T1 combine(T1 previousValue, T element)) =>
       throw new UnsupportedError('fold');
 
   void forEach(void f(T element)) => throw new UnsupportedError('forEach');
