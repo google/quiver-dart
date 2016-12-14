@@ -21,7 +21,7 @@ import 'package:quiver/async.dart';
 void main() {
   group("StreamBuffer", () {
     test("returns orderly overlaps", () {
-      StreamBuffer<int> buf = new StreamBuffer();
+      StreamBuffer<List<int>> buf = new StreamBuffer();
       new Stream.fromIterable([
         [1],
         [2, 3, 4],
@@ -37,7 +37,7 @@ void main() {
     });
 
     test("respects pausing of stream", () {
-      StreamBuffer<int> buf = new StreamBuffer()..limit = 2;
+      StreamBuffer<List<int>> buf = new StreamBuffer()..limit = 2;
       new Stream.fromIterable([
         [1],
         [2],
@@ -54,7 +54,7 @@ void main() {
     });
 
     test("throws when reading too much", () {
-      StreamBuffer<int> buf = new StreamBuffer()..limit = 1;
+      StreamBuffer<List<int>> buf = new StreamBuffer()..limit = 1;
       new Stream.fromIterable([
         [1],
         [2]
