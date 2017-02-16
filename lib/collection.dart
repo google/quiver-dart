@@ -77,3 +77,14 @@ bool setsEqual(Set a, Set b) {
 
   return a.containsAll(b);
 }
+
+/// Returns the index of the first item in [list] where [matcher] evaluates to
+/// true.
+///
+/// Returns -1 if there are no items where [matcher] evaluates to true.
+int indexOf<T>(List<T> list, bool matcher(T item)) {
+  for (var i = 0; i < list.length; i++) {
+    if (matcher(list[i])) return i;
+  }
+  return -1;
+}
