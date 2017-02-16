@@ -69,4 +69,17 @@ main() {
       expect(setsEqual(new Set(), new Set.from([1])), isFalse);
     });
   });
+
+  group('indexOf', () {
+    test('returns the first matching index', () {
+      expect(indexOf<int>([1, 12, 19, 20, 24], (n) => n % 2 == 0), 1);
+      expect(indexOf<String>(['a', 'b', 'a'], (s) => s == 'a'), 0);
+    });
+
+    test('returns -1 when there is no match', () {
+      expect(indexOf<int>([1, 3, 7], (n) => n % 2 == 0), -1);
+      expect(indexOf<String>(['a', 'b'], (s) => s == 'e'), -1);
+      expect(indexOf<bool>([], (_) => true), -1);
+    });
+  });
 }
