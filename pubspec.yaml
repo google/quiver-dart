@@ -19,4 +19,4 @@ dependencies:
   matcher: '>=0.10.0 <0.13.0'
 dev_dependencies:
   path: '>=1.0.0 <2.0.0'
-  test: '>=0.12.0 <0.13.0'
+  test: '>=0.12.20 <=0.13.0'
