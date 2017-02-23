@@ -78,13 +78,22 @@ bool setsEqual(Set a, Set b) {
   return a.containsAll(b);
 }
 
-/// Returns the index of the first item in [list] where [matcher] evaluates to
-/// true.
+/// Returns the index of the first item in [elements] where [predicate]
+/// evaluates to true.
 ///
-/// Returns -1 if there are no items where [matcher] evaluates to true.
-int indexOf<T>(List<T> list, bool matcher(T item)) {
-  for (var i = 0; i < list.length; i++) {
-    if (matcher(list[i])) return i;
+/// Returns -1 if there are no items where [predicate] evaluates to true.
+int indexOf<T>(Iterable<T> elements, bool predicate(T element)) {
+  if (elements is List) {
+    for (int i = 0; i < elements.length; i++) {
+      if (predicate(elements[i])) return i;
+    }
+    return -1;
+  }
+
+  int i = 0;
+  for (T element in elements) {
+    if (predicate(element)) return i;
+    i++;
   }
   return -1;
 }
