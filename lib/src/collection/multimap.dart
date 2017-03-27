@@ -94,12 +94,10 @@ abstract class Multimap<K, V> {
   bool get isNotEmpty;
 }
 
-typedef T _IdGetter<T>(T);
-
 /// Abstract base class for multimap implementations.
 abstract class _BaseMultimap<K, V, C extends Iterable<V>>
     implements Multimap<K, V> {
-  static T _id<T>(T x) => x;
+  static T _id<T>(x) => x;
 
   _BaseMultimap();
 
@@ -108,8 +106,8 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
   /// to the identity function.
   _BaseMultimap.fromIterable(Iterable iterable,
       {K key(element), V value(element)}) {
-    key ??= _id as _IdGetter<K>;
-    value ??= _id as _IdGetter<V>;
+    key ??= _id;
+    value ??= _id;
     for (var element in iterable) {
       add(key(element), value(element));
     }
