@@ -12,6 +12,7 @@
    * Deprecated: in the strings library, `flip` has been renamed `reverse`.
      `flip` is deprecated and will be removed in the next release.
    * Iterables: `enumerate` is now generic.
+   * Collection: added `indexOf`.
 
 #### 0.24.0 - 2016-10-31
    * BREAKING CHANGE: eliminated deprecated `nullToEmpty`, `emptyToNull`.
