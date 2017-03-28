@@ -23,7 +23,7 @@ import 'delegates/iterable_test.dart' as iterable;
 import 'delegates/list_test.dart' as list;
 import 'delegates/map_test.dart' as map;
 import 'delegates/queue_test.dart' as queue;
-import 'delegates/set_test.dart' as set;
+import 'delegates/set_test.dart' as setTest;
 
 main() {
   bimap.main();
@@ -34,6 +34,6 @@ main() {
   list.main();
   map.main();
   queue.main();
-  set.main();
+  setTest.main();
   treeset.main();
 }

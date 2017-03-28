@@ -97,7 +97,7 @@ abstract class Multimap<K, V> {
 /// Abstract base class for multimap implementations.
 abstract class _BaseMultimap<K, V, C extends Iterable<V>>
     implements Multimap<K, V> {
-  static T _id<T>(T x) => x;
+  static T _id<T>(x) => x;
 
   _BaseMultimap();
 
