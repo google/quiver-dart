@@ -1,4 +1,4 @@
-#### Unreleased
+#### 0.25.0 - 2017-03-28
    * BREAKING CHANGE: minimum SDK constraint increased to 1.21.0. This allows
      use of async-await and generic function in Quiver.
    * BREAKING CHANGE: eliminated deprecated `FakeTimer`.
