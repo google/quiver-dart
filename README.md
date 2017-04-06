@@ -203,6 +203,8 @@ supporting a number of use-cases, including:
   * Tailing: `loop('/path/to/some/file.txt', -3) => 'txt'`
   * Reversing: `loop('top', 3, 0) => 'pot'`
 
+ `split` splits a string on a given pattern, removing whitespace and empty splits
+
 [quiver.strings]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-strings
 
 ## [quiver.time][]
