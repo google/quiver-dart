@@ -12,6 +12,7 @@ authors:
 - Sean Eagan <seaneagan1@gmail.com>
 - Victor Berchet <victor@suumit.com>
 - Wil Pirino <willyp@google.com>
+- Christian Wawrzonek <wawrzonek@google.com>
 description: A set of utility libraries for Dart
 homepage: https://github.com/google/quiver-dart
 environment:

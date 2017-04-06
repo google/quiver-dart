@@ -232,4 +232,19 @@ main() {
       expect(compareIgnoreCase('abD', 'abc'), greaterThan(0));
     });
   });
+
+  group('split', () {
+    test('return empty List on null', () {
+      expect(split(null, ''), new List<String>());
+    });
+    test('return empty List on empty string', () {
+      expect(split('', ''), new List<String>());
+    });
+    test('return simple split', () {
+      expect(split('a,b', ','), ['a', 'b']);
+    });
+    test('return clean split', () {
+      expect(split(' a ,b  ,,c,,, ', ','), ['a', 'b', 'c']);
+    });
+  });
 }

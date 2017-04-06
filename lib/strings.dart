@@ -171,3 +171,16 @@ bool equalsIgnoreCase(String a, String b) =>
 /// Both [a] and [b] must not be null.
 int compareIgnoreCase(String a, String b) =>
     a.toLowerCase().compareTo(b.toLowerCase());
+
+/// Split function that cleans white space, removes empty splits, and returns
+/// an empty list if given an empty initial string.
+///
+/// As with regular split, [pattern] must not be null.
+List<String> split(String str, String pattern) {
+  return str == null
+      ? const <String>[]
+      : new List<String>.unmodifiable(str
+          .split(pattern)
+          .map((f) => f.trim())
+          .where((f) => f.isNotEmpty));
+}
