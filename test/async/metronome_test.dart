@@ -109,6 +109,8 @@ main() {
           DateTime.parse("2014-05-05 20:47:00"),
           DateTime.parse("2014-05-05 20:57:00"),
         ]);
+
+        expect(callbacks, 6);
       });
     });
 
@@ -130,6 +132,8 @@ main() {
           DateTime.parse("2014-05-05 20:47:00"),
           DateTime.parse("2014-05-05 20:57:00"),
         ]);
+
+        expect(callbacks, 6);
       });
     });
 
@@ -183,6 +187,8 @@ main() {
           DateTime.parse("2014-05-05 20:06:00.304"),
           DateTime.parse("2014-05-05 20:06:00.504"),
         ]);
+
+        expect(callbacks, 3);
       });
     });
   });
