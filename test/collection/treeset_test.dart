@@ -451,7 +451,8 @@ main() {
       setUp(() {
         tree = new TreeSet<num>(comparator: (num left, num right) {
           return left - right;
-        })..addAll([300, 200, 100]);
+        })
+          ..addAll([300, 200, 100]);
       });
 
       test("NEAREST is sane", () {
