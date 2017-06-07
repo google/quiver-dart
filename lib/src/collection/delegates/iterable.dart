@@ -42,8 +42,8 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   E firstWhere(bool test(E element), {E orElse()}) =>
       delegate.firstWhere(test, orElse: orElse);
 
-  T fold<T>(T initialValue, T combine(T previousValue, E element)) => delegate
-      .fold(initialValue, combine);
+  T fold<T>(T initialValue, T combine(T previousValue, E element)) =>
+      delegate.fold(initialValue, combine);
 
   void forEach(void f(E element)) => delegate.forEach(f);
 
