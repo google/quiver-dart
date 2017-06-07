@@ -28,9 +28,9 @@ bool isNotEmpty(String s) => s != null && s.isNotEmpty;
 String reverse(String s) {
   if (s == null || s == '') return s;
   StringBuffer sb = new StringBuffer();
-  var runes = s.runes;
-  for (int i = runes.length - 1; i >= 0; i--) {
-    sb.writeCharCode(runes.elementAt(i));
+  var runes = s.runes.iterator..reset(s.length);
+  while (runes.movePrevious()) {
+    sb.writeCharCode(runes.current);
   }
   return sb.toString();
 }
