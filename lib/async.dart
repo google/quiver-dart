@@ -29,6 +29,7 @@ part 'src/async/iteration.dart';
 part 'src/async/metronome.dart';
 part 'src/async/stream_buffer.dart';
 part 'src/async/stream_router.dart';
+part 'src/async/wait_group.dart';
 
 /// The signature of a one-shot [Timer] factory.
 typedef Timer CreateTimer(Duration duration, void callback());

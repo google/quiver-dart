@@ -25,6 +25,7 @@ import 'iteration_test.dart' as iteration;
 import 'metronome_test.dart' as metronome;
 import 'stream_buffer_test.dart' as stream_buffer;
 import 'stream_router_test.dart' as stream_router;
+import 'wait_group.dart' as wait_group;
 
 main() {
   collect.main();
@@ -38,4 +39,5 @@ main() {
   iteration.main();
   stream_buffer.main();
   stream_router.main();
+  wait_group.main();
 }
