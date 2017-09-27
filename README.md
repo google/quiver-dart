@@ -185,7 +185,7 @@ used as a literal match inside of a RegExp.
 
 `compareIgnoreCase` compares two strings, ignoring case.
 
-`flip` flips the order of characters in a string.
+`reverse` reverses the order of characters in a string.
 
 `repeat` concatenates a string to itself a given number of times.
 

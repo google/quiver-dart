@@ -35,12 +35,6 @@ String reverse(String s) {
   return sb.toString();
 }
 
-/// Returns a string with characters from the given [s] in reverse order.
-///
-/// DEPRECATED: use [reverse] instead.
-@deprecated
-String flip(String s) => reverse(s);
-
 /// Concatenates [s] to itself a given number of [times]. Empty and null
 /// strings will always result in empty and null strings respectively no matter
 /// how many [times] they are [repeat]ed.
