@@ -35,25 +35,6 @@ String reverse(String s) {
   return sb.toString();
 }
 
-/// Concatenates [s] to itself a given number of [times]. Empty and null
-/// strings will always result in empty and null strings respectively no matter
-/// how many [times] they are [repeat]ed.
-///
-/// If [times] is negative, returns the reversed string repeated given number
-/// of [times].
-///
-/// DEPRECATED: use the `*` operator on [String].
-@deprecated
-String repeat(String s, int times) {
-  if (s == null || s == '') return s;
-  if (times < 0) {
-    return repeat(reverse(s), -times);
-  }
-  StringBuffer sink = new StringBuffer();
-  _repeat(sink, s, times);
-  return sink.toString();
-}
-
 /// Loops over [s] and returns traversed characters. Takes arbitrary [from] and
 /// [to] indices. Works as a substitute for [String.substring], except it never
 /// throws [RangeError]. Supports negative indices. Think of an index as a
