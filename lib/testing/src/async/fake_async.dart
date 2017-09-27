@@ -182,7 +182,9 @@ class _FakeAsync implements FakeAsync {
       _zone = Zone.current.fork(specification: _zoneSpec);
     }
     var result;
-    _zone.runGuarded(() { result = callback(this); });
+    _zone.runGuarded(() {
+      result = callback(this);
+    });
     return result;
   }
 
