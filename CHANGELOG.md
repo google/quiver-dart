@@ -1,6 +1,8 @@
 #### 0.26.0-dev
    * BREAKING CHANGE: eliminated deprecated `flip`. Replaced by `reverse` in
      0.25.0.
+   * BREAKING CHANGE: eliminated deprecated `repeat`. Deprecated in 0.25.0.
+     Callers should use `String`'s `*` operator.
 
 #### 0.25.0 - 2017-03-28
    * BREAKING CHANGE: minimum SDK constraint increased to 1.21.0. This allows

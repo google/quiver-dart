@@ -187,15 +187,13 @@ used as a literal match inside of a RegExp.
 
 `reverse` reverses the order of characters in a string.
 
-`repeat` concatenates a string to itself a given number of times.
-
 `loop` allows you to loop through characters in a string starting and ending at
 arbitrary indices. Out of bounds indices allow you to wrap around the string,
 supporting a number of use-cases, including:
 
   * Rotating: `loop('lohel', -3, 2) => 'hello'`
-  * Repeating, like `repeat`, but with better character-level control, e.g.:
-`loop('la ', 0, 8) => 'la la la'  // no tailing space`
+  * Repeating, like `String`'s `operator*`, but with better character-level
+    control, e.g.: `loop('la ', 0, 8) => 'la la la'  // no trailing space`
   * Tailing: `loop('/path/to/some/file.txt', -3) => 'txt'`
   * Reversing: `loop('top', 3, 0) => 'pot'`
 

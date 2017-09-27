@@ -88,25 +88,6 @@ main() {
     });
   });
 
-  group('repeat', () {
-    test('should repeat a non-empty string', () {
-      expect(repeat('ab', 3), 'ababab');
-    });
-    test(
-        'should repeat flipped non-empty string '
-        'on negative number of times', () {
-      expect(repeat('ab', -3), 'bababa');
-    });
-    test('should return null on null', () {
-      expect(repeat(null, 6), null);
-      expect(repeat(null, -6), null);
-    });
-    test('should return empty string on empty string', () {
-      expect(repeat('', 6), '');
-      expect(repeat('', -6), '');
-    });
-  });
-
   group('loop', () {
     // Forward direction test cases
     test('should work like normal substring', () {
