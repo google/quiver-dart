@@ -37,7 +37,7 @@ void main() {
       expect(delegatingList[0], equals('a'));
       expect(delegatingList[1], equals('b'));
       expect(delegatingList[2], equals('cc'));
-      expect(() => delegatingList[3], throws);
+      expect(() => delegatingList[3], throwsRangeError);
     });
 
     test('[]=', () {

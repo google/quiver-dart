@@ -41,7 +41,7 @@ main() {
     });
 
     test('should throw for null input', () {
-      expect(() => concat(null), throws);
+      expect(() => concat(null), throwsNoSuchMethodError);
     });
 
     test('should throw if any input is null', () {
@@ -51,7 +51,7 @@ main() {
                 null,
                 [3, 4]
               ]).toList(),
-          throws);
+          throwsNoSuchMethodError);
     });
 
     test('should reflectchanges in the inputs', () {

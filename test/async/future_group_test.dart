@@ -54,7 +54,7 @@ main() {
       group.add(completer1.future);
       completer1.complete(1);
       return new Future(() {
-        expect(() => group.add(completer2.future), throws);
+        expect(() => group.add(completer2.future), throwsStateError);
       });
     });
   });
