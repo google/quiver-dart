@@ -94,5 +94,14 @@ void main() {
       new Stream.fromIterable([1, 2, 3]).pipe(buf);
       return future;
     });
+
+    test("accepts several streams", () async {
+      StreamBuffer<int> buf = new StreamBuffer();
+      new Stream.fromIterable([1]).pipe(buf);
+      new Stream.fromIterable([2, 3, 4, 5]).pipe(buf);
+      final vals = await buf.read(4);
+      expect(vals, equals([2, 3, 4, 5]));
+      buf.close();
+    });
   });
 }
