@@ -130,13 +130,14 @@ void main() {
     });
 
     test('single', () {
-      expect(() => delegatingIterable.single, throws);
+      expect(() => delegatingIterable.single, throwsStateError);
       expect(new MyIterable(['a']).single, equals('a'));
     });
 
     test('singleWhere', () {
       expect(delegatingIterable.singleWhere((e) => e == 'b'), equals('b'));
-      expect(() => delegatingIterable.singleWhere((e) => e == 'd'), throws);
+      expect(() => delegatingIterable.singleWhere((e) => e == 'd'),
+          throwsStateError);
     });
 
     test('skip', () {

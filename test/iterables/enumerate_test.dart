@@ -56,7 +56,7 @@ main() {
       expect(e.single.index, 0);
       expect(e.single.value, 'a');
 
-      expect(() => enumerate([1, 2]).single, throws);
+      expect(() => enumerate([1, 2]).single, throwsStateError);
     });
 
     test("length", () {

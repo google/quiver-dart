@@ -140,10 +140,10 @@ main() {
 
     // Corner cases
     test('should throw on null', () {
-      expect(() => loop(null, 6, 8), throws);
+      expect(() => loop(null, 6, 8), throwsArgumentError);
     });
     test('should throw on empty', () {
-      expect(() => loop('', 6, 8), throws);
+      expect(() => loop('', 6, 8), throwsArgumentError);
     });
   });
 

@@ -47,11 +47,11 @@ main() {
     });
 
     test("should throw with a bad range", () {
-      expect(() => range(10, 0), throws);
+      expect(() => range(10, 0), throwsArgumentError);
     });
 
     test("should throw with a bad step", () {
-      expect(() => range(0, 10, -1), throws);
+      expect(() => range(0, 10, -1), throwsArgumentError);
     });
   });
 }
