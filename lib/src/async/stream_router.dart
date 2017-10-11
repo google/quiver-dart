@@ -32,7 +32,7 @@ part of quiver.async;
 ///    var onOtherClick router.defaultStream;
 class StreamRouter<T> {
   final Stream<T> _incoming;
-  StreamSubscription _subscription;
+  StreamSubscription<T> _subscription;
 
   final List<_Route<T>> _routes = <_Route<T>>[];
   final StreamController<T> _defaultController =
@@ -67,10 +67,10 @@ class StreamRouter<T> {
   }
 }
 
-typedef bool _Predicate(event);
+typedef bool _Predicate<T>(T event);
 
 class _Route<T> {
-  final _Predicate predicate;
+  final _Predicate<T> predicate;
   final StreamController<T> controller;
 
   _Route(this.predicate, this.controller);

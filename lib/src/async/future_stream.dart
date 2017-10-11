@@ -36,7 +36,7 @@ class FutureStream<T> extends Stream<T> {
 
   Future<Stream<T>> _future;
   StreamController<T> _controller;
-  StreamSubscription _subscription;
+  StreamSubscription<T> _subscription;
 
   FutureStream(Future<Stream<T>> future, {bool broadcast: false}) {
     _future = future.then(_identity, onError: (e, stackTrace) {

@@ -15,11 +15,11 @@
 part of quiver.async;
 
 /// An asynchronous callback that returns a value.
-typedef Future<T> AsyncAction<T>(e);
+typedef Future<T> AsyncAction<T, E>(E e);
 
 /// An asynchronous funcuntion that combines an element [e] with a previous
 /// value [previous], for use with [reduceAsync].
-typedef Future<T> AsyncCombiner<T>(T previous, e);
+typedef Future<T> AsyncCombiner<T, E>(T previous, E e);
 
 /// Calls [action] for each item in [iterable] in turn, waiting for the Future
 /// returned by action to complete.
@@ -28,10 +28,12 @@ typedef Future<T> AsyncCombiner<T>(T previous, e);
 ///
 /// The Future returned completes to [true] if the entire iterable was
 /// processed, otherwise [false].
-Future doWhileAsync(Iterable iterable, AsyncAction<bool> action) =>
+Future<bool> doWhileAsync<T>(
+        Iterable<T> iterable, AsyncAction<bool, T> action) =>
     _doWhileAsync(iterable.iterator, action);
 
-Future _doWhileAsync(Iterator iterator, AsyncAction<bool> action) async {
+Future<bool> _doWhileAsync<T>(
+    Iterator<T> iterator, AsyncAction<bool, T> action) async {
   if (iterator.moveNext()) {
     return await action(iterator.current)
         ? _doWhileAsync(iterator, action)
@@ -44,10 +46,12 @@ Future _doWhileAsync(Iterator iterator, AsyncAction<bool> action) async {
 /// the collection using the provided [combine] function. Similar to
 /// [Iterable.reduce], except that [combine] is an async function that returns
 /// a [Future].
-Future reduceAsync(Iterable iterable, initialValue, AsyncCombiner combine) =>
+Future<S> reduceAsync<S, T>(
+        Iterable<T> iterable, S initialValue, AsyncCombiner<S, T> combine) =>
     _reduceAsync(iterable.iterator, initialValue, combine);
 
-Future _reduceAsync(Iterator iterator, current, AsyncCombiner combine) async {
+Future<S> _reduceAsync<S, T>(
+    Iterator<T> iterator, S current, AsyncCombiner<S, T> combine) async {
   if (iterator.moveNext()) {
     var result = await combine(current, iterator.current);
     return _reduceAsync(iterator, result, combine);
@@ -57,7 +61,8 @@ Future _reduceAsync(Iterator iterator, current, AsyncCombiner combine) async {
 
 /// Schedules calls to [action] for each element in [iterable]. No more than
 /// [maxTasks] calls to [action] will be pending at once.
-Future forEachAsync(Iterable iterable, AsyncAction action, {int maxTasks: 1}) {
+Future<Null> forEachAsync<T>(Iterable<T> iterable, AsyncAction<Null, T> action,
+    {int maxTasks: 1}) {
   if (maxTasks == null || maxTasks < 1) {
     throw new ArgumentError("maxTasks must be greater than 0, was: $maxTasks");
   }
@@ -68,7 +73,7 @@ Future forEachAsync(Iterable iterable, AsyncAction action, {int maxTasks: 1}) {
 
   if (iterable.isEmpty) return new Future.value();
 
-  var completer = new Completer();
+  var completer = new Completer<Null>();
   var iterator = iterable.iterator;
   int pending = 0;
   bool failed = false;

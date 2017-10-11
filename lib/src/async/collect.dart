@@ -30,5 +30,5 @@ part of quiver.async;
 /// [ConcurrentModificationError]:
 ///
 ///     collect(files.toList().map((file) => file.readAsString()));
-Stream collect(Iterable futures) =>
+Stream<T> collect<T>(Iterable<Future<T>> futures) =>
     new Stream.fromIterable(futures).asyncMap((f) => f);
