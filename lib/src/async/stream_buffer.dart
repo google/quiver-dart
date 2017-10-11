@@ -48,7 +48,6 @@ class StreamBuffer<T> implements StreamConsumer<T> {
   int _counter = 0; // sum(_chunks[*].length) - _offset
   List<_ReaderInWaiting<List<T>>> _readers = [];
   StreamSubscription<T> _sub;
-  Completer _streamDone;
 
   final bool _throwOnError;
 
@@ -133,10 +132,9 @@ class StreamBuffer<T> implements StreamConsumer<T> {
     var lastStream = _currentStream == null ? stream : _currentStream;
     if (_sub != null) {
       _sub.cancel();
-      _streamDone.complete();
     }
     _currentStream = stream;
-    Completer streamDone = new Completer();
+    final streamDone = new Completer<Null>();
     _sub = stream.listen((items) {
       _chunks.add(items);
       _counter += items is List ? items.length : 1;
