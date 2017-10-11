@@ -96,7 +96,7 @@ main() {
       var data = [], errors = [];
       var badIteration =
           ['e', 'this should not get thrown'].map((message) => throw message);
-      var concatenated = concat(badIteration as Iterable<Stream>);
+      var concatenated = concat(badIteration);
       var completer = new Completer();
       concatenated.listen(data.add,
           onError: errors.add, onDone: completer.complete);
