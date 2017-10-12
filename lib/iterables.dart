@@ -1,4 +1,4 @@
-// Copyright 2013 Google Inc. All Rights Reserved.
+// Copyright 2014 Google Inc. All Rights Reserved.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,6 +21,7 @@ part 'src/iterables/count.dart';
 part 'src/iterables/cycle.dart';
 part 'src/iterables/enumerate.dart';
 part 'src/iterables/infinite_iterable.dart';
+part 'src/iterables/interleave.dart';
 part 'src/iterables/merge.dart';
 part 'src/iterables/min_max.dart';
 part 'src/iterables/partition.dart';
