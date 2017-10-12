@@ -16,7 +16,7 @@ part of quiver.async;
 
 /// Returns a [Stream] of [IndexedValue]s where the nth value holds the nth
 /// element of [stream] and its index.
-Stream<IndexedValue> enumerate(Stream stream) {
+Stream<IndexedValue<T>> enumerate<T>(Stream<T> stream) {
   var index = 0;
-  return stream.map((value) => new IndexedValue(index++, value));
+  return stream.map((value) => new IndexedValue<T>(index++, value));
 }

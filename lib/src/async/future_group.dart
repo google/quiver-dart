@@ -29,8 +29,8 @@ class FutureGroup<E> {
 
   int _pending = 0;
   Future _failedTask;
-  final Completer<List> _completer = new Completer<List>();
-  final List results = [];
+  final Completer<List<E>> _completer = new Completer<List<E>>();
+  final List<E> results = <E>[];
 
   /// Gets the task that failed, if any.
   Future get failedTask => _failedTask;
@@ -42,7 +42,7 @@ class FutureGroup<E> {
   ///
   /// If this group has a [failedTask], new tasks will be ignored, because the
   /// error has already been signaled.
-  void add(Future task) {
+  void add(Future<E> task) {
     if (_failedTask != null) return;
     if (_pending == _FINISHED) throw new StateError("Future already completed");
 

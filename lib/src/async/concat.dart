@@ -32,19 +32,19 @@ part of quiver.async;
 ///
 ///     concat(files.map((file) =>
 ///         file.openRead().transform(const LineSplitter())))
-Stream concat(Iterable<Stream> streams) => new _ConcatStream(streams);
+Stream<T> concat<T>(Iterable<Stream<T>> streams) => new _ConcatStream(streams);
 
-class _ConcatStream extends Stream {
-  final Iterable<Stream> _streams;
+class _ConcatStream<T> extends Stream<T> {
+  final Iterable<Stream<T>> _streams;
 
-  _ConcatStream(Iterable<Stream> streams) : _streams = streams;
+  _ConcatStream(Iterable<Stream<T>> streams) : _streams = streams;
 
-  StreamSubscription listen(void onData(var data),
+  StreamSubscription<T> listen(void onData(T data),
       {Function onError, void onDone(), bool cancelOnError}) {
     cancelOnError = true == cancelOnError;
-    StreamSubscription currentSubscription;
-    StreamController controller;
-    Iterator iterator = _streams.iterator;
+    StreamSubscription<T> currentSubscription;
+    StreamController<T> controller;
+    final iterator = _streams.iterator;
 
     void nextStream() {
       bool hasNext;
@@ -66,7 +66,7 @@ class _ConcatStream extends Stream {
       }
     }
 
-    controller = new StreamController(onPause: () {
+    controller = new StreamController<T>(onPause: () {
       if (currentSubscription != null) currentSubscription.pause();
     }, onResume: () {
       if (currentSubscription != null) currentSubscription.resume();
