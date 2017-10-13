@@ -52,10 +52,6 @@ predicates.
 `CountdownTimer` is a simple countdown timer that fires events in regular
 increments.
 
-`CreateTimer` and `CreateTimerPeriodic` are typedefs that are useful for
-passing Timer factories to classes and functions, increasing the testability of
-code that depends on Timer.
-
 `Metronome` is a self-correcting alternative to `Timer.periodic`. It provides
 a simple, tracking periodic stream of `DateTime` events with optional anchor
 time.
