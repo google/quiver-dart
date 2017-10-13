@@ -25,6 +25,11 @@ bool isEmpty(String s) => s == null || s.isEmpty;
 bool isNotEmpty(String s) => s != null && s.isNotEmpty;
 
 /// Returns a string with characters from the given [s] in reverse order.
+///
+/// DEPRECATED: without full support for unicode composed character sequences,
+/// sequences including zero-width joiners, etc. this function is unsafe to
+/// use. No replacement is provided.
+@deprecated
 String reverse(String s) {
   if (s == null || s == '') return s;
   StringBuffer sb = new StringBuffer();
