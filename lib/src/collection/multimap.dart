@@ -113,7 +113,7 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
     }
   }
 
-  final Map<K, C> _map = new HashMap();
+  final Map<K, C> _map = {};
 
   C _create();
   void _add(C iterable, V value);
