@@ -8,6 +8,7 @@
    * Deprecated: `createTimer`, `createTimerPeriodic` in the `async` library.
      These were originally written to support FakeTimer, which is superseded
      by FakeAsync.
+   * Multimap is now backed by a LinkedHashMap rather than HashMap.
 
 #### 0.25.0 - 2017-03-28
    * BREAKING CHANGE: minimum SDK constraint increased to 1.21.0. This allows
