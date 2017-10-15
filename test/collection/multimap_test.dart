@@ -65,15 +65,15 @@ void main() {
   });
 
   group('Multimap asMap() view', () {
-    var mmap;
-    var map;
+    Multimap<String, String> mmap;
+    Map<String, Iterable<String>> map;
     setUp(() {
       mmap = new Multimap()..add('k1', 'v1')..add('k1', 'v2')..add('k2', 'v3');
       map = mmap.asMap();
     });
 
     test('operator[]= should throw UnsupportedError', () {
-      expect(() => map['k1'] = [1, 2, 3], throwsUnsupportedError);
+      expect(() => map['k1'] = ['1', '2', '3'], throwsUnsupportedError);
     });
 
     test('containsKey() should return false for missing key', () {
@@ -118,7 +118,7 @@ void main() {
     test('addAll(Map m) should throw UnsupportedError', () {
       expect(
           () => map.addAll({
-                'k1': [1, 2, 3]
+                'k1': ['1', '2', '3']
               }),
           throwsUnsupportedError);
     });
@@ -310,6 +310,15 @@ void main() {
         ..add('k', 'v2');
       expect(map.containsValue('v0'), false);
       expect(map.containsValue('v1'), true);
+    });
+
+    test('should return whether it contains a key/value association', () {
+      var map = new ListMultimap<String, String>()
+        ..add('k', 'v1')
+        ..add('k', 'v2');
+      expect(map.contains('k', 'v0'), false);
+      expect(map.contains('f', 'v1'), false);
+      expect(map.contains('k', 'v1'), true);
     });
 
     test('should remove specified key-value associations', () {
