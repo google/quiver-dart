@@ -24,49 +24,51 @@ part of quiver.iterables;
 ///
 /// If any of the [iterables] contain null elements, an exception will be
 /// thrown.
-Iterable merge(Iterable<Iterable> iterables,
-        [Comparator compare = Comparable.compare]) =>
-    (iterables.isEmpty) ? const [] : new _Merge(iterables, compare);
+Iterable<T> merge<T>(Iterable<Iterable<T>> iterables,
+        [Comparator<T> compare]) =>
+    iterables.isEmpty
+        ? const <T>[]
+        : new _Merge<T>(iterables, compare ?? Comparable.compare);
 
-class _Merge extends IterableBase {
-  final Iterable<Iterable> _iterables;
-  final Comparator _compare;
+class _Merge<T> extends IterableBase<T> {
+  final Iterable<Iterable<T>> _iterables;
+  final Comparator<T> _compare;
 
   _Merge(this._iterables, this._compare);
 
-  Iterator get iterator => new _MergeIterator(
+  Iterator<T> get iterator => new _MergeIterator<T>(
       _iterables.map((i) => i.iterator).toList(growable: false), _compare);
 
   String toString() => this.toList().toString();
 }
 
 /// Like [Iterator] but one element ahead.
-class _IteratorPeeker {
-  final Iterator _iterator;
+class _IteratorPeeker<T> {
+  final Iterator<T> _iterator;
   bool _hasCurrent;
 
-  _IteratorPeeker(Iterator iterator)
+  _IteratorPeeker(Iterator<T> iterator)
       : _iterator = iterator,
         _hasCurrent = iterator.moveNext();
 
-  moveNext() {
+  void moveNext() {
     _hasCurrent = _iterator.moveNext();
   }
 
-  get current => _iterator.current;
+  T get current => _iterator.current;
 }
 
-class _MergeIterator implements Iterator {
-  final List<_IteratorPeeker> _peekers;
-  final Comparator _compare;
-  var _current;
+class _MergeIterator<T> implements Iterator<T> {
+  final List<_IteratorPeeker<T>> _peekers;
+  final Comparator<T> _compare;
+  T _current;
 
-  _MergeIterator(List<Iterator> iterators, this._compare)
+  _MergeIterator(List<Iterator<T>> iterators, this._compare)
       : _peekers = iterators.map((i) => new _IteratorPeeker(i)).toList();
 
   bool moveNext() {
     // Pick the peeker that's peeking at the puniest piece
-    _IteratorPeeker minIter = null;
+    _IteratorPeeker<T> minIter = null;
     for (var p in _peekers) {
       if (p._hasCurrent) {
         if (minIter == null || _compare(p.current, minIter.current) < 0) {
@@ -83,5 +85,5 @@ class _MergeIterator implements Iterator {
     return true;
   }
 
-  get current => _current;
+  T get current => _current;
 }
