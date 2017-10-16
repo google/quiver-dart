@@ -8,6 +8,7 @@
    * Deprecated: `createTimer`, `createTimerPeriodic` in the `async` library.
      These were originally written to support FakeTimer, which is superseded
      by FakeAsync.
+   * Multimap: added `contains` to know if an association key/value exists.
 
 #### 0.25.0 - 2017-03-28
    * BREAKING CHANGE: minimum SDK constraint increased to 1.21.0. This allows
@@ -46,10 +47,10 @@
    * Fix: `fake_async.dart` timers are now active while executing the callback
 
 #### 0.21.4 - 2015-05-15
-   * Add stats reporting for fake async tests. You can query the number of 
-     pending microtasks and timers via `microtaskCount`, `periodicTimerCount`, 
+   * Add stats reporting for fake async tests. You can query the number of
+     pending microtasks and timers via `microtaskCount`, `periodicTimerCount`,
      `nonPeriodicTimerCount`.
-                                         
+
 #### 0.21.3+1 - 2015-05-11
    * Switch from unittest to test.
 
