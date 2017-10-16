@@ -99,6 +99,10 @@ main() {
       expect(new Optional<int>.of(7), equals(new Optional<int>.of(7)));
       expect(new Optional<int>.fromNullable(null),
           equals(new Optional<int>.fromNullable(null)));
+      expect(
+          new Optional<int>.fromNullable(null) ==
+              new Optional<String>.fromNullable(null),
+          isFalse);
       expect(new Optional<int>.fromNullable(null),
           isNot(equals(new Optional<int>.of(7))));
       expect(new Optional<int>.of(7), isNot(equals(new Optional<int>.of(8))));
