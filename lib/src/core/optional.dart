@@ -98,7 +98,7 @@ class Optional<T> extends IterableBase<T> {
   int get hashCode => _value.hashCode;
 
   /// Delegates to the underlying [value] operator==.
-  bool operator ==(o) => o is Optional && o._value == _value;
+  bool operator ==(o) => o is Optional<T> && o._value == _value;
 
   String toString() {
     return _value == null
