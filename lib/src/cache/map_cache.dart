@@ -27,29 +27,20 @@ class MapCache<K, V> implements Cache<K, V> {
     return new MapCache<K, V>(map: new LruMap(maximumSize: maximumSize));
   }
 
-  Future<V> get(K key, {Loader<K> ifAbsent}) {
+  Future<V> get(K key, {Loader<K, V> ifAbsent}) async {
     if (!_map.containsKey(key) && ifAbsent != null) {
-      var valOrFuture = ifAbsent(key);
-      if (valOrFuture is Future) {
-        return valOrFuture.then((v) {
-          _map[key] = v as V;
-          return v as V;
-        });
-      } else {
-        _map[key] = valOrFuture as V;
-        return new Future<V>.value(valOrFuture);
-      }
+      var v = await ifAbsent(key);
+      _map[key] = v;
+      return v;
     }
-    return new Future.value(_map[key]);
+    return _map[key];
   }
 
-  Future set(K key, V value) {
+  Future<Null> set(K key, V value) async {
     _map[key] = value;
-    return new Future.value();
   }
 
-  Future invalidate(K key) {
+  Future<Null> invalidate(K key) async {
     _map.remove(key);
-    return new Future.value();
   }
 }
