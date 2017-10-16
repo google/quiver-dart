@@ -35,6 +35,10 @@ abstract class Multimap<K, V> {
   /// Returns whether this multimap contains the given [key].
   bool containsKey(Object key);
 
+  /// Returns whether this multimap contains the given association between [key]
+  /// and [value].
+  bool contains(Object key, Object value);
+
   /// Returns the values for the given [key]. An empty iterable is returned if
   /// [key] is not mapped. The returned collection is a view on the multimap.
   /// Updates to the collection modify the multimap and likewise, modifications
@@ -124,6 +128,7 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
 
   bool containsValue(Object value) => values.contains(value);
   bool containsKey(Object key) => _map.keys.contains(key);
+  bool contains(Object key, Object value) => _map[key]?.contains(value) == true;
 
   Iterable<V> operator [](Object key) {
     var values = _map[key];
