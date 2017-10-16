@@ -8,6 +8,7 @@
    * Deprecated: `createTimer`, `createTimerPeriodic` in the `async` library.
      These were originally written to support FakeTimer, which is superseded
      by FakeAsync.
+   * Multimap is now backed by a LinkedHashMap rather than HashMap.
    * Multimap: added `contains` to know if an association key/value exists.
 
 #### 0.25.0 - 2017-03-28
