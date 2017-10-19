@@ -18,35 +18,10 @@ part of quiver.iterables;
 /// iterable contains the nth element from every Iterable in [iterables]. The
 /// returned Iterable is as long as the shortest Iterable in the argument. If
 /// [iterables] is empty, it returns an empty list.
-Iterable<List> zip(Iterable<Iterable> iterables) =>
-    (iterables.isEmpty) ? const [] : new _Zip(iterables);
-
-class _Zip extends IterableBase<List> {
-  final Iterable<Iterable> iterables;
-
-  _Zip(Iterable<Iterable> this.iterables);
-
-  Iterator<List> get iterator => new _ZipIterator(
-      iterables.map((i) => i.iterator).toList(growable: false));
-}
-
-class _ZipIterator implements Iterator<List> {
-  final List<Iterator> _iterators;
-  List _current;
-
-  _ZipIterator(List<Iterator> this._iterators);
-
-  List get current => _current;
-
-  bool moveNext() {
-    bool hasNext = true;
-    var newValue = new List(_iterators.length);
-    for (int i = 0; i < _iterators.length; i++) {
-      var iter = _iterators[i];
-      hasNext = hasNext && iter.moveNext();
-      newValue[i] = iter.current;
-    }
-    _current = (hasNext) ? newValue : null;
-    return hasNext;
+Iterable<List<T>> zip<T>(Iterable<Iterable<T>> iterables) sync* {
+  if (iterables.isEmpty) return;
+  final iterators = iterables.map((e) => e.iterator).toList(growable: false);
+  while (iterators.every((e) => e.moveNext())) {
+    yield iterators.map((e) => e.current).toList(growable: false);
   }
 }
