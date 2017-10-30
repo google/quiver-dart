@@ -211,7 +211,7 @@ class _FakeAsync implements FakeAsync {
         _microtasks.add(microtask);
       });
 
-  _drainTimersWhile(bool predicate(_FakeTimer)) {
+  _drainTimersWhile(bool predicate(_FakeTimer timer)) {
     _drainMicrotasks();
     _FakeTimer next;
     while ((next = _getNextTimer()) != null && predicate(next)) {
