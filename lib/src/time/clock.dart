@@ -20,49 +20,6 @@ typedef DateTime TimeFunction();
 /// Return current system time.
 DateTime systemTime() => new DateTime.now();
 
-/// Days in a month. This array uses 1-based month numbers, i.e. January is
-/// the 1-st element in the array, not the 0-th.
-const _DAYS_IN_MONTH = const [
-  0,
-  31,
-  28,
-  31,
-  30,
-  31,
-  30,
-  31,
-  31,
-  30,
-  31,
-  30,
-  31
-];
-
-int _daysInMonth(int year, int month) =>
-    (month == DateTime.FEBRUARY && _isLeapYear(year))
-        ? 29
-        : _DAYS_IN_MONTH[month];
-
-bool _isLeapYear(int year) =>
-    (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
-
-/// Takes a [date] that may be outside the allowed range of dates for a given
-/// [month] in a given [year] and returns the closest date that is within the
-/// allowed range.
-///
-/// For example:
-///
-/// February 31, 2013 => February 28, 2013
-///
-/// When jumping from month to month or from leap year to common year we may
-/// end up in a month that has fewer days than the month we are jumping from.
-/// In that case it is impossible to preserve the exact date. So we "clamp" the
-/// date value to fit within the month. For example, jumping from March 31 one
-/// month back takes us to February 28 (or 29 during a leap year), as February
-/// doesn't have 31-st date.
-int _clampDate(int date, int year, int month) =>
-    date.clamp(1, _daysInMonth(year, month));
-
 /// Provides points in time relative to the current point in time, for example:
 /// now, 2 days ago, 4 weeks from now, etc.
 ///
@@ -178,7 +135,7 @@ class Clock {
     var time = now();
     var m = (time.month - months - 1) % 12 + 1;
     var y = time.year - (months + 12 - time.month) ~/ 12;
-    var d = _clampDate(time.day, y, m);
+    var d = clampDayOfMonth(year: y, month: m, day: time.day);
     return new DateTime(
         y, m, d, time.hour, time.minute, time.second, time.millisecond);
   }
@@ -188,7 +145,7 @@ class Clock {
     var time = now();
     var m = (time.month + months - 1) % 12 + 1;
     var y = time.year + (months + time.month - 1) ~/ 12;
-    var d = _clampDate(time.day, y, m);
+    var d = clampDayOfMonth(year: y, month: m, day: time.day);
     return new DateTime(
         y, m, d, time.hour, time.minute, time.second, time.millisecond);
   }
@@ -197,7 +154,7 @@ class Clock {
   DateTime yearsAgo(int years) {
     var time = now();
     var y = time.year - years;
-    var d = _clampDate(time.day, y, time.month);
+    var d = clampDayOfMonth(year: y, month: time.month, day: time.day);
     return new DateTime(y, time.month, d, time.hour, time.minute, time.second,
         time.millisecond);
   }

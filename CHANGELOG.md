@@ -8,6 +8,8 @@
    * Deprecated: `createTimer`, `createTimerPeriodic` in the `async` library.
      These were originally written to support FakeTimer, which is superseded
      by FakeAsync.
+   * New: Added `isLeapYear`, `daysInMonth`, `clampDayOfMonth` APIs in the
+     `time` library.
    * Multimap is now backed by a LinkedHashMap rather than HashMap.
 
 #### 0.25.0 - 2017-03-28
