@@ -1,4 +1,4 @@
-#### 0.26.0-dev
+#### 0.26.0 - 2017-11-01
    * BREAKING CHANGE: eliminated deprecated `flip`. Replaced by `reverse` in
      0.25.0.
    * BREAKING CHANGE: eliminated deprecated `repeat`. Deprecated in 0.25.0.
