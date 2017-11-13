@@ -27,7 +27,7 @@ part of quiver.iterables;
 Iterable<T> merge<T>(Iterable<Iterable<T>> iterables,
         [Comparator<T> compare]) =>
     iterables.isEmpty
-        ? const <T>[]
+        ? const <Null>[]
         : new _Merge<T>(iterables, compare ?? Comparable.compare);
 
 class _Merge<T> extends IterableBase<T> {
