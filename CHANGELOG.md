@@ -3,6 +3,8 @@
    * Fix: when removing the last item, `LinkedLruHashMap` was put into a state
      such that the next cache eviction could cause a null-pointer exception.
      Issue [#385](https://github.com/google/quiver-dart/issues/385).
+   * Fix: strong mode fix when calling `merge` on the empty set of iterables.
+     PR [#384](https://github.com/google/quiver-dart/pull/384).
 
 #### 0.26.0 - 2017-11-01
    * BREAKING CHANGE: eliminated deprecated `flip`. Replaced by `reverse` in
