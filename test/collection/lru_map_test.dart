@@ -159,6 +159,16 @@ void main() {
       expect(lruMap.values.toList(), ['Charlie', 'Beta', 'Alpha']);
     });
 
+    test('Re-adding the head entry is a no-op', () {
+      // See: https://github.com/google/quiver-dart/issues/357
+      lruMap = new LruMap();
+      lruMap['A'] = 'Alpha';
+      lruMap['A'] = 'Alpha';
+
+      expect(lruMap.keys.toList(), ['A']);
+      expect(lruMap.values.toList(), ['Alpha']);
+    });
+
     group('`remove`', () {
       setUp(() {
         lruMap = new LruMap()
@@ -197,6 +207,16 @@ void main() {
         lruMap.remove('B');
         expect(lruMap.keys.toList(), ['C', 'A']);
       });
+    });
+
+    test(
+        'Test that the linked list is correctly mutated when promoting an element in the middle',
+        () {
+      LruMap<String, int> lruMap = new LruMap(maximumSize: 3)
+        ..addAll({'C': 1, 'A': 1, 'B': 1});
+      lruMap['A'] = 1;
+      lruMap['C'];
+      expect(lruMap.length, lruMap.keys.length);
     });
 
     group('`putIfAbsent`', () {
