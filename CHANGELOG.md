@@ -3,7 +3,7 @@
    * Fix: re-adding the most-recently-used entry to a `LinkedLruHashMap`
      previously introduced a loop in the internal linked list.
    * Fix: when removing an entry in the middle of the `LinkedLruHashMap`, the
-     recency list was not not correctly re-linked.
+     recency list was not correctly re-linked.
 
 #### 0.26.1 - 2017-11-16
 
