@@ -197,7 +197,9 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   V remove(Object key) {
     final entry = _entries.remove(key);
     if (entry != null) {
-      if (entry == _head) {
+      if (entry == _head && entry == _tail) {
+        _head = _tail = null;
+      } else if (entry == _head) {
         _head = _head.next;
       } else if (entry == _tail) {
         _tail.previous.next = null;

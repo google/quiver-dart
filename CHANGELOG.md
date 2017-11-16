@@ -1,3 +1,9 @@
+#### 0.27.0-dev
+
+   * Fix: when removing the last item, `LinkedLruHashMap` was put into a state
+     such that the next cache eviction could cause a null-pointer exception.
+     Issue [#385](https://github.com/google/quiver-dart/issues/385).
+
 #### 0.26.0 - 2017-11-01
    * BREAKING CHANGE: eliminated deprecated `flip`. Replaced by `reverse` in
      0.25.0.
