@@ -159,7 +159,8 @@ void main() {
       expect(lruMap.values.toList(), ['Charlie', 'Beta', 'Alpha']);
     });
 
-    test('Re-adding the key in the first position does not create a loop #357', () {
+    test('Re-adding the head entry is a no-op', () {
+      // See: https://github.com/google/quiver-dart/issues/357
       lruMap = new LruMap();
       lruMap['A'] = 'Alpha';
       lruMap['A'] = 'Alpha';
@@ -208,14 +209,15 @@ void main() {
       });
     });
 
-    test ('Test that the linked list is correctly mutated when promoting an element in the middle', () {
+    test(
+        'Test that the linked list is correctly mutated when promoting an element in the middle',
+        () {
       LruMap<String, int> lruMap = new LruMap(maximumSize: 3)
-        ..addAll({ 'C': 1, 'A': 1, 'B': 1 });
+        ..addAll({'C': 1, 'A': 1, 'B': 1});
       lruMap['A'] = 1;
       lruMap['C'];
       expect(lruMap.length, lruMap.keys.length);
     });
-
 
     group('`putIfAbsent`', () {
       setUp(() {
