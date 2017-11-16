@@ -208,6 +208,15 @@ void main() {
       });
     });
 
+    test ('Test that the linked list is correctly mutated when promoting an element in the middle', () {
+      LruMap<String, int> lruMap = new LruMap(maximumSize: 3)
+        ..addAll({ 'C': 1, 'A': 1, 'B': 1 });
+      lruMap['A'] = 1;
+      lruMap['C'];
+      expect(lruMap.length, lruMap.keys.length);
+    });
+
+
     group('`putIfAbsent`', () {
       setUp(() {
         lruMap = new LruMap()

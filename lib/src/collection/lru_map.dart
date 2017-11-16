@@ -231,6 +231,10 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
         _tail = entry.previous;
       }
     }
+    // If this entry is not the end of the list then link the next entry to the previous entry.
+    if (entry.next != null) {
+      entry.next.previous = entry.previous;
+    }
 
     // Replace head with this element.
     if (_head != null) {
