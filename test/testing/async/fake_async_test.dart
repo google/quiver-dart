@@ -163,6 +163,46 @@ main() {
           });
         });
 
+        test('should call timers occurring at the same time in FIFO order', () {
+          new FakeAsync().run((async) {
+            var log = [];
+            new Timer(elapseBy ~/ 2, () {
+              log.add('1');
+            });
+            new Timer(elapseBy ~/ 2, () {
+              log.add('2');
+            });
+            async.elapse(elapseBy);
+            expect(log, ['1', '2']);
+          });
+        });
+
+        test('should maintain FIFO order even with periodic timers', () {
+          new FakeAsync().run((async) {
+            var log = [];
+            new Timer.periodic(elapseBy ~/ 2, (_) {
+              log.add('periodic 1');
+            });
+            new Timer(elapseBy ~/ 2, () {
+              log.add('delayed 1');
+            });
+            new Timer(elapseBy, () {
+              log.add('delayed 2');
+            });
+            new Timer.periodic(elapseBy, (_) {
+              log.add('periodic 2');
+            });
+            async.elapse(elapseBy);
+            expect(log, [
+              'periodic 1',
+              'delayed 1',
+              'periodic 1',
+              'delayed 2',
+              'periodic 2'
+            ]);
+          });
+        });
+
         test('should process microtasks surrounding each timer', () {
           new FakeAsync().run((async) {
             var microtaskCalls = 0;
@@ -383,17 +423,17 @@ main() {
     });
 
     group('flushTimers', () {
-      test('should flush timers', () {
+      test('should flush timers in FIFO order', () {
         new FakeAsync().run((async) {
           final log = [];
           new Future(() {
-            log.add(2);
+            log.add(1);
             new Future.delayed(elapseBy, () {
               log.add(3);
             });
           });
           new Future(() {
-            log.add(1);
+            log.add(2);
           });
           expect(log, hasLength(0), reason: 'should not flush until asked to');
           async.flushTimers(timeout: elapseBy * 2, flushPeriodicTimers: false);
@@ -402,7 +442,9 @@ main() {
         });
       });
 
-      test('should run collateral periodic timers', () {
+      test(
+          'should run collateral periodic timers with non-periodic first if '
+          'scheduled first', () {
         new FakeAsync().run((async) {
           final log = [];
           new Future.delayed(const Duration(seconds: 2), () {
@@ -410,6 +452,23 @@ main() {
           });
           new Timer.periodic(const Duration(seconds: 1), (_) {
             log.add('periodic');
+          });
+          expect(log, hasLength(0), reason: 'should not flush until asked to');
+          async.flushTimers(flushPeriodicTimers: false);
+          expect(log, ['periodic', 'delayed', 'periodic']);
+        });
+      });
+
+      test(
+          'should run collateral periodic timers with periodic first '
+          'if scheduled first', () {
+        new FakeAsync().run((async) {
+          final log = [];
+          new Timer.periodic(new Duration(seconds: 1), (_) {
+            log.add('periodic');
+          });
+          new Future.delayed(new Duration(seconds: 2), () {
+            log.add('delayed');
           });
           expect(log, hasLength(0), reason: 'should not flush until asked to');
           async.flushTimers(flushPeriodicTimers: false);
