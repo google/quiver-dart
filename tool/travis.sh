@@ -29,7 +29,7 @@ fi
 
 # Run the tests.
 echo "Running tests..."
-pub run test:test
+pub run test:test --reporter expanded
 
 # Gather and send coverage data.
 if [ "$REPO_TOKEN" ] && [ "$TRAVIS_DART_VERSION" = "stable" ]; then
