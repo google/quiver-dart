@@ -7,6 +7,10 @@
 # Fast fail the script on failures.
 set -e
 
+# Run pub get to fetch dependencies.
+echo "Running pub get..."
+pub get
+
 # Verify that the libraries are error and warning-free.
 echo "Running dartanalyzer..."
 libs=$(find lib -maxdepth 1 -type f -name '*.dart')
