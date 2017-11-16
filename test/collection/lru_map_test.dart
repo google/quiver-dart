@@ -159,6 +159,15 @@ void main() {
       expect(lruMap.values.toList(), ['Charlie', 'Beta', 'Alpha']);
     });
 
+    test('Re-adding the key in the first position does not create a loop #357', () {
+      lruMap = new LruMap();
+      lruMap['A'] = 'Alpha';
+      lruMap['A'] = 'Alpha';
+
+      expect(lruMap.keys.toList(), ['A']);
+      expect(lruMap.values.toList(), ['Alpha']);
+    });
+
     group('`remove`', () {
       setUp(() {
         lruMap = new LruMap()

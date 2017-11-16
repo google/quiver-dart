@@ -217,6 +217,11 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
 
   /// Moves [entry] to the MRU position, shifting the linked list if necessary.
   void _promoteEntry(_LinkedEntry<K, V> entry) {
+    // If this entry is already in the MRU position we are done.
+    if (entry == _head) {
+      return;
+    }
+
     if (entry.previous != null) {
       // If already existed in the map, link previous to next.
       entry.previous.next = entry.next;
