@@ -173,6 +173,16 @@ void main() {
         expect(lruMap.remove('D'), isNull);
       });
 
+      test('can remove the last item (head and tail)', () {
+        // See: https://github.com/google/quiver-dart/issues/385
+        lruMap = new LruMap(maximumSize: 1)
+          ..addAll({'A': 'Alpha'})
+          ..remove('A');
+        lruMap['B'] = 'Beta';
+        lruMap['C'] = 'Charlie';
+        expect(lruMap.keys.toList(), ['C']);
+      });
+
       test('can remove the head', () {
         lruMap.remove('C');
         expect(lruMap.keys.toList(), ['B', 'A']);
