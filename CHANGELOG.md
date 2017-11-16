@@ -1,4 +1,4 @@
-#### 0.27.0-dev
+#### 0.26.1 - 2017-11-16
 
    * Fix: when removing the last item, `LinkedLruHashMap` was put into a state
      such that the next cache eviction could cause a null-pointer exception.
