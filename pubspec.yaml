@@ -13,6 +13,7 @@ authors:
 - Victor Berchet <victor@suumit.com>
 - Wil Pirino <willyp@google.com>
 - Adam Lofts <adam.lofts@gmail.com>
+- Alec Henninger <alechenninger@gmail.com>
 description: A set of utility libraries for Dart
 homepage: https://github.com/google/quiver-dart
 environment:
