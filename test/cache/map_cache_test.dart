@@ -64,5 +64,22 @@ main() {
         expect(value, 'foofoo');
       });
     });
+
+    test("should not make multiple requests for the same key", () async {
+      int count = 0;
+
+      Future<String> loader(String key) {
+        count += 1;
+        return new Future.delayed(
+            const Duration(milliseconds: 1), () => "test");
+      }
+
+      await Future.wait([
+        cache.get("test", ifAbsent: loader),
+        cache.get("test", ifAbsent: loader),
+      ]);
+
+      expect(count, equals(1));
+    });
   });
 }
