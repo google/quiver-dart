@@ -17,6 +17,7 @@ part of quiver.cache;
 /// A [Cache] that's backed by a [Map].
 class MapCache<K, V> implements Cache<K, V> {
   final Map<K, V> _map;
+
   /// Map of outstanding ifAbsent calls used to prevent concurrent loads of the same key.
   final _outstanding = <K, FutureOr<V>>{};
 
