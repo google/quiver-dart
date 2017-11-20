@@ -17,6 +17,8 @@ part of quiver.cache;
 /// A [Cache] that's backed by a [Map].
 class MapCache<K, V> implements Cache<K, V> {
   final Map<K, V> _map;
+  // Map of outstanding ifAbsent calls used to prevent concurrent loads of the same key.
+  final Map<K, FutureOr<V>> _outstanding = {};
 
   /// Creates a new [MapCache], optionally using [map] as the backing [Map].
   MapCache({Map<K, V> map}) : _map = map != null ? map : new HashMap<K, V>();
@@ -28,12 +30,22 @@ class MapCache<K, V> implements Cache<K, V> {
   }
 
   Future<V> get(K key, {Loader<K, V> ifAbsent}) async {
-    if (!_map.containsKey(key) && ifAbsent != null) {
-      var v = await ifAbsent(key);
+    if (_map.containsKey(key)) {
+      return _map[key];
+    }
+    // If this key is already loading then return the existing future.
+    if (_outstanding.containsKey(key)) {
+      return _outstanding[key];
+    }
+    if (ifAbsent != null) {
+      var futureOr = ifAbsent(key);
+      _outstanding[key] = futureOr;
+      var v = await futureOr;
       _map[key] = v;
+      _outstanding.remove(key);
       return v;
     }
-    return _map[key];
+    return null;
   }
 
   Future<Null> set(K key, V value) async {
