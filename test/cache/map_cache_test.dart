@@ -70,7 +70,7 @@ main() {
 
       Future<String> loader(String key) {
         count += 1;
-        return new Future.delayed(new Duration(milliseconds: 1), () => "test");
+        return new Future.delayed(const Duration(milliseconds: 1), () => "test");
       }
 
       await Future.wait([
