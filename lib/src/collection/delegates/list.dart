@@ -34,28 +34,79 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
     delegate[index] = value;
   }
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  List<E> operator +(List<E> other) {
+    throw new UnimplementedError("+");
+  }
+
   void add(E value) => delegate.add(value);
 
   void addAll(Iterable<E> iterable) => delegate.addAll(iterable);
 
   Map<int, E> asMap() => delegate.asMap();
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  DelegatingList<T> cast<T>() {
+    throw new UnimplementedError("cast");
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  DelegatingList<T> retype<T>() {
+    throw new UnimplementedError("retype");
+  }
+
   void clear() => delegate.clear();
 
   void fillRange(int start, int end, [E fillValue]) =>
       delegate.fillRange(start, end, fillValue);
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_setter
+  void set first(E element) {
+    if (this.isEmpty) throw new RangeError.index(0, this);
+    this[0] = element;
+  }
+
   Iterable<E> getRange(int start, int end) => delegate.getRange(start, end);
 
   int indexOf(E element, [int start = 0]) => delegate.indexOf(element, start);
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  int indexWhere(bool test(E element), [int start = 0]) {
+    throw new UnimplementedError("indexWhere");
+  }
 
   void insert(int index, E element) => delegate.insert(index, element);
 
   void insertAll(int index, Iterable<E> iterable) =>
       delegate.insertAll(index, iterable);
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_setter
+  void set last(E element) {
+    if (this.isEmpty) throw new RangeError.index(0, this);
+    this[this.length - 1] = element;
+  }
+
   int lastIndexOf(E element, [int start]) =>
       delegate.lastIndexOf(element, start);
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  int lastIndexWhere(bool test(E element), [int start]) {
+    throw new UnimplementedError("lastIndexWhere");
+  }
 
   void set length(int newLength) {
     delegate.length = newLength;

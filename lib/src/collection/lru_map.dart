@@ -80,6 +80,22 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   void addAll(Map<K, V> other) => other.forEach((k, v) => this[k] = v);
 
   @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  void addEntries(Iterable<Object> entries) {
+    // Change Iterable<Object> to Iterable<MapEntry<K, V>> when
+    // the MapEntry class has been added.
+    throw new UnimplementedError("addEntries");
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  LinkedLruHashMap<K2, V2> cast<K2, V2>() {
+    throw new UnimplementedError("cast");
+  }
+
+  @override
   void clear() {
     _entries.clear();
     _head = _tail = null;
@@ -90,6 +106,15 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
 
   @override
   bool containsValue(Object value) => values.contains(value);
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_getter
+  Iterable<Null> get entries {
+    // Change Iterable<Null> to Iterable<MapEntry<K, V>> when
+    // the MapEntry class has been added.
+    throw new UnimplementedError("entries");
+  }
 
   /// Applies [action] to each key-value pair of the map in order of MRU to
   /// LRU.
@@ -130,6 +155,15 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   /// The returned iterable does *not* have efficient `length` or `contains`.
   @override
   Iterable<V> get values => _iterable().map((e) => e.value);
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Map<K2, V2> map<K2, V2>(Object transform(K key, V value)) {
+    // Change Object to MapEntry<K2, V2> when
+    // the MapEntry class has been added.
+    throw new UnimplementedError("map");
+  }
 
   @override
   int get maximumSize => _maximumSize;
@@ -213,7 +247,35 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   }
 
   @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  void removeWhere(bool test(K key, V value)) {
+    throw new UnimplementedError("removeWhere");
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  LinkedLruHashMap<K2, V2> retype<K2, V2>() {
+    throw new UnimplementedError("retype");
+  }
+
+  @override
   String toString() => Maps.mapToString(this);
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  V update(K key, V update(V value), {V ifAbsent()}) {
+    throw new UnimplementedError("update");
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  void updateAll(V update(K key, V value)) {
+    throw new UnimplementedError("updateAll");
+  }
 
   /// Moves [entry] to the MRU position, shifting the linked list if necessary.
   void _promoteEntry(_LinkedEntry<K, V> entry) {

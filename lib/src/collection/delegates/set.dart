@@ -32,6 +32,20 @@ abstract class DelegatingSet<E> extends DelegatingIterable<E>
 
   void addAll(Iterable<E> elements) => delegate.addAll(elements);
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  DelegatingSet<T> cast<T>() {
+    throw new UnimplementedError("cast");
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  DelegatingSet<T> retype<T>() {
+    throw new UnimplementedError("retype");
+  }
+
   void clear() => delegate.clear();
 
   bool containsAll(Iterable<Object> other) => delegate.containsAll(other);

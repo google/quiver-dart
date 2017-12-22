@@ -29,6 +29,13 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
 
   bool any(bool test(E element)) => delegate.any(test);
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Iterable<T> cast<T>() {
+    throw new UnimplementedError("cast");
+  }
+
   bool contains(Object element) => delegate.contains(element);
 
   E elementAt(int index) => delegate.elementAt(index);
@@ -44,6 +51,13 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
 
   T fold<T>(T initialValue, T combine(T previousValue, E element)) =>
       delegate.fold(initialValue, combine);
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Iterable<E> followedBy(Iterable<E> other) {
+    throw new UnimplementedError("followedBy");
+  }
 
   void forEach(void f(E element)) => delegate.forEach(f);
 
@@ -66,9 +80,19 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
 
   E reduce(E combine(E value, E element)) => delegate.reduce(combine);
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Iterable<T> retype<T>() {
+    throw new UnimplementedError("retype");
+  }
+
   E get single => delegate.single;
 
-  E singleWhere(bool test(E element)) => delegate.singleWhere(test);
+  E singleWhere(bool test(E element), {E orElse()}) {
+    if (orElse != null) throw new UnimplementedError("singleWhere:orElse");
+    return delegate.singleWhere(test);
+  }
 
   Iterable<E> skip(int n) => delegate.skip(n);
 
@@ -83,4 +107,11 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   Set<E> toSet() => delegate.toSet();
 
   Iterable<E> where(bool test(E element)) => delegate.where(test);
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Iterable<T> whereType<T>() {
+    throw new UnimplementedError("whereType");
+  }
 }
