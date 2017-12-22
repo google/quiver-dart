@@ -20,10 +20,10 @@ import 'package:quiver/cache.dart';
 
 main() {
   group('MapCache', () {
-    MapCache cache;
+    MapCache<String, String> cache;
 
     setUp(() {
-      cache = new MapCache();
+      cache = new MapCache<String, String>();
     });
 
     test("should return null for a non-existent key", () {
