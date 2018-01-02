@@ -70,11 +70,45 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   int get length => _map.length;
   Iterable<V> get values => _inverse.keys;
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  void addEntries(Iterable<Object> entries) {
+    // Change Iterable<Object> to Iterable<MapEntry<K, V>> when
+    // the MapEntry class has been added.
+    throw new UnimplementedError("addEntries");
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Map<K2, V2> cast<K2, V2>() {
+    throw new UnimplementedError("cast");
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_getter
+  Iterable<Null> get entries {
+    // Change Iterable<Null> to Iterable<MapEntry<K, V>> when
+    // the MapEntry class has been added.
+    throw new UnimplementedError("entries");
+  }
+
   BiMap<V, K> get inverse {
     if (_cached == null) {
       _cached = new HashBiMap._from(_inverse, _map);
     }
     return _cached;
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Map<K2, V2> map<K2, V2>(Object transform(K key, V value)) {
+    // Change Object to MapEntry<K2, V2> when
+    // the MapEntry class has been added.
+    throw new UnimplementedError("map");
   }
 
   V putIfAbsent(K key, V ifAbsent()) {
@@ -87,6 +121,34 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   V remove(Object key) {
     _inverse.remove(_map[key]);
     return _map.remove(key);
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  void removeWhere(bool test(K key, V value)) {
+    throw new UnimplementedError("removeWhere");
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Map<K2, V2> retype<K2, V2>() {
+    throw new UnimplementedError("retype");
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  V update(K key, V update(V value), {V ifAbsent()}) {
+    throw new UnimplementedError("update");
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  void updateAll(V update(K key, V value)) {
+    throw new UnimplementedError("updateAll");
   }
 
   void clear() {

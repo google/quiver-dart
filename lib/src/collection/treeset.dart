@@ -51,6 +51,14 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   /// if missing.  See [TreeSearch].
   V nearest(V object, {TreeSearch nearestOption: TreeSearch.NEAREST});
 
+  @override
+  // ignore: override_on_non_overriding_method
+  Set<T> cast<T>();
+
+  @override
+  // ignore: override_on_non_overriding_method
+  Set<T> retype<T>();
+
   // TODO: toString or not toString, that is the question.
 }
 
