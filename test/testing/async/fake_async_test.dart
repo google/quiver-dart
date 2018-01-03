@@ -358,7 +358,7 @@ main() {
           new FakeAsync().run((async) {
             var events = <int>[];
             var errors = [];
-            var controller = new StreamController();
+            var controller = new StreamController<int>();
             var timed = controller.stream.timeout(const Duration(minutes: 2));
             var subscription = timed.listen(events.add, onError: errors.add);
             controller.add(0);
