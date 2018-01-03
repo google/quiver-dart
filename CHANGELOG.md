@@ -1,4 +1,4 @@
-#### 0.27.0-dev
+#### 0.27.0 - 2018-01-03
 
    * BREAKING CHANGE: all classes that implement `Iterable`, `List`, `Map`,
      `Queue`, `Set`, or `Timer` now implement stubs of upcoming Dart 2.0
