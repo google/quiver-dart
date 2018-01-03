@@ -1,5 +1,12 @@
 #### 0.27.0-dev
 
+   * BREAKING CHANGE: all classes that implement `Iterable`, `List`, `Map`,
+     `Queue`, `Set`, or `Timer` now implement stubs of upcoming Dart 2.0
+     methods. Any class that reimplements these classes also needs new method
+     implementations. The classes with these breaking changes include:
+     `HashBiMap`, `DelegatingIterable`, `DelegatingList`,
+     `DelegatingMap`,`DelegatingQueue`, `DelegatingSet`, `LinkedLruHashMap`,
+     `TreeSet`, and `AvlTreeSet`.
    * Fix: Use FIFO ordering in `FakeAsync`. PR
      [#265](https://github.com/google/quiver-dart/pull/265)
 
