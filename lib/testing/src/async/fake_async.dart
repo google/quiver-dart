@@ -285,4 +285,11 @@ class _FakeTimer implements Timer {
   bool get isActive => _time._hasTimer(this);
 
   cancel() => _time._cancelTimer(this);
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_getter
+  int get tick {
+    throw new UnimplementedError("tick");
+  }
 }

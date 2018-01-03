@@ -51,6 +51,14 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   /// if missing.  See [TreeSearch].
   V nearest(V object, {TreeSearch nearestOption: TreeSearch.NEAREST});
 
+  @override
+  // ignore: override_on_non_overriding_method
+  Set<T> cast<T>();
+
+  @override
+  // ignore: override_on_non_overriding_method
+  Set<T> retype<T>();
+
   // TODO: toString or not toString, that is the question.
 }
 
@@ -376,6 +384,13 @@ class AvlTreeSet<V> extends TreeSet<V> {
     return modified;
   }
 
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  AvlTreeSet<T> cast<T>() {
+    throw new UnimplementedError("cast");
+  }
+
   void clear() {
     _length = 0;
     _root = null;
@@ -597,6 +612,13 @@ class AvlTreeSet<V> extends TreeSet<V> {
     }
     clear();
     addAll(chosen);
+  }
+
+  @override
+  // TODO: Dart 2.0 requires this method to be implemented.
+  // ignore: override_on_non_overriding_method
+  Set<T> retype<T>() {
+    throw new UnimplementedError("retype");
   }
 
   /// See [Set.removeWhere]
