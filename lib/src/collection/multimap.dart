@@ -338,7 +338,7 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   @override
   // TODO: Dart 2.0 requires this method to be implemented.
   // ignore: override_on_non_overriding_method
-  V update(K key, C update(C value), {C ifAbsent()}) {
+  C update(K key, C update(C value), {C ifAbsent()}) {
     throw new UnimplementedError("update");
   }
 
