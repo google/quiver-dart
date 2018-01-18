@@ -1,3 +1,9 @@
+#### 0.28.0 - 2018-01-12
+
+   * BREAKING CHANGE: The signature of `MultiMap`'s `update` stub has changed
+     from `V update(K key, C update(C value), {C ifAbsent()})` to
+     `C update(K key, C update(C value), {C ifAbsent()})`.
+
 #### 0.27.0 - 2018-01-03
 
    * BREAKING CHANGE: all classes that implement `Iterable`, `List`, `Map`,
