@@ -1,4 +1,4 @@
-#### 0.28.0 - 2018-01-12
+#### 0.28.0 - 2018-01-19
 
    * BREAKING CHANGE: The signature of `MultiMap`'s `update` stub has changed
      from `V update(K key, C update(C value), {C ifAbsent()})` to
