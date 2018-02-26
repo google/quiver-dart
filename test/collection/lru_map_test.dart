@@ -243,7 +243,7 @@ void main() {
     });
   });
 
-group("LruMap builds an informative string representation", () {
+  group("LruMap builds an informative string representation", () {
     LruMap<String, dynamic> lruMap;
 
     setUp(() {
@@ -255,14 +255,13 @@ group("LruMap builds an informative string representation", () {
     });
 
     test("for a map with one value", () {
-        lruMap.addAll({'A': 'Alpha'});
+      lruMap.addAll({'A': 'Alpha'});
       expect(lruMap.toString(), equals('{A: Alpha}'));
     });
 
     test("for a map with multiple values", () {
-        lruMap.addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
-      expect(
-          lruMap.toString(), equals('{C: Charlie, B: Beta, A: Alpha}'));
+      lruMap.addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      expect(lruMap.toString(), equals('{C: Charlie, B: Beta, A: Alpha}'));
     });
 
     test("for a map with a loop", () {
