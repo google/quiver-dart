@@ -1,12 +1,59 @@
 language: dart
-sudo: false
-dart:
-  - stable
-  - dev
+
 install:
   - gem install coveralls-lcov
-script: ./tool/travis.sh
+
+# Gives more resources on Travis (8GB Ram, 2 CPUs).
+# Do not remove without verifying w/ Travis.
+sudo: required
+addons:
+  chrome: stable
+
+# Build stages: https://docs.travis-ci.com/user/build-stages/.
+stages:
+  - presubmit
+  - build
+  - testing
+
+# 1. Run dartfmt, dartanalyzer, pub run test (VM).
+# 2. Then run a build.
+# 3. Then run tests compiled via dartdevc and dart2js.
+jobs:
+  include:
+    - stage: presubmit
+      script: ./tool/travis.sh dartfmt
+      dart: dev
+    - stage: presubmit
+      script: ./tool/travis.sh dartanalyzer
+      dart: dev
+    - stage: presubmit
+      script: ./tool/travis.sh vm_test
+      dart: dev
+    - stage: build
+      script: ./tool/travis.sh dartdevc_build
+      dart: dev
+    - stage: testing
+      script: ./tool/travis.sh dartdevc_test
+      dart: dev
+    - stage: testing
+      script: ./tool/travis.sh dart2js_test
+      dart: dev
+
+# Only building master means that we don't run two builds for each pull request.
+branches:
+  only: [master]
+
+# Incremental pub cache and builds.
+cache:
+  directories:
+    - $HOME/.pub-cache
+    - .dart_tool
+
+# Necessary for Chrome and Firefox to run
+before_install:
+ - export DISPLAY=:99.0
+ - sh -e /etc/init.d/xvfb start
+ - "t=0; until (xdpyinfo -display :99 &> /dev/null || test $t -gt 10); do sleep 1; let t=$t+1; done"
+
 after_success:
-  - coveralls-lcov var/lcov.info
-env:
-  - DARTANALYZER_FLAGS='--fatal-warnings --strong'
+  - ./tool/coverage.sh
