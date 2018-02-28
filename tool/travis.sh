@@ -19,7 +19,7 @@ while (( "$#" )); do
     dartanalyzer --fatal-warnings . || EXIT_CODE=$?
     ;;
   vm_test) echo
-    echo -e '\033[1mTASK: vmn_test\033[22m'
+    echo -e '\033[1mTASK: vm_test\033[22m'
     echo -e 'pub run test -p vm'
     pub run test -p vm || EXIT_CODE=$?
     ;;
