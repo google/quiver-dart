@@ -36,6 +36,10 @@
      0.25.0.
    * BREAKING CHANGE: eliminated deprecated `repeat`. Deprecated in 0.25.0.
      Callers should use `String`'s `*` operator.
+   * BREAKING CHANGE: `collect`, `concat`, `doWhileAsync`, `enumerate`,
+     `extent`, `forEachAsync`, `max`, `merge`, `min`, `reduceAsync`, and `zip`
+     are now type parameterized. Depending on the inferred value of each type
+     parameter, the return type of each function may change in existing code.
    * Deprecated: `reverse` in the `strings` library. No replacement is
      provided.
    * Deprecated: `createTimer`, `createTimerPeriodic` in the `async` library.
