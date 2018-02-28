@@ -261,6 +261,8 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   }
 
   @override
+  // TODO: Use the `MapBase.mapToString()` static method when the minimum SDK
+  // version of this package has been bumped to 2.0.0 or greater.
   String toString() {
     // Detect toString() cycles.
     if (_isToStringVisiting(this)) {
