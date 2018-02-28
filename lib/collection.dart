@@ -18,6 +18,7 @@ library quiver.collection;
 import 'dart:collection';
 import 'dart:math';
 
+import 'package:meta/meta.dart';
 import 'package:quiver/core.dart';
 import 'package:quiver/iterables.dart';
 

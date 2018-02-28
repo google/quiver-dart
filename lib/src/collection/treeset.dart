@@ -846,7 +846,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
     return set;
   }
 
-  /// Visible for testing only.
+  @visibleForTesting
   AvlNode<V> getNode(V object) => _getNode(object);
 }
 
