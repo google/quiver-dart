@@ -21,14 +21,14 @@ jobs:
   include:
     # presubmit: Check things that should fail fast(er).
     - stage: presubmit
-      script: ./tool/travis.sh dartfmt
+      script: ./tool/travis/task.sh dartfmt
 
     - stage: presubmit
-      script: ./tool/travis.sh dartanalyzer
+      script: ./tool/travis/task.sh dartanalyzer
 
     # testing: Run test suites (Dart VM, DartDevC, Dart2JS).
     - stage: testing
-      script: ./tool/travis.sh vm_test
+      script: ./tool/travis/task.sh vm_test
 
     - stage: testing
       addons:
