@@ -27,17 +27,17 @@ while (( "$#" )); do
   vm_test) echo
     echo -e '\033[1mTASK: vm_test\033[22m'
     echo -e 'pub run test -p vm'
-    pub run test -p vm || EXIT_CODE=$?
+    pub run test -p vm -r expanded || EXIT_CODE=$?
     ;;
   dartdevc_test) echo
     echo -e '\033[1mTASK: dartdevc_test\033[22m'
-    echo -e 'pub run build_runner test -- -p chrome'
-    pub run build_runner test -- -p chrome -x fails-on-dartdevc || EXIT_CODE=$?
+    echo -e 'pub run build_runner test -- -p chrome -x "fails-on-dartdevc" -r expanded'
+    pub run build_runner test -- -p chrome -x "fails-on-dartdevc" -r expanded || EXIT_CODE=$?
     ;;
   dart2js_test) echo
     echo -e '\033[1mTASK: dart2js_test\033[22m'
-    echo -e 'pub run test -p chrome'
-    pub run test -p chrome -x fails-on-dart2js || EXIT_CODE=$?
+    echo -e 'pub run test -p chrome -x "fails-on-dart2js"'
+    pub run test -p chrome -x "fails-on-dart2js" -r expanded || EXIT_CODE=$?
     ;;
   *) echo -e "\033[31mNot expecting TASK '${TASK}'. Error!\033[0m"
     EXIT_CODE=1
