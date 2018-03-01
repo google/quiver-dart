@@ -8,7 +8,7 @@ override_platforms:
 
 tags:
   # Temporary tag that should be skipped when running with DartDevC.
-  fails-on-dart2js:
+  "fails-on-dart2js":
 
   # Temporary tag that should be skipped when running with Dart2JS.
-  fails-on-dartdevc:
+  "fails-on-dartdevc":
