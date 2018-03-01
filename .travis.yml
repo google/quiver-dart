@@ -5,8 +5,6 @@ dart:
 # Gives more resources on Travis (8GB Ram, 2 CPUs).
 # Do not remove without verifying w/ Travis.
 sudo: required
-addons:
-  chrome: stable
 
 # Build stages: https://docs.travis-ci.com/user/build-stages/.
 stages:
