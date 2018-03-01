@@ -29,11 +29,6 @@ while (( "$#" )); do
     echo -e 'pub run test -p vm'
     pub run test -p vm || EXIT_CODE=$?
     ;;
-  dartdevc_build) echo
-    echo -e '\033[1mTASK: build\033[22m'
-    echo -e 'pub run build_runner build --fail-on-severe'
-    pub run build_runner build --fail-on-severe || EXIT_CODE=$?
-    ;;
   dartdevc_test) echo
     echo -e '\033[1mTASK: dartdevc_test\033[22m'
     echo -e 'pub run build_runner test -- -p chrome'
