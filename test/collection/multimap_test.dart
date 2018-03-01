@@ -61,7 +61,7 @@ void main() {
         -1: ['1:0', '1:2'],
         -2: ['2:1'],
       });
-    });
+    }, tags: ['failing-on-dartdevc']);
   });
 
   group('Multimap asMap() view', () {

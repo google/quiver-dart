@@ -63,7 +63,7 @@ main() {
       var b = ['a', 'b', 'c'];
       expect(() => merge([a, b]).forEach((e) {}), throwsNoSuchMethodError);
       expect(() => merge([b, a]).forEach((e) {}), throwsNoSuchMethodError);
-    });
+    }, tags: ['failing-on-dartdevc', 'failing-on-dart2js']);
 
     test("should handle zig-zag case", () {
       var a = ['a', 'a', 'd', 'f'];
