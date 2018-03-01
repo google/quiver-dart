@@ -33,13 +33,19 @@ jobs:
     - stage: testing
       addons:
         chrome: stable
-      before_install: ./tool/travis/xvfb.sh
+      before_install:
+        - export DISPLAY=:99.0
+        - sh -e /etc/init.d/xvfb start
+        - "t=0; until (xdpyinfo -display :99 &> /dev/null || test $t -gt 10); do sleep 1; let t=$t+1; done"
       script: ./tool/travis/task.sh dart2js_test
 
     - stage: testing
       addons:
         chrome: stable
-      before_install: ./tool/travis/xvfb.sh
+      before_install:
+        - export DISPLAY=:99.0
+        - sh -e /etc/init.d/xvfb start
+        - "t=0; until (xdpyinfo -display :99 &> /dev/null || test $t -gt 10); do sleep 1; let t=$t+1; done"
       script: ./tool/travis/task.sh dartdevc_test
       cache:
         directories:
