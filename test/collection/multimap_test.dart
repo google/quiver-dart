@@ -61,7 +61,7 @@ void main() {
         -1: ['1:0', '1:2'],
         -2: ['2:1'],
       });
-    });
+    }, tags: ['fails-on-dartdevc']);
   });
 
   group('Multimap asMap() view', () {
@@ -121,7 +121,7 @@ void main() {
                 'k1': ['1', '2', '3']
               }),
           throwsUnsupportedError);
-    });
+    }, tags: ['fails-on-dartdevc']);
 
     test('putIfAbsent() should throw UnsupportedError', () {
       var map = new Multimap().asMap();
