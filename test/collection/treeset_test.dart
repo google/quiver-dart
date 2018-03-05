@@ -302,60 +302,60 @@ main() {
       });
 
       test("remove from tree", () {
-        tree = new TreeSet()..addAll([10,20,15,21,30,20]);
+        tree = new TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
         tree.remove(42);
-        expect(tree.toList(), equals([10,15,20,21,30]));
+        expect(tree.toList(), equals([10, 15, 20, 21, 30]));
 
         tree.remove(10);
-        expect(tree.toList(), equals([15,20,21,30]));
+        expect(tree.toList(), equals([15, 20, 21, 30]));
 
         tree.remove(30);
-        expect(tree.toList(), equals([15,20,21]));
+        expect(tree.toList(), equals([15, 20, 21]));
 
         tree.remove(20);
-        expect(tree.toList(), equals([15,21]));
+        expect(tree.toList(), equals([15, 21]));
       });
 
       test("removeAll from tree", () {
-        tree = new TreeSet()..addAll([10,20,15,21,30,20]);
+        tree = new TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
         tree.removeAll([42]);
-        expect(tree.toList(), equals([10,15,20,21,30]));
+        expect(tree.toList(), equals([10, 15, 20, 21, 30]));
 
         tree.removeAll([10, 30]);
-        expect(tree.toList(), equals([15,20,21]));
+        expect(tree.toList(), equals([15, 20, 21]));
 
         tree.removeAll([21, 20, 15]);
         expect(tree, isEmpty);
       });
 
       test("removeWhere from tree", () {
-        tree = new TreeSet()..addAll([10,20,15,21,30,20]);
+        tree = new TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
         tree.removeWhere((e) => e % 10 == 2);
-        expect(tree.toList(), equals([10,15,20,21,30]));
+        expect(tree.toList(), equals([10, 15, 20, 21, 30]));
 
         tree.removeWhere((e) => e % 10 == 0);
-        expect(tree.toList(), equals([15,21]));
+        expect(tree.toList(), equals([15, 21]));
 
         tree.removeWhere((e) => e % 10 > 0);
         expect(tree, isEmpty);
       });
 
       test("retainAll from tree", () {
-        tree = new TreeSet()..addAll([10,20,15,21,30,20]);
+        tree = new TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
         tree.retainAll([10, 30]);
-        expect(tree.toList(), equals([10,30]));
+        expect(tree.toList(), equals([10, 30]));
 
         tree.retainAll([42]);
         expect(tree, isEmpty);
       });
 
       test("retainWhere from tree", () {
-        tree = new TreeSet()..addAll([10,20,15,21,30,20]);
+        tree = new TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
         tree.retainWhere((e) => e % 1 == 0);
-        expect(tree.toList(), equals([10,15,20,21,30]));
+        expect(tree.toList(), equals([10, 15, 20, 21, 30]));
 
         tree.retainWhere((e) => e % 10 == 0);
-        expect(tree.toList(), equals([10,20,30]));
+        expect(tree.toList(), equals([10, 20, 30]));
 
         tree.retainWhere((e) => e % 10 > 0);
         expect(tree, isEmpty);
