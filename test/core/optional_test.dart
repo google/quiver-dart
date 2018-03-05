@@ -77,6 +77,31 @@ main() {
           isFalse);
     });
 
+    test('transform should throw ArgumentError if transformed value is null',
+        () {
+      expect(() => new Optional<int>.fromNullable(7).transform((_) => null),
+          throwsArgumentError);
+    });
+
+    test('transformNullable should return transformed value or absent', () {
+      expect(new Optional<int>.fromNullable(7).transformNullable((a) => a + 1),
+          equals(new Optional<int>.of(8)));
+      expect(
+          new Optional<int>.fromNullable(null)
+              .transformNullable((a) => a + 1)
+              .isPresent,
+          isFalse);
+    });
+
+    test('transformNullable should return absent if transformed value is null',
+        () {
+      expect(
+          new Optional<int>.fromNullable(7)
+              .transformNullable((_) => null)
+              .isPresent,
+          isFalse);
+    });
+
     test('hashCode should allow optionals to be in hash sets', () {
       expect(
           new Set.from([

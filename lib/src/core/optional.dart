@@ -90,6 +90,17 @@ class Optional<T> extends IterableBase<T> {
         : new Optional.of(transformer(_value));
   }
 
+  /// Transforms the Optional value.
+  ///
+  /// If the Optional is [absent()], returns [absent()] without applying the transformer.
+  ///
+  /// Returns [absent()] if the transformer returns [null].
+  Optional<S> transformNullable<S>(S transformer(T value)) {
+    return _value == null
+        ? new Optional.absent()
+        : new Optional.fromNullable(transformer(_value));
+  }
+
   @override
   Iterator<T> get iterator =>
       isPresent ? <T>[_value].iterator : new Iterable<T>.empty().iterator;
