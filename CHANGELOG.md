@@ -1,3 +1,10 @@
+#### Master
+
+   * New: DelegatingIterable now includes a real implementation of
+     `followedBy`, and accepts the `orElse` parameter on `singleWhere`.
+   * New: DelegatingList now includes real implementations of `operator +`,
+     `indexWhere`, and `lastIndexWhere`.
+
 #### 0.28.0 - 2018-01-19
 
    * BREAKING CHANGE: The signature of `MultiMap`'s `update` stub has changed
