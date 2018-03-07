@@ -53,11 +53,7 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
       delegate.fold(initialValue, combine);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  Iterable<E> followedBy(Iterable<E> other) {
-    throw new UnimplementedError("followedBy");
-  }
+  Iterable<E> followedBy(Iterable<E> other) => delegate.followedBy(other);
 
   void forEach(void f(E element)) => delegate.forEach(f);
 
@@ -89,10 +85,8 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
 
   E get single => delegate.single;
 
-  E singleWhere(bool test(E element), {E orElse()}) {
-    if (orElse != null) throw new UnimplementedError("singleWhere:orElse");
-    return delegate.singleWhere(test);
-  }
+  E singleWhere(bool test(E element), {E orElse()}) =>
+      delegate.singleWhere(test, orElse: orElse);
 
   Iterable<E> skip(int n) => delegate.skip(n);
 

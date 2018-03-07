@@ -430,10 +430,9 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Iterable<V> followedBy(Iterable<V> other) {
-    throw new UnimplementedError("followedBy");
+    _syncDelegate();
+    return _delegate.followedBy(other);
   }
 
   void forEach(void f(V element)) {
@@ -499,9 +498,8 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   }
 
   V singleWhere(bool test(V element), {V orElse()}) {
-    if (orElse != null) throw new UnimplementedError("singleWhere:orElse");
     _syncDelegate();
-    return _delegate.singleWhere(test);
+    return _delegate.singleWhere(test, orElse: orElse);
   }
 
   Iterable<V> skip(int n) {
@@ -565,10 +563,9 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   List<V> operator +(List<V> other) {
-    throw new UnimplementedError("+");
+    _syncDelegate();
+    return _delegate + other;
   }
 
   void add(V value) {
@@ -627,10 +624,9 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   int indexWhere(bool test(V element), [int start = 0]) {
-    throw new UnimplementedError("indexWhere");
+    _syncDelegate();
+    return _delegate.indexWhere(test, start);
   }
 
   void insert(int index, V element) {
@@ -648,8 +644,6 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_setter
   void set last(V value) {
     if (this.isEmpty) throw new RangeError.index(0, this);
     this[this.length - 1] = value;
@@ -661,10 +655,9 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   int lastIndexWhere(bool test(V element), [int start]) {
-    throw new UnimplementedError("lastIndexWhere");
+    _syncDelegate();
+    return _delegate.lastIndexWhere(test, start);
   }
 
   void set length(int newLength) {
