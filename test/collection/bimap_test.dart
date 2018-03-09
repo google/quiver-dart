@@ -294,16 +294,16 @@ main() {
       map[k1] = v1;
       map.inverse[v2] = k2;
 
-      var entries = map.entries;
-      expect(entries, hasLength(2));
+      var mapEntries = map.entries;
+      expect(mapEntries, hasLength(2));
       // MapEntry objects are not equal to each other; cannot use `contains`. :(
-      expect(entries.singleWhere((e) => e.key == k1).value, equals(v1));
-      expect(entries.singleWhere((e) => e.key == k2).value, equals(v2));
+      expect(mapEntries.singleWhere((e) => e.key == k1).value, equals(v1));
+      expect(mapEntries.singleWhere((e) => e.key == k2).value, equals(v2));
 
-      entries = map.inverse.entries;
-      expect(entries, hasLength(2));
-      expect(entries.singleWhere((e) => e.key == v1).value, equals(k1));
-      expect(entries.singleWhere((e) => e.key == v2).value, equals(k2));
+      var inverseEntries = map.inverse.entries;
+      expect(inverseEntries, hasLength(2));
+      expect(inverseEntries.singleWhere((e) => e.key == v1).value, equals(k1));
+      expect(inverseEntries.singleWhere((e) => e.key == v2).value, equals(k2));
     });
 
     test('should map mappings', () {
@@ -316,11 +316,11 @@ main() {
       expect(mapped['K1'], equals('k1 / 1'));
       expect(mapped['K2'], equals('k2 / 2'));
 
-      mapped = map.inverse.map((v, k) => new MapEntry('$v$v', k.length));
-      expect(mapped, contains('11'));
-      expect(mapped, contains('22'));
-      expect(mapped['11'], equals(2));
-      expect(mapped['22'], equals(2));
+      var mapped2 = map.inverse.map((v, k) => new MapEntry('$v$v', k.length));
+      expect(mapped2, contains('11'));
+      expect(mapped2, contains('22'));
+      expect(mapped2['11'], equals(2));
+      expect(mapped2['22'], equals(2));
     });
 
     test('should add mappings via putIfAbsent if absent', () {
