@@ -45,6 +45,9 @@
      `extent`, `forEachAsync`, `max`, `merge`, `min`, `reduceAsync`, and `zip`
      are now type parameterized. Depending on the inferred value of each type
      parameter, the return type of each function may change in existing code.
+   * BREAKING CHANGE: `Optional`'s `==` operator now takes into account `T`,
+     the type of the value. This changes, e.g. `Optional<int>.absent()` to no
+     longer be equal to `Optional<String>.absent()`.
    * Deprecated: `reverse` in the `strings` library. No replacement is
      provided.
    * Deprecated: `createTimer`, `createTimerPeriodic` in the `async` library.
