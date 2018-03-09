@@ -1,3 +1,8 @@
+#### Master
+
+   * New: BiMap now includes a real implementation of `addEntries`, `get
+     entries`, `map`, `removeWhere`, `update`, and `updateAll`.
+
 #### 0.28.0 - 2018-01-19
 
    * BREAKING CHANGE: The signature of `MultiMap`'s `update` stub has changed
