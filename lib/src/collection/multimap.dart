@@ -345,7 +345,7 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
       if (test(key, this[key])) keysToRemove.add(key);
     }
     for (var key in keysToRemove) {
-      this.removeAll(key);
+      _multimap.removeAll(key);
     }
   }
 }
