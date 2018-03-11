@@ -309,51 +309,44 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_getter
-  Iterable<Null> get entries {
-    // Change Iterable<Null> to Iterable<MapEntry<K, V>> when
-    // the MapEntry class has been added.
-    throw new UnimplementedError("entries");
+  Iterable<MapEntry<K, C>> get entries {
+    return keys.map((K key) => new MapEntry<K, C>(key, this[key]));
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  void addEntries(Iterable<Object> entries) {
-    // Change Iterable<Object> to Iterable<MapEntry<K, V>> when
-    // the MapEntry class has been added.
-    throw new UnimplementedError("addEntries");
+  void addEntries(Iterable<MapEntry<K, C>> entries) {
+    throw new UnsupportedError("Insert unsupported on map view");
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  Map<K2, V2> map<K2, V2>(Object transform(K key, C value)) {
-    // Change Object to MapEntry<K2, V2> when
-    // the MapEntry class has been added.
-    throw new UnimplementedError("map");
+  Map<K2, C2> map<K2, C2>(MapEntry<K2, C2> transform(K key, C value)) {
+    var result = <K2, C2>{};
+    for (var key in this.keys) {
+      var entry = transform(key, this[key]);
+      result[entry.key] = entry.value;
+    }
+    return result;
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   C update(K key, C update(C value), {C ifAbsent()}) {
-    throw new UnimplementedError("update");
+    throw new UnsupportedError("Update unsupported on map view");
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   void updateAll(C update(K key, C value)) {
-    throw new UnimplementedError("updateAll");
+    throw new UnsupportedError("Update unsupported on map view");
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   void removeWhere(bool test(K key, C value)) {
-    throw new UnimplementedError("removeWhere");
+    var keysToRemove = <K>[];
+    for (var key in keys) {
+      if (test(key, this[key])) keysToRemove.add(key);
+    }
+    for (var key in keysToRemove) {
+      this.removeAll(key);
+    }
   }
 }
 
@@ -430,10 +423,9 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Iterable<V> followedBy(Iterable<V> other) {
-    throw new UnimplementedError("followedBy");
+    _syncDelegate();
+    return _delegate.followedBy(other);
   }
 
   void forEach(void f(V element)) {
@@ -499,9 +491,8 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   }
 
   V singleWhere(bool test(V element), {V orElse()}) {
-    if (orElse != null) throw new UnimplementedError("singleWhere:orElse");
     _syncDelegate();
-    return _delegate.singleWhere(test);
+    return _delegate.singleWhere(test, orElse: orElse);
   }
 
   Iterable<V> skip(int n) {
@@ -565,10 +556,9 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   List<V> operator +(List<V> other) {
-    throw new UnimplementedError("+");
+    _syncDelegate();
+    return _delegate + other;
   }
 
   void add(V value) {
@@ -609,8 +599,6 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_setter
   void set first(V value) {
     if (this.isEmpty) throw new RangeError.index(0, this);
     this[0] = value;
@@ -627,10 +615,9 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   int indexWhere(bool test(V element), [int start = 0]) {
-    throw new UnimplementedError("indexWhere");
+    _syncDelegate();
+    return _delegate.indexWhere(test, start);
   }
 
   void insert(int index, V element) {
@@ -648,8 +635,6 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_setter
   void set last(V value) {
     if (this.isEmpty) throw new RangeError.index(0, this);
     this[this.length - 1] = value;
@@ -661,10 +646,8 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   int lastIndexWhere(bool test(V element), [int start]) {
-    throw new UnimplementedError("lastIndexWhere");
+    return _delegate.lastIndexWhere(test, start);
   }
 
   void set length(int newLength) {

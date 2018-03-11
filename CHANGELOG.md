@@ -1,3 +1,16 @@
+#### Master
+
+   * New: The map returned by `Multimap.asMap()` now includes real
+     implementations of `get entries` and `removeWhere`. This class also has
+     "real" implementations of `addEntries`, `map`, `update`, and `updateAll`,
+     which just throw an `UnsupportedError`, as inserts and updates are not
+     allowed on map views.
+   * New: The list keys of `ListMultimap` now include real implementations of
+     `operator +`, `indexWhere`, and `lastIndexWhere`.
+   * New: The iterable keys of `ListMultimap` and `SetMultimap` now include a
+     real implementation of `followedBy`, and accept the `orElse` parameter on
+     `singleWhere`.
+
 #### 0.28.0 - 2018-01-19
 
    * BREAKING CHANGE: The signature of `MultiMap`'s `update` stub has changed
