@@ -309,9 +309,7 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   }
 
   @override
-  Iterable<MapEntry<K, C>> get entries {
-    return keys.map((K key) => new MapEntry<K, C>(key, this[key]));
-  }
+  Iterable<MapEntry<K, C>> get entries => _multimap._map.entries;
 
   @override
   void addEntries(Iterable<MapEntry<K, C>> entries) {
@@ -319,14 +317,8 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   }
 
   @override
-  Map<K2, C2> map<K2, C2>(MapEntry<K2, C2> transform(K key, C value)) {
-    var result = <K2, C2>{};
-    for (var key in this.keys) {
-      var entry = transform(key, this[key]);
-      result[entry.key] = entry.value;
-    }
-    return result;
-  }
+  Map<K2, C2> map<K2, C2>(MapEntry<K2, C2> transform(K key, C value)) =>
+      _multimap._map.map(transform);
 
   @override
   C update(K key, C update(C value), {C ifAbsent()}) {
