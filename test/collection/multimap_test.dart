@@ -77,7 +77,8 @@ void main() {
     });
 
     test('addEntries should throw UnsupportedError', () {
-      expect(() => map.addEntries([]), throwsUnsupportedError);
+      expect(() => map.addEntries(<MapEntry<String, List<String>>>[]),
+          throwsUnsupportedError);
     });
 
     test('update should throw UnsupportedError', () {
