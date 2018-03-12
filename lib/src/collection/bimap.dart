@@ -70,12 +70,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   int get length => _map.length;
   Iterable<V> get values => _inverse.keys;
 
-  BiMap<V, K> get inverse {
-    if (_cached == null) {
-      _cached = new HashBiMap._from(_inverse, _map);
-    }
-    return _cached;
-  }
+  BiMap<V, K> get inverse => _cached ??= new HashBiMap._from(_inverse, _map);
 
   @override
   void addEntries(Iterable<MapEntry<K, V>> entries) {
@@ -92,19 +87,11 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   }
 
   @override
-  Iterable<MapEntry<K, V>> get entries {
-    return keys.map((K key) => new MapEntry<K, V>(key, this[key]));
-  }
+  Iterable<MapEntry<K, V>> get entries => _map.entries;
 
   @override
-  Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> transform(K key, V value)) {
-    var result = <K2, V2>{};
-    for (var key in this.keys) {
-      var entry = transform(key, this[key]);
-      result[entry.key] = entry.value;
-    }
-    return result;
-  }
+  Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> transform(K key, V value)) =>
+      _map.map(transform);
 
   V putIfAbsent(K key, V ifAbsent()) {
     var value = _map[key];
