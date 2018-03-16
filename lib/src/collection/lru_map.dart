@@ -103,8 +103,8 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   bool containsValue(Object value) => values.contains(value);
 
   @override
-  Iterable<MapEntry<K, V>> get entries =>
-      _entries.values.map((entry) => new MapEntry<K, V>(entry.key, entry.value));
+  Iterable<MapEntry<K, V>> get entries => _entries.values
+      .map((entry) => new MapEntry<K, V>(entry.key, entry.value));
 
   /// Applies [action] to each key-value pair of the map in order of MRU to
   /// LRU.
