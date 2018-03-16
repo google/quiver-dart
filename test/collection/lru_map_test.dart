@@ -61,6 +61,34 @@ void main() {
       expect(lruMap['B'], 'Bravo');
     });
 
+    test('updating values on existing keys works, and promotes the key', () {
+      lruMap = new LruMap()
+        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+
+      lruMap.update('B', (v) => '$v$v');
+      expect(lruMap.keys.toList(), ['B', 'C', 'A']);
+      expect(lruMap['B'], 'BetaBeta');
+    });
+
+    test('updating values on absent keys works, and promotes the key', () {
+      lruMap = new LruMap()
+        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+
+      lruMap.update('D', (v) => '$v$v', ifAbsent: () => 'Delta');
+      expect(lruMap.keys.toList(), ['D', 'C', 'B', 'A']);
+      expect(lruMap['D'], 'Delta');
+    });
+
+    test('updating all values works, and does not change used order', () {
+      lruMap = new LruMap()
+        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap.updateAll((k, v) => '$v$v');
+      expect(lruMap.keys.toList(), ['C', 'B', 'A']);
+      expect(lruMap['A'], 'AlphaAlpha');
+      expect(lruMap['B'], 'BetaBeta');
+      expect(lruMap['C'], 'CharlieCharlie');
+    });
+
     test('the least recently used key is evicted when capacity hit', () {
       lruMap = new LruMap(maximumSize: 3)
         ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
@@ -159,6 +187,36 @@ void main() {
       expect(lruMap.values.toList(), ['Charlie', 'Beta', 'Alpha']);
     });
 
+    test('`get entries` returns all entries', () {
+      lruMap = new LruMap()
+        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+
+      var entries = lruMap.entries;
+      expect(entries, hasLength(3));
+      // MapEntry objects are not equal to each other; cannot use `contains`. :(
+      expect(entries.singleWhere((e) => e.key == 'A').value, equals('Alpha'));
+      expect(entries.singleWhere((e) => e.key == 'B').value, equals('Beta'));
+      expect(entries.singleWhere((e) => e.key == 'C').value, equals('Charlie'));
+    });
+
+    test('addEntries adds items to the beginning', () {
+      lruMap = new LruMap()
+        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+
+      var entries = [new MapEntry('D', 'Delta'), new MapEntry('E', 'Echo')];
+      lruMap.addEntries(entries);
+      expect(lruMap.keys.toList(), ['E', 'D', 'C', 'B', 'A']);
+    });
+
+    test('addEntries adds existing items to the beginning', () {
+      lruMap = new LruMap()
+        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+
+      var entries = [new MapEntry('B', 'Bravo'), new MapEntry('E', 'Echo')];
+      lruMap.addEntries(entries);
+      expect(lruMap.keys.toList(), ['E', 'B', 'C', 'A']);
+    });
+
     test('Re-adding the head entry is a no-op', () {
       // See: https://github.com/google/quiver-dart/issues/357
       lruMap = new LruMap();
@@ -207,11 +265,19 @@ void main() {
         lruMap.remove('B');
         expect(lruMap.keys.toList(), ['C', 'A']);
       });
+
+      test('can removeWhere items', () {
+        lruMap.removeWhere((k, v) => v.contains('h'));
+        expect(lruMap.keys.toList(), ['B']);
+      });
+
+      test('can removeWhere without changing order', () {
+        lruMap.removeWhere((k, v) => v.contains('A'));
+        expect(lruMap.keys.toList(), ['C', 'B']);
+      });
     });
 
-    test(
-        'Test that the linked list is correctly mutated when promoting an element in the middle',
-        () {
+    test('the linked list is mutated when promoting an item in the middle', () {
       LruMap<String, int> lruMap = new LruMap(maximumSize: 3)
         ..addAll({'C': 1, 'A': 1, 'B': 1});
       lruMap['A'] = 1;

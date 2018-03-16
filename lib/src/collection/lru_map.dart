@@ -68,9 +68,9 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
 
   /// Adds all key-value pairs of [other] to this map.
   ///
-  /// The operation is equivalent to doing this[key] = value for each key and
-  /// associated value in other. It iterates over other, which must therefore
-  /// not change during the iteration.
+  /// The operation is equivalent to doing `this[key] = value` for each key and
+  /// associated value in [other]. It iterates over [other], which must
+  /// therefore not change during the iteration.
   ///
   /// If a key of [other] is already in this map, its value is overwritten. If
   /// the number of unique keys is greater than [maximumSize] then the least
@@ -80,13 +80,8 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   void addAll(Map<K, V> other) => other.forEach((k, v) => this[k] = v);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  void addEntries(Iterable<Object> entries) {
-    // Change Iterable<Object> to Iterable<MapEntry<K, V>> when
-    // the MapEntry class has been added.
-    throw new UnimplementedError("addEntries");
-  }
+  void addEntries(Iterable<MapEntry<K, V>> entries) =>
+      entries.forEach((entry) => this[entry.key] = entry.value);
 
   @override
   // TODO: Dart 2.0 requires this method to be implemented.
@@ -108,13 +103,8 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   bool containsValue(Object value) => values.contains(value);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_getter
-  Iterable<Null> get entries {
-    // Change Iterable<Null> to Iterable<MapEntry<K, V>> when
-    // the MapEntry class has been added.
-    throw new UnimplementedError("entries");
-  }
+  Iterable<MapEntry<K, V>> get entries =>
+      _entries.values.map((entry) => new MapEntry<K, V>(entry.key, entry.value));
 
   /// Applies [action] to each key-value pair of the map in order of MRU to
   /// LRU.
@@ -195,10 +185,12 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
     return entry.value;
   }
 
-  /// Get the value for a [key] in the [Map]. The [key] will be promoted to the
-  /// 'Most Recently Used' position. *NOTE*: Calling [] inside an iteration
-  /// over keys/values is currently unsupported; use [keys] or [values] if you
-  /// need information about entries without modifying their position.
+  /// Get the value for a [key] in the [Map].
+  /// The [key] will be promoted to the 'Most Recently Used' position.
+  ///
+  /// *NOTE*: Calling [] inside an iteration over keys/values is currently
+  /// unsupported; use [keys] or [values] if you need information about entries
+  /// without modifying their position.
   @override
   V operator [](Object key) {
     final entry = _entries[key];
@@ -247,10 +239,14 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   void removeWhere(bool test(K key, V value)) {
-    throw new UnimplementedError("removeWhere");
+    var keysToRemove = <K>[];
+    _entries.forEach((key, entry) {
+      if (test(key, entry.value)) keysToRemove.add(key);
+    });
+    for (var key in keysToRemove) {
+      remove(key);
+    }
   }
 
   @override
@@ -291,17 +287,33 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   V update(K key, V update(V value), {V ifAbsent()}) {
-    throw new UnimplementedError("update");
+    V newValue;
+    if (this.containsKey(key)) {
+      newValue = update(this[key]);
+    } else {
+      if (ifAbsent == null)
+        throw new ArgumentError.value(key, 'key', 'Key not in map');
+      newValue = ifAbsent();
+    }
+
+    // Add this item to the MRU position.
+    _insertMru(_createEntry(key, newValue));
+
+    // Remove the LRU item if the size would be exceeded by adding this item.
+    if (length > maximumSize) {
+      assert(length == maximumSize + 1);
+      _removeLru();
+    }
+    return newValue;
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   void updateAll(V update(K key, V value)) {
-    throw new UnimplementedError("updateAll");
+    _entries.forEach((key, entry) {
+      var newValue = _createEntry(key, update(key, entry.value));
+      _entries[key] = newValue;
+    });
   }
 
   /// Moves [entry] to the MRU position, shifting the linked list if necessary.
