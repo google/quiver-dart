@@ -188,7 +188,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   /// Get the value for a [key] in the [Map].
   /// The [key] will be promoted to the 'Most Recently Used' position.
   ///
-  /// *NOTE*: Calling [] inside an iteration over keys/values is currently
+  /// *NOTE*: Calling `[]` inside an iteration over keys/values is currently
   /// unsupported; use [keys] or [values] if you need information about entries
   /// without modifying their position.
   @override
@@ -289,7 +289,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   @override
   V update(K key, V update(V value), {V ifAbsent()}) {
     V newValue;
-    if (this.containsKey(key)) {
+    if (containsKey(key)) {
       newValue = update(this[key]);
     } else {
       if (ifAbsent == null)
