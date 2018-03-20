@@ -639,6 +639,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
 
   @override
   int lastIndexWhere(bool test(V element), [int start]) {
+    _syncDelegate();
     return _delegate.lastIndexWhere(test, start);
   }
 
