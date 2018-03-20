@@ -45,6 +45,11 @@ void main() {
       expect(delegatingList, equals(['d', 'b', 'cc']));
     });
 
+    test('+', () {
+      var sum = delegatingList + ['d', 'e'];
+      expect(sum, equals(['a', 'b', 'cc', 'd', 'e']));
+    });
+
     test('add', () {
       delegatingList.add('d');
       expect(delegatingList, equals(['a', 'b', 'cc', 'd']));
@@ -82,6 +87,11 @@ void main() {
       expect(delegatingList.indexOf('cc', 1), equals(2));
     });
 
+    test('indexWhere', () {
+      delegatingList.add('bb');
+      expect(delegatingList.indexWhere((e) => e.length > 1), equals(2));
+    });
+
     test('insert', () {
       delegatingList.insert(1, 'd');
       expect(delegatingList, equals(['a', 'd', 'b', 'cc']));
@@ -96,6 +106,11 @@ void main() {
       expect(delegatingList.lastIndexOf('b'), equals(1));
       expect(delegatingList.lastIndexOf('a', 1), equals(0));
       expect(delegatingList.lastIndexOf('cc', 1), equals(-1));
+    });
+
+    test('lastIndexWhere', () {
+      delegatingList.add('bb');
+      expect(delegatingList.lastIndexWhere((e) => e.length > 1), equals(3));
     });
 
     test('set length', () {

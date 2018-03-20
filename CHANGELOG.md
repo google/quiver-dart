@@ -2,6 +2,10 @@
 
    * New: BiMap now includes a real implementation of `addEntries`, `get
      entries`, `map`, `removeWhere`, `update`, and `updateAll`.
+   * New: DelegatingIterable now includes a real implementation of
+     `followedBy`, and accepts the `orElse` parameter on `singleWhere`.
+   * New: DelegatingList now includes real implementations of `operator +`,
+     `indexWhere`, and `lastIndexWhere`.
 
 #### 0.28.0 - 2018-01-19
 
@@ -45,6 +49,9 @@
      `extent`, `forEachAsync`, `max`, `merge`, `min`, `reduceAsync`, and `zip`
      are now type parameterized. Depending on the inferred value of each type
      parameter, the return type of each function may change in existing code.
+   * BREAKING CHANGE: `Optional`'s `==` operator now takes into account `T`,
+     the type of the value. This changes, e.g. `Optional<int>.absent()` to no
+     longer be equal to `Optional<String>.absent()`.
    * Deprecated: `reverse` in the `strings` library. No replacement is
      provided.
    * Deprecated: `createTimer`, `createTimerPeriodic` in the `async` library.
