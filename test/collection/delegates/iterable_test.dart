@@ -87,6 +87,13 @@ void main() {
       expect(new MyIterable([]).isNotEmpty, isFalse);
     });
 
+    test('followedBy', () {
+      expect(delegatingIterable.followedBy(['d', 'e']),
+          equals(['a', 'b', 'cc', 'd', 'e']));
+      expect(delegatingIterable.followedBy(delegatingIterable),
+          equals(['a', 'b', 'cc', 'a', 'b', 'cc']));
+    });
+
     test('forEach', () {
       final it = delegatingIterable.iterator;
       expect(it.current, isNull);
@@ -138,6 +145,8 @@ void main() {
       expect(delegatingIterable.singleWhere((e) => e == 'b'), equals('b'));
       expect(() => delegatingIterable.singleWhere((e) => e == 'd'),
           throwsStateError);
+      expect(delegatingIterable.singleWhere((e) => e == 'd', orElse: () => 'X'),
+          equals('X'));
     });
 
     test('skip', () {
