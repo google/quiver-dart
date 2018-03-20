@@ -1,5 +1,9 @@
 #### Master
 
+   * New: DelegatingIterable now includes a real implementation of
+     `followedBy`, and accepts the `orElse` parameter on `singleWhere`.
+   * New: DelegatingList now includes real implementations of `operator +`,
+     `indexWhere`, and `lastIndexWhere`.
    * New: LruMap now includes a real implementation of `addEntries`, `get
      entries`, `removeWhere`, `update`, and `updateAll`.
 

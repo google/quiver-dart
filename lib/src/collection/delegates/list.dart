@@ -35,11 +35,7 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  List<E> operator +(List<E> other) {
-    throw new UnimplementedError("+");
-  }
+  List<E> operator +(List<E> other) => delegate + other;
 
   void add(E value) => delegate.add(value);
 
@@ -79,11 +75,8 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
   int indexOf(E element, [int start = 0]) => delegate.indexOf(element, start);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  int indexWhere(bool test(E element), [int start = 0]) {
-    throw new UnimplementedError("indexWhere");
-  }
+  int indexWhere(bool test(E element), [int start = 0]) =>
+      delegate.indexWhere(test, start);
 
   void insert(int index, E element) => delegate.insert(index, element);
 
@@ -91,8 +84,6 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
       delegate.insertAll(index, iterable);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_setter
   void set last(E element) {
     if (this.isEmpty) throw new RangeError.index(0, this);
     this[this.length - 1] = element;
@@ -102,11 +93,8 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
       delegate.lastIndexOf(element, start);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  int lastIndexWhere(bool test(E element), [int start]) {
-    throw new UnimplementedError("lastIndexWhere");
-  }
+  int lastIndexWhere(bool test(E element), [int start]) =>
+      delegate.lastIndexWhere(test, start);
 
   void set length(int newLength) {
     delegate.length = newLength;
