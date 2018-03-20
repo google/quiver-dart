@@ -75,7 +75,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   @override
   void addEntries(Iterable<MapEntry<K, V>> entries) {
     for (var entry in entries) {
-      this[entry.key] = entry.value;
+      _add(entry.key, entry.value, false);
     }
   }
 
@@ -107,8 +107,8 @@ class HashBiMap<K, V> implements BiMap<K, V> {
 
   @override
   void removeWhere(bool test(K key, V value)) {
-    _map.removeWhere(test);
     _inverse.removeWhere((v, k) => test(k, v));
+    _map.removeWhere(test);
   }
 
   @override
