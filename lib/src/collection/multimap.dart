@@ -309,51 +309,36 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_getter
-  Iterable<Null> get entries {
-    // Change Iterable<Null> to Iterable<MapEntry<K, V>> when
-    // the MapEntry class has been added.
-    throw new UnimplementedError("entries");
+  Iterable<MapEntry<K, C>> get entries => _multimap._map.entries;
+
+  @override
+  void addEntries(Iterable<MapEntry<K, C>> entries) {
+    throw new UnsupportedError("Insert unsupported on map view");
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  void addEntries(Iterable<Object> entries) {
-    // Change Iterable<Object> to Iterable<MapEntry<K, V>> when
-    // the MapEntry class has been added.
-    throw new UnimplementedError("addEntries");
-  }
+  Map<K2, C2> map<K2, C2>(MapEntry<K2, C2> transform(K key, C value)) =>
+      _multimap._map.map(transform);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  Map<K2, V2> map<K2, V2>(Object transform(K key, C value)) {
-    // Change Object to MapEntry<K2, V2> when
-    // the MapEntry class has been added.
-    throw new UnimplementedError("map");
-  }
-
-  @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   C update(K key, C update(C value), {C ifAbsent()}) {
-    throw new UnimplementedError("update");
+    throw new UnsupportedError("Update unsupported on map view");
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   void updateAll(C update(K key, C value)) {
-    throw new UnimplementedError("updateAll");
+    throw new UnsupportedError("Update unsupported on map view");
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   void removeWhere(bool test(K key, C value)) {
-    throw new UnimplementedError("removeWhere");
+    var keysToRemove = <K>[];
+    for (var key in keys) {
+      if (test(key, this[key])) keysToRemove.add(key);
+    }
+    for (var key in keysToRemove) {
+      _multimap.removeAll(key);
+    }
   }
 }
 
@@ -606,8 +591,6 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_setter
   void set first(V value) {
     if (this.isEmpty) throw new RangeError.index(0, this);
     this[0] = value;

@@ -1,11 +1,30 @@
 #### Master
 
+   * New: BiMap now includes a real implementation of `addEntries`, `get
+     entries`, `map`, `removeWhere`, `update`, and `updateAll`.
    * New: DelegatingIterable now includes a real implementation of
      `followedBy`, and accepts the `orElse` parameter on `singleWhere`.
    * New: DelegatingList now includes real implementations of `operator +`,
      `indexWhere`, and `lastIndexWhere`.
    * New: LruMap now includes a real implementation of `addEntries`, `get
      entries`, `removeWhere`, `update`, and `updateAll`.
+   * New: The map returned by `Multimap.asMap()` now includes real
+     implementations of `get entries` and `removeWhere`. This class also has
+     "real" implementations of `addEntries`, `map`, `update`, and `updateAll`,
+     which just throw an `UnsupportedError`, as inserts and updates are not
+     allowed on map views.
+   * New: The list keys of `ListMultimap` now include real implementations of
+     `operator +`, `indexWhere`, and `lastIndexWhere`.
+   * New: The iterable keys of `ListMultimap` and `SetMultimap` now include a
+     real implementation of `followedBy`, and accept the `orElse` parameter on
+     `singleWhere`.
+   * Fix: Eliminate a bug where `LruMap` linkage is incorrectly preserved when
+     items are removed.
+
+#### 0.28.0+1 - 2018-03-22
+
+   * Remove use of `Maps.mapToString` in `LruMap`.
+   * Add `@visibleForTesting` annotation in `AvlTreeSet`.
 
 #### 0.28.0 - 2018-01-19
 

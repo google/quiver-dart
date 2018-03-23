@@ -275,6 +275,15 @@ void main() {
         lruMap.removeWhere((k, v) => v.contains('A'));
         expect(lruMap.keys.toList(), ['C', 'B']);
       });
+
+      test('linkage correctly preserved on remove', () {
+        lruMap.remove('B');
+        lruMap['A'];
+
+        final keys = <String>[];
+        lruMap.forEach((String k, String v) => keys.add(k));
+        expect(keys, ['A', 'C']);
+      });
     });
 
     test('the linked list is mutated when promoting an item in the middle', () {
