@@ -76,6 +76,21 @@ void main() {
       expect(() => map['k1'] = ['1', '2', '3'], throwsUnsupportedError);
     });
 
+    test('addEntries should throw UnsupportedError', () {
+      expect(() => map.addEntries(<MapEntry<String, List<String>>>[]),
+          throwsUnsupportedError);
+    });
+
+    test('update should throw UnsupportedError', () {
+      expect(() => map.update('k1', (_) => ['1', '2', '3']),
+          throwsUnsupportedError);
+    });
+
+    test('updateAll should throw UnsupportedError', () {
+      expect(() => map.updateAll((_, __) => ['1', '2', '3']),
+          throwsUnsupportedError);
+    });
+
     test('containsKey() should return false for missing key', () {
       expect(map.containsKey('k3'), isFalse);
     });
@@ -926,6 +941,27 @@ void main() {
       Map map = mmap.asMap();
       map.remove('k1');
       expect(mmap.containsKey('k1'), false);
+    });
+
+    test('should something about entries in returned map view', () {
+      var mmap = new SetMultimap<String, String>()
+        ..add('k1', 'v1')
+        ..add('k1', 'v2');
+      Map map = mmap.asMap();
+      expect(map.entries, hasLength(1));
+      expect(map.entries.single.key, equals('k1'));
+      expect(map.entries.single.value, unorderedEquals(['v1', 'v2']));
+    });
+
+    test('should map from returned map view', () {
+      var mmap = new SetMultimap<String, String>()
+        ..add('k1', 'v1')
+        ..add('k1', 'v2');
+      Map map = mmap.asMap();
+      var newMap = map.map((k, v) => new MapEntry(k, v.join(',')));
+      expect(newMap, hasLength(1));
+      expect(newMap, contains('k1'));
+      expect(newMap, containsValue('v1,v2'));
     });
 
     test('should reflect clearing of returned map view', () {
