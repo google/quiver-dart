@@ -1,5 +1,7 @@
 #### Master
 
+   * New: BiMap now includes a real implementation of `addEntries`, `get
+     entries`, `map`, `removeWhere`, `update`, and `updateAll`.
    * New: DelegatingIterable now includes a real implementation of
      `followedBy`, and accepts the `orElse` parameter on `singleWhere`.
    * New: DelegatingList now includes real implementations of `operator +`,
