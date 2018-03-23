@@ -207,6 +207,15 @@ void main() {
         lruMap.remove('B');
         expect(lruMap.keys.toList(), ['C', 'A']);
       });
+
+      test('linkage correctly preserved on remove', () {
+        lruMap.remove('B');
+        lruMap['A'];
+
+        final keys = <String>[];
+        lruMap.forEach((String k, String v) => keys.add(k));
+        expect(keys, ['A', 'C']);
+      });
     });
 
     test(

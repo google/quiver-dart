@@ -235,11 +235,13 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
         _head = _tail = null;
       } else if (entry == _head) {
         _head = _head.next;
+        _head?.previous = null;
       } else if (entry == _tail) {
-        _tail.previous.next = null;
         _tail = _tail.previous;
+        _tail?.next = null;
       } else {
         entry.previous.next = entry.next;
+        entry.next.previous = entry.previous;
       }
       return entry.value;
     }
