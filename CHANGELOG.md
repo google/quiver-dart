@@ -6,6 +6,8 @@
      `followedBy`, and accepts the `orElse` parameter on `singleWhere`.
    * New: DelegatingList now includes real implementations of `operator +`,
      `indexWhere`, and `lastIndexWhere`.
+   * New: LruMap now includes a real implementation of `addEntries`, `get
+     entries`, `removeWhere`, `update`, and `updateAll`.
    * New: The map returned by `Multimap.asMap()` now includes real
      implementations of `get entries` and `removeWhere`. This class also has
      "real" implementations of `addEntries`, `map`, `update`, and `updateAll`,
