@@ -4,6 +4,8 @@
      `followedBy`, and accepts the `orElse` parameter on `singleWhere`.
    * New: DelegatingList now includes real implementations of `operator +`,
      `indexWhere`, and `lastIndexWhere`.
+   * Fix: Eliminate a bug where `LruMap` linkage is incorrectly preserved when
+     items are removed.
 
 #### 0.28.0+1 - 2018-03-22
 
