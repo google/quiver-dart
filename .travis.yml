@@ -1,65 +1,12 @@
 language: dart
+sudo: false
 dart:
+  - stable
   - dev
-
-# Gives more resources on Travis (8GB Ram, 2 CPUs).
-# Do not remove without verifying w/ Travis.
-sudo: required
-
-# Build stages: https://docs.travis-ci.com/user/build-stages/.
-stages:
-  - presubmit
-  - build
-  - testing
-
-# 1. Run dartfmt, dartanalyzer.
-# 2. Then run tests compiled via dartdevc and dart2js.
-# 3. Run the coverage script/tool.
-jobs:
-  include:
-    # presubmit: Check things that should fail fast(er).
-    - stage: presubmit
-      script: ./tool/travis/task.sh dartfmt
-
-    - stage: presubmit
-      script: ./tool/travis/task.sh dartanalyzer
-
-    # testing: Run test suites (Dart VM, DartDevC, Dart2JS).
-    - stage: testing
-      script: ./tool/travis/task.sh vm_test
-
-    - stage: testing
-      addons:
-        chrome: stable
-      before_install:
-        - export DISPLAY=:99.0
-        - sh -e /etc/init.d/xvfb start
-        - "t=0; until (xdpyinfo -display :99 &> /dev/null || test $t -gt 10); do sleep 1; let t=$t+1; done"
-      script: ./tool/travis/task.sh dart2js_test
-
-    - stage: testing
-      addons:
-        chrome: stable
-      before_install:
-        - export DISPLAY=:99.0
-        - sh -e /etc/init.d/xvfb start
-        - "t=0; until (xdpyinfo -display :99 &> /dev/null || test $t -gt 10); do sleep 1; let t=$t+1; done"
-      script: ./tool/travis/task.sh dartdevc_test
-      cache:
-        directories:
-          - .dart_tool
-
-    # coverage.
-    - stage: coverage
-      install:
-        - gem install coveralls-lcov
-      script: ./tool/travis/coverage.sh
-
-# Only building master means that we don't run two builds for each pull request.
-branches:
-  only: [master]
-
-# Incremental pub cache and builds.
-cache:
-  directories:
-    - $HOME/.pub-cache
+install:
+  - gem install coveralls-lcov
+script: ./tool/travis.sh
+after_success:
+  - coveralls-lcov var/lcov.info
+env:
+  - DARTANALYZER_FLAGS='--fatal-warnings --strong'

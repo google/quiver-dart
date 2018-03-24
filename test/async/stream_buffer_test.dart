@@ -34,7 +34,7 @@ void main() {
       }).then((_) {
         buf.close();
       });
-    }, tags: ['fails-on-dartdevc']);
+    });
 
     test("respects pausing of stream", () {
       StreamBuffer<List<int>> buf = new StreamBuffer()..limit = 2;
@@ -51,7 +51,7 @@ void main() {
       }).then((val) {
         expect(val, [3, 4]);
       });
-    }, tags: ['fails-on-dartdevc']);
+    });
 
     test("throws when reading too much", () {
       StreamBuffer<List<int>> buf = new StreamBuffer()..limit = 1;
