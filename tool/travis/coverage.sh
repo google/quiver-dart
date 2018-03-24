@@ -34,5 +34,5 @@ if [ "$REPO_TOKEN" ] && [ "$TRAVIS_DART_VERSION" = "dev" ]; then
     --packages=.packages \
     --report-on=lib
 
-  coveralls-lcov var/lcov.info
+  coveralls-lcov --repo-token="$REPO_TOKEN" var/lcov.info
 fi
