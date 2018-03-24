@@ -1,3 +1,8 @@
+#### 0.28.2 - 2018-03-24
+
+   * Fix: Eliminate a bug where `LruMap` linkage is incorrectly preserved when
+     items are removed.
+
 #### 0.28.1 - 2018-03-22
 
    * Remove use of `Maps.mapToString` in `LruMap`.
