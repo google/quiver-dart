@@ -18,10 +18,13 @@
    * New: The iterable keys of `ListMultimap` and `SetMultimap` now include a
      real implementation of `followedBy`, and accept the `orElse` parameter on
      `singleWhere`.
+
+#### 0.28.2 - 2018-03-24
+
    * Fix: Eliminate a bug where `LruMap` linkage is incorrectly preserved when
      items are removed.
 
-#### 0.28.0+1 - 2018-03-22
+#### 0.28.1 - 2018-03-22
 
    * Remove use of `Maps.mapToString` in `LruMap`.
    * Add `@visibleForTesting` annotation in `AvlTreeSet`.
