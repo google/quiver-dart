@@ -41,8 +41,12 @@ while (( "$#" )); do
     ;;
   dart2js_test) echo
     echo -e '\033[1mTASK: dart2js_test\033[22m'
-    echo -e 'pub run test -p chrome -x "fails-on-dart2js"'
-    pub run test -p chrome -x "fails-on-dart2js" -r expanded || EXIT_CODE=$?
+    echo -e 'pub run test -p chrome -x fails-on-dart2js'
+    pub run test -p chrome -x fails-on-dart2js -r expanded || EXIT_CODE=$?
+    ;;
+  dartdevc_test) echo
+    echo -e '\033[1mTASK: dartdevc_test\033[22m'
+    ./tool/travis/ddc_test.sh -p chrome -x fails-on-dartdevc -r expanded || EXIT_CODE=$?
     ;;
   *) echo -e "\033[31mUnknown task: '${TASK}'. Error!\033[0m"
     EXIT_CODE=1
