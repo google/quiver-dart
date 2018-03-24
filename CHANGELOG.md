@@ -53,6 +53,7 @@
    * BREAKING CHANGE: `Optional`'s `==` operator now takes into account `T`,
      the type of the value. This changes, e.g. `Optional<int>.absent()` to no
      longer be equal to `Optional<String>.absent()`.
+   * BREAKING CHANGE: stronger generics added in `Cache` and `MapCache`.
    * Deprecated: `reverse` in the `strings` library. No replacement is
      provided.
    * Deprecated: `createTimer`, `createTimerPeriodic` in the `async` library.
