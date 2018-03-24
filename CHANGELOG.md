@@ -1,3 +1,8 @@
+#### 0.28.3 - not yet released
+
+   * BREAKING CHANGE: Deleted `createTimer` and `createTimerPeriodic`, which
+     were deprecated in 0.26.0.
+
 #### 0.28.2 - 2018-03-24
 
    * Fix: Eliminate a bug where `LruMap` linkage is incorrectly preserved when
