@@ -15,14 +15,14 @@
 library quiver.io;
 
 import 'dart:async';
-import 'dart:convert';
+import 'dart:convert' show Encoding, utf8;
 import 'dart:io';
 
 import 'package:quiver/async.dart';
 
 ///  Converts a [Stream] of byte lists to a [String].
 Future<String> byteStreamToString(Stream<List<int>> stream,
-    {Encoding encoding: UTF8}) {
+    {Encoding encoding: utf8}) {
   return stream.transform(encoding.decoder).join();
 }
 
