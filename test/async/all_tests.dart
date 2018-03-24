@@ -17,7 +17,6 @@ library quiver.async.all_tests;
 import 'collect_test.dart' as collect;
 import 'concat_test.dart' as concat;
 import 'countdown_timer_test.dart' as countdown_timer;
-import 'create_timer_test.dart' as create_timer;
 import 'enumerate_test.dart' as enumerate;
 import 'future_group_test.dart' as future_group;
 import 'future_stream_test.dart' as future_stream;
@@ -30,7 +29,6 @@ main() {
   collect.main();
   concat.main();
   countdown_timer.main();
-  create_timer.main();
   enumerate.main();
   future_group.main();
   future_stream.main();
