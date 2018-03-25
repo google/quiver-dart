@@ -24,11 +24,11 @@ part of quiver.iterables;
 ///
 /// If any of the [iterables] contain null elements, an exception will be
 /// thrown.
-Iterable<T> merge<T>(Iterable<Iterable<T>> iterables,
-        [Comparator<T> compare]) =>
-    iterables.isEmpty
-        ? const <Null>[]
-        : new _Merge<T>(iterables, compare ?? Comparable.compare);
+Iterable<T> merge<T>(Iterable<Iterable<T>> iterables, [Comparator<T> compare]) {
+  if (iterables.isEmpty) return const <Null>[];
+  if (iterables.every((i) => i.isEmpty)) return const <Null>[];
+  return new _Merge<T>(iterables, compare ?? Comparable.compare);
+}
 
 class _Merge<T> extends IterableBase<T> {
   final Iterable<Iterable<T>> _iterables;
