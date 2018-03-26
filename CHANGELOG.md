@@ -3,6 +3,7 @@
    * BREAKING CHANGE: Deleted `createTimer` and `createTimerPeriodic`, which
      were deprecated in 0.26.0.
    * BREAKING CHANGE: Deleted `reverse`, which was deprecated in 0.25.0.
+   * BREAKING CHANGE: Deleted `FutureGroup`, which was deprecated in 0.25.0.
 
 #### 0.28.2 - 2018-03-24
 
