@@ -21,6 +21,7 @@ part of quiver.iterables;
 /// [Comparable.compare] is used. If [i] contains null elements, an exception
 /// will be thrown.
 T max<T>(Iterable<T> i, [Comparator<T> compare]) {
+  if (i.isEmpty) return null;
   final Comparator<T> _compare = compare ?? Comparable.compare;
   return i.isEmpty ? null : i.reduce((a, b) => _compare(a, b) > 0 ? a : b);
 }
@@ -32,6 +33,7 @@ T max<T>(Iterable<T> i, [Comparator<T> compare]) {
 /// [Comparable.compare] is used. If [i] contains null elements, an exception
 /// will be thrown.
 T min<T>(Iterable<T> i, [Comparator<T> compare]) {
+  if (i.isEmpty) return null;
   final Comparator<T> _compare = compare ?? Comparable.compare;
   return i.isEmpty ? null : i.reduce((a, b) => _compare(a, b) < 0 ? a : b);
 }
@@ -48,6 +50,7 @@ T min<T>(Iterable<T> i, [Comparator<T> compare]) {
 /// If [i] is empty, an [Extent] is returned with [:null:] values for [:min:]
 /// and [:max:], since there are no valid values for them.
 Extent<T> extent<T>(Iterable<T> i, [Comparator<T> compare]) {
+  if (i.isEmpty) return new Extent(null, null);
   final Comparator<T> _compare = compare ?? Comparable.compare;
   var iterator = i.iterator;
   var hasNext = iterator.moveNext();
