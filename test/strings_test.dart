@@ -76,18 +76,6 @@ main() {
     });
   });
 
-  group('reverse', () {
-    test('should reverse characters in a string', () {
-      expect(reverse('ab'), 'ba');
-    });
-    test('should return null as null', () {
-      expect(reverse(null), null);
-    });
-    test('should return empty string as empty string', () {
-      expect(reverse(''), '');
-    });
-  });
-
   group('loop', () {
     // Forward direction test cases
     test('should work like normal substring', () {
