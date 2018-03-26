@@ -4,6 +4,8 @@
      were deprecated in 0.26.0.
    * BREAKING CHANGE: Deleted `reverse`, which was deprecated in 0.25.0.
    * BREAKING CHANGE: Deleted `FutureGroup`, which was deprecated in 0.25.0.
+   * BREAKING CHANGE: `InfiniteIterable.singleWhere` now throws
+     `UnsupportedError`.
 
 #### 0.28.2 - 2018-03-24
 
