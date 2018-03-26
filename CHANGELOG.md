@@ -6,6 +6,8 @@
      were deprecated in 0.26.0.
    * BREAKING CHANGE: Deleted `reverse`, which was deprecated in 0.25.0.
    * BREAKING CHANGE: Deleted `FutureGroup`, which was deprecated in 0.25.0.
+   * BREAKING CHANGE: `InfiniteIterable.singleWhere` now throws
+     `UnsupportedError`.
    * New: BiMap now includes a real implementation of `addEntries`, `get
      entries`, `map`, `removeWhere`, `update`, and `updateAll`.
    * New: DelegatingIterable now includes a real implementation of

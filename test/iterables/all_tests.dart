@@ -18,6 +18,7 @@ import 'concat_test.dart' as concat;
 import 'count_test.dart' as count;
 import 'cycle_test.dart' as cycle;
 import 'enumerate_test.dart' as enumerate;
+import 'infinite_iterable_test.dart' as infinite_iterable;
 import 'merge_test.dart' as merge;
 import 'min_max_test.dart' as min_max;
 import 'partition_test.dart' as partition;
@@ -30,6 +31,7 @@ main() {
   count.main();
   cycle.main();
   enumerate.main();
+  infinite_iterable.main();
   merge.main();
   min_max.main();
   partition.main();
