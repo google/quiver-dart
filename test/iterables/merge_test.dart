@@ -54,8 +54,8 @@ main() {
 
     test("should merge empty iterables with non-empty ones", () {
       var a = ['a', 'b', 'c'];
-      expect(merge([a, []]), ['a', 'b', 'c']);
-      expect(merge([[], a]), ['a', 'b', 'c']);
+      expect(merge([a, <String>[]]), ['a', 'b', 'c']);
+      expect(merge([<String>[], a]), ['a', 'b', 'c']);
     });
 
     test("should throw on null elements", () {
