@@ -43,6 +43,9 @@ abstract class InfiniteIterable<T> extends IterableBase<T> {
   T reduce(T combine(T value, T element)) =>
       throw new UnsupportedError('reduce');
 
+  T singleWhere(bool test(T value), {T orElse()}) =>
+      throw new UnsupportedError('singleWhere');
+
   List<T> toList({bool growable: true}) => throw new UnsupportedError('toList');
 
   Set<T> toSet() => throw new UnsupportedError('toSet');
