@@ -19,20 +19,20 @@ jobs:
   include:
     # presubmit: Check things that should fail fast(er).
     - stage: presubmit
-      env: [ SHARD=dartfmt ]
+      env: SHARD=dartfmt
       script: ./tool/travis/task.sh dartfmt
 
     - stage: presubmit
-      env: [ SHARD=dartanalyzer ]
+      env: SHARD=dartanalyzer
       script: ./tool/travis/task.sh dartanalyzer
 
-    # testing: Run test suites (Dart VM, DartDevC, Dart2JS).
+    # testing: Run test suites (Dart VM, Dart2JS).
     - stage: testing
-      env: [ SHARD=vm_test ]
+      env: SHARD=vm_test
       script: ./tool/travis/task.sh vm_test
 
     - stage: testing
-      env: [ SHARD=dart2js_test ]
+      env: SHARD=dart2js_test
       addons:
         chrome: stable
       before_install:
@@ -41,9 +41,22 @@ jobs:
         - "t=0; until (xdpyinfo -display :99 &> /dev/null || test $t -gt 10); do sleep 1; let t=$t+1; done"
       script: ./tool/travis/task.sh dart2js_test
 
+    - stage: testing
+      env: SHARD=dartdevc_test
+      addons:
+        chrome: stable
+      before_install:
+        - export DISPLAY=:99.0
+        - sh -e /etc/init.d/xvfb start
+        - "t=0; until (xdpyinfo -display :99 &> /dev/null || test $t -gt 10); do sleep 1; let t=$t+1; done"
+      script: ./tool/travis/task.sh dartdevc_test
+      cache:
+        directories:
+          - .dart_tool
+
     # coverage.
     - stage: coverage
-      env: [ SHARD=coveralls ]
+      env: SHARD=coveralls
       install:
         - gem install coveralls-lcov
       script: ./tool/travis/coverage.sh

@@ -24,3 +24,10 @@ dependencies:
 dev_dependencies:
   path: '>=1.0.0 <2.0.0'
   test: '>=0.12.20 <=0.13.0'
+#DDC_TEST:  build_runner: ^0.8.0
+#DDC_TEST:  build_test: ^0.10.0
+#DDC_TEST:  build_web_compilers: ^0.3.1
+
+# The above dependencies are used for running the dartdevc_test task on Travis.
+# Since build_runner indirectly depends on quiver, we patch these in at test
+# time to avoid creating a circular dependency.
