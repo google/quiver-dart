@@ -4,6 +4,7 @@
      Bugfixes will be backported to the 0.28.x series for Dart 1 users.
    * BREAKING CHANGE: Deleted `createTimer` and `createTimerPeriodic`, which
      were deprecated in 0.26.0.
+   * BREAKING CHANGE: Deleted `reverse`, which was deprecated in 0.25.0.
    * New: BiMap now includes a real implementation of `addEntries`, `get
      entries`, `map`, `removeWhere`, `update`, and `updateAll`.
    * New: DelegatingIterable now includes a real implementation of
