@@ -18,8 +18,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:quiver/async.dart';
-
 ///  Converts a [Stream] of byte lists to a [String].
 Future<String> byteStreamToString(Stream<List<int>> stream,
     {Encoding encoding: UTF8}) {
@@ -33,18 +31,18 @@ String getFullPath(path) => new File(path).resolveSymbolicLinksSync();
 /// into sub-directories based on the return value of [visit].
 ///
 /// [visit] is called with a [File], [Directory] or [Link] to a directory,
-/// never a Symlink to a File. If [visit] returns true, then it's argument is
+/// never a Symlink to a File. If [visit] returns true, then its argument is
 /// listed recursively.
 Future visitDirectory(Directory dir, Future<bool> visit(FileSystemEntity f)) {
-  var futureGroup = new FutureGroup();
+  final completer = new Completer();
+  final directories = <String, bool>{dir.path: false};
 
   void _list(Directory dir) {
-    var completer = new Completer();
-    futureGroup.add(completer.future);
+    directories.putIfAbsent(dir.path, () => false);
     dir.list(followLinks: false).listen((FileSystemEntity entity) {
       var future = visit(entity);
       if (future != null) {
-        futureGroup.add(future.then((bool recurse) {
+        future.then((bool recurse) {
           // recurse on directories, but not cyclic symlinks
           if (entity is! File && recurse == true) {
             if (entity is Link) {
@@ -60,14 +58,19 @@ Future visitDirectory(Directory dir, Future<bool> visit(FileSystemEntity f)) {
               _list(entity);
             }
           }
-        }));
+        });
       }
     }, onDone: () {
-      completer.complete(null);
+      directories[dir.path] = true;
+      if (directories.values.every((v) => v)) {
+        completer.complete();
+      }
+    }, onError: (e) {
+      completer.completeError(e);
     }, cancelOnError: true);
   }
 
   _list(dir);
 
-  return futureGroup.future;
+  return completer.future;
 }
