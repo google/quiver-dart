@@ -38,11 +38,6 @@ processing the next element.
 `StreamBuffer` allows for the orderly reading of elements from a stream, such
 as a socket.
 
-`FutureGroup` is collection of Futures that signals when all its child futures
-have completed. Allows adding new Futures as long as it hasn't completed yet.
-Useful when async tasks can spwn new async tasks and you need to wait for all of
-them to complete.
-
 `FutureStream` turns a `Future<Stream>` into a `Stream` which emits the same
 events as the stream returned from the future.
 
@@ -180,8 +175,6 @@ used as a literal match inside of a RegExp.
 `equalsIgnoreCase` checks if two strings are equal, ignoring case.
 
 `compareIgnoreCase` compares two strings, ignoring case.
-
-`reverse` reverses the order of characters in a string.
 
 `loop` allows you to loop through characters in a string starting and ending at
 arbitrary indices. Out of bounds indices allow you to wrap around the string,
