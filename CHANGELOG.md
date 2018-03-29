@@ -1,4 +1,4 @@
-#### 0.28.3 - 2018-03-28
+#### 0.29.0 - 2018-03-28
 
    * BREAKING CHANGE: Deleted `createTimer` and `createTimerPeriodic`, which
      were deprecated in 0.26.0.
