@@ -38,7 +38,7 @@
 #### 0.28.1 - 2018-03-22
 
    * Remove use of `Maps.mapToString` in `LruMap`.
-   * Add `@visibleForTesting` annotation in `AvlTreeSet`.
+   * Add `@visibleForTesting` annotation in `AvlTreeSet`.
 
 #### 0.28.0 - 2018-01-19
 
