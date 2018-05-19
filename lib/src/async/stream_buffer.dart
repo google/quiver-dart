@@ -31,9 +31,10 @@ class UnderflowError extends Error {
 }
 
 /// Allow orderly reading of elements from a datastream, such as Socket, which
-/// might not receive List<int> bytes regular chunks.
+/// might not receive `List<int>` bytes regular chunks.
 ///
 /// Example usage:
+///
 ///     StreamBuffer<int> buffer = new StreamBuffer();
 ///     Socket.connect('127.0.0.1', 5555).then((sock) => sock.pipe(buffer));
 ///     buffer.read(100).then((bytes) {

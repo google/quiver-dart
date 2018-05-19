@@ -23,6 +23,7 @@ part of quiver.async;
 /// matched by a call to [route] are sent to the [defaultStream].
 ///
 /// Example:
+///
 ///    import 'dart:html';
 ///    import 'package:quiver/async.dart';
 ///
