@@ -31,12 +31,14 @@ part of quiver.async;
 ///
 /// Could print the following stream of events, anchored by epoch, till the
 /// stream is canceled:
+///
 ///     2014-05-04 14:06:00.001
 ///     2014-05-04 14:07:00.000
 ///     2014-05-04 14:08:00.003
 ///     ...
 ///
 /// Example anchored in the future (now = 2014-05-05 20:06:00.123)
+///
 ///     new IsochronousStream.periodic(aMillisecond * 100,
 ///         anchorMs: DateTime.parse("2014-05-05 21:07:00"))
 ///         .listen(print);

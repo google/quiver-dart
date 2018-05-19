@@ -69,7 +69,7 @@ abstract class Multimap<K, V> {
   /// Removes all data from the multimap.
   void clear();
 
-  /// Applies [f] to each {key, Iterable<value>} pair of the multimap.
+  /// Applies [f] to each {key, `Iterable<value>`} pair of the multimap.
   ///
   /// It is an error to add or remove keys from the map during iteration.
   void forEachKey(void f(K key, Iterable<V> value));
