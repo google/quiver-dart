@@ -47,7 +47,7 @@ Future visitDirectory(Directory dir, Future<bool> visit(FileSystemEntity f)) {
           if (entity is! File && recurse == true) {
             if (entity is Link) {
               if (FileSystemEntity.typeSync(entity.path, followLinks: true) ==
-                  FileSystemEntityType.DIRECTORY) {
+                  FileSystemEntityType.directory) {
                 var fullPath = getFullPath(entity.path).toString();
                 var dirFullPath = getFullPath(dir.path).toString();
                 if (!dirFullPath.startsWith(fullPath)) {
