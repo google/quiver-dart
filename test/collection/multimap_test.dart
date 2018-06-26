@@ -132,7 +132,7 @@ void main() {
 
     test('addAll(Map m) should throw UnsupportedError', () {
       expect(
-          () => map.addAll({
+          () => map.addAll(<String, List<String>>{
                 'k1': ['1', '2', '3']
               }),
           throwsUnsupportedError);
@@ -208,7 +208,7 @@ void main() {
       var map = new ListMultimap<String, String>();
       List values1 = map['k1'];
       List values2 = map['k1'];
-      values1.addAll(['v1', 'v2']);
+      values1.addAll(<String>['v1', 'v2']);
       expect(map['k1'], ['v1', 'v2']);
       expect(values2, ['v1', 'v2']);
     });
@@ -578,11 +578,11 @@ void main() {
       expect(mmap['k1'], ['v1']);
       x.add('v2');
       expect(mmap['k1'], ['v1', 'v2']);
-      y.addAll(['v3', 'v4']);
+      y.addAll(<String>['v3', 'v4']);
       expect(mmap['k1'], ['v1', 'v2', 'v3', 'v4']);
       z.insert(0, 'v0');
       expect(mmap['k1'], ['v0', 'v1', 'v2', 'v3', 'v4']);
-      w.insertAll(5, ['v5', 'v6']);
+      w.insertAll(5, <String>['v5', 'v6']);
       expect(mmap['k1'], ['v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6']);
     });
   });
@@ -635,7 +635,7 @@ void main() {
       var map = new SetMultimap<String, String>();
       Set values1 = map['k1'];
       Set values2 = map['k1'];
-      values1.addAll(['v1', 'v2']);
+      values1.addAll(<String>['v1', 'v2']);
       expect(map['k1'], unorderedEquals(['v1', 'v2']));
       expect(values2, unorderedEquals(['v1', 'v2']));
     });
@@ -1010,7 +1010,7 @@ void main() {
       Set y = mmap['k1'];
       mmap['k1'].add('v0');
       x.add('v1');
-      y.addAll(['v2', 'v3']);
+      y.addAll(<String>['v2', 'v3']);
       expect(mmap['k1'], unorderedEquals(['v0', 'v1', 'v2', 'v3']));
     });
   });
