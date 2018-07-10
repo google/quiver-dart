@@ -1,6 +1,11 @@
 #### Master
 
    * BREAKING CHANGE: This version requires Dart SDK 2.0.0-dev.61 or later.
+   * BREAKING CHANGE: StreamBuffer has been changed from implementing
+     `StreamConsumer<T>` to `StreamConsumer<List<T>>`. Users of
+     `StreamBuffer<List<T>>` can simply change declarations to
+     `StreamBuffer<T>`. In cases where the generic type is already not a list
+     type, inputs to the list may need to be wrapped in a list.
 
 #### 0.29.0+1 - 2018-03-29
 
