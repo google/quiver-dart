@@ -1,6 +1,6 @@
 #### Master
 
-   * This version requires Dart SDK 2.0.0-dev.55 or later.
+   * BREAKING CHANGE: This version requires Dart SDK 2.0.0-dev.61 or later.
 
 #### 0.29.0+1 - 2018-03-29
 
