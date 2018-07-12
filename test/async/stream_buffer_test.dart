@@ -21,7 +21,7 @@ import 'package:quiver/async.dart';
 void main() {
   group("StreamBuffer", () {
     test("returns orderly overlaps", () {
-      StreamBuffer<List<int>> buf = new StreamBuffer();
+      StreamBuffer<int> buf = new StreamBuffer();
       new Stream.fromIterable([
         [1],
         [2, 3, 4],
@@ -37,7 +37,7 @@ void main() {
     }, tags: ['fails-on-dartdevc']);
 
     test("respects pausing of stream", () {
-      StreamBuffer<List<int>> buf = new StreamBuffer()..limit = 2;
+      StreamBuffer<int> buf = new StreamBuffer()..limit = 2;
       new Stream.fromIterable([
         [1],
         [2],
@@ -54,7 +54,7 @@ void main() {
     }, tags: ['fails-on-dartdevc']);
 
     test("throws when reading too much", () {
-      StreamBuffer<List<int>> buf = new StreamBuffer()..limit = 1;
+      StreamBuffer<int> buf = new StreamBuffer()..limit = 1;
       new Stream.fromIterable([
         [1],
         [2]
@@ -70,8 +70,12 @@ void main() {
 
     test("allows patching of streams", () {
       StreamBuffer<int> buf = new StreamBuffer();
-      new Stream.fromIterable([1, 2]).pipe(buf).then((_) {
-        return new Stream.fromIterable([3, 4]).pipe(buf);
+      new Stream.fromIterable([
+        [1, 2]
+      ]).pipe(buf).then((_) {
+        return new Stream.fromIterable([
+          [3, 4]
+        ]).pipe(buf);
       });
       return Future.wait([buf.read(1), buf.read(2), buf.read(1)]).then((vals) {
         expect(vals[0], equals([1]));
@@ -91,14 +95,20 @@ void main() {
         expect(error is UnderflowError, isTrue,
             reason: "!UnderflowError: $error");
       });
-      new Stream.fromIterable([1, 2, 3]).pipe(buf);
+      new Stream.fromIterable([
+        [1, 2, 3]
+      ]).pipe(buf);
       return future;
     });
 
     test("accepts several streams", () async {
       StreamBuffer<int> buf = new StreamBuffer();
-      new Stream.fromIterable([1]).pipe(buf);
-      new Stream.fromIterable([2, 3, 4, 5]).pipe(buf);
+      new Stream.fromIterable([
+        [1]
+      ]).pipe(buf);
+      new Stream.fromIterable([
+        [2, 3, 4, 5]
+      ]).pipe(buf);
       final vals = await buf.read(4);
       expect(vals, equals([2, 3, 4, 5]));
       buf.close();
