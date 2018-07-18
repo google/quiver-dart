@@ -1,4 +1,4 @@
-#### master
+#### 1.0.0 - 2018-07-18
 
    * BREAKING CHANGE: StreamBuffer has been changed from implementing
      StreamConsumer<T> to StreamConsumer<List<T>>. Users of
