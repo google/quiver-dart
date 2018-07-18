@@ -1,6 +1,9 @@
-#### Master
+#### 2.0.0-dev.1.0 - 2018-07-18
 
    * BREAKING CHANGE: This version requires Dart SDK 2.0.0-dev.61 or later.
+
+#### 1.0.0 - 2018-07-18
+
    * BREAKING CHANGE: StreamBuffer has been changed from implementing
      `StreamConsumer<T>` to `StreamConsumer<List<T>>`. Users of
      `StreamBuffer<List<T>>` can simply change declarations to
