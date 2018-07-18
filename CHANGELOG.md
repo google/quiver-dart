@@ -1,3 +1,7 @@
+#### 2.0.0+1 - 2017-07-18
+
+   * Updated Dart SDK constraint to >=2.0.0-dev.61 < 3.0.0.
+
 #### 2.0.0 - 2018-07-18
 
    * BREAKING CHANGE: This version requires Dart SDK 2.0.0-dev.61 or later.
