@@ -29,7 +29,7 @@ main() {
       var futures = new Iterable.generate(
           5, (int i) => i.isEven ? new Future.value(i) : new Future.error(i));
       var events = [];
-      var done = new Completer();
+      var done = new Completer<List>();
 
       collect(futures).listen(events.add, onError: (i) {
         events.add('e$i');
