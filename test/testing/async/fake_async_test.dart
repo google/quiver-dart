@@ -273,7 +273,7 @@ main() {
 
         test('should not be additive with elapseBlocking', () {
           new FakeAsync().run((async) {
-            new Timer(Duration.ZERO, () => async.elapseBlocking(elapseBy * 5));
+            new Timer(Duration.zero, () => async.elapseBlocking(elapseBy * 5));
             async.elapse(elapseBy);
             expect(async.getClock(initialTime).now(),
                 initialTime.add(elapseBy * 5));
@@ -310,7 +310,7 @@ main() {
           new FakeAsync().run((async) {
             var callCount = 0;
             new Future(() => callCount++);
-            async.elapse(Duration.ZERO);
+            async.elapse(Duration.zero);
             expect(callCount, 1);
           });
         });

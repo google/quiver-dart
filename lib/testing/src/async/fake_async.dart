@@ -118,7 +118,7 @@ abstract class FakeAsync {
 }
 
 class _FakeAsync implements FakeAsync {
-  Duration _elapsed = Duration.ZERO;
+  Duration _elapsed = Duration.zero;
   Duration _elapsingTo;
   Queue<Function> _microtasks = new Queue();
   Set<_FakeTimer> _timers = new Set<_FakeTimer>();
@@ -275,7 +275,7 @@ class _FakeTimer implements Timer {
   //     http://www.w3.org/TR/html5/webappapis.html#timer-nesting-level
   // Without some sort of delay this can lead to infinitely looping timers.
   // What do the dart VM and dart2js timers do here?
-  static const _minDuration = Duration.ZERO;
+  static const _minDuration = Duration.zero;
 
   _FakeTimer._(Duration duration, this._callback, this._isPeriodic, this._time)
       : _duration = duration < _minDuration ? _minDuration : duration {
