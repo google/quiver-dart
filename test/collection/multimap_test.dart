@@ -66,7 +66,7 @@ void main() {
 
   group('Multimap asMap() view', () {
     Multimap<String, String> mmap;
-    Map<String, Iterable<String>> map;
+    Map<String, List<String>> map;
     setUp(() {
       mmap = new Multimap()..add('k1', 'v1')..add('k1', 'v2')..add('k2', 'v3');
       map = mmap.asMap();
@@ -191,8 +191,8 @@ void main() {
 
     test('should return unmapped iterables that stay in sync on addAll', () {
       var map = new ListMultimap<String, String>();
-      List values1 = map['k1'];
-      List values2 = map['k1'];
+      var values1 = map['k1'];
+      var values2 = map['k1'];
       values1.addAll(['v1', 'v2']);
       expect(map['k1'], ['v1', 'v2']);
       expect(values2, ['v1', 'v2']);
@@ -555,10 +555,10 @@ void main() {
         'should support operations on empty map views without breaking delegate synchronization',
         () {
       var mmap = new ListMultimap<String, String>();
-      List x = mmap['k1'];
-      List y = mmap['k1'];
-      List z = mmap['k1'];
-      List w = mmap['k1'];
+      var x = mmap['k1'];
+      var y = mmap['k1'];
+      var z = mmap['k1'];
+      var w = mmap['k1'];
       mmap['k1'].add('v1');
       expect(mmap['k1'], ['v1']);
       x.add('v2');
@@ -618,8 +618,8 @@ void main() {
 
     test('should return unmapped iterables that stay in sync on addAll', () {
       var map = new SetMultimap<String, String>();
-      Set values1 = map['k1'];
-      Set values2 = map['k1'];
+      var values1 = map['k1'];
+      var values2 = map['k1'];
       values1.addAll(['v1', 'v2']);
       expect(map['k1'], unorderedEquals(['v1', 'v2']));
       expect(values2, unorderedEquals(['v1', 'v2']));
@@ -970,8 +970,8 @@ void main() {
         'should support operations on empty map views without breaking '
         'delegate synchronization', () {
       var mmap = new SetMultimap<String, String>();
-      Set x = mmap['k1'];
-      Set y = mmap['k1'];
+      var x = mmap['k1'];
+      var y = mmap['k1'];
       mmap['k1'].add('v0');
       x.add('v1');
       y.addAll(['v2', 'v3']);
