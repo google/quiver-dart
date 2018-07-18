@@ -1,4 +1,4 @@
-#### 2.0.0-dev.1.0 - 2018-07-18
+#### 2.0.0 - 2018-07-18
 
    * BREAKING CHANGE: This version requires Dart SDK 2.0.0-dev.61 or later.
 
