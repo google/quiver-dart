@@ -1,8 +1,8 @@
 #### 0.29.9 - 2018-07-18
 
-   * Special-case release that updated usage of Dart SDK constants for Dart v2.
+   * Updated usage of Dart SDK constants for Dart v2.
      Allows users of `pkg:quiver` to support Dart 2 gold without addressing
-     all of the breaknig changes in `pkg:quiver` v2.
+     all of the breaking changes in `pkg:quiver` v2.
 
 #### 0.29.0 - 2018-03-28
 
