@@ -1,7 +1,6 @@
 language: dart
 sudo: false
 dart:
-  - stable
   - dev
 install:
   - gem install coveralls-lcov

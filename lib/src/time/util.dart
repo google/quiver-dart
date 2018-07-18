@@ -23,7 +23,7 @@ const _daysInMonth = const [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 /// This function assumes the use of the Gregorian calendar or the proleptic
 /// Gregorian calendar.
 int daysInMonth(int year, int month) =>
-    (month == DateTime.FEBRUARY && isLeapYear(year)) ? 29 : _daysInMonth[month];
+    (month == DateTime.february && isLeapYear(year)) ? 29 : _daysInMonth[month];
 
 /// Returns true if [year] is a leap year.
 ///
