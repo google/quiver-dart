@@ -17,7 +17,7 @@ Add Quiver to your project's pubspec.yaml file and run `pub get`.
 We recommend the following version constraint:
 
     dependencies:
-      quiver: '>=0.29.0 <0.30.0'
+      quiver: '>=2.0.0-dev.1.0 <3.0.0'
 
 # Main Libraries
 
