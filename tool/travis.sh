@@ -18,7 +18,7 @@ testing_libs=$(find lib/testing -maxdepth 1 -type f -name '*.dart')
 dartanalyzer $DARTANALYZER_FLAGS $libs $testing_libs test/all_tests.dart
 
 # Verify that dartfmt has been run.
-if [[ "$TRAVIS_DART_VERSION" == "stable" ]]; then
+if [[ "$TRAVIS_DART_VERSION" == "dev" ]]; then
   # Only test on stable to avoid CI failure due to diffs between stable and dev.
   echo "Checking dartfmt..."
   if [[ $(dartfmt -n --set-exit-if-changed lib/ test/) ]]; then

@@ -14,6 +14,7 @@
 
 library quiver.time;
 
+import 'package:dart2_constant/core.dart' as core;
 import 'package:meta/meta.dart';
 
 part 'src/time/clock.dart';
