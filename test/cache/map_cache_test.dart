@@ -90,7 +90,7 @@ main() {
         return new Future.error("Request failed");
       }
 
-      await Future.wait([
+      await Future.wait(<Future>[
         expectThrows(() => cache.get("test", ifAbsent: loader)),
         expectThrows(() => cache.get("test", ifAbsent: loader)),
       ]);
