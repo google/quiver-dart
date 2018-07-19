@@ -50,8 +50,8 @@ main() {
       });
       ['a', 'b', 'c'].forEach(controller1.add);
       ['d', 'e', 'f'].forEach(controller2.add);
-      return Future
-          .wait([controller1.close(), controller2.close(), expectation]);
+      return Future.wait(
+          [controller1.close(), controller2.close(), expectation]);
     });
 
     test('should concatenate stream error events', () {

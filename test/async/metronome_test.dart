@@ -97,7 +97,8 @@ main() {
         DateTime start = DateTime.parse("2014-05-05 20:06:00");
         Clock clock = async.getClock(start);
         new Metronome.periodic(aMinute * 10,
-            clock: clock, anchor: clock.minutesAgo(59)).listen((d) {
+                clock: clock, anchor: clock.minutesAgo(59))
+            .listen((d) {
           times.add(d);
         });
         async.elapse(anHour);
@@ -118,7 +119,8 @@ main() {
         DateTime start = DateTime.parse("2014-05-05 20:06:00");
         Clock clock = async.getClock(start);
         new Metronome.periodic(aMinute * 10,
-            clock: clock, anchor: clock.minutesFromNow(61)).listen((d) {
+                clock: clock, anchor: clock.minutesFromNow(61))
+            .listen((d) {
           times.add(d);
         });
         async.elapse(anHour);
@@ -138,7 +140,8 @@ main() {
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00.004");
         new Metronome.periodic(aMillisecond * 100,
-            clock: async.getClock(start), anchor: start).listen((d) {
+                clock: async.getClock(start), anchor: start)
+            .listen((d) {
           times.add(d);
         });
         async.elapse(aMillisecond * 304);
@@ -155,7 +158,8 @@ main() {
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00.004");
         new Metronome.periodic(aMillisecond * 100,
-            clock: async.getClock(start), anchor: start).listen((d) {
+                clock: async.getClock(start), anchor: start)
+            .listen((d) {
           times.add(d);
           async.elapseBlocking(const Duration(milliseconds: 80));
         });
@@ -173,7 +177,8 @@ main() {
         List<DateTime> times = [];
         DateTime start = DateTime.parse("2014-05-05 20:06:00.004");
         new Metronome.periodic(aMillisecond * 100,
-            clock: async.getClock(start), anchor: start).listen((d) {
+                clock: async.getClock(start), anchor: start)
+            .listen((d) {
           times.add(d);
           async.elapseBlocking(const Duration(milliseconds: 105));
         });

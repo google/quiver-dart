@@ -16,6 +16,7 @@ library quiver.testing.async.fake_async_test;
 
 import 'dart:async';
 
+import 'package:dart2_constant/core.dart' as core;
 import 'package:quiver/testing/async.dart';
 import 'package:test/test.dart';
 
@@ -273,7 +274,8 @@ main() {
 
         test('should not be additive with elapseBlocking', () {
           new FakeAsync().run((async) {
-            new Timer(Duration.ZERO, () => async.elapseBlocking(elapseBy * 5));
+            new Timer(
+                core.Duration.zero, () => async.elapseBlocking(elapseBy * 5));
             async.elapse(elapseBy);
             expect(async.getClock(initialTime).now(),
                 initialTime.add(elapseBy * 5));
@@ -310,7 +312,7 @@ main() {
           new FakeAsync().run((async) {
             var callCount = 0;
             new Future(() => callCount++);
-            async.elapse(Duration.ZERO);
+            async.elapse(core.Duration.zero);
             expect(callCount, 1);
           });
         });

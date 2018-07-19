@@ -15,9 +15,9 @@
 library quiver.io_test;
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
+import 'package:dart2_constant/convert.dart' as convert;
 import 'package:path/path.dart' as path;
 import 'package:quiver/io.dart';
 import 'package:test/test.dart';
@@ -26,7 +26,7 @@ main() {
   group('byteStreamToString', () {
     test('should decode UTF8 text by default', () {
       var string = '箙、靫';
-      var encoded = UTF8.encoder.convert(string);
+      var encoded = convert.utf8.encoder.convert(string);
       var data = [encoded.sublist(0, 3), encoded.sublist(3)];
       var stream = new Stream<List<int>>.fromIterable(data);
       byteStreamToString(stream).then((decoded) {
@@ -36,10 +36,10 @@ main() {
 
     test('should decode text with the specified encoding', () {
       var string = 'blåbærgrød';
-      var encoded = LATIN1.encoder.convert(string);
+      var encoded = convert.latin1.encoder.convert(string);
       var data = [encoded.sublist(0, 4), encoded.sublist(4)];
       var stream = new Stream<List<int>>.fromIterable(data);
-      byteStreamToString(stream, encoding: LATIN1).then((decoded) {
+      byteStreamToString(stream, encoding: convert.latin1).then((decoded) {
         expect(decoded, string);
       });
     });

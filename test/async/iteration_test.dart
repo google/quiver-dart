@@ -85,7 +85,8 @@ main() {
         return new Future(() {
           pending--;
         });
-      }, maxTasks: 3).then((_) {
+      }, maxTasks: 3)
+          .then((_) {
         expect(results, [1, 2, 3, 4]);
         expect(maxPending, 3);
       });
