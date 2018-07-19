@@ -41,9 +41,15 @@ class MapCache<K, V> implements Cache<K, V> {
     if (ifAbsent != null) {
       var futureOr = ifAbsent(key);
       _outstanding[key] = futureOr;
-      var v = await futureOr;
+      V v;
+      try {
+        v = await futureOr;
+      } finally {
+        // Always remove key from [_outstanding] to prevent returning the
+        // failed result again.
+        _outstanding.remove(key);
+      }
       _map[key] = v;
-      _outstanding.remove(key);
       return v;
     }
     return null;

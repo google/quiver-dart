@@ -81,5 +81,21 @@ main() {
 
       expect(count, equals(1));
     });
+
+    test("should not cache a failed request", () async {
+      int count = 0;
+
+      Future<String> loader(String key) {
+        count += 1;
+        return new Future.error("Request failed");
+      }
+
+      await Future.wait([
+        expectThrows(() => cache.get("test", ifAbsent: loader)),
+        expectThrows(() => cache.get("test", ifAbsent: loader)),
+      ]);
+
+      expect(count, equals(2));
+    });
   });
 }
