@@ -87,12 +87,14 @@ main() {
 
       Future<String> loader(String key) {
         count += 1;
-        return new Future.error("Request failed");
+        return new Future.error(new StateError("Request failed"));
       }
 
       await Future.wait(<Future>[
-        expectThrows(() => cache.get("test", ifAbsent: loader)),
-        expectThrows(() => cache.get("test", ifAbsent: loader)),
+        expect(() => cache.get("test", ifAbsent: loader),
+            throwsA(const TypeMatcher<StateError>())),
+        expect(() => cache.get("test", ifAbsent: loader),
+            throwsA(const TypeMatcher<StateError>())),
       ]);
 
       expect(count, equals(2));
