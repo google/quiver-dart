@@ -15,8 +15,9 @@
 library quiver.cache.map_cache_test;
 
 import 'dart:async';
-import 'package:test/test.dart';
+
 import 'package:quiver/cache.dart';
+import 'package:test/test.dart';
 
 main() {
   group('MapCache', () {
@@ -91,8 +92,10 @@ main() {
       }
 
       await Future.wait(<Future>[
-        expect(() => cache.get("test", ifAbsent: loader), throwsStateError),
-        expect(() => cache.get("test", ifAbsent: loader), throwsStateError),
+        expectLater(
+            () => cache.get("test", ifAbsent: loader), throwsStateError),
+        expectLater(
+            () => cache.get("test", ifAbsent: loader), throwsStateError),
       ]);
 
       expect(count, equals(2));
