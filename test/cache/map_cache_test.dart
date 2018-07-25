@@ -91,12 +91,8 @@ main() {
         throw new StateError("Request failed");
       }
 
-      await Future.wait(<Future>[
-        expectLater(
-            () => cache.get("test", ifAbsent: loader), throwsStateError),
-        expectLater(
-            () => cache.get("test", ifAbsent: loader), throwsStateError),
-      ]);
+      expect(await () => cache.get("test", ifAbsent: loader), throwsStateError);
+      expect(await () => cache.get("test", ifAbsent: loader), throwsStateError);
 
       expect(count, equals(2));
       expect(cache.get('test'), null);
