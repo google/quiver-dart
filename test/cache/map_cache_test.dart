@@ -85,19 +85,18 @@ main() {
     test("should not cache a failed request", () async {
       int count = 0;
 
-      Future<String> loader(String key) {
+      Future<String> loader(String key) async {
         count += 1;
-        return new Future.error(new StateError("Request failed"));
+        throw new StateError("Request failed");
       }
 
       await Future.wait(<Future>[
-        expect(() => cache.get("test", ifAbsent: loader),
-            throwsA(const TypeMatcher<StateError>())),
-        expect(() => cache.get("test", ifAbsent: loader),
-            throwsA(const TypeMatcher<StateError>())),
+        expect(() => cache.get("test", ifAbsent: loader), throwsStateError),
+        expect(() => cache.get("test", ifAbsent: loader), throwsStateError),
       ]);
 
       expect(count, equals(2));
+      expect(cache.get('test'), null);
     });
   });
 }
