@@ -71,7 +71,7 @@ class _ConcatStream<T> extends Stream<T> {
     }, onResume: () {
       if (currentSubscription != null) currentSubscription.resume();
     }, onCancel: () {
-      if (currentSubscription != null) return currentSubscription.cancel();
+      if (currentSubscription != null) currentSubscription.cancel();
     });
 
     nextStream();
