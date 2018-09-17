@@ -14,7 +14,7 @@
 
 part of quiver.iterables;
 
-/// Returns the concatentation of the input iterables.
+/// Returns the concatenation of the input iterables.
 ///
 /// The returned iterable is a lazily-evaluated view on the input iterables.
 Iterable<T> concat<T>(Iterable<Iterable<T>> iterables) =>

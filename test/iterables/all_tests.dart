@@ -25,6 +25,7 @@ import 'partition_test.dart' as partition;
 import 'generating_iterable_test.dart' as generating_iterable;
 import 'range_test.dart' as range;
 import 'zip_test.dart' as zip;
+import 'map_test.dart' as map;
 
 main() {
   concat.main();
@@ -38,4 +39,5 @@ main() {
   generating_iterable.main();
   range.main();
   zip.main();
+  map.main();
 }
