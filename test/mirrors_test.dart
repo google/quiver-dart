@@ -94,7 +94,6 @@ main() {
     test('reflected should be eqal with actual', () {
       var reflected = reflectClass(Foo);
       var annotation = getAnnotation<Annotation>(reflected);
-
       expect(annotation.testVal, 10);
     });
   });
