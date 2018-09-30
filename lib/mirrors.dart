@@ -16,6 +16,25 @@ library quiver.mirrors;
 
 import 'dart:mirrors';
 
+/// Returns annotations instances of specified type [T] declared on [declarationMirror].
+/// Returns empty Iterable when element doesn't declare any annotation with [type]
+Iterable<T> getAnnotations<T>(DeclarationMirror declarationMirror) sync* {
+  for (var instance in declarationMirror.metadata) {
+    if (instance.hasReflectee) {
+      var reflectee = instance.reflectee;
+      if (reflectee is T) yield reflectee;
+    }
+  }
+}
+
+/// Returns single annotation instance of [T] declared on [declarationMirror].
+/// Will return null if element doesn't declare annotation with specified type [T]
+T getAnnotation<T>(DeclarationMirror declaration) {
+  Iterable<T> fs = getAnnotations<T>(declaration);
+  if (fs.isEmpty) return null;
+  return fs.first;
+}
+
 /// Returns the qualified name of [t].
 Symbol getTypeName(Type t) => reflectClass(t).qualifiedName;
 

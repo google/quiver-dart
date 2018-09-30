@@ -89,10 +89,26 @@ main() {
       expect(method(growable: false), [1, 2]);
     });
   });
+
+  group('Annotations', () {
+    test('reflected should be eqal with actual', () {
+      var reflected = reflectClass(Foo);
+      var annotation = getAnnotation<Annotation>(reflected);
+
+      expect(annotation.testVal, 10);
+    });
+  });
 }
 
+@Annotation(10)
 class Foo extends IterableBase implements Comparable {
   String a;
   get iterator => null;
   int compareTo(o) => 0;
+}
+
+class Annotation {
+  final int testVal;
+
+  const Annotation(this.testVal);
 }
