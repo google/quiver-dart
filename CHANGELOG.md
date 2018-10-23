@@ -1,3 +1,8 @@
+#### 2.0.1 - 2018-10-22
+
+   * New: Optional now includes `transformNullable` to pass maybe present
+     values through a transformer with a nullable return value.
+
 #### 2.0.0+1 - 2017-07-18
 
    * Updated Dart SDK constraint to >=2.0.0-dev.61 < 3.0.0.
