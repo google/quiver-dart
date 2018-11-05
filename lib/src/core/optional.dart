@@ -37,8 +37,11 @@ class Optional<T> extends IterableBase<T> {
   /// If [value] is null, returns [absent()].
   const Optional.fromNullable(T value) : this._value = value;
 
-  /// Whether the Optional contains a value.
+  /// True when this optional contains a value.
   bool get isPresent => _value != null;
+
+  /// True when this optional contains no value.
+  bool get isNotPresent => _value == null;
 
   /// Gets the Optional value.
   ///
