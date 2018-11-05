@@ -50,4 +50,6 @@ if [ "$COVERALLS_REPO_TOKEN" ] && [ "$TRAVIS_DART_VERSION" = "dev" ]; then
 
   echo "Uploading to Coveralls..."
   coveralls-lcov --repo-token="$COVERALLS_REPO_TOKEN" var/lcov.info
+else
+  echo "Not running coverage."
 fi
