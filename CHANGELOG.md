@@ -1,3 +1,8 @@
+#### dev
+
+   * New: Optional now includes an `isNotPresent` getter alongside the existing
+     `isPresent` getter.
+
 #### 2.0.1 - 2018-10-22
 
    * New: Optional now includes `transformNullable` to pass maybe present
