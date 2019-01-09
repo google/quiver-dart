@@ -45,8 +45,9 @@ class _PartitionIterator<T> implements Iterator<List<T>> {
   bool moveNext() {
     var newValue = <T>[];
     var count = 0;
-    for (; count < _size && _iterator.moveNext(); count++) {
+    while (count < _size && _iterator.moveNext()) {
       newValue.add(_iterator.current);
+      count++;
     }
     _current = (count > 0) ? newValue : null;
     return _current != null;
