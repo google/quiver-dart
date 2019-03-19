@@ -1,5 +1,6 @@
-#### dev
+#### 2.0.2 - 2019-03-19
 
+   * `partition` is now a generic function.
    * New: Optional now includes an `isNotPresent` getter alongside the existing
      `isPresent` getter.
 
