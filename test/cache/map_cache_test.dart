@@ -67,20 +67,22 @@ main() {
     });
 
     test("should not make multiple requests for the same key", () async {
+      final completer = Completer<String>();
       int count = 0;
 
       Future<String> loader(String key) {
         count += 1;
-        return new Future.delayed(
-            const Duration(milliseconds: 1), () => "test");
+        return completer.future;
       }
 
-      await Future.wait([
+      final futures = Future.wait([
         cache.get("test", ifAbsent: loader),
         cache.get("test", ifAbsent: loader),
       ]);
 
+      completer.complete('bar');
       expect(count, equals(1));
+      expect(await futures, equals(['bar', 'bar']));
     });
 
     test("should not cache a failed request", () async {
@@ -91,11 +93,13 @@ main() {
         throw new StateError("Request failed");
       }
 
-      expect(await () => cache.get("test", ifAbsent: loader), throwsStateError);
-      expect(await () => cache.get("test", ifAbsent: loader), throwsStateError);
+      await expectLater(
+          await () => cache.get("test", ifAbsent: loader), throwsStateError);
+      await expectLater(
+          await () => cache.get("test", ifAbsent: loader), throwsStateError);
 
       expect(count, equals(2));
-      expect(cache.get('test'), null);
+      expect(await cache.get('test'), isNull);
     });
   });
 }
