@@ -93,16 +93,16 @@ main() {
       }
 
       await expectLater(
-          await () => cache.get("test", ifAbsent: failLoader), throwsStateError);
+          () => cache.get("test", ifAbsent: failLoader), throwsStateError);
       await expectLater(
-          await () => cache.get("test", ifAbsent: failLoader), throwsStateError);
+          () => cache.get("test", ifAbsent: failLoader), throwsStateError);
 
       expect(count, equals(2));
       expect(await cache.get('test'), isNull);
 
       // Make sure it doesn't block a later successful load.
       await expectLater(
-          await () => cache.get("test", ifAbsent: (key) => "bar"), "bar");
+          await cache.get("test", ifAbsent: (key) => "bar"), "bar");
     });
   });
 }
