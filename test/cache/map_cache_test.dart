@@ -15,9 +15,8 @@
 library quiver.cache.map_cache_test;
 
 import 'dart:async';
-
-import 'package:quiver/cache.dart';
 import 'package:test/test.dart';
+import 'package:quiver/cache.dart';
 
 main() {
   group('MapCache', () {
@@ -88,18 +87,22 @@ main() {
     test("should not cache a failed request", () async {
       int count = 0;
 
-      Future<String> loader(String key) async {
+      Future<String> failLoader(String key) async {
         count += 1;
         throw new StateError("Request failed");
       }
 
       await expectLater(
-          await () => cache.get("test", ifAbsent: loader), throwsStateError);
+          await () => cache.get("test", ifAbsent: failLoader), throwsStateError);
       await expectLater(
-          await () => cache.get("test", ifAbsent: loader), throwsStateError);
+          await () => cache.get("test", ifAbsent: failLoader), throwsStateError);
 
       expect(count, equals(2));
       expect(await cache.get('test'), isNull);
+
+      // Make sure it doesn't block a later successful load.
+      await expectLater(
+          await () => cache.get("test", ifAbsent: (key) => "bar"), "bar");
     });
   });
 }
