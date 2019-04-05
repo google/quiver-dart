@@ -19,7 +19,7 @@ set -e
 
 # Gather and send coverage data.
 if [ "$COVERALLS_REPO_TOKEN" ] && [ "$TRAVIS_DART_VERSION" = "dev" ]; then
-  pub upgrade
+  pub get
   pub global activate coverage ">=0.10.0"
 
   OBS_PORT=9292

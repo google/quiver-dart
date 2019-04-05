@@ -29,8 +29,8 @@ pushd "$TEST_DIR" > /dev/null 2>&1
 echo "Patching pubspec..."
 sed -i -e 's/#DDC_TEST://' pubspec.yaml
 
-echo "Running pub upgrade..."
-pub upgrade
+echo "Running pub get..."
+pub get
 
 echo "Running tests..."
 pub run build_runner test -- "$@" || EXIT_CODE=$?
