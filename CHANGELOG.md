@@ -1,3 +1,7 @@
+#### 2.0.3
+
+   * Do not cache failed `ifAbsent` calls in `MapCache`.
+
 #### 2.0.2 - 2019-03-19
 
    * `partition` is now a generic function.
