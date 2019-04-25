@@ -9,8 +9,8 @@ sudo: required
 # Build stages: https://docs.travis-ci.com/user/build-stages/.
 stages:
   - presubmit
-  - build
   - testing
+  - coverage
 
 # 1. Run dartfmt, dartanalyzer.
 # 2. Then run tests compiled via dartdevc and dart2js.
