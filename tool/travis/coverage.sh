@@ -28,6 +28,7 @@ if [ "$COVERALLS_REPO_TOKEN" ] && [ "$TRAVIS_DART_VERSION" = "dev" ]; then
   # Start tests in one VM.
   echo "Starting tests..."
   dart \
+    --disable-service-auth-codes \
     --enable-vm-service=$OBS_PORT \
     --pause-isolates-on-exit \
     test/all_tests.dart &
