@@ -23,7 +23,7 @@ part of quiver.iterables;
 T max<T>(Iterable<T> i, [Comparator<T> compare]) {
   if (i.isEmpty) return null;
   final Comparator<T> _compare = compare ?? Comparable.compare;
-  return i.isEmpty ? null : i.reduce((a, b) => _compare(a, b) > 0 ? a : b);
+  return i.reduce((a, b) => _compare(a, b) > 0 ? a : b);
 }
 
 /// Returns the minimum value in [i], according to the order specified by the
@@ -35,7 +35,7 @@ T max<T>(Iterable<T> i, [Comparator<T> compare]) {
 T min<T>(Iterable<T> i, [Comparator<T> compare]) {
   if (i.isEmpty) return null;
   final Comparator<T> _compare = compare ?? Comparable.compare;
-  return i.isEmpty ? null : i.reduce((a, b) => _compare(a, b) < 0 ? a : b);
+  return i.reduce((a, b) => _compare(a, b) < 0 ? a : b);
 }
 
 /// Returns the minimum and maximum values in [i], according to the order
