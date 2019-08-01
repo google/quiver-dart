@@ -35,24 +35,20 @@ jobs:
       env: SHARD=dart2js_test
       addons:
         chrome: stable
-      before_install:
-        - export DISPLAY=:99.0
-        - sh -e /etc/init.d/xvfb start
-        - "t=0; until (xdpyinfo -display :99 &> /dev/null || test $t -gt 10); do sleep 1; let t=$t+1; done"
+      services:
+        - xvfb
       script: ./tool/travis/task.sh dart2js_test
 
     - stage: testing
       env: SHARD=dartdevc_test
       addons:
         chrome: stable
-      before_install:
-        - export DISPLAY=:99.0
-        - sh -e /etc/init.d/xvfb start
-        - "t=0; until (xdpyinfo -display :99 &> /dev/null || test $t -gt 10); do sleep 1; let t=$t+1; done"
-      script: ./tool/travis/task.sh dartdevc_test
       cache:
         directories:
           - .dart_tool
+      services:
+        - xvfb
+      script: ./tool/travis/task.sh dartdevc_test
 
     # coverage.
     - stage: coverage
