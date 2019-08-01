@@ -108,6 +108,10 @@ abstract class FakeAsync {
       bool flushPeriodicTimers: true});
 
   /// Debugging information for all pending timers.
+  ///
+  /// Each returned [String] will contain details about the [Timer] in its first
+  /// line and will contain the stack trace from its construction on subsequent
+  /// lines.  The stack trace can passed to [StackTrace.fromString].
   List<String> get pendingTimersDebugInfo;
 
   /// The number of created periodic timers that have not been canceled.
@@ -304,6 +308,8 @@ class _FakeTimer implements Timer {
 
   /// Returns debugging information to try to identify the source of the
   /// [Timer].
+  ///
+  /// See [FakeAsync.pendingTimersDebugInfo] for requirements on the format.
   String get debugInfo =>
       'Timer (duration: $_duration, periodic: $_isPeriodic), created:\n'
       '$_creationStackTrace';
