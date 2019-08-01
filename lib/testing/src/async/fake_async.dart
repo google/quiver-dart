@@ -107,6 +107,9 @@ abstract class FakeAsync {
       {Duration timeout: const Duration(hours: 1),
       bool flushPeriodicTimers: true});
 
+  /// Debugging information for all pending timers.
+  List<String> get pendingTimersDebugInfo;
+
   /// The number of created periodic timers that have not been canceled.
   int get periodicTimerCount;
 
@@ -177,6 +180,10 @@ class _FakeAsync implements FakeAsync {
       }
     });
   }
+
+  @override
+  List<String> get pendingTimersDebugInfo =>
+      _timers.map((timer) => '${timer.debugInfo}').toList(growable: false);
 
   @override
   run(callback(FakeAsync self)) {
@@ -268,6 +275,7 @@ class _FakeTimer implements Timer {
   final Function _callback;
   final bool _isPeriodic;
   final _FakeAsync _time;
+  final StackTrace _creationStackTrace;
   Duration _nextCall;
 
   // TODO: In browser JavaScript, timers can only run every 4 milliseconds once
@@ -278,7 +286,8 @@ class _FakeTimer implements Timer {
   static const _minDuration = Duration.zero;
 
   _FakeTimer._(Duration duration, this._callback, this._isPeriodic, this._time)
-      : _duration = duration < _minDuration ? _minDuration : duration {
+      : _duration = duration < _minDuration ? _minDuration : duration,
+        _creationStackTrace = StackTrace.current {
     _nextCall = _time._elapsed + _duration;
   }
 
@@ -292,4 +301,10 @@ class _FakeTimer implements Timer {
   int get tick {
     throw new UnimplementedError("tick");
   }
+
+  /// Returns debugging information to try to identify the source of the
+  /// [Timer].
+  String get debugInfo =>
+      'Timer (duration: $_duration, periodic: $_isPeriodic), created:\n'
+      '$_creationStackTrace';
 }
