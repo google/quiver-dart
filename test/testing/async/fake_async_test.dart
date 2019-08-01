@@ -572,7 +572,7 @@ main() {
         });
       });
 
-      test('it should report the number of pending periodic timers', () {
+      test('should report the number of pending periodic timers', () {
         new FakeAsync().run((async) {
           expect(async.periodicTimerCount, 0);
           Timer timer =
@@ -587,7 +587,7 @@ main() {
         });
       });
 
-      test('it should report the number of pending non periodic timers', () {
+      test('should report the number of pending non periodic timers', () {
         new FakeAsync().run((async) {
           expect(async.nonPeriodicTimerCount, 0);
           Timer timer = new Timer(const Duration(minutes: 30), () {});
@@ -598,6 +598,34 @@ main() {
           expect(async.nonPeriodicTimerCount, 1);
           timer.cancel();
           expect(async.nonPeriodicTimerCount, 0);
+        });
+      });
+
+      test('should report debugging information of pending timers', () {
+        FakeAsync().run((async) {
+          expect(async.pendingTimersDebugInfo, isEmpty);
+          // Use `dynamic` to subvert the type checks and access `_FakeAsync`
+          // internals.
+          dynamic nonPeriodic = Timer(const Duration(seconds: 1), () {});
+          dynamic periodic =
+              Timer.periodic(const Duration(seconds: 2), (Timer timer) {});
+          final debugInfo = async.pendingTimersDebugInfo;
+          expect(debugInfo.length, 2);
+          expect(
+            debugInfo,
+            containsAll([
+              nonPeriodic.debugInfo,
+              periodic.debugInfo,
+            ]),
+          );
+
+          const thisFileName = 'fake_async_test.dart';
+          expect(nonPeriodic.debugInfo, contains(':01.0'));
+          expect(nonPeriodic.debugInfo, contains('periodic: false'));
+          expect(nonPeriodic.debugInfo, contains(thisFileName));
+          expect(periodic.debugInfo, contains(':02.0'));
+          expect(periodic.debugInfo, contains('periodic: true'));
+          expect(periodic.debugInfo, contains(thisFileName));
         });
       });
     });

@@ -1,3 +1,7 @@
+#### 2.0.4
+
+   * Added `FakeAsync.pendingTimersDebugInfo`.
+
 #### 2.0.3
 
    * Do not cache failed `ifAbsent` calls in `MapCache`.
