@@ -619,13 +619,26 @@ main() {
             ]),
           );
 
+          // Substrings expected to be included in the first line of
+          // [Timer.debugInfo].
+          final expectedInFirstLine = {
+            nonPeriodic: [':01.0', 'periodic: false'],
+            periodic: [':02.0', 'periodic: true'],
+          };
+
           const thisFileName = 'fake_async_test.dart';
-          expect(nonPeriodic.debugInfo, contains(':01.0'));
-          expect(nonPeriodic.debugInfo, contains('periodic: false'));
-          expect(nonPeriodic.debugInfo, contains(thisFileName));
-          expect(periodic.debugInfo, contains(':02.0'));
-          expect(periodic.debugInfo, contains('periodic: true'));
-          expect(periodic.debugInfo, contains(thisFileName));
+          for (final expectedEntry in expectedInFirstLine.entries) {
+            final debugInfo = expectedEntry.key.debugInfo;
+            final firstLineEnd = debugInfo.indexOf('\n');
+            final firstLine = debugInfo.substring(0, firstLineEnd);
+            final rest = debugInfo.substring(firstLineEnd + 1);
+
+            for (final expectedValue in expectedEntry.value) {
+              expect(firstLine, contains(expectedValue));
+            }
+
+            expect(rest, contains(thisFileName));
+          }
         });
       });
     });
