@@ -1,8 +1,12 @@
-#### 2.0.4
+#### 2.0.5 - 2019-08-06
+
+   * Added `isNotBlank` to strings library.
+
+#### 2.0.4 - 2019-08-01
 
    * Added `FakeAsync.pendingTimersDebugInfo`.
 
-#### 2.0.3
+#### 2.0.3 - 2019-04-11
 
    * Do not cache failed `ifAbsent` calls in `MapCache`.
 
