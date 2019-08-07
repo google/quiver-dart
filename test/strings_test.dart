@@ -33,6 +33,21 @@ main() {
     });
   });
 
+  group('isNotBlank', () {
+    test('should consider null a blank', () {
+      expect(isNotBlank(null), isFalse);
+    });
+    test('should consider empty string a blank', () {
+      expect(isNotBlank(''), isFalse);
+    });
+    test('should consider white-space-only string a blank', () {
+      expect(isNotBlank(' \n\t\r\f'), isFalse);
+    });
+    test('should consider non-whitespace string not a blank', () {
+      expect(isNotBlank('hello'), isTrue);
+    });
+  });
+
   group('isEmpty', () {
     test('should consider null to be empty', () {
       expect(isEmpty(null), isTrue);
