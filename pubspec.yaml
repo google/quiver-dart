@@ -1,5 +1,5 @@
 name: quiver
-version: 2.0.4
+version: 2.0.5
 authors:
 - Justin Fagnani <justinfagnani@google.com>
 - Yegor Jbanov <yjbanov@google.com>
@@ -16,6 +16,7 @@ authors:
 - Alec Henninger <alechenninger@gmail.com>
 - Mark Fielbig <mfielbig@gmail.com>
 - Lucy Gettinger <lucyget@google.com>
+- Michel Feinstein <michel@feinstein.com.br>
 description: A set of utility libraries for Dart
 homepage: https://github.com/google/quiver-dart
 environment:

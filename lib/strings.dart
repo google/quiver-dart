@@ -18,6 +18,14 @@ library quiver.strings;
 /// characters (as defined by [String.trim]).
 bool isBlank(String s) => s == null || s.trim().isEmpty;
 
+/// Returns [true] if [s] is neither null, empty nor is solely made of whitespace
+/// characters.
+///
+/// See also:
+///
+///  * [isBlank]
+bool isNotBlank(String s) => s != null && s.trim().isNotEmpty;
+
 /// Returns [true] if [s] is either null or empty.
 bool isEmpty(String s) => s == null || s.isEmpty;
 
