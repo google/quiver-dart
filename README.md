@@ -168,6 +168,8 @@ used as a literal match inside of a RegExp.
 
 `isBlank` checks if a string is `null`, empty or made of whitespace characters.
 
+`isNotBlank` checks if a string is not `null`, and not blank.
+
 `isEmpty` checks if a string is `null` or empty.
 
 `isNotEmpty` checks if a string is not `null` and not empty.
