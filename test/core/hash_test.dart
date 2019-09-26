@@ -20,21 +20,21 @@ import 'package:test/test.dart';
 main() {
   test('hashObjects should return an int', () {
     int h = hashObjects(['123', 456]);
-    expect(h, new isInstanceOf<int>());
+    expect(h, isA<int>());
   });
 
   test('hash2 should return an int', () {
     int h = hash2('123', 456);
-    expect(h, new isInstanceOf<int>());
+    expect(h, isA<int>());
   });
 
   test('hash3 should return an int', () {
     int h = hash3('123', 456, true);
-    expect(h, new isInstanceOf<int>());
+    expect(h, isA<int>());
   });
 
   test('hash4 should return an int', () {
     int h = hash4('123', 456, true, []);
-    expect(h, new isInstanceOf<int>());
+    expect(h, isA<int>());
   });
 }

@@ -41,15 +41,13 @@ main() {
     });
 
     test('should throw when adding a null key or value', () {
-      expect(() => map[null] = v1, throwsA(new isInstanceOf<ArgumentError>()));
-      expect(() => map[k1] = null, throwsA(new isInstanceOf<ArgumentError>()));
+      expect(() => map[null] = v1, throwsA(isA<ArgumentError>()));
+      expect(() => map[k1] = null, throwsA(isA<ArgumentError>()));
     });
 
     test('should throw when adding a null key or value via its inverse', () {
-      expect(() => map.inverse[null] = k1,
-          throwsA(new isInstanceOf<ArgumentError>()));
-      expect(() => map.inverse[v1] = null,
-          throwsA(new isInstanceOf<ArgumentError>()));
+      expect(() => map.inverse[null] = k1, throwsA(isA<ArgumentError>()));
+      expect(() => map.inverse[v1] = null, throwsA(isA<ArgumentError>()));
     });
 
     test('should not be empty after adding a mapping', () {
@@ -121,7 +119,7 @@ main() {
 
     test('should throw on overwriting unmapped keys with a mapped value', () {
       map[k1] = v1;
-      expect(() => map[k2] = v1, throwsA(new isInstanceOf<ArgumentError>()));
+      expect(() => map[k2] = v1, throwsA(isA<ArgumentError>()));
       expect(map.containsKey(k2), false);
       expect(map.inverse.containsValue(k2), false);
     });
@@ -130,8 +128,7 @@ main() {
         'should throw on overwriting unmapped keys with a mapped value via inverse',
         () {
       map[k1] = v1;
-      expect(() => map.inverse[v2] = k1,
-          throwsA(new isInstanceOf<ArgumentError>()));
+      expect(() => map.inverse[v2] = k1, throwsA(isA<ArgumentError>()));
       expect(map.containsValue(v2), false);
       expect(map.inverse.containsKey(v2), false);
     });
@@ -373,14 +370,14 @@ main() {
 
     test('should throw on adding from another map with duplicate values', () {
       expect(() => map.addAll({k1: v1, k2: v2, k3: v2}),
-          throwsA(new isInstanceOf<ArgumentError>()));
+          throwsA(isA<ArgumentError>()));
     });
 
     test(
         'should throw on adding from another map with duplicate values via inverse',
         () {
       expect(() => map.inverse.addAll({v1: k1, v2: k2, v3: k2}),
-          throwsA(new isInstanceOf<ArgumentError>()));
+          throwsA(isA<ArgumentError>()));
     });
 
     test('should return the number of key-value pairs as its length', () {

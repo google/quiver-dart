@@ -46,7 +46,7 @@ main() {
       test('should throw when called with a negative duration', () {
         expect(() {
           new FakeAsync().elapseBlocking(const Duration(days: -1));
-        }, throwsA(new isInstanceOf<ArgumentError>()));
+        }, throwsA(isA<ArgumentError>()));
       });
     });
 
@@ -61,7 +61,7 @@ main() {
       test('should throw ArgumentError when called with a negative duration',
           () {
         expect(() => new FakeAsync().elapse(const Duration(days: -1)),
-            throwsA(new isInstanceOf<ArgumentError>()));
+            throwsA(isA<ArgumentError>()));
       });
 
       test('should throw when called before previous call is complete', () {
@@ -75,7 +75,7 @@ main() {
             }
           });
           async.elapse(elapseBy);
-          expect(error, new isInstanceOf<StateError>());
+          expect(error, isA<StateError>());
         });
       });
 
@@ -332,7 +332,7 @@ main() {
               timeout = err;
             });
             async.elapse(elapseBy);
-            expect(timeout, new isInstanceOf<TimeoutException>());
+            expect(timeout, isA<TimeoutException>());
             completer.complete();
           });
         });
@@ -366,7 +366,7 @@ main() {
             expect(events, [0]);
             async.elapse(const Duration(minutes: 1));
             expect(errors, hasLength(1));
-            expect(errors.first, new isInstanceOf<TimeoutException>());
+            expect(errors.first, isA<TimeoutException>());
             subscription.cancel();
             controller.close();
           });
