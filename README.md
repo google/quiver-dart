@@ -82,6 +82,8 @@ false.
 
 `listsEqual`, `mapsEqual` and `setsEqual` check collections for equality.
 
+`indexOf` finds the first index of an item satisfying a predicate.
+
 `LruMap` is a map that removes the least recently used item when a threshold
 length is exceeded.
 
