@@ -82,4 +82,26 @@ main() {
       expect(indexOf<bool>([], (_) => true), -1);
     });
   });
+
+  group('sumInts', () {
+    test('returns 0 if input is empty', () {
+      expect(sumInts(<int>[]), isZero);
+    });
+
+    test('returns sum if input is not empty', () {
+      expect(sumInts([-1, 1]), isZero);
+      expect(sumInts([1, 2, 3]), 6);
+    });
+  });
+
+  group('sumDoubles', () {
+    test('returns 0 if input is empty', () {
+      expect(sumDoubles(<double>[]), isZero);
+    });
+
+    test('returns sum if input is not empty', () {
+      expect(sumDoubles([-2.0, 2.0]), isZero);
+      expect(sumDoubles([2.0, 3.0, 4.0]), 9.0);
+    });
+  });
 }

@@ -98,3 +98,13 @@ int indexOf<T>(Iterable<T> elements, bool predicate(T element)) {
   }
   return -1;
 }
+
+/// Returns the sum of the given integers.
+int sumInts(Iterable<int> numbers) {
+  return numbers.fold(0, (rs, n) => rs + n);
+}
+
+/// Returns the sum of the given doubles.
+double sumDoubles(Iterable<double> numbers) {
+  return numbers.fold(0, (rs, n) => rs + n);
+}
