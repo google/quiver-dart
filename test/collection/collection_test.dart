@@ -82,4 +82,18 @@ main() {
       expect(indexOf<bool>([], (_) => true), -1);
     });
   });
+
+  group('zip', () {
+    String mkString(Object a, Object b) => '$a - $b';
+
+    test('returns empty if all inputs are empty', () {
+      expect(zip(<int>[], <String>[], mkString), <String>[]);
+    });
+
+    test('returns a result having the same length as the shorter input', () {
+      expect(zip([1], ['a', 'b'], mkString), ['1 - a']);
+      expect(zip([1, 2], ['a', 'b'], mkString), ['1 - a', '2 - b']);
+      expect(zip([1, 2, 3], ['a', 'b'], mkString), ['1 - a', '2 - b']);
+    });
+  });
 }

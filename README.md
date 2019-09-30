@@ -82,6 +82,8 @@ false.
 
 `listsEqual`, `mapsEqual` and `setsEqual` check collections for equality.
 
+`zip` combines 2 iterables together according to a function.
+
 `LruMap` is a map that removes the least recently used item when a threshold
 length is exceeded.
 

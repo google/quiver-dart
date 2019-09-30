@@ -98,3 +98,19 @@ int indexOf<T>(Iterable<T> elements, bool predicate(T element)) {
   }
   return -1;
 }
+
+// Returns a new iterable by combining elements from the given iterables
+// in pairs. If one iterable is longer than the other, its remaining
+// elements are ignored.
+Iterable<R> zip<E1, E2, R>(
+  Iterable<E1> l1,
+  Iterable<E2> l2,
+  R zipper(E1, E2),
+) sync* {
+  final it1 = l1.iterator;
+  final it2 = l2.iterator;
+
+  while (it1.moveNext() && it2.moveNext()) {
+    yield zipper(it1.current, it2.current);
+  }
+}
