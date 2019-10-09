@@ -48,6 +48,21 @@ main() {
     });
   });
 
+  group('ifBlank', () {
+    test('should return default value for null input', () {
+      expect(ifBlank(null, 'default'), 'default');
+    });
+    test('should return default value for empty string input', () {
+      expect(ifBlank('', 'default'), 'default');
+    });
+    test('should return default value for white-space-only string input', () {
+      expect(ifBlank(' \n\t\r\f', 'default'), 'default');
+    });
+    test('should return original value for non-whitespace string input', () {
+      expect(ifBlank('hello', 'default'), 'hello');
+    });
+  });
+
   group('isEmpty', () {
     test('should consider null to be empty', () {
       expect(isEmpty(null), isTrue);
@@ -75,6 +90,21 @@ main() {
     });
     test('should consider non-whitespace string to be not empty', () {
       expect(isNotEmpty('hello'), isTrue);
+    });
+  });
+
+  group('ifEmpty', () {
+    test('should return default value for null input', () {
+      expect(ifEmpty(null, 'default'), 'default');
+    });
+    test('should return default value for empty string input', () {
+      expect(ifEmpty('', 'default'), 'default');
+    });
+    test('should return original value for white-space-only string input', () {
+      expect(ifEmpty(' ', 'default'), ' ');
+    });
+    test('should return original value for non-whitespace string input', () {
+      expect(ifEmpty('hello', 'default'), 'hello');
     });
   });
 

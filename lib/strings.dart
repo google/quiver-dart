@@ -32,6 +32,12 @@ bool isEmpty(String s) => s == null || s.isEmpty;
 /// Returns [true] if [s] is a not empty string.
 bool isNotEmpty(String s) => s != null && s.isNotEmpty;
 
+/// Returns [s] if it's non-blank, otherwise returns [dfault]
+String ifBlank(String s, String dfault) => isBlank(s) ? dfault : s;
+
+/// Returns [s] if it's non-empty, otherwise returns [dfault]
+String ifEmpty(String s, String dfault) => isEmpty(s) ? dfault : s;
+
 /// Returns a string with characters from the given [s] in reverse order.
 ///
 /// NOTE: without full support for unicode composed character sequences,
