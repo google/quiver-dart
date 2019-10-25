@@ -1,3 +1,8 @@
+#### 2.1.0-dev
+
+   * Upgraded matcher dependency lower-bound from 0.10.0 to 0.12.5 to migrate
+     from `isInstanceOf` to `isA` in tests.
+
 #### 2.0.5 - 2019-08-06
 
    * Added `isNotBlank` to strings library.
