@@ -46,8 +46,7 @@ class _MultiPattern extends Pattern {
   final Iterable<Pattern> include;
   final Iterable<Pattern> exclude;
 
-  _MultiPattern(Iterable<Pattern> this.include,
-      {Iterable<Pattern> this.exclude});
+  _MultiPattern(this.include, {this.exclude});
 
   Iterable<Match> allMatches(String str, [int start = 0]) {
     final _allMatches = <Match>[];
