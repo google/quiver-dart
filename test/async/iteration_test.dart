@@ -93,17 +93,18 @@ main() {
     });
 
     test('should validate maxTasks', () {
-      expect(
-          () => forEachAsync([], (i) {}, maxTasks: null), throwsArgumentError);
-      expect(() => forEachAsync([], (i) {}, maxTasks: 0), throwsArgumentError);
+      expect(() => forEachAsync([], (i) => null, maxTasks: null),
+          throwsArgumentError);
+      expect(() => forEachAsync([], (i) => null, maxTasks: 0),
+          throwsArgumentError);
     });
 
     test('should validate iterable', () {
-      expect(() => forEachAsync(null, (i) {}), throwsArgumentError);
+      expect(() => forEachAsync(null, (i) => null), throwsArgumentError);
     });
 
     test('should complete when given no work', () {
-      return forEachAsync([], (i) {});
+      return forEachAsync([], (i) => null);
     });
   });
 }
