@@ -11,15 +11,9 @@ libraries easier and more convenient, or adds additional functionality.
 
 [API Docs](http://www.dartdocs.org/documentation/quiver/latest) are available.
 
-## Installation
 
-Add Quiver to your project's pubspec.yaml file and run `pub get`.
-We recommend the following version constraint:
-
-    dependencies:
-      quiver: '>=2.0.0 <3.0.0'
-
-# Main Libraries
+Main Libraries
+--------------
 
 ## [quiver.async][]
 
@@ -210,7 +204,9 @@ since Clock deals in DateTime which only have millisecond accuracy.
 
 [quiver.time]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-time
 
-# Testing Libraries
+
+Testing Libraries
+-----------------
 
 The Quiver testing libraries are intended to be used in testing code, not
 production code. It currently consists of fake implementations of some Quiver
