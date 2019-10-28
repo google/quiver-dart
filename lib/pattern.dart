@@ -12,10 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * This library contains utilities for working with [RegExp]s and other
- * [Pattern]s.
- */
+/// This library contains utilities for working with [RegExp]s and other
+/// [Pattern]s.
 library quiver.pattern;
 
 part 'src/pattern/glob.dart';
@@ -24,21 +22,17 @@ part 'src/pattern/glob.dart';
 // http://ecma-international.org/ecma-262/5.1/#sec-15.10
 final _specialChars = new RegExp(r'([\\\^\$\.\|\+\[\]\(\)\{\}])');
 
-/**
- * Escapes special regex characters in [str] so that it can be used as a
- * literal match inside of a [RegExp].
- *
- * The special characters are: \ ^ $ . | + [ ] ( ) { }
- * as defined here: http://ecma-international.org/ecma-262/5.1/#sec-15.10
- */
+/// Escapes special regex characters in [str] so that it can be used as a
+/// literal match inside of a [RegExp].
+///
+/// The special characters are: \ ^ $ . | + [ ] ( ) { }
+/// as defined here: http://ecma-international.org/ecma-262/5.1/#sec-15.10
 String escapeRegex(String str) => str.splitMapJoin(_specialChars,
     onMatch: (Match m) => '\\${m.group(0)}', onNonMatch: (s) => s);
 
-/**
- * Returns a [Pattern] that matches against every pattern in [include] and
- * returns all the matches. If the input string matches against any pattern in
- * [exclude] no matches are returned.
- */
+/// Returns a [Pattern] that matches against every pattern in [include] and
+/// returns all the matches. If the input string matches against any pattern in
+/// [exclude] no matches are returned.
 Pattern matchAny(Iterable<Pattern> include, {Iterable<Pattern> exclude}) =>
     new _MultiPattern(include, exclude: exclude);
 
