@@ -45,11 +45,11 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   /// Note: This iterator allows you to walk the entire set. It does not
   /// present a subview.
   BidirectionalIterator<V> fromIterator(V anchor,
-      {bool reversed: false, bool inclusive: true});
+      {bool reversed = false, bool inclusive = true});
 
   /// Search the tree for the matching [object] or the [nearestOption]
   /// if missing.  See [TreeSearch].
-  V nearest(V object, {TreeSearch nearestOption: TreeSearch.NEAREST});
+  V nearest(V object, {TreeSearch nearestOption = TreeSearch.NEAREST});
 
   @override
   // ignore: override_on_non_overriding_method
@@ -664,7 +664,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
     return null;
   }
 
-  V nearest(V object, {TreeSearch nearestOption: TreeSearch.NEAREST}) {
+  V nearest(V object, {TreeSearch nearestOption = TreeSearch.NEAREST}) {
     AvlNode<V> found = _searchNearest(object, option: nearestOption);
     return (found != null) ? found.object : null;
   }
@@ -673,7 +673,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   /// NOTE: [BinaryTree.comparator] needs to have finer granulatity than -1,0,1
   /// in order for this to return something that's meaningful.
   AvlNode<V> _searchNearest(V element,
-      {TreeSearch option: TreeSearch.NEAREST}) {
+      {TreeSearch option = TreeSearch.NEAREST}) {
     if (element == null || _root == null) {
       return null;
     }
