@@ -1,3 +1,8 @@
+#### 2.1.1-dev
+
+   * Deprecate `doWhileAsync`. Existing callers should migrate to
+     `Future.doWhile()` from `dart:async`.
+
 #### 2.1.0 - 2019-10-28
 
    * Upgraded matcher dependency lower-bound from 0.10.0 to 0.12.5 to migrate

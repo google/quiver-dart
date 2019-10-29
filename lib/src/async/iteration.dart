@@ -28,6 +28,7 @@ typedef Future<T> AsyncCombiner<T, E>(T previous, E e);
 ///
 /// The Future returned completes to [true] if the entire iterable was
 /// processed, otherwise [false].
+@Deprecated('Use Future.doWhile from dart:async. Will be removed in 3.0.0.')
 Future<bool> doWhileAsync<T>(
         Iterable<T> iterable, AsyncAction<bool, T> action) =>
     _doWhileAsync(iterable.iterator, action);
