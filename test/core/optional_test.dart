@@ -131,10 +131,8 @@ void main() {
       expect(new Optional<int>.of(7), equals(new Optional<int>.of(7)));
       expect(const Optional<int>.fromNullable(null),
           equals(const Optional<int>.fromNullable(null)));
-      expect(
-          const Optional<int>.fromNullable(null) ==
-              const Optional<String>.fromNullable(null),
-          isFalse);
+      expect(const Optional<int>.fromNullable(null),
+          equals(const Optional<String>.fromNullable(null)));
       expect(const Optional<int>.fromNullable(null),
           isNot(equals(new Optional<int>.of(7))));
       expect(new Optional<int>.of(7), isNot(equals(new Optional<int>.of(8))));
