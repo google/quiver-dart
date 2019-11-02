@@ -33,7 +33,7 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   @override
   Iterable<T> cast<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError("cast");
+    throw new UnimplementedError('cast');
   }
 
   @override
@@ -75,7 +75,7 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   Iterator<E> get iterator => delegate.iterator;
 
   @override
-  String join([String separator = ""]) => delegate.join(separator);
+  String join([String separator = '']) => delegate.join(separator);
 
   @override
   E get last => delegate.last;
@@ -124,6 +124,6 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   @override
   Iterable<T> whereType<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError("whereType");
+    throw new UnimplementedError('whereType');
   }
 }

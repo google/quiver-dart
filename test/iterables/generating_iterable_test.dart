@@ -19,17 +19,17 @@ import 'package:quiver/iterables.dart';
 
 void main() {
   group('GeneratingIterable', () {
-    test("should create an empty iterable for a null start object", () {
+    test('should create an empty iterable for a null start object', () {
       var iterable = new GeneratingIterable(() => null, (n) => null);
       expect(iterable, []);
     });
 
-    test("should create one-item empty iterable when next returns null", () {
-      var iterable = new GeneratingIterable(() => "Hello", (n) => null);
-      expect(iterable, ["Hello"]);
+    test('should create one-item empty iterable when next returns null', () {
+      var iterable = new GeneratingIterable(() => 'Hello', (n) => null);
+      expect(iterable, ['Hello']);
     });
 
-    test("should add items until next returns null", () {
+    test('should add items until next returns null', () {
       var parent = new Node();
       var node = new Node()..parent = parent;
       var iterable = new GeneratingIterable<Node>(() => node, (n) => n.parent);

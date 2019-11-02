@@ -19,23 +19,23 @@ import 'package:test/test.dart';
 
 void main() {
   group('firstNonNull', () {
-    test("should return the first argument if it isn't null", () {
+    test('should return the first argument if it is not null', () {
       expect(firstNonNull(1, 2), 1);
     });
 
-    test("should return the second argument if it isn't null", () {
+    test('should return the second argument if it is not null', () {
       expect(firstNonNull(null, 2), 2);
     });
 
-    test("should return the third argument if it isn't null", () {
+    test('should return the third argument if it is not null', () {
       expect(firstNonNull(null, null, 3), 3);
     });
 
-    test("should return the fourth argument if it isn't null", () {
+    test('should return the fourth argument if it is not null', () {
       expect(firstNonNull(null, null, null, 4), 4);
     });
 
-    test("should throw if all argumentsare null", () {
+    test('should throw if all argumentsare null', () {
       expect(() => firstNonNull(null, null, null, null), throwsArgumentError);
     });
   });

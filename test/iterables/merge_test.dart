@@ -19,11 +19,11 @@ import 'package:quiver/iterables.dart';
 
 void main() {
   group('merge', () {
-    test("should merge no iterables into empty iterable", () {
+    test('should merge no iterables into empty iterable', () {
       expect(merge([]), []);
     });
 
-    test("should merge empty iterables into empty iterable", () {
+    test('should merge empty iterables into empty iterable', () {
       expect(merge([[]]), []);
       expect(merge([[], []]), []);
       expect(merge([[], [], []]), []);
@@ -32,7 +32,7 @@ void main() {
       }
     });
 
-    test("should merge single-element iterables", () {
+    test('should merge single-element iterables', () {
       expect(
           merge([
             ['a'],
@@ -41,24 +41,24 @@ void main() {
           ['a', 'b']);
     });
 
-    test("should output the union of elements in both iterables", () {
+    test('should output the union of elements in both iterables', () {
       var a = ['a', 'b', 'c'];
       expect(merge([a, a]), ['a', 'a', 'b', 'b', 'c', 'c']);
     });
 
-    test("should honor the comparator", () {
+    test('should honor the comparator', () {
       var a = ['c', 'b', 'a'];
       expect(merge([a, a], (x, y) => -x.compareTo(y)),
           ['c', 'c', 'b', 'b', 'a', 'a']);
     });
 
-    test("should merge empty iterables with non-empty ones", () {
+    test('should merge empty iterables with non-empty ones', () {
       var a = ['a', 'b', 'c'];
       expect(merge([a, <String>[]]), ['a', 'b', 'c']);
       expect(merge([<String>[], a]), ['a', 'b', 'c']);
     });
 
-    test("should throw on null elements", () {
+    test('should throw on null elements', () {
       var a = ['a', null, 'c'];
       var b = ['a', 'b', 'c'];
       void nop(String s) {}
@@ -66,20 +66,20 @@ void main() {
       expect(() => merge([b, a]).forEach(nop), throwsNoSuchMethodError);
     }, tags: ['fails-on-dartdevc', 'fails-on-dart2js']);
 
-    test("should handle zig-zag case", () {
+    test('should handle zig-zag case', () {
       var a = ['a', 'a', 'd', 'f'];
       var b = ['b', 'c', 'g', 'g'];
       expect(merge([a, b]), ['a', 'a', 'b', 'c', 'd', 'f', 'g', 'g']);
     });
 
-    test("should handle max(a) < min(b) case", () {
+    test('should handle max(a) < min(b) case', () {
       var a = <String>['a', 'b'];
       var b = <String>['c', 'd'];
       expect(max(a).compareTo(min(b)) < 0, isTrue); // test the test
       expect(merge([a, b]), ['a', 'b', 'c', 'd']);
     });
 
-    test("should handle three-way zig-zag case", () {
+    test('should handle three-way zig-zag case', () {
       var a = ['a', 'd', 'g', 'j'];
       var b = ['b', 'e', 'h', 'k'];
       var c = ['c', 'f', 'i', 'l'];

@@ -1031,5 +1031,5 @@ class Pair {
   int get hashCode => x.hashCode ^ y.hashCode;
 
   @override
-  String toString() => "($x, $y)";
+  String toString() => '($x, $y)';
 }

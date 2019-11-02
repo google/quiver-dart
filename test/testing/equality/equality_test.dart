@@ -80,13 +80,13 @@ void main() {
         expect({
           'not equal': [equalObject1, notEqualObject1]
         }, areEqualityGroups);
-        fail("Should get not equal to equal object error");
+        fail('Should get not equal to equal object error');
       } catch (e) {
         expect(
             e.toString(),
             contains("$equalObject1 [group 'not equal', item"
                 " 1] must be equal to $notEqualObject1 [group 'not equal'"
-                ", item 2]"));
+                ', item 2]'));
       }
     });
 
@@ -113,9 +113,9 @@ void main() {
         expect({
           'non-reflexive': [obj]
         }, areEqualityGroups);
-        fail("Should get non-reflexive error");
+        fail('Should get non-reflexive error');
       } catch (e) {
-        expect(e.toString(), contains("$obj must be equal to itself"));
+        expect(e.toString(), contains('$obj must be equal to itself'));
       }
     });
 
@@ -125,12 +125,12 @@ void main() {
         expect({
           'non-reflexive': [obj]
         }, areEqualityGroups);
-        fail("Should get non-reflexive error");
+        fail('Should get non-reflexive error');
       } catch (e) {
         expect(
             e.toString(),
             contains(
-                "the implementation of hashCode of $obj must be idempotent"));
+                'the implementation of hashCode of $obj must be idempotent'));
       }
     });
 
@@ -142,12 +142,12 @@ void main() {
         expect({
           'equals method broken': [obj]
         }, areEqualityGroups);
-        fail("Should get equal to incompatible class error");
+        fail('Should get equal to incompatible class error');
       } catch (e) {
         expect(
             e.toString(),
-            contains("$obj must not be equal to an "
-                "arbitrary object of another class"));
+            contains('$obj must not be equal to an '
+                'arbitrary object of another class'));
       }
     });
 
@@ -158,7 +158,7 @@ void main() {
         expect({
           'non-equal': [reference, notEqualObject1]
         }, areEqualityGroups);
-        fail("Should get not equal to equal object error");
+        fail('Should get not equal to equal object error');
       } catch (e) {
         expect(
             e.toString(), contains("$reference [group 'non-equal', item 1]"));
@@ -177,13 +177,13 @@ void main() {
         expect({
           'invalid hashcode': [a, b]
         }, areEqualityGroups);
-        fail("Should get invalid hashCode error");
+        fail('Should get invalid hashCode error');
       } catch (e) {
         expect(
             e.toString(),
-            contains("the hashCode (${a.hashCode}) of $a"
+            contains('the hashCode (${a.hashCode}) of $a'
                 " [group 'invalid hashcode', item 1] must be equal to the"
-                " hashCode (${b.hashCode}) of $b"));
+                ' hashCode (${b.hashCode}) of $b'));
       }
     });
 
@@ -195,7 +195,7 @@ void main() {
             named('bar')
           ]
         }, areEqualityGroups);
-        fail("should fail because symmetry is broken");
+        fail('should fail because symmetry is broken');
       } catch (e) {
         expect(
             e.toString(),
@@ -213,7 +213,7 @@ void main() {
             named('baz')..addPeers(['foo'])
           ]
         }, areEqualityGroups);
-        fail("should fail because transitivity is broken");
+        fail('should fail because transitivity is broken');
       } catch (e) {
         expect(
             e.toString(),
@@ -256,7 +256,7 @@ void main() {
             e.toString(),
             contains("bar [group 'transitivity one', item 2]"
                 " must not be equal to x [group 'transitivity two',"
-                " item 2]"));
+                ' item 2]'));
       }
     });
 

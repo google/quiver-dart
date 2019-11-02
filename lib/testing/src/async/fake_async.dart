@@ -304,7 +304,7 @@ class _FakeTimer implements Timer {
   @override
   int get tick {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError("tick");
+    throw new UnimplementedError('tick');
   }
 
   /// Returns debugging information to try to identify the source of the
