@@ -129,7 +129,7 @@ linter:
     - prefer_spread_collections
     # ENABLE - prefer_typing_uninitialized_variables
     # ENABLE - prefer_void_to_null
-    # - provide_deprecation_message # not yet tested
+    - provide_deprecation_message
     # - public_member_api_docs # enabled on a case-by-case basis; see e.g. packages/analysis_options.yaml
     - recursive_getters
     # ENABLE - slash_for_doc_comments
