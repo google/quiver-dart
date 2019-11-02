@@ -74,7 +74,7 @@ void main() {
 
     test('forEach', () {
       final s = new StringBuffer();
-      delegatingIterable.forEach((e) => s.write(e));
+      delegatingIterable.forEach(s.write);
       expect(s.toString(), equals('abcc'));
     });
 

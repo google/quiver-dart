@@ -80,8 +80,11 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   void addAll(Map<K, V> other) => other.forEach((k, v) => this[k] = v);
 
   @override
-  void addEntries(Iterable<MapEntry<K, V>> entries) =>
-      entries.forEach((entry) => this[entry.key] = entry.value);
+  void addEntries(Iterable<MapEntry<K, V>> entries) {
+    for (final entry in entries) {
+      this[entry.key] = entry.value;
+    }
+  }
 
   @override
   LinkedLruHashMap<K2, V2> cast<K2, V2>() {
