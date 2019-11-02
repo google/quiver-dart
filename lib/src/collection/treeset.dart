@@ -590,9 +590,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   /// See [Set.removeAll]
   @override
   void removeAll(Iterable items) {
-    for (final item in items) {
-      remove(item);
-    }
+    items.forEach(remove);
   }
 
   /// See [Set.retainAll]
