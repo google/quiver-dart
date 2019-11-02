@@ -120,6 +120,6 @@ class Optional<T> extends IterableBase<T> {
   String toString() {
     return _value == null
         ? 'Optional { absent }'
-        : 'Optional { value: ${_value} }';
+        : 'Optional { value: $_value }';
   }
 }

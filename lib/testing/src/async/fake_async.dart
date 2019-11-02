@@ -171,8 +171,7 @@ class _FakeAsync implements FakeAsync {
     final absoluteTimeout = _elapsed + timeout;
     _drainTimersWhile((_FakeTimer timer) {
       if (timer._nextCall > absoluteTimeout) {
-        throw new StateError(
-            'Exceeded timeout ${timeout} while flushing timers');
+        throw new StateError('Exceeded timeout $timeout while flushing timers');
       }
       if (flushPeriodicTimers) {
         return _timers.isNotEmpty;
