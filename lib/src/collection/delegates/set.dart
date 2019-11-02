@@ -37,7 +37,7 @@ abstract class DelegatingSet<E> extends DelegatingIterable<E>
 
   @override
   DelegatingSet<T> cast<T>() {
-    // TODO: Dart 2.0 requires this method to be implemented.
+    // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     throw UnimplementedError('cast');
   }
 

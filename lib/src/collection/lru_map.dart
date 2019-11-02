@@ -88,7 +88,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
 
   @override
   LinkedLruHashMap<K2, V2> cast<K2, V2>() {
-    // TODO: Dart 2.0 requires this method to be implemented.
+    // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     throw UnimplementedError('cast');
   }
 
@@ -149,7 +149,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
 
   @override
   Map<K2, V2> map<K2, V2>(Object transform(K key, V value)) {
-    // TODO: Dart 2.0 requires this method to be implemented.
+    // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     // Change Object to MapEntry<K2, V2> when
     // the MapEntry class has been added.
     throw UnimplementedError('map');
@@ -250,8 +250,8 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   }
 
   @override
-  // TODO: Use the `MapBase.mapToString()` static method when the minimum SDK
-  // version of this package has been bumped to 2.0.0 or greater.
+  // TODO(cbracken): Use the `MapBase.mapToString()` static method when the
+  // minimum SDK version of this package has been bumped to 2.0.0 or greater.
   String toString() {
     // Detect toString() cycles.
     if (_isToStringVisiting(this)) {

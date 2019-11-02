@@ -62,7 +62,7 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   @override
   Set<T> cast<T>();
 
-  // TODO: toString or not toString, that is the question.
+  // TODO(codefu): toString or not toString, that is the question.
 }
 
 /// Controls the results for [TreeSet.searchNearest]()
@@ -82,7 +82,8 @@ abstract class _TreeNode<V> {
   _TreeNode<V> get left;
   _TreeNode<V> get right;
 
-  //TODO(codefu): Remove need for [parent]; this is just an implementation note
+  // TODO(codefu): Remove need for [parent]; this is just an implementation
+  // note.
   _TreeNode<V> get parent;
   V object;
 
@@ -394,7 +395,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
 
   @override
   AvlTreeSet<T> cast<T>() {
-    // TODO: Dart 2.0 requires this method to be implemented.
+    // TODO(codefu): Dart 2.0 requires this method to be implemented.
     throw UnimplementedError('cast');
   }
 

@@ -337,10 +337,10 @@ void main() {
           });
         });
 
-        // TODO: Pausing and resuming the timeout Stream doesn't work since
-        // it uses `Stopwatch()`.
+        // TODO(yjbanov): Pausing and resuming the timeout Stream doesn't work
+        // since it uses `Stopwatch()`.
         //
-        // See https://code.google.com/p/dart/issues/detail?id=18149
+        // See https://github.com/dart-lang/sdk/issues/18149
         test('should work with Stream.periodic', () {
           FakeAsync().run((async) {
             var events = <int>[];

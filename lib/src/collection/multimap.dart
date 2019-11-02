@@ -331,7 +331,7 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
 
   @override
   Map<K2, V2> cast<K2, V2>() {
-    // TODO: Dart 2.0 requires this method to be implemented.
+    // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     throw UnimplementedError('cast');
   }
 
@@ -400,7 +400,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
 
   @override
   Iterable<T> cast<T>() {
-    // TODO: Dart 2.0 requires this method to be implemented.
+    // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     throw UnimplementedError('cast');
   }
 
@@ -574,7 +574,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
 
   @override
   Iterable<T> whereType<T>() {
-    // TODO: Dart 2.0 requires this method to be implemented.
+    // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     throw UnimplementedError('whereType');
   }
 }
@@ -623,7 +623,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
 
   @override
   List<T> cast<T>() {
-    // TODO: Dart 2.0 requires this method to be implemented.
+    // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     throw UnimplementedError('cast');
   }
 
@@ -818,7 +818,7 @@ class _WrappedSet<K, V> extends _WrappedIterable<K, V, Set<V>>
 
   @override
   Set<T> cast<T>() {
-    // TODO: Dart 2.0 requires this method to be implemented.
+    // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     throw UnimplementedError('cast');
   }
 

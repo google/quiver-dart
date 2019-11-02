@@ -104,7 +104,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
 
   @override
   Map<K2, V2> cast<K2, V2>() {
-    // TODO: Dart 2.0 requires this method to be implemented.
+    // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     throw UnimplementedError('cast');
   }
 
