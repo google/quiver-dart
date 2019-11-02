@@ -229,7 +229,7 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
       : super.fromIterable(iterable, key: key, value: value);
 
   @override
-  List<V> _create() => new List<V>();
+  List<V> _create() => [];
   @override
   void _add(List<V> iterable, V value) {
     iterable.add(value);
