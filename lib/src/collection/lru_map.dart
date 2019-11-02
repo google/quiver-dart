@@ -160,7 +160,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   int get maximumSize => _maximumSize;
 
   @override
-  void set maximumSize(int maximumSize) {
+  set maximumSize(int maximumSize) {
     if (maximumSize == null) throw new ArgumentError.notNull('maximumSize');
     while (length > maximumSize) {
       _removeLru();
