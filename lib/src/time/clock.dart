@@ -15,7 +15,7 @@
 part of quiver.time;
 
 /// Returns current time.
-typedef DateTime TimeFunction();
+typedef TimeFunction = DateTime Function();
 
 /// Return current system time.
 DateTime systemTime() => new DateTime.now();

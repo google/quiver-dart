@@ -15,11 +15,11 @@
 part of quiver.async;
 
 /// An asynchronous callback that returns a value.
-typedef Future<T> AsyncAction<T, E>(E e);
+typedef AsyncAction<T, E> = Future<T> Function(E e);
 
 /// An asynchronous funcuntion that combines an element [e] with a previous
 /// value [previous], for use with [reduceAsync].
-typedef Future<T> AsyncCombiner<T, E>(T previous, E e);
+typedef AsyncCombiner<T, E> = Future<T> Function(T previous, E e);
 
 /// Calls [action] for each item in [iterable] in turn, waiting for the Future
 /// returned by action to complete.

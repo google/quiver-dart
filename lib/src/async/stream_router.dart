@@ -68,7 +68,7 @@ class StreamRouter<T> {
   }
 }
 
-typedef bool _Predicate<T>(T event);
+typedef _Predicate<T> = bool Function(T event);
 
 class _Route<T> {
   final _Predicate<T> predicate;

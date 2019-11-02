@@ -19,7 +19,7 @@ part of quiver.cache;
 ///
 /// The loader function should either return a value synchronously or a
 /// [Future] which completes with the value asynchronously.
-typedef FutureOr<V> Loader<K, V>(K key);
+typedef Loader<K, V> = FutureOr<V> Function(K key);
 
 /// A semi-persistent mapping of keys to values.
 ///
