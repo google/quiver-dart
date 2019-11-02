@@ -45,10 +45,10 @@ class UnderflowError extends Error {
 /// Throws [UnderflowError] if [throwOnError] is true. Useful for unexpected
 /// [Socket] disconnects.
 class StreamBuffer<T> implements StreamConsumer<List<T>> {
-  List<T> _chunks = [];
   int _offset = 0;
   int _counter = 0; // sum(_chunks[*].length) - _offset
-  List<_ReaderInWaiting<List<T>>> _readers = [];
+  final List<T> _chunks = [];
+  final List<_ReaderInWaiting<List<T>>> _readers = [];
   StreamSubscription<List<T>> _sub;
 
   final bool _throwOnError;

@@ -326,8 +326,8 @@ class _InvalidEqualsIncompatibleClassObject {
 
 /// Test class with inconsistent hashCode method.
 class _InconsistentHashCodeObject {
-  int _aspect1;
-  int _aspect2;
+  final int _aspect1;
+  final int _aspect2;
   int _hashCode = 0;
 
   _InconsistentHashCodeObject(this._aspect1, this._aspect2);
@@ -350,9 +350,9 @@ class _InconsistentHashCodeObject {
 /// Test class with invalid hashCode method.
 class _InvalidHashCodeObject {
   static int hashCodeSource = 0;
-  int _aspect1;
-  int _aspect2;
-  int _hashCode = hashCodeSource++;
+  final int _aspect1;
+  final int _aspect2;
+  final int _hashCode = hashCodeSource++;
 
   _InvalidHashCodeObject(this._aspect1, this._aspect2);
 
