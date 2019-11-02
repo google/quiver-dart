@@ -107,7 +107,8 @@ bool isDigit(int rune) => rune ^ 0x30 <= 9;
 /// based on Unicode 6.2. This maybe be a different set of characters than the
 /// environment's [RegExp] definition for whitespace, which is given by the
 /// ECMAScript standard: http://ecma-international.org/ecma-262/5.1/#sec-15.10
-bool isWhitespace(int rune) => ((rune >= 0x0009 && rune <= 0x000D) ||
+bool isWhitespace(int rune) =>
+    (rune >= 0x0009 && rune <= 0x000D) ||
     rune == 0x0020 ||
     rune == 0x0085 ||
     rune == 0x00A0 ||
@@ -119,7 +120,7 @@ bool isWhitespace(int rune) => ((rune >= 0x0009 && rune <= 0x000D) ||
     rune == 0x202F ||
     rune == 0x205F ||
     rune == 0x3000 ||
-    rune == 0xFEFF);
+    rune == 0xFEFF;
 
 /// Returns a [String] of length [width] padded with the same number of
 /// characters on the left and right from [fill].  On the right, characters are
