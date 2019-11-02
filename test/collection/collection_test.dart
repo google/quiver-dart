@@ -17,7 +17,7 @@ library quiver.collection.collection_test;
 import 'package:quiver/collection.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('listsEqual', () {
     test('return true for equal lists', () {
       expect(listsEqual(null, null), isTrue);

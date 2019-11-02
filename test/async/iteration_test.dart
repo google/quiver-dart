@@ -19,7 +19,7 @@ import 'dart:async';
 import 'package:test/test.dart';
 import 'package:quiver/async.dart';
 
-main() {
+void main() {
   group('doWhileAsync', () {
     test('should process the entier iterable if action returns true', () {
       var items = [];

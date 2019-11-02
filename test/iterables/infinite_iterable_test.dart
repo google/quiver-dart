@@ -30,7 +30,7 @@ class NaturalNumberIterator implements Iterator<int> {
   }
 }
 
-main() {
+void main() {
   group('InfiniteIterable', () {
     NaturalNumberIterable it;
 

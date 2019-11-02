@@ -18,7 +18,7 @@ linter:
     # these rules are documented on and in the same order as
     # the Dart Lint rules page to make maintenance easier
     # https://github.com/dart-lang/linter/blob/master/example/all.yaml
-    # ENABLE - always_declare_return_types
+    - always_declare_return_types
     # ENABLE - always_put_control_body_on_new_line
     - always_put_required_named_parameters_first
     # ENABLE - always_require_non_null_named_parameters

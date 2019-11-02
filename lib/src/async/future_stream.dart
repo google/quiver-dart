@@ -58,7 +58,7 @@ class FutureStream<T> extends Stream<T> {
     }
   }
 
-  _onListen() {
+  void _onListen() {
     _future.then((stream) {
       if (_controller == null) return;
       _subscription = stream.listen(_controller.add,
@@ -66,7 +66,7 @@ class FutureStream<T> extends Stream<T> {
     });
   }
 
-  _onCancel() {
+  void _onCancel() {
     if (_subscription != null) _subscription.cancel();
     _subscription = null;
     _controller = null;

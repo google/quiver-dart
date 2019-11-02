@@ -190,7 +190,7 @@ class _FakeAsync implements FakeAsync {
       _timers.map((timer) => '${timer.debugInfo}').toList(growable: false);
 
   @override
-  run(callback(FakeAsync self)) {
+  dynamic run(callback(FakeAsync self)) {
     if (_zone == null) {
       _zone = Zone.current.fork(specification: _zoneSpec);
     }
@@ -224,7 +224,7 @@ class _FakeAsync implements FakeAsync {
         _microtasks.add(microtask);
       });
 
-  _drainTimersWhile(bool predicate(_FakeTimer timer)) {
+  void _drainTimersWhile(bool predicate(_FakeTimer timer)) {
     _drainMicrotasks();
     _FakeTimer next;
     while ((next = _getNextTimer()) != null && predicate(next)) {
@@ -233,7 +233,7 @@ class _FakeAsync implements FakeAsync {
     }
   }
 
-  _elapseTo(Duration to) {
+  void _elapseTo(Duration to) {
     if (to > _elapsed) {
       _elapsed = to;
     }
@@ -251,7 +251,7 @@ class _FakeAsync implements FakeAsync {
         : _timers.reduce((t1, t2) => t1._nextCall <= t2._nextCall ? t1 : t2);
   }
 
-  _runTimer(_FakeTimer timer) {
+  void _runTimer(_FakeTimer timer) {
     assert(timer.isActive);
     _elapseTo(timer._nextCall);
     if (timer._isPeriodic) {
@@ -263,15 +263,15 @@ class _FakeAsync implements FakeAsync {
     }
   }
 
-  _drainMicrotasks() {
+  void _drainMicrotasks() {
     while (_microtasks.isNotEmpty) {
       _microtasks.removeFirst()();
     }
   }
 
-  _hasTimer(_FakeTimer timer) => _timers.contains(timer);
+  bool _hasTimer(_FakeTimer timer) => _timers.contains(timer);
 
-  _cancelTimer(_FakeTimer timer) => _timers.remove(timer);
+  void _cancelTimer(_FakeTimer timer) => _timers.remove(timer);
 }
 
 class _FakeTimer implements Timer {
@@ -297,7 +297,7 @@ class _FakeTimer implements Timer {
 
   bool get isActive => _time._hasTimer(this);
 
-  cancel() => _time._cancelTimer(this);
+  void cancel() => _time._cancelTimer(this);
 
   @override
   // TODO: Dart 2.0 requires this method to be implemented.

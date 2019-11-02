@@ -17,7 +17,7 @@ library quiver.iterables.concat_test;
 import 'package:test/test.dart';
 import 'package:quiver/iterables.dart';
 
-main() {
+void main() {
   group('concat', () {
     test('should handle empty input iterables', () {
       expect(concat([]), isEmpty);

@@ -17,7 +17,7 @@ library quiver.iterables.zip_test;
 import 'package:test/test.dart';
 import 'package:quiver/iterables.dart';
 
-main() {
+void main() {
   group('zip', () {
     test("should create an empty iterable if given no iterables", () {
       expect(zip([]), []);

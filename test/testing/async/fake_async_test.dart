@@ -19,7 +19,7 @@ import 'dart:async';
 import 'package:quiver/testing/async.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('FakeAsync', () {
     var initialTime = new DateTime(2000);
     var elapseBy = const Duration(days: 1);
@@ -207,7 +207,7 @@ main() {
           new FakeAsync().run((async) {
             var microtaskCalls = 0;
             var timerCalls = 0;
-            scheduleMicrotasks() {
+            void scheduleMicrotasks() {
               for (int i = 0; i < 5; i++) {
                 scheduleMicrotask(() => microtaskCalls++);
               }
@@ -494,7 +494,7 @@ main() {
       test('should timeout a chain of timers', () {
         new FakeAsync().run((async) {
           int count = 0;
-          createTimer() {
+          void createTimer() {
             new Future.delayed(const Duration(minutes: 30), () {
               count++;
               createTimer();
@@ -541,7 +541,7 @@ main() {
         new FakeAsync().run((async) {
           final log = [];
           int count = 0;
-          createTimer() {
+          void createTimer() {
             new Future.delayed(const Duration(minutes: 30), () {
               log.add(count);
               count++;

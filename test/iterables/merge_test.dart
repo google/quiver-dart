@@ -17,7 +17,7 @@ library quiver.iterables.merge_test;
 import 'package:test/test.dart';
 import 'package:quiver/iterables.dart';
 
-main() {
+void main() {
   group('merge', () {
     test("should merge no iterables into empty iterable", () {
       expect(merge([]), []);

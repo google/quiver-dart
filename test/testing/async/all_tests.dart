@@ -16,6 +16,6 @@ library quiver.testing.async.all_tests;
 
 import 'fake_async_test.dart' as fake_async;
 
-main() {
+void main() {
   fake_async.main();
 }

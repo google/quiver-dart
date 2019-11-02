@@ -17,7 +17,7 @@ library quiver.check_test;
 import 'package:quiver/check.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('checkArgument', () {
     group('success', () {
       test('simple', () => checkArgument(true));
@@ -30,7 +30,7 @@ main() {
     });
 
     group('failure', () {
-      checkArgumentShouldFail(Function f, [String expectedMessage]) {
+      void checkArgumentShouldFail(Function f, [String expectedMessage]) {
         try {
           f();
           fail('Should have thrown an ArgumentError');
@@ -80,7 +80,7 @@ main() {
     });
 
     group('failure', () {
-      checkStateShouldFail(Function f, [String expectedMessage]) {
+      void checkStateShouldFail(Function f, [String expectedMessage]) {
         if (expectedMessage == null) expectedMessage = 'failed precondition';
         try {
           f();
@@ -126,7 +126,7 @@ main() {
     });
 
     group('failure', () {
-      checkNotNullShouldFail(Function f, [String expectedMessage]) {
+      void checkNotNullShouldFail(Function f, [String expectedMessage]) {
         if (expectedMessage == null) expectedMessage = 'null pointer';
         try {
           f();
@@ -175,7 +175,7 @@ main() {
     });
 
     group('failure', () {
-      checkListIndexShouldFail(int index, int size,
+      void checkListIndexShouldFail(int index, int size,
           [message, String expectedMessage]) {
         try {
           checkListIndex(index, size, message: message);

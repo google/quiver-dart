@@ -19,7 +19,7 @@ import 'dart:async';
 import 'package:test/test.dart';
 import 'package:quiver/async.dart';
 
-main() {
+void main() {
   group('FutureStream', () {
     test('should forward an event', () {
       var completer = new Completer<Stream<String>>();

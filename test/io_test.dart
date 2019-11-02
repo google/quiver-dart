@@ -23,7 +23,7 @@ import 'package:path/path.dart' as path;
 import 'package:quiver/io.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('byteStreamToString', () {
     test('should decode UTF8 text by default', () {
       var string = '箙、靫';

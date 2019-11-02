@@ -20,7 +20,7 @@ import 'package:quiver/time.dart';
 import 'package:quiver/testing/async.dart';
 import 'package:quiver/testing/time.dart';
 
-main() {
+void main() {
   group('CountdownTimer', () {
     test('should countdown', () {
       new FakeAsync().run((FakeAsync async) {

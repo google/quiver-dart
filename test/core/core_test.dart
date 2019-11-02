@@ -17,7 +17,7 @@ library quiver.core_test;
 import 'package:quiver/core.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('firstNonNull', () {
     test("should return the first argument if it isn't null", () {
       expect(firstNonNull(1, 2), 1);

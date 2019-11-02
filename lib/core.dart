@@ -24,7 +24,8 @@ part 'src/core/optional.dart';
 /// [ArgumentError].
 ///
 /// Note: if [o1] is an [Optional], this can be accomplished with `o1.or(o2)`.
-firstNonNull(o1, o2, [o3, o4]) {
+dynamic firstNonNull(o1, o2, [o3, o4]) {
+  // TODO(cbracken): make this generic.
   if (o1 != null) return o1;
   if (o2 != null) return o2;
   if (o3 != null) return o3;

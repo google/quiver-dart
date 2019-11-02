@@ -19,11 +19,11 @@ import 'package:quiver/time.dart';
 
 Clock from(int y, int m, int d) => new Clock.fixed(new DateTime(y, m, d));
 
-expectDate(DateTime date, int y, [int m = 1, int d = 1]) {
+void expectDate(DateTime date, int y, [int m = 1, int d = 1]) {
   expect(date, new DateTime(y, m, d));
 }
 
-main() {
+void main() {
   group('clock', () {
     Clock subject;
 

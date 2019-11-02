@@ -17,7 +17,7 @@ library quiver.iterables.enumerate_test;
 import 'package:test/test.dart';
 import 'package:quiver/iterables.dart';
 
-main() {
+void main() {
   group('enumerate', () {
     test("should add indices to its argument", () {
       var e = enumerate(['a', 'b', 'c']);

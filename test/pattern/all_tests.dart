@@ -17,7 +17,7 @@ library quiver.pattern.all_tests;
 import 'glob_test.dart' as glob;
 import 'pattern_test.dart' as pattern;
 
-main() {
+void main() {
   glob.main();
   pattern.main();
 }

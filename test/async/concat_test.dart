@@ -19,7 +19,7 @@ import 'dart:async';
 import 'package:test/test.dart';
 import 'package:quiver/async.dart';
 
-main() {
+void main() {
   group('concat', () {
     test('should produce no events for no streams',
         () => concat([]).toList().then((events) => expect(events, isEmpty)));

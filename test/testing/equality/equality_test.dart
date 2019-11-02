@@ -17,7 +17,7 @@ library quiver.testing.util.equalstester;
 import 'package:quiver/testing/equality.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('expectEquals', () {
     _ValidTestObject reference;
     _ValidTestObject equalObject1;

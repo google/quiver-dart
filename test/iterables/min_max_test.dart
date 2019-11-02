@@ -17,7 +17,7 @@ library quiver.iterables.min_max_test;
 import 'package:test/test.dart';
 import 'package:quiver/iterables.dart';
 
-main() {
+void main() {
   group('max', () {
     test('should return the maximum element', () {
       expect(max([2, 5, 1, 4]), 5);
