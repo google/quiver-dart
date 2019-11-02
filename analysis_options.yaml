@@ -144,7 +144,7 @@ linter:
     # - unawaited_futures # too many false positives
     # - unnecessary_await_in_return # not yet tested
     - unnecessary_brace_in_string_interps
-    # ENABLE - unnecessary_const
+    - unnecessary_const
     - unnecessary_getters_setters
     # - unnecessary_lambdas # has false positives: https://github.com/dart-lang/linter/issues/498
     # ENABLE - unnecessary_new

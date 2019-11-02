@@ -20,7 +20,7 @@ import 'package:test/test.dart';
 void main() {
   group('Optional', () {
     test('absent should be not present and not gettable', () {
-      const Optional absent = const Optional<int>.absent();
+      const Optional absent = Optional<int>.absent();
       expect(absent.isPresent, isFalse);
       expect(absent.isNotPresent, isTrue);
       expect(() => absent.value, throwsStateError);
