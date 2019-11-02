@@ -34,7 +34,7 @@ abstract class InfiniteIterable<T> extends IterableBase<T> {
   T get single => throw new StateError('single');
 
   @override
-  bool every(bool f(T element)) => throw new UnsupportedError('every');
+  bool every(bool test(T element)) => throw new UnsupportedError('every');
 
   @override
   T1 fold<T1>(T1 initialValue, T1 combine(T1 previousValue, T element)) =>
