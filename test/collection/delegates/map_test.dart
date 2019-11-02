@@ -18,9 +18,9 @@ import 'package:quiver/collection.dart';
 import 'package:test/test.dart';
 
 class MyMap extends DelegatingMap<String, int> {
-  final Map<String, int> _delegate;
-
   MyMap(this._delegate);
+
+  final Map<String, int> _delegate;
 
   @override
   Map<String, int> get delegate => _delegate;

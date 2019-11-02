@@ -20,10 +20,10 @@ Iterable<IndexedValue<E>> enumerate<E>(Iterable<E> iterable) =>
     EnumerateIterable<E>(iterable);
 
 class IndexedValue<V> {
+  IndexedValue(this.index, this.value);
+
   final int index;
   final V value;
-
-  IndexedValue(this.index, this.value);
 
   @override
   bool operator ==(other) =>
@@ -40,9 +40,9 @@ class IndexedValue<V> {
 /// element of [iterable] and its index. See [enumerate].
 // This was inspired by MappedIterable internal to Dart collections.
 class EnumerateIterable<V> extends IterableBase<IndexedValue<V>> {
-  final Iterable<V> _iterable;
-
   EnumerateIterable(this._iterable);
+
+  final Iterable<V> _iterable;
 
   @override
   Iterator<IndexedValue<V>> get iterator =>
@@ -72,11 +72,11 @@ class EnumerateIterable<V> extends IterableBase<IndexedValue<V>> {
 
 /// The [Iterator] returned by [EnumerateIterable.iterator].
 class EnumerateIterator<V> extends Iterator<IndexedValue<V>> {
+  EnumerateIterator(this._iterator);
+
   final Iterator<V> _iterator;
   int _index = 0;
   IndexedValue<V> _current;
-
-  EnumerateIterator(this._iterator);
 
   @override
   IndexedValue<V> get current => _current;

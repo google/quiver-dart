@@ -985,9 +985,10 @@ void main() {
 }
 
 class Pair<T> {
+  Pair(this.x, this.y) : assert(x != null && y != null);
+
   final T x;
   final T y;
-  Pair(this.x, this.y) : assert(x != null && y != null);
 
   @override
   bool operator ==(other) {

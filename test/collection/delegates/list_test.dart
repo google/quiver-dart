@@ -18,9 +18,9 @@ import 'package:quiver/collection.dart';
 import 'package:test/test.dart';
 
 class MyList extends DelegatingList<String> {
-  final List<String> _delegate;
-
   MyList(this._delegate);
+
+  final List<String> _delegate;
 
   @override
   List<String> get delegate => _delegate;

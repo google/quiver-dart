@@ -20,9 +20,9 @@ import 'package:quiver/collection.dart';
 import 'package:test/test.dart';
 
 class MyQueue extends DelegatingQueue<String> {
-  final Queue<String> _delegate;
-
   MyQueue(this._delegate);
+
+  final Queue<String> _delegate;
 
   @override
   Queue<String> get delegate => _delegate;

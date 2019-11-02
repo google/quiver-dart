@@ -32,12 +32,6 @@ part of quiver.async;
 ///     var futureOfStream = getResource().then((resource) => resource.stream);
 ///     return FutureStream(futureOfStream);
 class FutureStream<T> extends Stream<T> {
-  static T _identity<T>(T t) => t;
-
-  Future<Stream<T>> _future;
-  StreamController<T> _controller;
-  StreamSubscription<T> _subscription;
-
   FutureStream(Future<Stream<T>> future, {bool broadcast = false}) {
     _future = future.then(_identity, onError: (e, stackTrace) {
       // Since [controller] is synchronous, it's likely that emitting an error
@@ -57,6 +51,12 @@ class FutureStream<T> extends Stream<T> {
           sync: true, onListen: _onListen, onCancel: _onCancel);
     }
   }
+
+  static T _identity<T>(T t) => t;
+
+  Future<Stream<T>> _future;
+  StreamController<T> _controller;
+  StreamSubscription<T> _subscription;
 
   void _onListen() {
     _future.then((stream) {

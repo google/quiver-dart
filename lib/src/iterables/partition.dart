@@ -20,12 +20,12 @@ Iterable<List<T>> partition<T>(Iterable<T> iterable, int size) {
 }
 
 class _Partition<T> extends IterableBase<List<T>> {
-  final Iterable<T> _iterable;
-  final int _size;
-
   _Partition(this._iterable, this._size) {
     if (_size <= 0) throw ArgumentError(_size);
   }
+
+  final Iterable<T> _iterable;
+  final int _size;
 
   @override
   Iterator<List<T>> get iterator =>
@@ -33,11 +33,11 @@ class _Partition<T> extends IterableBase<List<T>> {
 }
 
 class _PartitionIterator<T> implements Iterator<List<T>> {
+  _PartitionIterator(this._iterator, this._size);
+
   final Iterator<T> _iterator;
   final int _size;
   List<T> _current;
-
-  _PartitionIterator(this._iterator, this._size);
 
   @override
   List<T> get current => _current;

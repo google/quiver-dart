@@ -19,9 +19,9 @@ part of quiver.iterables;
 Iterable<T> cycle<T>(Iterable<T> iterable) => _Cycle<T>(iterable);
 
 class _Cycle<T> extends InfiniteIterable<T> {
-  final Iterable<T> _iterable;
-
   _Cycle(this._iterable);
+
+  final Iterable<T> _iterable;
 
   @override
   Iterator<T> get iterator => _CycleIterator(_iterable);
@@ -36,12 +36,12 @@ class _Cycle<T> extends InfiniteIterable<T> {
 }
 
 class _CycleIterator<T> implements Iterator<T> {
-  final Iterable<T> _iterable;
-  Iterator<T> _iterator;
-
   _CycleIterator(Iterable<T> _iterable)
       : _iterable = _iterable,
         _iterator = _iterable.iterator;
+
+  final Iterable<T> _iterable;
+  Iterator<T> _iterator;
 
   @override
   T get current => _iterator.current;

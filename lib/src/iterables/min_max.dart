@@ -65,7 +65,8 @@ Extent<T> extent<T>(Iterable<T> i, [Comparator<T> compare]) {
 }
 
 class Extent<T> {
+  Extent(this.min, this.max);
+
   final T min;
   final T max;
-  Extent(this.min, this.max);
 }

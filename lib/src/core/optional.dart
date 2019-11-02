@@ -20,8 +20,6 @@ part of quiver.core;
 /// values to be null. It signals that a value is not required and provides
 /// convenience methods for dealing with the absent case.
 class Optional<T> extends IterableBase<T> {
-  final T _value;
-
   /// Constructs an empty Optional.
   const Optional.absent() : _value = null;
 
@@ -36,6 +34,8 @@ class Optional<T> extends IterableBase<T> {
   ///
   /// If [value] is null, returns [absent()].
   const Optional.fromNullable(T value) : _value = value;
+
+  final T _value;
 
   /// True when this optional contains a value.
   bool get isPresent => _value != null;

@@ -45,21 +45,21 @@ Iterable generate(initial(), next(o)) => GeneratingIterable(initial, next);
 ///     }
 ///
 class GeneratingIterable<T> extends IterableBase<T> {
+  GeneratingIterable(this.initial, this.next);
+
   final _Initial<T> initial;
   final _Next<T> next;
-
-  GeneratingIterable(this.initial, this.next);
 
   @override
   Iterator<T> get iterator => _GeneratingIterator(initial(), next);
 }
 
 class _GeneratingIterator<T> implements Iterator<T> {
+  _GeneratingIterator(this.object, this.next);
+
   final _Next<T> next;
   T object;
   bool started = false;
-
-  _GeneratingIterator(this.object, this.next);
 
   @override
   T get current => started ? object : null;

@@ -60,10 +60,10 @@ DeclarationMirror getDeclaration(ClassMirror classMirror, Symbol name) {
 
 /// Closurizes a method reflectively.
 class Method /* implements Function */ {
+  Method(this.mirror, this.symbol);
+
   final InstanceMirror mirror;
   final Symbol symbol;
-
-  Method(this.mirror, this.symbol);
 
   @override
   dynamic noSuchMethod(Invocation invocation) {

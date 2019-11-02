@@ -17,10 +17,10 @@ part of quiver.async;
 /// Underflow errors happen when the socket feeding a buffer is finished while
 /// there are still blocked readers. Each reader will complete with this error.
 class UnderflowError extends Error {
-  final String message;
-
   /// The [message] describes the underflow.
   UnderflowError([this.message]);
+
+  final String message;
 
   @override
   String toString() {
@@ -45,6 +45,13 @@ class UnderflowError extends Error {
 /// Throws [UnderflowError] if [throwOnError] is true. Useful for unexpected
 /// [Socket] disconnects.
 class StreamBuffer<T> implements StreamConsumer<List<T>> {
+  /// Create a stream buffer with optional, soft [limit] to the amount of data
+  /// the buffer will hold before pausing the underlying stream. A limit of 0
+  /// means no buffer limits.
+  StreamBuffer({bool throwOnError = false, int limit = 0})
+      : _throwOnError = throwOnError,
+        _limit = limit;
+
   int _offset = 0;
   int _counter = 0; // sum(_chunks[*].length) - _offset
   final List<T> _chunks = [];
@@ -71,13 +78,6 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
   int get limit => _limit;
 
   bool get limited => _limit > 0;
-
-  /// Create a stream buffer with optional, soft [limit] to the amount of data
-  /// the buffer will hold before pausing the underlying stream. A limit of 0
-  /// means no buffer limits.
-  StreamBuffer({bool throwOnError = false, int limit = 0})
-      : _throwOnError = throwOnError,
-        _limit = limit;
 
   /// The amount of unread data buffered.
   int get buffered => _counter;
@@ -181,7 +181,8 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
 }
 
 class _ReaderInWaiting<T> {
+  _ReaderInWaiting(this.size, this.completer);
+
   int size;
   Completer<T> completer;
-  _ReaderInWaiting(this.size, this.completer);
 }

@@ -272,6 +272,12 @@ class _FakeAsync implements FakeAsync {
 }
 
 class _FakeTimer implements Timer {
+  _FakeTimer._(Duration duration, this._callback, this._isPeriodic, this._time)
+      : _duration = duration < _minDuration ? _minDuration : duration,
+        _creationStackTrace = StackTrace.current {
+    _nextCall = _time._elapsed + _duration;
+  }
+
   final Duration _duration;
   final Function _callback;
   final bool _isPeriodic;
@@ -285,12 +291,6 @@ class _FakeTimer implements Timer {
   // Without some sort of delay this can lead to infinitely looping timers.
   // What do the dart VM and dart2js timers do here?
   static const _minDuration = Duration.zero;
-
-  _FakeTimer._(Duration duration, this._callback, this._isPeriodic, this._time)
-      : _duration = duration < _minDuration ? _minDuration : duration,
-        _creationStackTrace = StackTrace.current {
-    _nextCall = _time._elapsed + _duration;
-  }
 
   @override
   bool get isActive => _time._hasTimer(this);

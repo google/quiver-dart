@@ -53,8 +53,9 @@ const Matcher areEqualityGroups = _EqualityGroupMatcher();
 const _repetitions = 3;
 
 class _EqualityGroupMatcher extends Matcher {
-  static const failureReason = 'failureReason';
   const _EqualityGroupMatcher();
+
+  static const failureReason = 'failureReason';
 
   @override
   Description describe(Description description) =>
@@ -188,26 +189,26 @@ class _EqualityGroupMatcher extends Matcher {
 }
 
 class _NotAnInstance {
-  static const equalToNothing = _NotAnInstance._();
   const _NotAnInstance._();
+  static const equalToNothing = _NotAnInstance._();
 }
 
 class _Item {
+  _Item(this.value, this.groupName, this.itemNumber);
+
   final Object value;
   final String groupName;
   final int itemNumber;
-
-  _Item(this.value, this.groupName, this.itemNumber);
 
   @override
   String toString() => "$value [group '$groupName', item ${itemNumber + 1}]";
 }
 
 class MatchError extends Error {
-  final String message;
-
   /// The [message] describes the match error.
   MatchError([this.message]);
+
+  final String message;
 
   @override
   String toString() => message;

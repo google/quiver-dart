@@ -19,9 +19,9 @@ part of quiver.iterables;
 Iterable<num> count([num start = 0, num step = 1]) => _Count(start, step);
 
 class _Count extends InfiniteIterable<num> {
-  final num start, step;
-
   _Count(this.start, this.step);
+
+  final num start, step;
 
   @override
   Iterator<num> get iterator => _CountIterator(start, step);
@@ -31,10 +31,10 @@ class _Count extends InfiniteIterable<num> {
 }
 
 class _CountIterator implements Iterator<num> {
+  _CountIterator(this._start, this._step);
+
   final num _start, _step;
   num _current;
-
-  _CountIterator(this._start, this._step);
 
   @override
   num get current => _current;
