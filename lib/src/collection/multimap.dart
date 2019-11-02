@@ -551,7 +551,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   }
 
   @override
-  List<V> toList({bool growable: true}) {
+  List<V> toList({bool growable = true}) {
     _syncDelegate();
     return _delegate.toList(growable: growable);
   }

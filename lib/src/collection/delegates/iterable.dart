@@ -113,7 +113,7 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   Iterable<E> takeWhile(bool test(E value)) => delegate.takeWhile(test);
 
   @override
-  List<E> toList({bool growable: true}) => delegate.toList(growable: growable);
+  List<E> toList({bool growable = true}) => delegate.toList(growable: growable);
 
   @override
   Set<E> toSet() => delegate.toSet();
