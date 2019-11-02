@@ -76,7 +76,7 @@ class Optional<T> extends IterableBase<T> {
     if (defaultValue == null) {
       throw new ArgumentError('defaultValue must not be null.');
     }
-    return _value == null ? defaultValue : _value;
+    return _value ?? defaultValue;
   }
 
   /// Gets the Optional value, or [null] if there is none.

@@ -184,9 +184,8 @@ void main() {
           expect(e, isRangeError);
           expect(
               e.message,
-              expectedMessage == null
-                  ? 'index $index not valid for list of size $size'
-                  : expectedMessage);
+              expectedMessage ??
+                  'index $index not valid for list of size $size');
         }
       }
 

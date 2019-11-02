@@ -40,7 +40,7 @@ class CountdownTimer extends Stream<CountdownTimer> {
   CountdownTimer(Duration duration, Duration increment, {Stopwatch stopwatch})
       : _duration = duration,
         increment = increment,
-        _stopwatch = stopwatch == null ? new Stopwatch() : stopwatch,
+        _stopwatch = stopwatch ?? new Stopwatch(),
         _controller =
             new StreamController<CountdownTimer>.broadcast(sync: true) {
     _timer = new Timer.periodic(increment, _tick);

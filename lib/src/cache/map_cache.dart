@@ -22,7 +22,7 @@ class MapCache<K, V> implements Cache<K, V> {
   final _outstanding = <K, FutureOr<V>>{};
 
   /// Creates a new [MapCache], optionally using [map] as the backing [Map].
-  MapCache({Map<K, V> map}) : _map = map != null ? map : new HashMap<K, V>();
+  MapCache({Map<K, V> map}) : _map = map ?? new HashMap<K, V>();
 
   /// Creates a new [MapCache], using [LruMap] as the backing [Map].
   /// Optionally specify [maximumSize].

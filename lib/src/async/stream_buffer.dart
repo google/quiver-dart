@@ -131,7 +131,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
 
   @override
   Future addStream(Stream<List<T>> stream) {
-    var lastStream = _currentStream == null ? stream : _currentStream;
+    var lastStream = _currentStream ?? stream;
     if (_sub != null) {
       _sub.cancel();
     }
