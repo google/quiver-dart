@@ -22,7 +22,7 @@ final _specialChars = r'\^$.|+[](){}';
 void main() {
   group('escapeRegex', () {
     test('should escape special characters', () {
-      for (var c in _specialChars.split('')) {
+      for (final c in _specialChars.split('')) {
         expect(escapeRegex(c), '\\$c');
       }
     });

@@ -161,7 +161,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
   }
 
   void _closed(e, [StackTrace stack]) {
-    for (var reader in _readers) {
+    for (final reader in _readers) {
       if (!reader.completer.isCompleted) {
         reader.completer.completeError(e, stack);
       }

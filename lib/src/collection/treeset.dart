@@ -378,8 +378,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
   @override
   bool addAll(Iterable<V> items) {
     bool modified = false;
-    for (V ele in items) {
-      if (add(ele)) {
+    for (final item in items) {
+      if (add(item)) {
         modified = true;
       }
     }
@@ -401,8 +401,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
 
   @override
   bool containsAll(Iterable<Object> items) {
-    for (var ele in items) {
-      if (!contains(ele)) return false;
+    for (final item in items) {
+      if (!contains(item)) return false;
     }
     return true;
   }
@@ -590,8 +590,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
   /// See [Set.removeAll]
   @override
   void removeAll(Iterable items) {
-    for (var ele in items) {
-      remove(ele);
+    for (final item in items) {
+      remove(item);
     }
   }
 
@@ -599,7 +599,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   @override
   void retainAll(Iterable<Object> elements) {
     List<V> chosen = <V>[];
-    for (var target in elements) {
+    for (final target in elements) {
       if (target is V && contains(target)) {
         chosen.add(target);
       }
@@ -612,7 +612,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   @override
   void retainWhere(bool test(V element)) {
     List<V> chosen = [];
-    for (var target in this) {
+    for (final target in this) {
       if (test(target)) {
         chosen.add(target);
       }
@@ -625,7 +625,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   @override
   void removeWhere(bool test(V element)) {
     List<V> damned = [];
-    for (var target in this) {
+    for (final target in this) {
       if (test(target)) {
         damned.add(target);
       }
@@ -774,7 +774,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
     }
 
     // Non-optimized version.
-    for (var target in this) {
+    for (final target in this) {
       if (other.contains(target)) {
         set.add(target);
       }
@@ -850,7 +850,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
     }
 
     // Non-optimized version.
-    for (var target in this) {
+    for (final target in this) {
       if (!other.contains(target)) {
         set.add(target);
       }

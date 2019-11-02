@@ -112,7 +112,7 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
       {K key(element), V value(element)}) {
     key ??= _id;
     value ??= _id;
-    for (var element in iterable) {
+    for (final element in iterable) {
       add(key(element), value(element));
     }
   }
@@ -364,10 +364,10 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   @override
   void removeWhere(bool test(K key, C value)) {
     var keysToRemove = <K>[];
-    for (var key in keys) {
+    for (final key in keys) {
       if (test(key, this[key])) keysToRemove.add(key);
     }
-    for (var key in keysToRemove) {
+    for (final key in keysToRemove) {
       _multimap.removeAll(key);
     }
   }

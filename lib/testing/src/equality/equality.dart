@@ -100,7 +100,7 @@ class _EqualityGroupMatcher extends Matcher {
 
   void _checkBasicIdentity(Map<String, List> equalityGroups, Map matchState) {
     var flattened = equalityGroups.values.expand((group) => group);
-    for (var item in flattened) {
+    for (final item in flattened) {
       if (item == _NotAnInstance.equalToNothing) {
         throw new MatchError(
             "$item must not be equal to an arbitrary object of another class");

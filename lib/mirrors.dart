@@ -50,7 +50,7 @@ DeclarationMirror getDeclaration(ClassMirror classMirror, Symbol name) {
       return mirror;
     }
   }
-  for (ClassMirror supe in classMirror.superinterfaces) {
+  for (final ClassMirror supe in classMirror.superinterfaces) {
     var mirror = getDeclaration(supe, name);
     if (mirror != null) {
       return mirror;
