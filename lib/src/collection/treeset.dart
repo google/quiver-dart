@@ -22,6 +22,12 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   @override
   int get length;
 
+  @override
+  bool get isEmpty => length == 0;
+
+  @override
+  bool get isNotEmpty => length != 0;
+
   /// Create a new [TreeSet] with an ordering defined by [comparator] or the
   /// default `(a, b) => a.compareTo(b)`.
   factory TreeSet({Comparator<V> comparator}) {
@@ -887,7 +893,7 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
   _AvlTreeIterator._(this.tree,
       {this.reversed = false, this.inclusive = true, this.anchorObject})
       : this._modCountGuard = tree._modCount {
-    if (anchorObject == null || tree.length == 0) {
+    if (anchorObject == null || tree.isEmpty) {
       // If the anchor is far left or right, we're just a normal iterator.
       state = reversed ? RIGHT : LEFT;
       _moveNext = reversed ? _movePreviousNormal : _moveNextNormal;
@@ -940,7 +946,7 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
     if (_modCountGuard != tree._modCount) {
       throw new ConcurrentModificationError(tree);
     }
-    if (state == RIGHT || tree.length == 0) return false;
+    if (state == RIGHT || tree.isEmpty) return false;
     switch (state) {
       case LEFT:
         _current = tree._root.minimumNode;
@@ -960,7 +966,7 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
     if (_modCountGuard != tree._modCount) {
       throw new ConcurrentModificationError(tree);
     }
-    if (state == LEFT || tree.length == 0) return false;
+    if (state == LEFT || tree.isEmpty) return false;
     switch (state) {
       case RIGHT:
         _current = tree._root.maximumNode;
