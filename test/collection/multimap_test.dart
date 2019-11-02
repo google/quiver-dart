@@ -1019,13 +1019,16 @@ void main() {
 class Pair {
   final x;
   final y;
-  Pair(this.x, this.y);
+  Pair(this.x, this.y) : assert(x != null && y != null);
 
   @override
   bool operator ==(other) {
     if (x != other.x) return false;
     return equals(y).matches(other.y, {});
   }
+
+  @override
+  int get hashCode => x.hashCode ^ y.hashCode;
 
   @override
   String toString() => "($x, $y)";
