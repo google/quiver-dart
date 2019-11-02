@@ -48,7 +48,7 @@ part of quiver.async;
 ///     2014-05-04 20:06:00.423
 ///     ...
 class Metronome extends Stream<DateTime> {
-  static final DateTime _EPOCH = new DateTime.fromMillisecondsSinceEpoch(0);
+  static final DateTime _epoch = new DateTime.fromMillisecondsSinceEpoch(0);
 
   final Clock clock;
   final Duration interval;
@@ -63,7 +63,7 @@ class Metronome extends Stream<DateTime> {
   bool get isBroadcast => true;
 
   Metronome.epoch(Duration interval, {Clock clock: const Clock()})
-      : this._(interval, clock: clock, anchor: _EPOCH);
+      : this._(interval, clock: clock, anchor: _epoch);
 
   Metronome.periodic(Duration interval,
       {Clock clock: const Clock(), DateTime anchor})
