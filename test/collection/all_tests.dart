@@ -16,24 +16,24 @@ library quiver.collection.all_tests;
 
 import 'bimap_test.dart' as bimap;
 import 'collection_test.dart' as collection;
+import 'delegates/iterable_test.dart' as delegate_iterable;
+import 'delegates/list_test.dart' as delegate_list;
+import 'delegates/map_test.dart' as delegate_map;
+import 'delegates/queue_test.dart' as delegate_queue;
+import 'delegates/set_test.dart' as delegate_set;
 import 'lru_map_test.dart' as lru_map;
 import 'multimap_test.dart' as multimap;
 import 'treeset_test.dart' as treeset;
-import 'delegates/iterable_test.dart' as iterable;
-import 'delegates/list_test.dart' as list;
-import 'delegates/map_test.dart' as map;
-import 'delegates/queue_test.dart' as queue;
-import 'delegates/set_test.dart' as setTest;
 
 void main() {
   bimap.main();
   collection.main();
+  delegate_iterable.main();
+  delegate_list.main();
+  delegate_map.main();
+  delegate_queue.main();
+  delegate_set.main();
   lru_map.main();
   multimap.main();
-  iterable.main();
-  list.main();
-  map.main();
-  queue.main();
-  setTest.main();
   treeset.main();
 }
