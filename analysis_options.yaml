@@ -153,7 +153,7 @@ linter:
     - unnecessary_overrides
     - unnecessary_parenthesis
     - unnecessary_statements
-    # ENABLE - unnecessary_this
+    - unnecessary_this
     - unrelated_type_equality_checks
     # - unsafe_html # not yet tested
     - use_full_hex_values_for_flutter_colors

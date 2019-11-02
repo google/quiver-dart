@@ -892,7 +892,7 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
 
   _AvlTreeIterator._(this.tree,
       {this.reversed = false, this.inclusive = true, this.anchorObject})
-      : this._modCountGuard = tree._modCount {
+      : _modCountGuard = tree._modCount {
     if (anchorObject == null || tree.isEmpty) {
       // If the anchor is far left or right, we're just a normal iterator.
       state = reversed ? RIGHT : LEFT;

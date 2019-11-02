@@ -149,7 +149,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
 
   @override
   void updateAll(V update(K key, V value)) {
-    for (final key in this.keys) {
+    for (final key in keys) {
       _add(key, update(key, _map[key]), true);
     }
   }

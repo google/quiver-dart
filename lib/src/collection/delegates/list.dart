@@ -64,7 +64,7 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
 
   @override
   set first(E element) {
-    if (this.isEmpty) throw RangeError.index(0, this);
+    if (isEmpty) throw RangeError.index(0, this);
     this[0] = element;
   }
 
@@ -87,8 +87,8 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
 
   @override
   set last(E element) {
-    if (this.isEmpty) throw RangeError.index(0, this);
-    this[this.length - 1] = element;
+    if (isEmpty) throw RangeError.index(0, this);
+    this[length - 1] = element;
   }
 
   @override

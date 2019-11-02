@@ -41,7 +41,7 @@ class _Merge<T> extends IterableBase<T> {
       _iterables.map((i) => i.iterator).toList(growable: false), _compare);
 
   @override
-  String toString() => this.toList().toString();
+  String toString() => toList().toString();
 }
 
 /// Like [Iterator] but one element ahead.

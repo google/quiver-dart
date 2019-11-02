@@ -70,8 +70,8 @@ class Metronome extends Stream<DateTime> {
       : this._(interval, clock: clock, anchor: anchor);
 
   Metronome._(this.interval, {this.clock = const Clock(), this.anchor})
-      : this._intervalMs = interval.inMilliseconds,
-        this._anchorMs = (anchor ?? clock.now()).millisecondsSinceEpoch {
+      : _intervalMs = interval.inMilliseconds,
+        _anchorMs = (anchor ?? clock.now()).millisecondsSinceEpoch {
     _controller = StreamController<DateTime>.broadcast(
         sync: true,
         onCancel: () {
