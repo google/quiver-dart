@@ -29,9 +29,7 @@ class Glob implements Pattern {
   final RegExp regex;
   final String pattern;
 
-  Glob(String pattern)
-      : pattern = pattern,
-        regex = _regexpFromGlobPattern(pattern);
+  Glob(this.pattern) : regex = _regexpFromGlobPattern(pattern);
 
   @override
   Iterable<Match> allMatches(String str, [int start = 0]) =>

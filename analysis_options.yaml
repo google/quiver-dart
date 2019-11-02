@@ -116,7 +116,7 @@ linter:
     - prefer_generic_function_type_aliases
     - prefer_if_elements_to_conditional_expressions
     - prefer_if_null_operators
-    # ENABLE - prefer_initializing_formals
+    - prefer_initializing_formals
     - prefer_inlined_adds
     # - prefer_int_literals # not yet tested
     # - prefer_interpolation_to_compose_strings # not yet tested

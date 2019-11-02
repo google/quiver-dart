@@ -37,9 +37,8 @@ class CountdownTimer extends Stream<CountdownTimer> {
   /// [stopwatch] is for testing purposes. If you're using CountdownTimer and
   /// need to control time in a test, pass a mock or a fake. See [FakeAsync]
   /// and [FakeStopwatch].
-  CountdownTimer(Duration duration, Duration increment, {Stopwatch stopwatch})
+  CountdownTimer(Duration duration, this.increment, {Stopwatch stopwatch})
       : _duration = duration,
-        increment = increment,
         _stopwatch = stopwatch ?? new Stopwatch(),
         _controller =
             new StreamController<CountdownTimer>.broadcast(sync: true) {
