@@ -47,8 +47,8 @@ void main() {
   });
 
   group('visitDirectory', () {
-    var testPath;
-    var testDir;
+    Directory testDir;
+    String testPath;
 
     setUp(() {
       testDir = Directory.systemTemp.createTempSync();

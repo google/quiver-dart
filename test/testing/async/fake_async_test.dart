@@ -66,7 +66,7 @@ void main() {
 
       test('should throw when called before previous call is complete', () {
         new FakeAsync().run((async) {
-          var error;
+          dynamic error;
           new Timer(elapseBy ~/ 2, () {
             try {
               async.elapse(elapseBy);
@@ -648,7 +648,7 @@ void main() {
         return new FakeAsync().run((async) {
           var timeout = const Duration(minutes: 1);
           int counter = 0;
-          var timer;
+          Timer timer;
           timer = new Timer(timeout, () {
             counter++;
             expect(timer.isActive, isFalse,

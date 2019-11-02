@@ -86,8 +86,8 @@ void main() {
 
     test('underflows when asked to', () {
       StreamBuffer<int> buf = new StreamBuffer(throwOnError: true);
-      var error;
-      var future = buf.read(4).then((bytes) {
+      dynamic error;
+      Future future = buf.read(4).then((bytes) {
         fail('should not have gotten bytes: $bytes');
       }).catchError((e) {
         error = e;

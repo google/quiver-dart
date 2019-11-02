@@ -127,7 +127,7 @@ linter:
     # - prefer_null_aware_operators # disable until NNBD, see https://github.com/flutter/flutter/pull/32711#issuecomment-492930932
     - prefer_single_quotes
     - prefer_spread_collections
-    # ENABLE - prefer_typing_uninitialized_variables
+    - prefer_typing_uninitialized_variables
     # ENABLE - prefer_void_to_null
     - provide_deprecation_message
     # - public_member_api_docs # enabled on a case-by-case basis; see e.g. packages/analysis_options.yaml
