@@ -16,7 +16,7 @@ part of quiver.iterables;
 
 /// Returns an infinite [Iterable] of [num]s, starting from [start] and
 /// increasing by [step].
-Iterable<num> count([num start = 0, num step = 1]) => new _Count(start, step);
+Iterable<num> count([num start = 0, num step = 1]) => _Count(start, step);
 
 class _Count extends InfiniteIterable<num> {
   final num start, step;
@@ -24,7 +24,7 @@ class _Count extends InfiniteIterable<num> {
   _Count(num this.start, num this.step);
 
   @override
-  Iterator<num> get iterator => new _CountIterator(start, step);
+  Iterator<num> get iterator => _CountIterator(start, step);
 
   // TODO(justin): return an infinite list for toList() and a special Set
   // implmentation for toSet()?

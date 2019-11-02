@@ -31,7 +31,7 @@ void main() {
     DelegatingMap<String, int> delegatingMap;
 
     setUp(() {
-      delegatingMap = new MyMap({'a': 1, 'bb': 2});
+      delegatingMap = MyMap({'a': 1, 'bb': 2});
     });
 
     test('[]', () {
@@ -67,19 +67,19 @@ void main() {
     });
 
     test('forEach', () {
-      final s = new StringBuffer();
+      final s = StringBuffer();
       delegatingMap.forEach((k, v) => s.write('$k$v'));
       expect(s.toString(), equals('a1bb2'));
     });
 
     test('isEmpty', () {
       expect(delegatingMap.isEmpty, isFalse);
-      expect(new MyMap({}).isEmpty, isTrue);
+      expect(MyMap({}).isEmpty, isTrue);
     });
 
     test('isNotEmpty', () {
       expect(delegatingMap.isNotEmpty, isTrue);
-      expect(new MyMap({}).isNotEmpty, isFalse);
+      expect(MyMap({}).isNotEmpty, isFalse);
     });
 
     test('keys', () {
@@ -88,7 +88,7 @@ void main() {
 
     test('length', () {
       expect(delegatingMap.length, equals(2));
-      expect(new MyMap({}).length, equals(0));
+      expect(MyMap({}).length, equals(0));
     });
 
     test('putIfAbsent', () {

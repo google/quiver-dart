@@ -21,14 +21,14 @@ void assertCheckedMode() {
   _isCheckedMode ??= _checkForCheckedMode();
 
   if (!_isCheckedMode) {
-    throw new StateError('Not in checked mode.');
+    throw StateError('Not in checked mode.');
   }
 }
 
 bool _isCheckedMode;
 
 bool _checkForCheckedMode() {
-  Object sentinal = new Object();
+  Object sentinal = Object();
   try {
     var i = 1 as dynamic;
     _takeString(i);

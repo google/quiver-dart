@@ -33,8 +33,7 @@ void main() {
     DelegatingSet<String> delegatingSet;
 
     setUp(() {
-      delegatingSet =
-          new MySet(new LinkedHashSet<String>.from(['a', 'b', 'cc']));
+      delegatingSet = MySet(LinkedHashSet<String>.from(['a', 'b', 'cc']));
     });
 
     test('add', () {
@@ -60,17 +59,16 @@ void main() {
     });
 
     test('difference', () {
-      expect(delegatingSet.difference(new Set<String>.from(['a', 'cc'])),
+      expect(delegatingSet.difference(Set<String>.from(['a', 'cc'])),
           equals(['b']));
-      expect(delegatingSet.difference(new Set<String>.from(['cc'])),
+      expect(delegatingSet.difference(Set<String>.from(['cc'])),
           equals(['a', 'b']));
     });
 
     test('intersection', () {
-      expect(delegatingSet.intersection(new Set<String>.from(['a', 'dd'])),
+      expect(delegatingSet.intersection(Set<String>.from(['a', 'dd'])),
           equals(['a']));
-      expect(
-          delegatingSet.intersection(new Set<String>.from(['e'])), equals([]));
+      expect(delegatingSet.intersection(Set<String>.from(['e'])), equals([]));
     });
 
     test('remove', () {
@@ -99,8 +97,7 @@ void main() {
     });
 
     test('union', () {
-      expect(
-          delegatingSet.union(new LinkedHashSet<String>.from(['a', 'cc', 'd'])),
+      expect(delegatingSet.union(LinkedHashSet<String>.from(['a', 'cc', 'd'])),
           equals(['a', 'b', 'cc', 'd']));
     });
   });

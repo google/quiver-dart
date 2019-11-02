@@ -22,7 +22,7 @@ part of quiver.collection;
 /// also an error to insert null keys or values into this map.
 abstract class BiMap<K, V> implements Map<K, V> {
   /// Creates a BiMap instance with the default implementation.
-  factory BiMap() => new HashBiMap();
+  factory BiMap() => HashBiMap();
 
   /// Adds an association between key and value.
   ///
@@ -49,7 +49,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   final Map<V, K> _inverse;
   BiMap<V, K> _cached;
 
-  HashBiMap() : this._from(new HashMap(), new HashMap());
+  HashBiMap() : this._from(HashMap(), HashMap());
   HashBiMap._from(this._map, this._inverse);
 
   @override
@@ -93,7 +93,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   Iterable<V> get values => _inverse.keys;
 
   @override
-  BiMap<V, K> get inverse => _cached ??= new HashBiMap._from(_inverse, _map);
+  BiMap<V, K> get inverse => _cached ??= HashBiMap._from(_inverse, _map);
 
   @override
   void addEntries(Iterable<MapEntry<K, V>> entries) {
@@ -105,7 +105,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   @override
   Map<K2, V2> cast<K2, V2>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('cast');
+    throw UnimplementedError('cast');
   }
 
   @override
@@ -142,7 +142,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
       return _add(key, update(value), true);
     } else {
       if (ifAbsent == null)
-        throw new ArgumentError.value(key, 'key', 'Key not in map');
+        throw ArgumentError.value(key, 'key', 'Key not in map');
       return _add(key, ifAbsent(), false);
     }
   }
@@ -161,12 +161,12 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   }
 
   V _add(K key, V value, bool replace) {
-    if (key == null) throw new ArgumentError('null key');
-    if (value == null) throw new ArgumentError('null value');
+    if (key == null) throw ArgumentError('null key');
+    if (value == null) throw ArgumentError('null value');
     var oldValue = _map[key];
     if (oldValue == value) return value;
     if (_inverse.containsKey(value)) {
-      if (!replace) throw new ArgumentError('Mapping for $value exists');
+      if (!replace) throw ArgumentError('Mapping for $value exists');
       _map.remove(_inverse[value]);
     }
     _inverse.remove(oldValue);

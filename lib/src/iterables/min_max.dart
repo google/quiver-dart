@@ -50,18 +50,18 @@ T min<T>(Iterable<T> i, [Comparator<T> compare]) {
 /// If [i] is empty, an [Extent] is returned with [:null:] values for [:min:]
 /// and [:max:], since there are no valid values for them.
 Extent<T> extent<T>(Iterable<T> i, [Comparator<T> compare]) {
-  if (i.isEmpty) return new Extent(null, null);
+  if (i.isEmpty) return Extent(null, null);
   final Comparator<T> _compare = compare ?? Comparable.compare;
   var iterator = i.iterator;
   var hasNext = iterator.moveNext();
-  if (!hasNext) return new Extent(null, null);
+  if (!hasNext) return Extent(null, null);
   var max = iterator.current;
   var min = iterator.current;
   while (iterator.moveNext()) {
     if (_compare(max, iterator.current) < 0) max = iterator.current;
     if (_compare(min, iterator.current) > 0) min = iterator.current;
   }
-  return new Extent(min, max);
+  return Extent(min, max);
 }
 
 class Extent<T> {

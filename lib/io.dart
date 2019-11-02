@@ -25,7 +25,7 @@ Future<String> byteStreamToString(Stream<List<int>> stream,
 }
 
 /// Gets the full path of [path] by using [File.fullPathSync].
-String getFullPath(path) => new File(path).resolveSymbolicLinksSync();
+String getFullPath(path) => File(path).resolveSymbolicLinksSync();
 
 /// Lists the sub-directories and files of this Directory, optionally recursing
 /// into sub-directories based on the return value of [visit].
@@ -34,7 +34,7 @@ String getFullPath(path) => new File(path).resolveSymbolicLinksSync();
 /// never a Symlink to a File. If [visit] returns true, then its argument is
 /// listed recursively.
 Future visitDirectory(Directory dir, Future<bool> visit(FileSystemEntity f)) {
-  final completer = new Completer();
+  final completer = Completer();
   final directories = <String, bool>{dir.path: false};
 
   void _list(Directory dir) {
@@ -51,7 +51,7 @@ Future visitDirectory(Directory dir, Future<bool> visit(FileSystemEntity f)) {
                 var fullPath = getFullPath(entity.path).toString();
                 var dirFullPath = getFullPath(dir.path).toString();
                 if (!dirFullPath.startsWith(fullPath)) {
-                  _list(new Directory(entity.path));
+                  _list(Directory(entity.path));
                 }
               }
             } else {

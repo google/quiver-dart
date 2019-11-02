@@ -26,10 +26,10 @@ void main() {
         () => collect([]).toList().then((events) => expect(events, isEmpty)));
 
     test('should produce events for future completions in input order', () {
-      var futures = new Iterable<Future>.generate(
-          5, (int i) => i.isEven ? new Future.value(i) : new Future.error(i));
+      var futures = Iterable<Future>.generate(
+          5, (int i) => i.isEven ? Future.value(i) : Future.error(i));
       var events = [];
-      var done = new Completer<List<dynamic>>();
+      var done = Completer<List<dynamic>>();
 
       collect(futures).listen(events.add, onError: (i) {
         events.add('e$i');
@@ -45,10 +45,10 @@ void main() {
       var eventCount = 0;
       var maxParallel = 0;
       var currentParallel = 0;
-      var done = new Completer();
-      var futures = new Iterable.generate(3, (_) {
+      var done = Completer();
+      var futures = Iterable.generate(3, (_) {
         maxParallel = max(++currentParallel, maxParallel);
-        return new Future.value();
+        return Future.value();
       });
 
       var collected = collect(futures);

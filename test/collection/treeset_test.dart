@@ -22,7 +22,7 @@ void main() {
     group('when empty', () {
       TreeSet<num> tree;
       setUp(() {
-        tree = new TreeSet<num>();
+        tree = TreeSet<num>();
       });
       test('should actually be empty', () => expect(tree, isEmpty));
       test('should not contain an element',
@@ -43,7 +43,7 @@ void main() {
     group('with [10, 20, 15]', () {
       AvlTreeSet<num> tree;
       setUp(() {
-        tree = new TreeSet<num>()..addAll([10, 20, 15]);
+        tree = TreeSet<num>()..addAll([10, 20, 15]);
       });
       test('lookup succeeds for inserted elements', () {
         expect(tree.lookup(10), equals(10), reason: 'missing 10');
@@ -69,12 +69,12 @@ void main() {
     group('with repeated elements', () {
       TreeSet<num> tree;
       setUp(() {
-        tree = new TreeSet<num>()..addAll([10, 20, 15, 21, 30, 20]);
+        tree = TreeSet<num>()..addAll([10, 20, 15, 21, 30, 20]);
       });
 
       test('only contains subset', () {
         var it = tree.iterator;
-        var testList = new List.from([10, 15, 20, 21, 30]);
+        var testList = List.from([10, 15, 20, 21, 30]);
         while (it.moveNext()) {
           expect(it.current, equals(testList.removeAt(0)));
         }
@@ -85,7 +85,7 @@ void main() {
     group('iteration', () {
       TreeSet<num> tree;
       setUp(() {
-        tree = new TreeSet<num>()..addAll([10, 20, 15, 21, 30]);
+        tree = TreeSet<num>()..addAll([10, 20, 15, 21, 30]);
       });
 
       test('works bidirectionally', () {
@@ -296,13 +296,13 @@ void main() {
       TreeSet<num> tree;
 
       test('remove from empty tree', () {
-        tree = new TreeSet();
+        tree = TreeSet();
         tree.remove(10);
         expect(tree, isEmpty);
       });
 
       test('remove from tree', () {
-        tree = new TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
+        tree = TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
         tree.remove(42);
         expect(tree.toList(), equals([10, 15, 20, 21, 30]));
 
@@ -317,7 +317,7 @@ void main() {
       });
 
       test('removeAll from tree', () {
-        tree = new TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
+        tree = TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
         tree.removeAll([42]);
         expect(tree.toList(), equals([10, 15, 20, 21, 30]));
 
@@ -329,7 +329,7 @@ void main() {
       });
 
       test('removeWhere from tree', () {
-        tree = new TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
+        tree = TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
         tree.removeWhere((e) => e % 10 == 2);
         expect(tree.toList(), equals([10, 15, 20, 21, 30]));
 
@@ -341,7 +341,7 @@ void main() {
       });
 
       test('retainAll from tree', () {
-        tree = new TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
+        tree = TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
         tree.retainAll([10, 30]);
         expect(tree.toList(), equals([10, 30]));
 
@@ -350,7 +350,7 @@ void main() {
       });
 
       test('retainWhere from tree', () {
-        tree = new TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
+        tree = TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
         tree.retainWhere((e) => e % 1 == 0);
         expect(tree.toList(), equals([10, 15, 20, 21, 30]));
 
@@ -375,12 +375,12 @@ void main() {
       TreeSet<num> sortedTestSet;
 
       setUp(() {
-        tree = new TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
+        tree = TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
         expectedUnion = [10, 15, 18, 20, 21, 22, 30];
         expectedIntersection = [10, 15];
         expectedDifference = [20, 21, 30];
-        nonSortedTestSet = new Set.from([10, 18, 22, 15]);
-        sortedTestSet = new TreeSet()..addAll(nonSortedTestSet);
+        nonSortedTestSet = Set.from([10, 18, 22, 15]);
+        sortedTestSet = TreeSet()..addAll(nonSortedTestSet);
       });
 
       test(
@@ -413,7 +413,7 @@ void main() {
       /// NOTE: This is implementation specific testing for coverage.
       /// Users do not have access to [AvlNode] or [AvlTreeSet]
       test('RightLeftRotation', () {
-        AvlTreeSet<num> tree = new TreeSet<num>();
+        AvlTreeSet<num> tree = TreeSet<num>();
         tree.add(10);
         tree.add(20);
         tree.add(15);
@@ -438,7 +438,7 @@ void main() {
         expect(fifteen.balance, equals(0));
       });
       test('LeftRightRotation', () {
-        AvlTreeSet<num> tree = new TreeSet<num>();
+        AvlTreeSet<num> tree = TreeSet<num>();
         tree.add(30);
         tree.add(10);
         tree.add(20);
@@ -464,7 +464,7 @@ void main() {
       });
 
       test('AVL-LeftRotation', () {
-        AvlTreeSet<num> tree = new TreeSet<num>();
+        AvlTreeSet<num> tree = TreeSet<num>();
         tree.add(1);
         tree.add(2);
         tree.add(3);
@@ -490,7 +490,7 @@ void main() {
       });
 
       test('AVL-RightRotation', () {
-        AvlTreeSet<num> tree = new TreeSet<num>();
+        AvlTreeSet<num> tree = TreeSet<num>();
         tree.add(3);
         tree.add(2);
         tree.add(1);
@@ -519,7 +519,7 @@ void main() {
     group('nearest search', () {
       TreeSet<num> tree;
       setUp(() {
-        tree = new TreeSet<num>(comparator: (num left, num right) {
+        tree = TreeSet<num>(comparator: (num left, num right) {
           return left - right;
         })
           ..addAll([300, 200, 100]);

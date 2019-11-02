@@ -33,7 +33,7 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   @override
   Iterable<T> cast<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('cast');
+    throw UnimplementedError('cast');
   }
 
   @override
@@ -124,6 +124,6 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   @override
   Iterable<T> whereType<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('whereType');
+    throw UnimplementedError('whereType');
   }
 }

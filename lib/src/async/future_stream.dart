@@ -30,7 +30,7 @@ part of quiver.async;
 /// then return a `Stream` from that object:
 ///
 ///     var futureOfStream = getResource().then((resource) => resource.stream);
-///     return new FutureStream(futureOfStream);
+///     return FutureStream(futureOfStream);
 class FutureStream<T> extends Stream<T> {
   static T _identity<T>(T t) => t;
 
@@ -50,10 +50,10 @@ class FutureStream<T> extends Stream<T> {
     });
 
     if (broadcast == true) {
-      _controller = new StreamController.broadcast(
+      _controller = StreamController.broadcast(
           sync: true, onListen: _onListen, onCancel: _onCancel);
     } else {
-      _controller = new StreamController(
+      _controller = StreamController(
           sync: true, onListen: _onListen, onCancel: _onCancel);
     }
   }

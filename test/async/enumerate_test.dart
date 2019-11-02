@@ -22,7 +22,7 @@ import 'package:quiver/async.dart';
 void main() {
   group('enumerate', () {
     test('should add indices to its argument', () {
-      var controller = new StreamController<String>();
+      var controller = StreamController<String>();
       var enumerated = enumerate(controller.stream);
       var expectation = enumerated.toList().then((e) {
         expect(e.map((v) => v.index), [0, 1, 2]);

@@ -52,7 +52,7 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
   @override
   DelegatingList<T> cast<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('cast');
+    throw UnimplementedError('cast');
   }
 
   @override
@@ -64,7 +64,7 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
 
   @override
   set first(E element) {
-    if (this.isEmpty) throw new RangeError.index(0, this);
+    if (this.isEmpty) throw RangeError.index(0, this);
     this[0] = element;
   }
 
@@ -87,7 +87,7 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
 
   @override
   set last(E element) {
-    if (this.isEmpty) throw new RangeError.index(0, this);
+    if (this.isEmpty) throw RangeError.index(0, this);
     this[this.length - 1] = element;
   }
 

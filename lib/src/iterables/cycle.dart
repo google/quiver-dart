@@ -16,7 +16,7 @@ part of quiver.iterables;
 
 /// Returns an [Iterable] that infinitely cycles through the elements of
 /// [iterable]. If [iterable] is empty, the returned Iterable will also be empty.
-Iterable<T> cycle<T>(Iterable<T> iterable) => new _Cycle<T>(iterable);
+Iterable<T> cycle<T>(Iterable<T> iterable) => _Cycle<T>(iterable);
 
 class _Cycle<T> extends InfiniteIterable<T> {
   final Iterable<T> _iterable;
@@ -24,7 +24,7 @@ class _Cycle<T> extends InfiniteIterable<T> {
   _Cycle(this._iterable);
 
   @override
-  Iterator<T> get iterator => new _CycleIterator(_iterable);
+  Iterator<T> get iterator => _CycleIterator(_iterable);
 
   @override
   bool get isEmpty => _iterable.isEmpty;

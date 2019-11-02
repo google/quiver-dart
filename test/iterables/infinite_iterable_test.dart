@@ -17,7 +17,7 @@ import 'package:test/test.dart';
 
 class NaturalNumberIterable extends InfiniteIterable<int> {
   @override
-  final iterator = new NaturalNumberIterator();
+  final iterator = NaturalNumberIterator();
 }
 
 class NaturalNumberIterator implements Iterator<int> {
@@ -38,7 +38,7 @@ void main() {
     NaturalNumberIterable it;
 
     setUp(() {
-      it = new NaturalNumberIterable();
+      it = NaturalNumberIterable();
     });
 
     test('isEmpty should be false', () {

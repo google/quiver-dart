@@ -18,7 +18,7 @@ part of quiver.time;
 typedef TimeFunction = DateTime Function();
 
 /// Return current system time.
-DateTime systemTime() => new DateTime.now();
+DateTime systemTime() => DateTime.now();
 
 /// Provides points in time relative to the current point in time, for example:
 /// now, 2 days ago, 4 weeks from now, etc.
@@ -62,7 +62,7 @@ class Clock {
           int seconds = 0,
           int milliseconds = 0,
           int microseconds = 0}) =>
-      agoBy(new Duration(
+      agoBy(Duration(
           days: days,
           hours: hours,
           minutes: minutes,
@@ -80,7 +80,7 @@ class Clock {
           int seconds = 0,
           int milliseconds = 0,
           int microseconds = 0}) =>
-      fromNowBy(new Duration(
+      fromNowBy(Duration(
           days: days,
           hours: hours,
           minutes: minutes,
@@ -136,7 +136,7 @@ class Clock {
     var m = (time.month - months - 1) % 12 + 1;
     var y = time.year - (months + 12 - time.month) ~/ 12;
     var d = clampDayOfMonth(year: y, month: m, day: time.day);
-    return new DateTime(
+    return DateTime(
         y, m, d, time.hour, time.minute, time.second, time.millisecond);
   }
 
@@ -146,7 +146,7 @@ class Clock {
     var m = (time.month + months - 1) % 12 + 1;
     var y = time.year + (months + time.month - 1) ~/ 12;
     var d = clampDayOfMonth(year: y, month: m, day: time.day);
-    return new DateTime(
+    return DateTime(
         y, m, d, time.hour, time.minute, time.second, time.millisecond);
   }
 
@@ -155,7 +155,7 @@ class Clock {
     var time = now();
     var y = time.year - years;
     var d = clampDayOfMonth(year: y, month: time.month, day: time.day);
-    return new DateTime(y, time.month, d, time.hour, time.minute, time.second,
+    return DateTime(y, time.month, d, time.hour, time.minute, time.second,
         time.millisecond);
   }
 

@@ -31,4 +31,4 @@ part of quiver.async;
 ///
 ///     collect(files.toList().map((file) => file.readAsString()));
 Stream<T> collect<T>(Iterable<Future<T>> futures) =>
-    new Stream.fromIterable(futures).asyncMap((f) => f);
+    Stream.fromIterable(futures).asyncMap((f) => f);

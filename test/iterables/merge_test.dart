@@ -28,7 +28,7 @@ void main() {
       expect(merge([[], []]), []);
       expect(merge([[], [], []]), []);
       for (int i = 4; i <= 10; i++) {
-        expect(merge(new List.filled(i, const [])), []);
+        expect(merge(List.filled(i, const [])), []);
       }
     });
 

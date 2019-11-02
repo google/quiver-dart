@@ -42,7 +42,7 @@ library quiver.check;
 /// Throws an [ArgumentError] if the given [expression] is `false`.
 void checkArgument(bool expression, {message}) {
   if (!expression) {
-    throw new ArgumentError(_resolveMessage(message, null));
+    throw ArgumentError(_resolveMessage(message, null));
   }
 }
 
@@ -50,7 +50,7 @@ void checkArgument(bool expression, {message}) {
 /// with [size] elements. Otherwise, returns the [index] parameter.
 int checkListIndex(int index, int size, {message}) {
   if (index < 0 || index >= size) {
-    throw new RangeError(_resolveMessage(
+    throw RangeError(_resolveMessage(
         message, 'index $index not valid for list of size $size'));
   }
   return index;
@@ -60,7 +60,7 @@ int checkListIndex(int index, int size, {message}) {
 /// returns the [reference] parameter.
 T checkNotNull<T>(T reference, {message}) {
   if (reference == null) {
-    throw new ArgumentError(_resolveMessage(message, 'null pointer'));
+    throw ArgumentError(_resolveMessage(message, 'null pointer'));
   }
   return reference;
 }
@@ -68,7 +68,7 @@ T checkNotNull<T>(T reference, {message}) {
 /// Throws a [StateError] if the given [expression] is `false`.
 void checkState(bool expression, {message}) {
   if (!expression) {
-    throw new StateError(_resolveMessage(message, 'failed precondition'));
+    throw StateError(_resolveMessage(message, 'failed precondition'));
   }
 }
 

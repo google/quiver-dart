@@ -21,8 +21,8 @@ import 'package:quiver/async.dart';
 void main() {
   group('StreamBuffer', () {
     test('returns orderly overlaps', () {
-      StreamBuffer<int> buf = new StreamBuffer();
-      new Stream.fromIterable([
+      StreamBuffer<int> buf = StreamBuffer();
+      Stream.fromIterable([
         [1],
         [2, 3, 4],
         [5, 6, 7, 8]
@@ -37,8 +37,8 @@ void main() {
     }, tags: ['fails-on-dartdevc']);
 
     test('respects pausing of stream', () {
-      StreamBuffer<int> buf = new StreamBuffer()..limit = 2;
-      new Stream.fromIterable([
+      StreamBuffer<int> buf = StreamBuffer()..limit = 2;
+      Stream.fromIterable([
         [1],
         [2],
         [3],
@@ -54,8 +54,8 @@ void main() {
     }, tags: ['fails-on-dartdevc']);
 
     test('throws when reading too much', () {
-      StreamBuffer<int> buf = new StreamBuffer()..limit = 1;
-      new Stream.fromIterable([
+      StreamBuffer<int> buf = StreamBuffer()..limit = 1;
+      Stream.fromIterable([
         [1],
         [2]
       ]).pipe(buf);
@@ -69,11 +69,11 @@ void main() {
     });
 
     test('allows patching of streams', () {
-      StreamBuffer<int> buf = new StreamBuffer();
-      new Stream.fromIterable([
+      StreamBuffer<int> buf = StreamBuffer();
+      Stream.fromIterable([
         [1, 2]
       ]).pipe(buf).then((_) {
-        return new Stream.fromIterable([
+        return Stream.fromIterable([
           [3, 4]
         ]).pipe(buf);
       });
@@ -85,7 +85,7 @@ void main() {
     });
 
     test('underflows when asked to', () {
-      StreamBuffer<int> buf = new StreamBuffer(throwOnError: true);
+      StreamBuffer<int> buf = StreamBuffer(throwOnError: true);
       dynamic error;
       Future future = buf.read(4).then((bytes) {
         fail('should not have gotten bytes: $bytes');
@@ -95,18 +95,18 @@ void main() {
         expect(error is UnderflowError, isTrue,
             reason: '!UnderflowError: $error');
       });
-      new Stream.fromIterable([
+      Stream.fromIterable([
         [1, 2, 3]
       ]).pipe(buf);
       return future;
     });
 
     test('accepts several streams', () async {
-      StreamBuffer<int> buf = new StreamBuffer();
-      new Stream.fromIterable([
+      StreamBuffer<int> buf = StreamBuffer();
+      Stream.fromIterable([
         [1]
       ]).pipe(buf);
-      new Stream.fromIterable([
+      Stream.fromIterable([
         [2, 3, 4, 5]
       ]).pipe(buf);
       final vals = await buf.read(4);

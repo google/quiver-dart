@@ -27,7 +27,7 @@ part of quiver.async;
 ///    import 'dart:html';
 ///    import 'package:quiver/async.dart';
 ///
-///    var router = new StreamRouter(window.onClick);
+///    var router = StreamRouter(window.onClick);
 ///    var onRightClick = router.route((e) => e.button == 2);
 ///    var onAltClick = router.route((e) => e.altKey);
 ///    var onOtherClick router.defaultStream;
@@ -37,7 +37,7 @@ class StreamRouter<T> {
 
   final List<_Route<T>> _routes = <_Route<T>>[];
   final StreamController<T> _defaultController =
-      new StreamController<T>.broadcast();
+      StreamController<T>.broadcast();
 
   /// Create a new StreamRouter that listens to the [incoming] stream.
   StreamRouter(Stream<T> incoming) : _incoming = incoming {
@@ -47,8 +47,8 @@ class StreamRouter<T> {
   /// Events that match [predicate] are sent to the stream created by this
   /// method, and not sent to any other router streams.
   Stream<T> route(bool predicate(T event)) {
-    var controller = new StreamController<T>.broadcast();
-    _routes.add(new _Route(predicate, controller));
+    var controller = StreamController<T>.broadcast();
+    _routes.add(_Route(predicate, controller));
     return controller.stream;
   }
 

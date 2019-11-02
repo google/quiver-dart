@@ -36,7 +36,7 @@ class UnderflowError extends Error {
 ///
 /// Example usage:
 ///
-///     StreamBuffer<int> buffer = new StreamBuffer();
+///     StreamBuffer<int> buffer = StreamBuffer();
 ///     Socket.connect('127.0.0.1', 5555).then((sock) => sock.pipe(buffer));
 ///     buffer.read(100).then((bytes) {
 ///       // do something with 100 bytes;
@@ -84,7 +84,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
 
   List<T> _consume(int size) {
     var follower = 0;
-    var ret = new List<T>(size);
+    var ret = List<T>(size);
     var leftToRead = size;
     while (leftToRead > 0) {
       var chunk = _chunks.first;
@@ -116,16 +116,16 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
   /// Throws [ArgumentError] if size is larger than optional buffer [limit].
   Future<List<T>> read(int size) {
     if (limited && size > limit) {
-      throw new ArgumentError('Cannot read $size with limit $limit');
+      throw ArgumentError('Cannot read $size with limit $limit');
     }
 
     // If we have enough data to consume and there are no other readers, then
     // we can return immediately.
     if (size <= buffered && _readers.isEmpty) {
-      return new Future.value(_consume(size));
+      return Future.value(_consume(size));
     }
-    final completer = new Completer<List<T>>();
-    _readers.add(new _ReaderInWaiting<List<T>>(size, completer));
+    final completer = Completer<List<T>>();
+    _readers.add(_ReaderInWaiting<List<T>>(size, completer));
     return completer.future;
   }
 
@@ -136,7 +136,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
       _sub.cancel();
     }
     _currentStream = stream;
-    final streamDone = new Completer<Null>();
+    final streamDone = Completer<Null>();
     _sub = stream.listen((items) {
       _chunks.addAll(items);
       _counter += items is List ? items.length : 1;
@@ -151,7 +151,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
     }, onDone: () {
       // User is piping in a new stream
       if (stream == lastStream && _throwOnError) {
-        _closed(new UnderflowError());
+        _closed(UnderflowError());
       }
       streamDone.complete();
     }, onError: (e, stack) {
@@ -176,7 +176,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
       ret = _sub.cancel();
       _sub = null;
     }
-    return ret ?? new Future.value();
+    return ret ?? Future.value();
   }
 }
 

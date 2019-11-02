@@ -29,7 +29,7 @@ class Optional<T> extends IterableBase<T> {
   ///
   /// Throws [ArgumentError] if [value] is null.
   Optional.of(T value) : this._value = value {
-    if (this._value == null) throw new ArgumentError('Must not be null.');
+    if (this._value == null) throw ArgumentError('Must not be null.');
   }
 
   /// Constructs an Optional of the given [value].
@@ -48,7 +48,7 @@ class Optional<T> extends IterableBase<T> {
   /// Throws [StateError] if [value] is null.
   T get value {
     if (this._value == null) {
-      throw new StateError('value called on absent Optional.');
+      throw StateError('value called on absent Optional.');
     }
     return _value;
   }
@@ -74,7 +74,7 @@ class Optional<T> extends IterableBase<T> {
   /// Throws [ArgumentError] if [defaultValue] is null.
   T or(T defaultValue) {
     if (defaultValue == null) {
-      throw new ArgumentError('defaultValue must not be null.');
+      throw ArgumentError('defaultValue must not be null.');
     }
     return _value ?? defaultValue;
   }
@@ -90,7 +90,7 @@ class Optional<T> extends IterableBase<T> {
   Optional<S> transform<S>(S transformer(T value)) {
     return _value == null
         ? const Optional.absent()
-        : new Optional.of(transformer(_value));
+        : Optional.of(transformer(_value));
   }
 
   /// Transforms the Optional value.
@@ -101,12 +101,12 @@ class Optional<T> extends IterableBase<T> {
   Optional<S> transformNullable<S>(S transformer(T value)) {
     return _value == null
         ? const Optional.absent()
-        : new Optional.fromNullable(transformer(_value));
+        : Optional.fromNullable(transformer(_value));
   }
 
   @override
   Iterator<T> get iterator =>
-      isPresent ? <T>[_value].iterator : new Iterable<T>.empty().iterator;
+      isPresent ? <T>[_value].iterator : Iterable<T>.empty().iterator;
 
   /// Delegates to the underlying [value] hashCode.
   @override

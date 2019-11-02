@@ -55,7 +55,7 @@ void main() {
 
 void expectGlob(String pattern,
     {List<String> matches, List<String> nonMatches}) {
-  var glob = new Glob(pattern);
+  var glob = Glob(pattern);
   for (final str in matches) {
     expect(glob.hasMatch(str), true);
     expect(glob.allMatches(str).map((m) => m.input), [str]);
@@ -65,7 +65,7 @@ void expectGlob(String pattern,
   }
   for (final str in nonMatches) {
     expect(glob.hasMatch(str), false);
-    var m = new List.from(glob.allMatches(str));
+    var m = List.from(glob.allMatches(str));
     expect(m.length, 0);
     expect(glob.matchAsPrefix(str), null);
   }
