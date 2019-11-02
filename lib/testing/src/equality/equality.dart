@@ -71,6 +71,7 @@ class _EqualityGroupMatcher extends Matcher {
     }
   }
 
+  @override
   Description describeMismatch(item, Description mismatchDescription,
           Map matchState, bool verbose) =>
       mismatchDescription.add(" ${matchState[failureReason]}");
@@ -208,5 +209,6 @@ class MatchError extends Error {
   /// The [message] describes the match error.
   MatchError([this.message]);
 
+  @override
   String toString() => message;
 }

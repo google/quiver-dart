@@ -36,9 +36,11 @@ class _Merge<T> extends IterableBase<T> {
 
   _Merge(this._iterables, this._compare);
 
+  @override
   Iterator<T> get iterator => new _MergeIterator<T>(
       _iterables.map((i) => i.iterator).toList(growable: false), _compare);
 
+  @override
   String toString() => this.toList().toString();
 }
 
@@ -66,6 +68,7 @@ class _MergeIterator<T> implements Iterator<T> {
   _MergeIterator(List<Iterator<T>> iterators, this._compare)
       : _peekers = iterators.map((i) => new _IteratorPeeker(i)).toList();
 
+  @override
   bool moveNext() {
     // Pick the peeker that's peeking at the puniest piece
     _IteratorPeeker<T> minIter = null;
@@ -85,5 +88,6 @@ class _MergeIterator<T> implements Iterator<T> {
     return true;
   }
 
+  @override
   T get current => _current;
 }

@@ -72,11 +72,13 @@ class FutureStream<T> extends Stream<T> {
     _controller = null;
   }
 
+  @override
   StreamSubscription<T> listen(void onData(T event),
       {Function onError, void onDone(), bool cancelOnError}) {
     return _controller.stream.listen(onData,
         onError: onError, onDone: onDone, cancelOnError: cancelOnError);
   }
 
+  @override
   bool get isBroadcast => _controller.stream.isBroadcast;
 }

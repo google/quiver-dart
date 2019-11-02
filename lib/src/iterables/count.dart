@@ -23,6 +23,7 @@ class _Count extends InfiniteIterable<num> {
 
   _Count(num this.start, num this.step);
 
+  @override
   Iterator<num> get iterator => new _CountIterator(start, step);
 
   // TODO(justin): return an infinite list for toList() and a special Set
@@ -35,8 +36,10 @@ class _CountIterator implements Iterator<num> {
 
   _CountIterator(num this._start, this._step);
 
+  @override
   num get current => _current;
 
+  @override
   bool moveNext() {
     _current = (_current == null) ? _start : _current + _step;
     return true;

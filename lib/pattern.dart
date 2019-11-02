@@ -42,6 +42,7 @@ class _MultiPattern extends Pattern {
 
   _MultiPattern(this.include, {this.exclude});
 
+  @override
   Iterable<Match> allMatches(String str, [int start = 0]) {
     final _allMatches = <Match>[];
     for (var pattern in include) {
@@ -60,6 +61,7 @@ class _MultiPattern extends Pattern {
     return _allMatches;
   }
 
+  @override
   Match matchAsPrefix(String str, [int start = 0]) {
     return allMatches(str)
         .firstWhere((match) => match.start == start, orElse: () => null);

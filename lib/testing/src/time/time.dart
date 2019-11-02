@@ -21,15 +21,18 @@ typedef int Now();
 /// via a user-supplied function.
 class FakeStopwatch implements Stopwatch {
   Now _now;
-  int frequency;
   int _start;
   int _stop;
+
+  @override
+  int frequency;
 
   FakeStopwatch(int now(), int this.frequency)
       : _now = now,
         _start = null,
         _stop = null;
 
+  @override
   void start() {
     if (isRunning) return;
     if (_start == null) {
@@ -40,11 +43,13 @@ class FakeStopwatch implements Stopwatch {
     }
   }
 
+  @override
   void stop() {
     if (!isRunning) return;
     _stop = _now();
   }
 
+  @override
   void reset() {
     if (_start == null) return;
     _start = _now();
@@ -53,6 +58,7 @@ class FakeStopwatch implements Stopwatch {
     }
   }
 
+  @override
   int get elapsedTicks {
     if (_start == null) {
       return 0;
@@ -60,11 +66,15 @@ class FakeStopwatch implements Stopwatch {
     return (_stop == null) ? (_now() - _start) : (_stop - _start);
   }
 
+  @override
   Duration get elapsed => new Duration(microseconds: elapsedMicroseconds);
 
+  @override
   int get elapsedMicroseconds => (elapsedTicks * 1000000) ~/ frequency;
 
+  @override
   int get elapsedMilliseconds => (elapsedTicks * 1000) ~/ frequency;
 
+  @override
   bool get isRunning => _start != null && _stop == null;
 }

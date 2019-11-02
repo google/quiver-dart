@@ -25,9 +25,14 @@ class IndexedValue<V> {
 
   IndexedValue(this.index, this.value);
 
+  @override
   bool operator ==(o) =>
       o is IndexedValue && o.index == index && o.value == value;
+
+  @override
   int get hashCode => index * 31 + value.hashCode;
+
+  @override
   String toString() => '($index, $value)';
 }
 
@@ -39,17 +44,28 @@ class EnumerateIterable<V> extends IterableBase<IndexedValue<V>> {
 
   EnumerateIterable(this._iterable);
 
+  @override
   Iterator<IndexedValue<V>> get iterator =>
       new EnumerateIterator<V>(_iterable.iterator);
 
   // Length related functions are independent of the mapping.
+  @override
   int get length => _iterable.length;
+
+  @override
   bool get isEmpty => _iterable.isEmpty;
 
   // Index based lookup can be done before transforming.
+  @override
   IndexedValue<V> get first => new IndexedValue<V>(0, _iterable.first);
+
+  @override
   IndexedValue<V> get last => new IndexedValue<V>(length - 1, _iterable.last);
+
+  @override
   IndexedValue<V> get single => new IndexedValue<V>(0, _iterable.single);
+
+  @override
   IndexedValue<V> elementAt(int index) =>
       new IndexedValue<V>(index, _iterable.elementAt(index));
 }
@@ -62,8 +78,10 @@ class EnumerateIterator<V> extends Iterator<IndexedValue<V>> {
 
   EnumerateIterator(this._iterator);
 
+  @override
   IndexedValue<V> get current => _current;
 
+  @override
   bool moveNext() {
     if (_iterator.moveNext()) {
       _current = new IndexedValue(_index++, _iterator.current);

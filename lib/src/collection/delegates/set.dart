@@ -26,45 +26,51 @@ part of quiver.collection;
 ///     }
 abstract class DelegatingSet<E> extends DelegatingIterable<E>
     implements Set<E> {
+  @override
   Set<E> get delegate;
 
+  @override
   bool add(E value) => delegate.add(value);
 
+  @override
   void addAll(Iterable<E> elements) => delegate.addAll(elements);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   DelegatingSet<T> cast<T>() {
+    // TODO: Dart 2.0 requires this method to be implemented.
     throw new UnimplementedError("cast");
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  DelegatingSet<T> retype<T>() {
-    throw new UnimplementedError("retype");
-  }
-
   void clear() => delegate.clear();
 
+  @override
   bool containsAll(Iterable<Object> other) => delegate.containsAll(other);
 
+  @override
   Set<E> difference(Set<Object> other) => delegate.difference(other);
 
+  @override
   Set<E> intersection(Set<Object> other) => delegate.intersection(other);
 
+  @override
   E lookup(Object object) => delegate.lookup(object);
 
+  @override
   bool remove(Object value) => delegate.remove(value);
 
+  @override
   void removeAll(Iterable<Object> elements) => delegate.removeAll(elements);
 
+  @override
   void removeWhere(bool test(E element)) => delegate.removeWhere(test);
 
+  @override
   void retainAll(Iterable<Object> elements) => delegate.retainAll(elements);
 
+  @override
   void retainWhere(bool test(E element)) => delegate.retainWhere(test);
 
+  @override
   Set<E> union(Set<E> other) => delegate.union(other);
 }

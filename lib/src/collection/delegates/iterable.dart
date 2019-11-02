@@ -27,85 +27,103 @@ part of quiver.collection;
 abstract class DelegatingIterable<E> implements Iterable<E> {
   Iterable<E> get delegate;
 
+  @override
   bool any(bool test(E element)) => delegate.any(test);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Iterable<T> cast<T>() {
+    // TODO: Dart 2.0 requires this method to be implemented.
     throw new UnimplementedError("cast");
   }
 
+  @override
   bool contains(Object element) => delegate.contains(element);
 
+  @override
   E elementAt(int index) => delegate.elementAt(index);
 
+  @override
   bool every(bool test(E element)) => delegate.every(test);
 
+  @override
   Iterable<T> expand<T>(Iterable<T> f(E element)) => delegate.expand(f);
 
+  @override
   E get first => delegate.first;
 
+  @override
   E firstWhere(bool test(E element), {E orElse()}) =>
       delegate.firstWhere(test, orElse: orElse);
 
+  @override
   T fold<T>(T initialValue, T combine(T previousValue, E element)) =>
       delegate.fold(initialValue, combine);
 
   @override
   Iterable<E> followedBy(Iterable<E> other) => delegate.followedBy(other);
 
+  @override
   void forEach(void f(E element)) => delegate.forEach(f);
 
+  @override
   bool get isEmpty => delegate.isEmpty;
 
+  @override
   bool get isNotEmpty => delegate.isNotEmpty;
 
+  @override
   Iterator<E> get iterator => delegate.iterator;
 
+  @override
   String join([String separator = ""]) => delegate.join(separator);
 
+  @override
   E get last => delegate.last;
 
+  @override
   E lastWhere(bool test(E element), {E orElse()}) =>
       delegate.lastWhere(test, orElse: orElse);
 
+  @override
   int get length => delegate.length;
 
+  @override
   Iterable<T> map<T>(T f(E e)) => delegate.map(f);
 
+  @override
   E reduce(E combine(E value, E element)) => delegate.reduce(combine);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  Iterable<T> retype<T>() {
-    throw new UnimplementedError("retype");
-  }
-
   E get single => delegate.single;
 
+  @override
   E singleWhere(bool test(E element), {E orElse()}) =>
       delegate.singleWhere(test, orElse: orElse);
 
+  @override
   Iterable<E> skip(int n) => delegate.skip(n);
 
+  @override
   Iterable<E> skipWhile(bool test(E value)) => delegate.skipWhile(test);
 
+  @override
   Iterable<E> take(int n) => delegate.take(n);
 
+  @override
   Iterable<E> takeWhile(bool test(E value)) => delegate.takeWhile(test);
 
+  @override
   List<E> toList({bool growable: true}) => delegate.toList(growable: growable);
 
+  @override
   Set<E> toSet() => delegate.toSet();
 
+  @override
   Iterable<E> where(bool test(E element)) => delegate.where(test);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Iterable<T> whereType<T>() {
+    // TODO: Dart 2.0 requires this method to be implemented.
     throw new UnimplementedError("whereType");
   }
 }

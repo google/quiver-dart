@@ -18,35 +18,49 @@ part of quiver.iterables;
 /// [UnsupportedError] for methods that would require the Iterable to
 /// terminate.
 abstract class InfiniteIterable<T> extends IterableBase<T> {
+  @override
   bool get isEmpty => false;
 
+  @override
   bool get isNotEmpty => true;
 
+  @override
   T get last => throw new UnsupportedError('last');
 
+  @override
   int get length => throw new UnsupportedError('length');
 
+  @override
   T get single => throw new StateError('single');
 
+  @override
   bool every(bool f(T element)) => throw new UnsupportedError('every');
 
+  @override
   T1 fold<T1>(T1 initialValue, T1 combine(T1 previousValue, T element)) =>
       throw new UnsupportedError('fold');
 
+  @override
   void forEach(void f(T element)) => throw new UnsupportedError('forEach');
 
+  @override
   String join([String separator = '']) => throw new UnsupportedError('join');
 
+  @override
   T lastWhere(bool test(T value), {T orElse()}) =>
       throw new UnsupportedError('lastWhere');
 
+  @override
   T reduce(T combine(T value, T element)) =>
       throw new UnsupportedError('reduce');
 
+  @override
   T singleWhere(bool test(T value), {T orElse()}) =>
       throw new UnsupportedError('singleWhere');
 
+  @override
   List<T> toList({bool growable: true}) => throw new UnsupportedError('toList');
 
+  @override
   Set<T> toSet() => throw new UnsupportedError('toSet');
 }

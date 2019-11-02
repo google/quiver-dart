@@ -59,6 +59,7 @@ class Metronome extends Stream<DateTime> {
   final int _intervalMs;
   final int _anchorMs;
 
+  @override
   bool get isBroadcast => true;
 
   Metronome.epoch(Duration interval, {Clock clock: const Clock()})
@@ -85,6 +86,7 @@ class Metronome extends Stream<DateTime> {
         });
   }
 
+  @override
   StreamSubscription<DateTime> listen(void onData(DateTime event),
           {Function onError, void onDone(), bool cancelOnError}) =>
       _controller.stream.listen(onData,

@@ -84,9 +84,8 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
       entries.forEach((entry) => this[entry.key] = entry.value);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   LinkedLruHashMap<K2, V2> cast<K2, V2>() {
+    // TODO: Dart 2.0 requires this method to be implemented.
     throw new UnimplementedError("cast");
   }
 
@@ -147,9 +146,8 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   Iterable<V> get values => _iterable().map((e) => e.value);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Map<K2, V2> map<K2, V2>(Object transform(K key, V value)) {
+    // TODO: Dart 2.0 requires this method to be implemented.
     // Change Object to MapEntry<K2, V2> when
     // the MapEntry class has been added.
     throw new UnimplementedError("map");
@@ -249,13 +247,6 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
     for (var key in keysToRemove) {
       remove(key);
     }
-  }
-
-  @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  LinkedLruHashMap<K2, V2> retype<K2, V2>() {
-    throw new UnimplementedError("retype");
   }
 
   @override

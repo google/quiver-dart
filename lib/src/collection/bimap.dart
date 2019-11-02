@@ -29,6 +29,7 @@ abstract class BiMap<K, V> implements Map<K, V> {
   /// Throws [ArgumentError] if an association involving [value] exists in the
   /// map; otherwise, the association is inserted, overwriting any existing
   /// association for the key.
+  @override
   void operator []=(K key, V value);
 
   /// Replaces any existing associations(s) involving key and value.
@@ -51,25 +52,47 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   HashBiMap() : this._from(new HashMap(), new HashMap());
   HashBiMap._from(this._map, this._inverse);
 
+  @override
   V operator [](Object key) => _map[key];
+
+  @override
   void operator []=(K key, V value) {
     _add(key, value, false);
   }
 
+  @override
   void replace(K key, V value) {
     _add(key, value, true);
   }
 
+  @override
   void addAll(Map<K, V> other) => other.forEach((k, v) => _add(k, v, false));
+
+  @override
   bool containsKey(Object key) => _map.containsKey(key);
+
+  @override
   bool containsValue(Object value) => _inverse.containsKey(value);
+
+  @override
   void forEach(void f(K key, V value)) => _map.forEach(f);
+
+  @override
   bool get isEmpty => _map.isEmpty;
+
+  @override
   bool get isNotEmpty => _map.isNotEmpty;
+
+  @override
   Iterable<K> get keys => _map.keys;
+
+  @override
   int get length => _map.length;
+
+  @override
   Iterable<V> get values => _inverse.keys;
 
+  @override
   BiMap<V, K> get inverse => _cached ??= new HashBiMap._from(_inverse, _map);
 
   @override
@@ -80,9 +103,8 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Map<K2, V2> cast<K2, V2>() {
+    // TODO: Dart 2.0 requires this method to be implemented.
     throw new UnimplementedError("cast");
   }
 
@@ -93,6 +115,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> transform(K key, V value)) =>
       _map.map(transform);
 
+  @override
   V putIfAbsent(K key, V ifAbsent()) {
     var value = _map[key];
     if (value != null) return value;
@@ -100,6 +123,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
     return null;
   }
 
+  @override
   V remove(Object key) {
     _inverse.remove(_map[key]);
     return _map.remove(key);
@@ -109,13 +133,6 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   void removeWhere(bool test(K key, V value)) {
     _inverse.removeWhere((v, k) => test(k, v));
     _map.removeWhere(test);
-  }
-
-  @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  Map<K2, V2> retype<K2, V2>() {
-    throw new UnimplementedError("retype");
   }
 
   @override
@@ -137,6 +154,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
     }
   }
 
+  @override
   void clear() {
     _map.clear();
     _inverse.clear();

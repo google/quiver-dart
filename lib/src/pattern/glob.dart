@@ -33,18 +33,23 @@ class Glob implements Pattern {
       : pattern = pattern,
         regex = _regexpFromGlobPattern(pattern);
 
+  @override
   Iterable<Match> allMatches(String str, [int start = 0]) =>
       regex.allMatches(str, start);
 
+  @override
   Match matchAsPrefix(String string, [int start = 0]) =>
       regex.matchAsPrefix(string, start);
 
   bool hasMatch(String str) => regex.hasMatch(str);
 
+  @override
   String toString() => pattern;
 
+  @override
   int get hashCode => pattern.hashCode;
 
+  @override
   bool operator ==(other) => other is Glob && pattern == other.pattern;
 }
 

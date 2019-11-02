@@ -26,39 +26,42 @@ part of quiver.collection;
 ///     }
 abstract class DelegatingQueue<E> extends DelegatingIterable<E>
     implements Queue<E> {
+  @override
   Queue<E> get delegate;
 
+  @override
   void add(E value) => delegate.add(value);
 
+  @override
   void addAll(Iterable<E> iterable) => delegate.addAll(iterable);
 
+  @override
   void addFirst(E value) => delegate.addFirst(value);
 
+  @override
   void addLast(E value) => delegate.addLast(value);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   DelegatingQueue<T> cast<T>() {
+    // TODO: Dart 2.0 requires this method to be implemented.
     throw new UnimplementedError("cast");
   }
 
+  @override
   void clear() => delegate.clear();
 
+  @override
   bool remove(Object object) => delegate.remove(object);
 
+  @override
   E removeFirst() => delegate.removeFirst();
 
+  @override
   E removeLast() => delegate.removeLast();
 
+  @override
   void removeWhere(bool test(E element)) => delegate.removeWhere(test);
 
-  void retainWhere(bool test(E element)) => delegate.retainWhere(test);
-
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  DelegatingQueue<T> retype<T>() {
-    throw new UnimplementedError("retype");
-  }
+  void retainWhere(bool test(E element)) => delegate.retainWhere(test);
 }

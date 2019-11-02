@@ -16,14 +16,17 @@ import 'package:quiver/iterables.dart';
 import 'package:test/test.dart';
 
 class NaturalNumberIterable extends InfiniteIterable<int> {
+  @override
   final iterator = new NaturalNumberIterator();
 }
 
 class NaturalNumberIterator implements Iterator<int> {
   int _current = -1;
 
+  @override
   int get current => _current;
 
+  @override
   bool moveNext() {
     ++_current;
     return true;

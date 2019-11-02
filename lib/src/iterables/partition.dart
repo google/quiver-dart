@@ -27,6 +27,7 @@ class _Partition<T> extends IterableBase<List<T>> {
     if (_size <= 0) throw new ArgumentError(_size);
   }
 
+  @override
   Iterator<List<T>> get iterator =>
       new _PartitionIterator<T>(_iterable.iterator, _size);
 }
