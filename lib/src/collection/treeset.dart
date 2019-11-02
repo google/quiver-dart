@@ -407,7 +407,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   bool remove(Object item) {
     if (item is! V) return false;
 
-    AvlNode<V> x = _getNode(item as V);
+    AvlNode<V> x = _getNode(item);
     if (x != null) {
       _removeNode(x);
       return true;
@@ -652,7 +652,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
     AvlNode<V> x = _root;
     int compare = 0;
     while (x != null) {
-      compare = comparator(element as V, x.object);
+      compare = comparator(element, x.object);
       if (compare == 0) {
         return x.object;
       } else if (compare < 0) {
@@ -730,7 +730,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
 
   /// See [IterableBase.contains]
   bool contains(Object object) {
-    AvlNode<V> x = _getNode(object as V);
+    AvlNode<V> x = _getNode(object);
     return x != null;
   }
 

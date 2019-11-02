@@ -63,7 +63,7 @@ class _EqualityGroupMatcher extends Matcher {
   @override
   bool matches(item, Map matchState) {
     try {
-      _verifyEqualityGroups(item as Map<String, List>, matchState);
+      _verifyEqualityGroups(item, matchState);
       return true;
     } on MatchError catch (e) {
       matchState[failureReason] = e.toString();

@@ -91,7 +91,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
       var subsize = leftToRead > listCap ? listCap : leftToRead;
       if (chunk is List) {
         ret.setRange(follower, follower + subsize,
-            (chunk as List<T>).getRange(_offset, _offset + subsize));
+            chunk.getRange(_offset, _offset + subsize));
       } else {
         ret[follower] = chunk;
       }
@@ -99,7 +99,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
       _offset += subsize;
       _counter -= subsize;
       leftToRead -= subsize;
-      if (chunk is! List || _offset >= (chunk as List).length) {
+      if (!(chunk is List && _offset < chunk.length)) {
         _offset = 0;
         _chunks.removeAt(0);
       }

@@ -173,7 +173,7 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
       retValues.addAll(values);
       values.clear();
     }
-    return retValues as Iterable<V>;
+    return retValues;
   }
 
   void clear() {
