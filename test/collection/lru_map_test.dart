@@ -205,7 +205,7 @@ void main() {
       lruMap = new LruMap()
         ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
-      var entries = [new MapEntry('D', 'Delta'), new MapEntry('E', 'Echo')];
+      var entries = [const MapEntry('D', 'Delta'), const MapEntry('E', 'Echo')];
       lruMap.addEntries(entries);
       expect(lruMap.keys.toList(), ['E', 'D', 'C', 'B', 'A']);
     });
@@ -214,7 +214,7 @@ void main() {
       lruMap = new LruMap()
         ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
-      var entries = [new MapEntry('B', 'Bravo'), new MapEntry('E', 'Echo')];
+      var entries = [const MapEntry('B', 'Bravo'), const MapEntry('E', 'Echo')];
       lruMap.addEntries(entries);
       expect(lruMap.keys.toList(), ['E', 'B', 'C', 'A']);
     });

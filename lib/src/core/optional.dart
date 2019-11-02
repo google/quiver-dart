@@ -89,7 +89,7 @@ class Optional<T> extends IterableBase<T> {
   /// The transformer must not return [null]. If it does, an [ArgumentError] is thrown.
   Optional<S> transform<S>(S transformer(T value)) {
     return _value == null
-        ? new Optional.absent()
+        ? const Optional.absent()
         : new Optional.of(transformer(_value));
   }
 
@@ -100,7 +100,7 @@ class Optional<T> extends IterableBase<T> {
   /// Returns [absent()] if the transformer returns [null].
   Optional<S> transformNullable<S>(S transformer(T value)) {
     return _value == null
-        ? new Optional.absent()
+        ? const Optional.absent()
         : new Optional.fromNullable(transformer(_value));
   }
 
