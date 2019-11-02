@@ -90,12 +90,12 @@ void main() {
 
       test("works bidirectionally", () {
         var it = tree.iterator;
-        while (it.moveNext());
+        while (it.moveNext()) {}
         expect(it.movePrevious(), isTrue,
             reason: "we can backup after walking the entire list");
         expect(it.current, equals(30),
             reason: "the last element is what we expect");
-        while (it.movePrevious());
+        while (it.movePrevious()) {}
         expect(it.moveNext(), isTrue,
             reason: "we can move next after walking to the front of the set");
         expect(it.current, equals(10),
