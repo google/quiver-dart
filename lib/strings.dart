@@ -77,9 +77,7 @@ String loop(String s, int from, [int to]) {
   }
   int len = s.length;
   int leftFrag = from >= 0 ? from ~/ len : ((from - len) ~/ len);
-  if (to == null) {
-    to = (leftFrag + 1) * len;
-  }
+  to ??= (leftFrag + 1) * len;
   int rightFrag = to - 1 >= 0 ? to ~/ len : ((to - len) ~/ len);
   int fragOffset = rightFrag - leftFrag - 1;
   if (fragOffset == -1) {
@@ -138,7 +136,7 @@ String center(String input, int width, String fill) {
   if (fill == null || fill.length == 0) {
     throw new ArgumentError('fill cannot be null or empty');
   }
-  if (input == null) input = '';
+  input ??= '';
   if (input.length >= width) return input;
 
   var padding = width - input.length;

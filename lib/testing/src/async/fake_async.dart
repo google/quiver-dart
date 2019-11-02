@@ -191,9 +191,7 @@ class _FakeAsync implements FakeAsync {
 
   @override
   dynamic run(callback(FakeAsync self)) {
-    if (_zone == null) {
-      _zone = Zone.current.fork(specification: _zoneSpec);
-    }
+    _zone ??= Zone.current.fork(specification: _zoneSpec);
     var result;
     _zone.runGuarded(() {
       result = callback(this);

@@ -81,7 +81,7 @@ void main() {
 
     group('failure', () {
       void checkStateShouldFail(Function f, [String expectedMessage]) {
-        if (expectedMessage == null) expectedMessage = 'failed precondition';
+        expectedMessage ??= 'failed precondition';
         try {
           f();
           fail('Should have thrown a StateError');
@@ -127,7 +127,7 @@ void main() {
 
     group('failure', () {
       void checkNotNullShouldFail(Function f, [String expectedMessage]) {
-        if (expectedMessage == null) expectedMessage = 'null pointer';
+        expectedMessage ??= 'null pointer';
         try {
           f();
           fail('Should have thrown an ArgumentError');
