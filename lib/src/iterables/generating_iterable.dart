@@ -59,7 +59,7 @@ class _GeneratingIterator<T> implements Iterator<T> {
   T object;
   bool started = false;
 
-  _GeneratingIterator(T this.object, this.next);
+  _GeneratingIterator(this.object, this.next);
 
   @override
   T get current => started ? object : null;

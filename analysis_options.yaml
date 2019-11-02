@@ -140,7 +140,7 @@ linter:
     - test_types_in_equals
     - throw_in_finally
     # - type_annotate_public_apis # subset of always_specify_types
-    # ENABLE - type_init_formals
+    - type_init_formals
     # - unawaited_futures # too many false positives
     # - unnecessary_await_in_return # not yet tested
     - unnecessary_brace_in_string_interps
