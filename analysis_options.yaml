@@ -132,7 +132,7 @@ linter:
     # - provide_deprecation_message # not yet tested
     # - public_member_api_docs # enabled on a case-by-case basis; see e.g. packages/analysis_options.yaml
     - recursive_getters
-    # ENABLE - slash_for_doc_comments
+    - slash_for_doc_comments
     # - sort_child_properties_last # not yet tested
     # ENABLE - sort_constructors_first
     - sort_pub_dependencies
