@@ -25,7 +25,7 @@ void assertCheckedMode() {
   }
 }
 
-bool _isCheckedMode = null;
+bool _isCheckedMode;
 
 bool _checkForCheckedMode() {
   Object sentinal = new Object();
