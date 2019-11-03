@@ -315,6 +315,12 @@ void main() {
         expect(lruMap.putIfAbsent('D', () => 'Delta'), 'Delta');
         expect(lruMap.keys.toList(), ['D', 'C', 'B']);
       });
+
+      test('handles maximumSize 1 correctly', () {
+        lruMap.maximumSize = 1;
+        lruMap.putIfAbsent('B', () => 'Beta');
+        expect(lruMap.keys.toList(), ['B']);
+      });
     });
   });
 
