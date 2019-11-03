@@ -294,7 +294,7 @@ class _ValidTestObject {
     if (!(o is _ValidTestObject)) {
       return false;
     }
-    _ValidTestObject other = o as _ValidTestObject;
+    final _ValidTestObject other = o;
     if (aspect1 != other.aspect1) {
       return false;
     }
@@ -340,7 +340,7 @@ class _InconsistentHashCodeObject {
     if (!(o is _InconsistentHashCodeObject)) {
       return false;
     }
-    _InconsistentHashCodeObject other = o as _InconsistentHashCodeObject;
+    final _InconsistentHashCodeObject other = o;
     if (_aspect1 != other._aspect1) return false;
     if (_aspect2 != other._aspect2) return false;
     return true;
@@ -364,7 +364,7 @@ class _InvalidHashCodeObject {
     if (!(o is _InvalidHashCodeObject)) {
       return false;
     }
-    _InvalidHashCodeObject other = o as _InvalidHashCodeObject;
+    final _InvalidHashCodeObject other = o;
     if (_aspect1 != other._aspect1) return false;
     if (_aspect2 != other._aspect2) return false;
     return true;
