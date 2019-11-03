@@ -344,9 +344,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
       _head.previous = entry;
     }
     entry.previous = null;
-    if (_maximumSize > 1) {
-      entry.next = _head;
-    }
+    entry.next = _head;
     _head = entry;
 
     // Add a tail if this is the first element.
@@ -379,6 +377,11 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
     // Remove the tail element itself.
     _tail = _tail.previous;
     _tail?.next = null;
+
+    // If we removed the last element, clear the head too.
+    if (_tail == null) {
+      _head = null;
+    }
   }
 }
 
