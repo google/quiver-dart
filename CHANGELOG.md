@@ -1,7 +1,9 @@
-#### 2.1.1-dev
+#### 2.1.1 - 2019-11-03
 
    * Deprecate `doWhileAsync`. Existing callers should migrate to
      `Future.doWhile()` from `dart:async`.
+   * Fix: Eliminate a crash in `LruMap.putIfAbsent` when `maximumSize` is 1.
+   * Add return types on any function that didn't include one.
 
 #### 2.1.0 - 2019-10-28
 

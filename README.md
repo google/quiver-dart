@@ -25,10 +25,6 @@ Utilities for working with Futures, Streams and async computations.
 `enumerate` and `concat` represent `Stream` versions of the same-named
 [quiver.iterables][] methods.
 
-`doWhileAsync`, `reduceAsync` and `forEachAsync` perform async computations on
-the elements of on Iterables, waiting for the computation to complete before
-processing the next element.
-
 `StreamBuffer` allows for the orderly reading of elements from a stream, such
 as a socket.
 
