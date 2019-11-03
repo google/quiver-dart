@@ -19,7 +19,7 @@ import 'dart:async';
 import 'package:test/test.dart';
 import 'package:quiver/async.dart';
 
-main() {
+void main() {
   group('StreamRouter', () {
     test('should route an event to the correct stream', () {
       var controller = new StreamController<String>();

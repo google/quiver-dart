@@ -27,7 +27,7 @@ import 'strings_test.dart' as strings;
 import 'testing/all_tests.dart' as testing;
 import 'time/all_tests.dart' as time;
 
-main() {
+void main() {
   async.main();
   cache.main();
   check.main();

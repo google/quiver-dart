@@ -17,7 +17,7 @@ library quiver.iterables.cycle_test;
 import 'package:test/test.dart';
 import 'package:quiver/iterables.dart';
 
-main() {
+void main() {
   group('cycle', () {
     test("should create an empty iterable given an empty iterable", () {
       expect(cycle([]), []);

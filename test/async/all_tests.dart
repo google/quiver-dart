@@ -24,7 +24,7 @@ import 'metronome_test.dart' as metronome;
 import 'stream_buffer_test.dart' as stream_buffer;
 import 'stream_router_test.dart' as stream_router;
 
-main() {
+void main() {
   collect.main();
   concat.main();
   countdown_timer.main();

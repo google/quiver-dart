@@ -17,7 +17,7 @@ library quiver.iterables.property_iterable_test;
 import 'package:test/test.dart';
 import 'package:quiver/iterables.dart';
 
-main() {
+void main() {
   group('GeneratingIterable', () {
     test("should create an empty iterable for a null start object", () {
       var iterable = new GeneratingIterable(() => null, (n) => null);

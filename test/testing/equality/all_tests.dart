@@ -16,6 +16,6 @@ library quiver.testing.util.all_tests;
 
 import 'equality_test.dart' as equality_test;
 
-main() {
+void main() {
   equality_test.main();
 }

@@ -19,7 +19,7 @@ import 'dart:async';
 import 'package:test/test.dart';
 import 'package:quiver/async.dart';
 
-main() {
+void main() {
   group('enumerate', () {
     test('should add indices to its argument', () {
       var controller = new StreamController<String>();

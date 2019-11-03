@@ -20,7 +20,7 @@ import 'dart:math';
 import 'package:test/test.dart';
 import 'package:quiver/async.dart';
 
-main() {
+void main() {
   group('collect', () {
     test('should produce no events for no futures',
         () => collect([]).toList().then((events) => expect(events, isEmpty)));
@@ -53,7 +53,7 @@ main() {
 
       var collected = collect(futures);
 
-      decrementParallel(_) {
+      void decrementParallel(_) {
         eventCount++;
         currentParallel--;
       }

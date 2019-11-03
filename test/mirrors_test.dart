@@ -21,7 +21,7 @@ import 'dart:mirrors';
 import 'package:quiver/mirrors.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('getTypeName', () {
     test('should return the qualified name for a type', () {
       expect(getTypeName(Object), const Symbol('dart.core.Object'));
@@ -92,6 +92,6 @@ main() {
 
 class Foo extends IterableBase implements Comparable {
   String a;
-  get iterator => null;
+  Iterator get iterator => null;
   int compareTo(o) => 0;
 }

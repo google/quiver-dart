@@ -57,13 +57,13 @@ class CountdownTimer extends Stream<CountdownTimer> {
 
   bool get isRunning => _stopwatch.isRunning;
 
-  cancel() {
+  void cancel() {
     _stopwatch.stop();
     _timer.cancel();
     _controller.close();
   }
 
-  _tick(Timer timer) {
+  void _tick(Timer timer) {
     var t = remaining;
     _controller.add(this);
     // timers may have a 4ms resolution

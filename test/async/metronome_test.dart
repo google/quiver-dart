@@ -19,7 +19,7 @@ import 'package:quiver/async.dart';
 import 'package:quiver/time.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group("Metronome", () {
     test("delivers events as expected", () {
       new FakeAsync().run((async) {

@@ -17,7 +17,7 @@ library quiver.iterables.partition_test;
 import 'package:test/test.dart';
 import 'package:quiver/iterables.dart';
 
-main() {
+void main() {
   group('partition', () {
     test('should throw when size is <= 0', () {
       expect(() => partition([1, 2, 3], 0), throwsArgumentError);

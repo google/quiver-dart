@@ -26,7 +26,7 @@ import 'generating_iterable_test.dart' as generating_iterable;
 import 'range_test.dart' as range;
 import 'zip_test.dart' as zip;
 
-main() {
+void main() {
   concat.main();
   count.main();
   cycle.main();

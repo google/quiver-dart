@@ -25,7 +25,7 @@ import 'delegates/map_test.dart' as map;
 import 'delegates/queue_test.dart' as queue;
 import 'delegates/set_test.dart' as setTest;
 
-main() {
+void main() {
   bimap.main();
   collection.main();
   lru_map.main();

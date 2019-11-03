@@ -16,6 +16,6 @@ library quiver.time.all_tests;
 
 import 'clock_test.dart' as clock;
 
-main() {
+void main() {
   clock.main();
 }

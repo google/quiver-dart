@@ -17,7 +17,7 @@ library quiver.strings;
 import 'package:quiver/strings.dart';
 import 'package:test/test.dart' hide isEmpty, isNotEmpty;
 
-main() {
+void main() {
   group('isBlank', () {
     test('should consider null a blank', () {
       expect(isBlank(null), isTrue);

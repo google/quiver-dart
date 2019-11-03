@@ -17,7 +17,7 @@ library quiver.patttern.glob_test;
 import 'package:test/test.dart';
 import 'package:quiver/pattern.dart';
 
-main() {
+void main() {
   group('Glob', () {
     test('should match "*" against sequences of word chars', () {
       expectGlob("*.html", matches: [
@@ -53,7 +53,8 @@ main() {
   });
 }
 
-expectGlob(String pattern, {List<String> matches, List<String> nonMatches}) {
+void expectGlob(String pattern,
+    {List<String> matches, List<String> nonMatches}) {
   var glob = new Glob(pattern);
   for (var str in matches) {
     expect(glob.hasMatch(str), true);

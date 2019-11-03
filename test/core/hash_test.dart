@@ -17,7 +17,7 @@ library quiver.core.hash_test;
 import 'package:quiver/core.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   test('hashObjects should return an int', () {
     int h = hashObjects(['123', 456]);
     expect(h, isA<int>());

@@ -17,7 +17,7 @@ library quiver.collection.treeset_test;
 import 'package:quiver/collection.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group("TreeSet", () {
     group("when empty", () {
       TreeSet<num> tree;

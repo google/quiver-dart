@@ -19,7 +19,7 @@ import 'package:quiver/pattern.dart';
 
 final _specialChars = r'\^$.|+[](){}';
 
-main() {
+void main() {
   group('escapeRegex', () {
     test('should escape special characters', () {
       for (var c in _specialChars.split('')) {
@@ -73,7 +73,7 @@ main() {
   });
 }
 
-expectMatch(Pattern pattern, String str, int start, List<String> matches) {
+void expectMatch(Pattern pattern, String str, int start, List<String> matches) {
   var actual = pattern.allMatches(str, start).map((m) => m.group(0)).toList();
   expect(actual, matches);
 }

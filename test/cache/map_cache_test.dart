@@ -18,7 +18,7 @@ import 'dart:async';
 import 'package:test/test.dart';
 import 'package:quiver/cache.dart';
 
-main() {
+void main() {
   group('MapCache', () {
     MapCache<String, String> cache;
 

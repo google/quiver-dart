@@ -90,13 +90,13 @@ class Metronome extends Stream<DateTime> {
       _controller.stream.listen(onData,
           onError: onError, onDone: onDone, cancelOnError: cancelOnError);
 
-  _startTimer(DateTime now) {
+  void _startTimer(DateTime now) {
     var delay =
         _intervalMs - ((now.millisecondsSinceEpoch - _anchorMs) % _intervalMs);
     _timer = new Timer(new Duration(milliseconds: delay), _tickDate);
   }
 
-  _tickDate() {
+  void _tickDate() {
     // Hey now, what's all this hinky clock.now() calls? Simple, if the workers
     // on the receiving end of _controller.add() take a non-zero amount of time
     // to do their thing (e.g. rendering a large scene with canvas), the next

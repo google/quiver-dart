@@ -17,7 +17,7 @@ library quiver.collection.bimap_test;
 import 'package:quiver/collection.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('BiMap', () {
     test('should construct a HashBiMap', () {
       expect(new BiMap() is HashBiMap, true);

@@ -350,7 +350,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
 
   _WrappedIterable(this._map, this._key, this._delegate);
 
-  _addToMap() => _map[_key] = _delegate;
+  void _addToMap() => _map[_key] = _delegate;
 
   /// Ensures we hold an up-to-date delegate. In the case where all mappings
   /// for _key are removed from the multimap, the Iterable referenced by
@@ -358,7 +358,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   /// addition via the multimap triggers the creation of a new Iterable, and
   /// the empty delegate we hold would be stale. As such, we check the
   /// underlying map and update our delegate when the one we hold is empty.
-  _syncDelegate() {
+  void _syncDelegate() {
     if (_delegate.isEmpty) {
       var updated = _map[_key];
       if (updated != null) {

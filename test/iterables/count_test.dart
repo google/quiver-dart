@@ -17,7 +17,7 @@ library quiver.iterables.count_test;
 import 'package:test/test.dart';
 import 'package:quiver/iterables.dart';
 
-main() {
+void main() {
   group('count', () {
     test("should create an infinite sequence starting at 0 given no args", () {
       expect(count().first, 0);

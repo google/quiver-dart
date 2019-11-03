@@ -17,7 +17,7 @@ library quiver.iterables.range_test;
 import 'package:test/test.dart';
 import 'package:quiver/iterables.dart';
 
-main() {
+void main() {
   group('range', () {
     test("should create an empty iterator if stop is 0", () {
       expect(range(0), []);

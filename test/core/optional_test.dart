@@ -17,7 +17,7 @@ library quiver.core.optional_test;
 import 'package:quiver/core.dart';
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('Optional', () {
     test('absent should be not present and not gettable', () {
       Optional absent = new Optional<int>.absent();
