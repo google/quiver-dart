@@ -22,6 +22,7 @@ class MyMap extends DelegatingMap<String, int> {
 
   MyMap(this._delegate);
 
+  @override
   Map<String, int> get delegate => _delegate;
 }
 

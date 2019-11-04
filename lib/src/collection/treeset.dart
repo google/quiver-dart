@@ -19,6 +19,7 @@ part of quiver.collection;
 abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   final Comparator<V> comparator;
 
+  @override
   int get length;
 
   /// Create a new [TreeSet] with an ordering defined by [comparator] or the
@@ -31,6 +32,7 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   TreeSet._(this.comparator);
 
   /// Returns an [BidirectionalIterator] that iterates over this tree.
+  @override
   BidirectionalIterator<V> get iterator;
 
   /// Returns an [BidirectionalIterator] that iterates over this tree, in
@@ -52,12 +54,7 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   V nearest(V object, {TreeSearch nearestOption = TreeSearch.NEAREST});
 
   @override
-  // ignore: override_on_non_overriding_method
   Set<T> cast<T>();
-
-  @override
-  // ignore: override_on_non_overriding_method
-  Set<T> retype<T>();
 
   // TODO: toString or not toString, that is the question.
 }
@@ -142,11 +139,13 @@ class AvlTreeSet<V> extends TreeSet<V> {
   // Modification count to the tree, monotonically increasing
   int _modCount = 0;
 
+  @override
   int get length => _length;
 
   AvlTreeSet({Comparator<V> comparator}) : super._(comparator);
 
   /// Add the element to the tree.
+  @override
   bool add(V element) {
     if (_root == null) {
       AvlNode<V> node = new AvlNode<V>(object: element);
@@ -376,6 +375,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
     _rotateRight(node);
   }
 
+  @override
   bool addAll(Iterable<V> items) {
     bool modified = false;
     for (V ele in items) {
@@ -385,18 +385,19 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   AvlTreeSet<T> cast<T>() {
+    // TODO: Dart 2.0 requires this method to be implemented.
     throw new UnimplementedError("cast");
   }
 
+  @override
   void clear() {
     _length = 0;
     _root = null;
     ++_modCount;
   }
 
+  @override
   bool containsAll(Iterable<Object> items) {
     for (var ele in items) {
       if (!contains(ele)) return false;
@@ -404,6 +405,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
     return true;
   }
 
+  @override
   bool remove(Object item) {
     if (item is! V) return false;
 
@@ -584,6 +586,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   /// See [Set.removeAll]
+  @override
   void removeAll(Iterable items) {
     for (var ele in items) {
       remove(ele);
@@ -591,6 +594,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   /// See [Set.retainAll]
+  @override
   void retainAll(Iterable<Object> elements) {
     List<V> chosen = <V>[];
     for (var target in elements) {
@@ -603,6 +607,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   /// See [Set.retainWhere]
+  @override
   void retainWhere(bool test(V element)) {
     List<V> chosen = [];
     for (var target in this) {
@@ -614,14 +619,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
     addAll(chosen);
   }
 
-  @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  Set<T> retype<T>() {
-    throw new UnimplementedError("retype");
-  }
-
   /// See [Set.removeWhere]
+  @override
   void removeWhere(bool test(V element)) {
     List<V> damned = [];
     for (var target in this) {
@@ -633,6 +632,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   /// See [IterableBase.first]
+  @override
   V get first {
     if (_root == null) return null;
     AvlNode<V> min = _root.minimumNode;
@@ -640,6 +640,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   /// See [IterableBase.last]
+  @override
   V get last {
     if (_root == null) return null;
     AvlNode<V> max = _root.maximumNode;
@@ -647,6 +648,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   /// See [Set.lookup]
+  @override
   V lookup(Object element) {
     if (element is! V || _root == null) return null;
     AvlNode<V> x = _root;
@@ -664,6 +666,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
     return null;
   }
 
+  @override
   V nearest(V object, {TreeSearch nearestOption = TreeSearch.NEAREST}) {
     AvlNode<V> found = _searchNearest(object, option: nearestOption);
     return (found != null) ? found.object : null;
@@ -716,19 +719,23 @@ class AvlTreeSet<V> extends TreeSet<V> {
   //
 
   /// See [IterableBase.iterator]
+  @override
   BidirectionalIterator<V> get iterator => new _AvlTreeIterator._(this);
 
   /// See [TreeSet.reverseIterator]
+  @override
   BidirectionalIterator<V> get reverseIterator =>
       new _AvlTreeIterator._(this, reversed: true);
 
   /// See [TreeSet.fromIterator]
+  @override
   BidirectionalIterator<V> fromIterator(V anchor,
           {bool reversed: false, bool inclusive: true}) =>
       new _AvlTreeIterator<V>._(this,
           anchorObject: anchor, reversed: reversed, inclusive: inclusive);
 
   /// See [IterableBase.contains]
+  @override
   bool contains(Object object) {
     AvlNode<V> x = _getNode(object);
     return x != null;
@@ -739,6 +746,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   //
 
   /// See [Set.intersection]
+  @override
   Set<V> intersection(Set<Object> other) {
     TreeSet<V> set = new TreeSet(comparator: comparator);
 
@@ -773,6 +781,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   /// See [Set.union]
+  @override
   Set<V> union(Set<V> other) {
     TreeSet<V> set = new TreeSet(comparator: comparator);
 
@@ -809,6 +818,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   /// See [Set.difference]
+  @override
   Set<V> difference(Set<Object> other) {
     TreeSet<V> set = new TreeSet(comparator: comparator);
 
@@ -919,9 +929,13 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
     };
   }
 
+  @override
   V get current => (state != WALK || _current == null) ? null : _current.object;
 
+  @override
   bool moveNext() => _moveNext();
+
+  @override
   bool movePrevious() => _movePrevious();
 
   bool _moveNextNormal() {
@@ -973,13 +987,20 @@ class AvlNode<V> extends _TreeNode<V> {
   AvlNode<V> _parent;
   int _balanceFactor = 0;
 
+  @override
   AvlNode<V> get left => _left;
+
+  @override
   AvlNode<V> get right => _right;
+
+  @override
   AvlNode<V> get parent => _parent;
+
   int get balance => _balanceFactor;
 
   AvlNode({V object}) : super(object: object);
 
+  @override
   String toString() =>
       "(b:$balance o: $object l:${left != null} r:${right != null})";
 }

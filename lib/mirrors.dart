@@ -66,6 +66,7 @@ class Method /* implements Function */ {
 
   Method(this.mirror, this.symbol);
 
+  @override
   dynamic noSuchMethod(Invocation i) {
     if (i.isMethod && i.memberName == const Symbol('call')) {
       if (i.namedArguments != null && i.namedArguments.isNotEmpty) {

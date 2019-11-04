@@ -24,6 +24,7 @@ class MySet extends DelegatingSet<String> {
 
   MySet(this._delegate);
 
+  @override
   Set<String> get delegate => _delegate;
 }
 

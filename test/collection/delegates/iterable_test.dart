@@ -22,6 +22,7 @@ class MyIterable extends DelegatingIterable<String> {
 
   MyIterable(this._delegate);
 
+  @override
   Iterable<String> get delegate => _delegate;
 }
 

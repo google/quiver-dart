@@ -24,6 +24,7 @@ class MyQueue extends DelegatingQueue<String> {
 
   MyQueue(this._delegate);
 
+  @override
   Queue<String> get delegate => _delegate;
 }
 

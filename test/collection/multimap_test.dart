@@ -1020,10 +1020,13 @@ class Pair {
   final x;
   final y;
   Pair(this.x, this.y);
+
+  @override
   bool operator ==(other) {
     if (x != other.x) return false;
     return equals(y).matches(other.y, {});
   }
 
+  @override
   String toString() => "($x, $y)";
 }

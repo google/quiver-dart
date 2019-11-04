@@ -92,6 +92,10 @@ void main() {
 
 class Foo extends IterableBase implements Comparable {
   String a;
+
+  @override
   Iterator get iterator => null;
+
+  @override
   int compareTo(o) => 0;
 }

@@ -47,6 +47,7 @@ class CountdownTimer extends Stream<CountdownTimer> {
     _stopwatch.start();
   }
 
+  @override
   StreamSubscription<CountdownTimer> listen(void onData(CountdownTimer event),
           {Function onError, void onDone(), bool cancelOnError}) =>
       _controller.stream.listen(onData, onError: onError, onDone: onDone);

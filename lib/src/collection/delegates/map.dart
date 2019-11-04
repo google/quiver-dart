@@ -27,95 +27,95 @@ part of quiver.collection;
 abstract class DelegatingMap<K, V> implements Map<K, V> {
   Map<K, V> get delegate;
 
+  @override
   V operator [](Object key) => delegate[key];
 
+  @override
   void operator []=(K key, V value) {
     delegate[key] = value;
   }
 
+  @override
   void addAll(Map<K, V> other) => delegate.addAll(other);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   void addEntries(Iterable<Object> entries) {
+    // TODO: Dart 2.0 requires this method to be implemented.
     // Change Iterable<Object> to Iterable<MapEntry<K, V>> when
     // the MapEntry class has been added.
     throw new UnimplementedError("addEntries");
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Map<K2, V2> cast<K2, V2>() {
+    // TODO: Dart 2.0 requires this method to be implemented.
     throw new UnimplementedError("cast");
   }
 
+  @override
   void clear() => delegate.clear();
 
+  @override
   bool containsKey(Object key) => delegate.containsKey(key);
 
+  @override
   bool containsValue(Object value) => delegate.containsValue(value);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_getter
   Iterable<Null> get entries {
+    // TODO: Dart 2.0 requires this method to be implemented.
     // Change Iterable<Null> to Iterable<MapEntry<K, V>> when
     // the MapEntry class has been added.
     throw new UnimplementedError("entries");
   }
 
+  @override
   void forEach(void f(K key, V value)) => delegate.forEach(f);
 
+  @override
   bool get isEmpty => delegate.isEmpty;
 
+  @override
   bool get isNotEmpty => delegate.isNotEmpty;
 
+  @override
   Iterable<K> get keys => delegate.keys;
 
+  @override
   int get length => delegate.length;
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   Map<K2, V2> map<K2, V2>(Object transform(K key, V value)) {
+    // TODO: Dart 2.0 requires this method to be implemented.
     // Change Object to MapEntry<K2, V2> when
     // the MapEntry class has been added.
     throw new UnimplementedError("map");
   }
 
+  @override
   V putIfAbsent(K key, V ifAbsent()) => delegate.putIfAbsent(key, ifAbsent);
 
+  @override
   V remove(Object key) => delegate.remove(key);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   void removeWhere(bool test(K key, V value)) {
+    // TODO: Dart 2.0 requires this method to be implemented.
     throw new UnimplementedError("removeWhere");
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
-  Map<K2, V2> retype<K2, V2>() {
-    throw new UnimplementedError("retype");
-  }
-
-  @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   V update(K key, V update(V value), {V ifAbsent()}) {
+    // TODO: Dart 2.0 requires this method to be implemented.
     throw new UnimplementedError("update");
   }
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_method
   void updateAll(V update(K key, V value)) {
+    // TODO: Dart 2.0 requires this method to be implemented.
     throw new UnimplementedError("updateAll");
   }
 
+  @override
   Iterable<V> get values => delegate.values;
 }

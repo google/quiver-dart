@@ -23,7 +23,7 @@ linter:
     - always_put_required_named_parameters_first
     # ENABLE - always_require_non_null_named_parameters
     # ENABLE - always_specify_types
-    # ENABLE - annotate_overrides
+    - annotate_overrides
     # - avoid_annotating_with_dynamic # conflicts with always_specify_types
     - avoid_as
     # ENABLE - avoid_bool_literals_in_conditional_expressions

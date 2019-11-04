@@ -22,6 +22,7 @@ class UnderflowError extends Error {
   /// The [message] describes the underflow.
   UnderflowError([this.message]);
 
+  @override
   String toString() {
     if (message != null) {
       return "StreamBuffer Underflow: $message";
@@ -168,6 +169,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
     _readers.clear();
   }
 
+  @override
   Future close() {
     var ret;
     if (_sub != null) {

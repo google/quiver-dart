@@ -23,10 +23,13 @@ class _Cycle<T> extends InfiniteIterable<T> {
 
   _Cycle(this._iterable);
 
+  @override
   Iterator<T> get iterator => new _CycleIterator(_iterable);
 
+  @override
   bool get isEmpty => _iterable.isEmpty;
 
+  @override
   bool get isNotEmpty => _iterable.isNotEmpty;
 
   // TODO(justin): add methods that can be answered by the wrapped iterable
@@ -40,8 +43,10 @@ class _CycleIterator<T> implements Iterator<T> {
       : _iterable = _iterable,
         _iterator = _iterable.iterator;
 
+  @override
   T get current => _iterator.current;
 
+  @override
   bool moveNext() {
     if (!_iterator.moveNext()) {
       _iterator = _iterable.iterator;

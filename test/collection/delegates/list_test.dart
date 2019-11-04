@@ -22,6 +22,7 @@ class MyList extends DelegatingList<String> {
 
   MyList(this._delegate);
 
+  @override
   List<String> get delegate => _delegate;
 }
 

@@ -30,6 +30,7 @@ class MapCache<K, V> implements Cache<K, V> {
     return new MapCache<K, V>(map: new LruMap(maximumSize: maximumSize));
   }
 
+  @override
   Future<V> get(K key, {Loader<K, V> ifAbsent}) async {
     if (_map.containsKey(key)) {
       return _map[key];
@@ -55,10 +56,12 @@ class MapCache<K, V> implements Cache<K, V> {
     return null;
   }
 
+  @override
   Future<Null> set(K key, V value) async {
     _map[key] = value;
   }
 
+  @override
   Future<Null> invalidate(K key) async {
     _map.remove(key);
   }

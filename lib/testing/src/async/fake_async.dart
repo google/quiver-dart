@@ -295,14 +295,15 @@ class _FakeTimer implements Timer {
     _nextCall = _time._elapsed + _duration;
   }
 
+  @override
   bool get isActive => _time._hasTimer(this);
 
+  @override
   void cancel() => _time._cancelTimer(this);
 
   @override
-  // TODO: Dart 2.0 requires this method to be implemented.
-  // ignore: override_on_non_overriding_getter
   int get tick {
+    // TODO: Dart 2.0 requires this method to be implemented.
     throw new UnimplementedError("tick");
   }
 
