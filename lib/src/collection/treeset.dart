@@ -379,7 +379,9 @@ class AvlTreeSet<V> extends TreeSet<V> {
   bool addAll(Iterable<V> items) {
     bool modified = false;
     for (V ele in items) {
-      modified = add(ele) ? true : modified;
+      if (add(ele)) {
+        modified = true;
+      }
     }
     return modified;
   }
