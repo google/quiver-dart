@@ -26,8 +26,8 @@ class IndexedValue<V> {
   IndexedValue(this.index, this.value);
 
   @override
-  bool operator ==(o) =>
-      o is IndexedValue && o.index == index && o.value == value;
+  bool operator ==(other) =>
+      other is IndexedValue && other.index == index && other.value == value;
 
   @override
   int get hashCode => index * 31 + value.hashCode;

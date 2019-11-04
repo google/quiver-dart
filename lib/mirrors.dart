@@ -67,16 +67,18 @@ class Method /* implements Function */ {
   Method(this.mirror, this.symbol);
 
   @override
-  dynamic noSuchMethod(Invocation i) {
-    if (i.isMethod && i.memberName == const Symbol('call')) {
-      if (i.namedArguments != null && i.namedArguments.isNotEmpty) {
+  dynamic noSuchMethod(Invocation invocation) {
+    if (invocation.isMethod && invocation.memberName == const Symbol('call')) {
+      if (invocation.namedArguments != null &&
+          invocation.namedArguments.isNotEmpty) {
         // this will fail until named argument support is implemented
         return mirror
-            .invoke(symbol, i.positionalArguments, i.namedArguments)
+            .invoke(symbol, invocation.positionalArguments,
+                invocation.namedArguments)
             .reflectee;
       }
-      return mirror.invoke(symbol, i.positionalArguments).reflectee;
+      return mirror.invoke(symbol, invocation.positionalArguments).reflectee;
     }
-    return super.noSuchMethod(i);
+    return super.noSuchMethod(invocation);
   }
 }
