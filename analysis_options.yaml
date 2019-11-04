@@ -68,7 +68,7 @@ linter:
     - directives_ordering
     - empty_catches
     - empty_constructor_bodies
-    # ENABLE - empty_statements
+    - empty_statements
     # - file_names # not yet tested
     # ENABLE - flutter_style_todos
     # ENABLE - hash_and_equals
