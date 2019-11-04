@@ -647,7 +647,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  void set first(V value) {
+  set first(V value) {
     if (this.isEmpty) throw new RangeError.index(0, this);
     this[0] = value;
   }
@@ -687,7 +687,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  void set last(V value) {
+  set last(V value) {
     if (this.isEmpty) throw new RangeError.index(0, this);
     this[this.length - 1] = value;
   }
@@ -705,7 +705,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  void set length(int newLength) {
+  set length(int newLength) {
     _syncDelegate();
     var wasEmpty = _delegate.isEmpty;
     _delegate.length = newLength;

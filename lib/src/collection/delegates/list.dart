@@ -63,7 +63,7 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
       delegate.fillRange(start, end, fillValue);
 
   @override
-  void set first(E element) {
+  set first(E element) {
     if (this.isEmpty) throw new RangeError.index(0, this);
     this[0] = element;
   }
@@ -86,7 +86,7 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
       delegate.insertAll(index, iterable);
 
   @override
-  void set last(E element) {
+  set last(E element) {
     if (this.isEmpty) throw new RangeError.index(0, this);
     this[this.length - 1] = element;
   }
@@ -100,7 +100,7 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
       delegate.lastIndexWhere(test, start);
 
   @override
-  void set length(int newLength) {
+  set length(int newLength) {
     delegate.length = newLength;
   }
 
