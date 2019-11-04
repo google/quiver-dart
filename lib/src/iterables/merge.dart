@@ -71,7 +71,7 @@ class _MergeIterator<T> implements Iterator<T> {
   @override
   bool moveNext() {
     // Pick the peeker that's peeking at the puniest piece
-    _IteratorPeeker<T> minIter = null;
+    _IteratorPeeker<T> minIter;
     for (var p in _peekers) {
       if (p._hasCurrent) {
         if (minIter == null || _compare(p.current, minIter.current) < 0) {

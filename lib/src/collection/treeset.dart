@@ -887,7 +887,7 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
   _TreeNode<V> _current;
 
   _AvlTreeIterator._(AvlTreeSet<V> tree,
-      {reversed: false, this.inclusive: true, this.anchorObject: null})
+      {reversed: false, this.inclusive: true, this.anchorObject})
       : this.tree = tree,
         this._modCountGuard = tree._modCount,
         this.reversed = reversed {
