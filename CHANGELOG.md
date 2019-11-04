@@ -1,3 +1,5 @@
+# CHANGELOG
+
 #### 2.1.1 - 2019-11-03
 
    * Deprecate `doWhileAsync`. Existing callers should migrate to
