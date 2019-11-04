@@ -117,8 +117,9 @@ void main() {
 
       expect(lruMap.keys.toList(), ['C', 'B', 'A']);
 
-      lruMap.keys.forEach((_) {});
-      lruMap.keys.forEach((_) {});
+      void nop(String key) {}
+      lruMap.keys.forEach(nop);
+      lruMap.keys.forEach(nop);
 
       expect(lruMap.keys.toList(), ['C', 'B', 'A']);
     });
@@ -129,8 +130,9 @@ void main() {
 
       expect(lruMap.values.toList(), ['Charlie', 'Beta', 'Alpha']);
 
-      lruMap.values.forEach((_) {});
-      lruMap.values.forEach((_) {});
+      void nop(String key) {}
+      lruMap.values.forEach(nop);
+      lruMap.values.forEach(nop);
 
       expect(lruMap.values.toList(), ['Charlie', 'Beta', 'Alpha']);
     });

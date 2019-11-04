@@ -197,7 +197,9 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
   @override
   void forEach(void f(K key, V value)) {
     _map.forEach((K key, Iterable<V> values) {
-      values.forEach((V value) => f(key, value));
+      for (final V value in values) {
+        f(key, value);
+      }
     });
   }
 

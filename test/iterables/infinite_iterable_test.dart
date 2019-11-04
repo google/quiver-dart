@@ -62,7 +62,8 @@ void main() {
     });
 
     test('every should throw UnsupportedError', () {
-      expect(() => it.every((_) => true), throwsUnsupportedError);
+      bool yes(int x) => true;
+      expect(() => it.every(yes), throwsUnsupportedError);
     });
 
     test('fold should throw UnsupportedError', () {
@@ -70,7 +71,8 @@ void main() {
     });
 
     test('forEach should throw UnsupportedError', () {
-      expect(() => it.forEach((_) {}), throwsUnsupportedError);
+      void nop(int x) {}
+      expect(() => it.forEach(nop), throwsUnsupportedError);
     });
 
     test('join should throw UnsupportedError', () {

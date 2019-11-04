@@ -61,8 +61,9 @@ void main() {
     test("should throw on null elements", () {
       var a = ['a', null, 'c'];
       var b = ['a', 'b', 'c'];
-      expect(() => merge([a, b]).forEach((e) {}), throwsNoSuchMethodError);
-      expect(() => merge([b, a]).forEach((e) {}), throwsNoSuchMethodError);
+      void nop(String s) {}
+      expect(() => merge([a, b]).forEach(nop), throwsNoSuchMethodError);
+      expect(() => merge([b, a]).forEach(nop), throwsNoSuchMethodError);
     }, tags: ['fails-on-dartdevc', 'fails-on-dart2js']);
 
     test("should handle zig-zag case", () {
