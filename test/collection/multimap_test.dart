@@ -555,7 +555,7 @@ void main() {
     });
 
     test('should support iteration over all {key, Iterable<value>} pairs', () {
-      Map map = new Map();
+      Map map = {};
       var mmap = new ListMultimap<String, String>()
         ..add('k1', 'v1')
         ..add('k1', 'v2')
@@ -991,7 +991,7 @@ void main() {
     });
 
     test('should support iteration over all {key, Iterable<value>} pairs', () {
-      Map map = new Map();
+      Map map = {};
       var mmap = new SetMultimap<String, String>()
         ..add('k1', 'v1')
         ..add('k1', 'v2')
