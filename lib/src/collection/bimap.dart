@@ -141,8 +141,9 @@ class HashBiMap<K, V> implements BiMap<K, V> {
     if (value != null) {
       return _add(key, update(value), true);
     } else {
-      if (ifAbsent == null)
+      if (ifAbsent == null) {
         throw ArgumentError.value(key, 'key', 'Key not in map');
+      }
       return _add(key, ifAbsent(), false);
     }
   }
