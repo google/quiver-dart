@@ -279,8 +279,8 @@ class _FakeTimer implements Timer {
   final StackTrace _creationStackTrace;
   Duration _nextCall;
 
-  // TODO: In browser JavaScript, timers can only run every 4 milliseconds once
-  // sufficiently nested:
+  // TODO(yjbanov): In browser JavaScript, timers can only run every 4
+  // milliseconds once sufficiently nested:
   //     http://www.w3.org/TR/html5/webappapis.html#timer-nesting-level
   // Without some sort of delay this can lead to infinitely looping timers.
   // What do the dart VM and dart2js timers do here?
@@ -300,7 +300,7 @@ class _FakeTimer implements Timer {
 
   @override
   int get tick {
-    // TODO: Dart 2.0 requires this method to be implemented.
+    // TODO(yjbanov): Dart 2.0 requires this method to be implemented.
     throw UnimplementedError('tick');
   }
 
