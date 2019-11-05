@@ -17,7 +17,7 @@ library quiver.pattern_test;
 import 'package:test/test.dart';
 import 'package:quiver/pattern.dart';
 
-final _specialChars = r'\^$.|+[](){}';
+const _specialChars = r'\^$.|+[](){}';
 
 void main() {
   group('escapeRegex', () {
