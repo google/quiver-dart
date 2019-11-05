@@ -36,7 +36,8 @@ void main() {
 
       expect(lruMap.keys.toList(), ['C', 'B', 'A']);
 
-      lruMap['B'];
+      // Trigger promotion of B.
+      final _ = lruMap['B'];
 
       // In a LRU cache, the first key is the one that will be removed if the
       // capacity is reached, so adding keys to the end is considered to be a
@@ -280,7 +281,9 @@ void main() {
 
       test('linkage correctly preserved on remove', () {
         lruMap.remove('B');
-        lruMap['A'];
+
+        // Order is now [C, A]. Trigger promotion of A to check linkage.
+        final _ = lruMap['A'];
 
         final keys = <String>[];
         lruMap.forEach((String k, String v) => keys.add(k));
@@ -291,9 +294,13 @@ void main() {
     test('the linked list is mutated when promoting an item in the middle', () {
       LruMap<String, int> lruMap = new LruMap(maximumSize: 3)
         ..addAll({'C': 1, 'A': 1, 'B': 1});
+      // Order is now [B, A, C]. Trigger promotion of A.
       lruMap['A'] = 1;
-      lruMap['C'];
+
+      // Order is now [A, B, C]. Trigger promotion of C to check linkage.
+      final _ = lruMap['C'];
       expect(lruMap.length, lruMap.keys.length);
+      expect(lruMap.keys.toList(), ['C', 'A', 'B']);
     });
 
     group('`putIfAbsent`', () {
