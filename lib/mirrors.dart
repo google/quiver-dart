@@ -27,7 +27,6 @@ bool implements(Object o, Type type) =>
 /// represented by [interfaceMirror].
 bool classImplements(ClassMirror classMirror, ClassMirror interfaceMirror) {
   if (classMirror == null) return false;
-  // TODO: change to comparing mirrors when dartbug.com/19781 is fixed
   if (classMirror.qualifiedName == interfaceMirror.qualifiedName) return true;
   if (classImplements(classMirror.superclass, interfaceMirror)) return true;
   if (classMirror.superinterfaces
