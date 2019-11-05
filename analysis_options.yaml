@@ -154,7 +154,7 @@ linter:
     - unnecessary_parenthesis
     # ENABLE - unnecessary_statements
     # ENABLE - unnecessary_this
-    # ENABLE - unrelated_type_equality_checks
+    - unrelated_type_equality_checks
     # - unsafe_html # not yet tested
     - use_full_hex_values_for_flutter_colors
     # - use_function_type_syntax_for_parameters # not yet tested
