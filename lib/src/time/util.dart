@@ -16,7 +16,7 @@ part of quiver.time;
 
 /// Days in a month. This array uses 1-based month numbers, i.e. January is
 /// the 1-st element in the array, not the 0-th.
-const _daysInMonth = const [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const _daysInMonth = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 /// Returns the number of days in the specified month.
 ///

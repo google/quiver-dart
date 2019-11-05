@@ -48,7 +48,7 @@ part of quiver.testing.equality;
 ///      where both equality groups and the items within equality groups are
 ///      numbered starting from 1.  When either a constructor argument or an
 ///      equal object is provided, that becomes group 1.
-const Matcher areEqualityGroups = const _EqualityGroupMatcher();
+const Matcher areEqualityGroups = _EqualityGroupMatcher();
 
 const _repetitions = 3;
 
@@ -188,7 +188,7 @@ class _EqualityGroupMatcher extends Matcher {
 }
 
 class _NotAnInstance {
-  static const equalToNothing = const _NotAnInstance._();
+  static const equalToNothing = _NotAnInstance._();
   const _NotAnInstance._();
 }
 

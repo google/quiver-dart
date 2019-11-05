@@ -14,10 +14,10 @@
 
 part of quiver.time;
 
-const Duration aMicrosecond = const Duration(microseconds: 1);
-const Duration aMillisecond = const Duration(milliseconds: 1);
-const Duration aSecond = const Duration(seconds: 1);
-const Duration aMinute = const Duration(minutes: 1);
-const Duration anHour = const Duration(hours: 1);
-const Duration aDay = const Duration(days: 1);
-const Duration aWeek = const Duration(days: 7);
+const Duration aMicrosecond = Duration(microseconds: 1);
+const Duration aMillisecond = Duration(milliseconds: 1);
+const Duration aSecond = Duration(seconds: 1);
+const Duration aMinute = Duration(minutes: 1);
+const Duration anHour = Duration(hours: 1);
+const Duration aDay = Duration(days: 1);
+const Duration aWeek = Duration(days: 7);
