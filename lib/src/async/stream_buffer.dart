@@ -76,8 +76,8 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
   /// the buffer will hold before pausing the underlying stream. A limit of 0
   /// means no buffer limits.
   StreamBuffer({bool throwOnError = false, int limit = 0})
-      : this._throwOnError = throwOnError,
-        this._limit = limit;
+      : _throwOnError = throwOnError,
+        _limit = limit;
 
   /// The amount of unread data buffered.
   int get buffered => _counter;

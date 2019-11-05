@@ -642,7 +642,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
 
   @override
   set first(V value) {
-    if (this.isEmpty) throw RangeError.index(0, this);
+    if (isEmpty) throw RangeError.index(0, this);
     this[0] = value;
   }
 
@@ -682,8 +682,8 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
 
   @override
   set last(V value) {
-    if (this.isEmpty) throw RangeError.index(0, this);
-    this[this.length - 1] = value;
+    if (isEmpty) throw RangeError.index(0, this);
+    this[length - 1] = value;
   }
 
   @override

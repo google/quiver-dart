@@ -28,14 +28,14 @@ class Optional<T> extends IterableBase<T> {
   /// Constructs an Optional of the given [value].
   ///
   /// Throws [ArgumentError] if [value] is null.
-  Optional.of(T value) : this._value = value {
-    if (this._value == null) throw ArgumentError('Must not be null.');
+  Optional.of(T value) : _value = value {
+    if (_value == null) throw ArgumentError('Must not be null.');
   }
 
   /// Constructs an Optional of the given [value].
   ///
   /// If [value] is null, returns [absent()].
-  const Optional.fromNullable(T value) : this._value = value;
+  const Optional.fromNullable(T value) : _value = value;
 
   /// True when this optional contains a value.
   bool get isPresent => _value != null;
@@ -47,7 +47,7 @@ class Optional<T> extends IterableBase<T> {
   ///
   /// Throws [StateError] if [value] is null.
   T get value {
-    if (this._value == null) {
+    if (_value == null) {
       throw StateError('value called on absent Optional.');
     }
     return _value;
