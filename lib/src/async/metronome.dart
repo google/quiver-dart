@@ -62,14 +62,14 @@ class Metronome extends Stream<DateTime> {
   @override
   bool get isBroadcast => true;
 
-  Metronome.epoch(Duration interval, {Clock clock: const Clock()})
+  Metronome.epoch(Duration interval, {Clock clock = const Clock()})
       : this._(interval, clock: clock, anchor: _epoch);
 
   Metronome.periodic(Duration interval,
-      {Clock clock: const Clock(), DateTime anchor})
+      {Clock clock = const Clock(), DateTime anchor})
       : this._(interval, clock: clock, anchor: anchor);
 
-  Metronome._(Duration interval, {Clock clock: const Clock(), DateTime anchor})
+  Metronome._(Duration interval, {Clock clock = const Clock(), DateTime anchor})
       : this.clock = clock,
         this.anchor = anchor,
         this.interval = interval,

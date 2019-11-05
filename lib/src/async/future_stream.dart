@@ -38,7 +38,7 @@ class FutureStream<T> extends Stream<T> {
   StreamController<T> _controller;
   StreamSubscription<T> _subscription;
 
-  FutureStream(Future<Stream<T>> future, {bool broadcast: false}) {
+  FutureStream(Future<Stream<T>> future, {bool broadcast = false}) {
     _future = future.then(_identity, onError: (e, stackTrace) {
       // Since [controller] is synchronous, it's likely that emitting an error
       // will cause it to be cancelled before we call close.

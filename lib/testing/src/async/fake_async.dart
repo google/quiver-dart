@@ -104,8 +104,8 @@ abstract class FakeAsync {
   /// Throws a [StateError] if the [timeout] is exceeded. The default timeout
   /// is 1 hour. [timeout] is relative to the elapsed time.
   void flushTimers(
-      {Duration timeout: const Duration(hours: 1),
-      bool flushPeriodicTimers: true});
+      {Duration timeout = const Duration(hours: 1),
+      bool flushPeriodicTimers = true});
 
   /// Debugging information for all pending timers.
   ///
@@ -166,8 +166,8 @@ class _FakeAsync implements FakeAsync {
 
   @override
   void flushTimers(
-      {Duration timeout: const Duration(hours: 1),
-      bool flushPeriodicTimers: true}) {
+      {Duration timeout = const Duration(hours: 1),
+      bool flushPeriodicTimers = true}) {
     final absoluteTimeout = _elapsed + timeout;
     _drainTimersWhile((_FakeTimer timer) {
       if (timer._nextCall > absoluteTimeout) {

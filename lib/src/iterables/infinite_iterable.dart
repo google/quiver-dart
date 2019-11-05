@@ -59,7 +59,8 @@ abstract class InfiniteIterable<T> extends IterableBase<T> {
       throw new UnsupportedError('singleWhere');
 
   @override
-  List<T> toList({bool growable: true}) => throw new UnsupportedError('toList');
+  List<T> toList({bool growable = true}) =>
+      throw new UnsupportedError('toList');
 
   @override
   Set<T> toSet() => throw new UnsupportedError('toSet');

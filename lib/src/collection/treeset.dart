@@ -732,7 +732,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   /// See [TreeSet.fromIterator]
   @override
   BidirectionalIterator<V> fromIterator(V anchor,
-          {bool reversed: false, bool inclusive: true}) =>
+          {bool reversed = false, bool inclusive = true}) =>
       new _AvlTreeIterator<V>._(this,
           anchorObject: anchor, reversed: reversed, inclusive: inclusive);
 
@@ -887,7 +887,7 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
   _TreeNode<V> _current;
 
   _AvlTreeIterator._(AvlTreeSet<V> tree,
-      {reversed: false, this.inclusive: true, this.anchorObject})
+      {reversed = false, this.inclusive = true, this.anchorObject})
       : this.tree = tree,
         this._modCountGuard = tree._modCount,
         this.reversed = reversed {

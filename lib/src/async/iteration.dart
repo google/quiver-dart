@@ -63,7 +63,7 @@ Future<S> _reduceAsync<S, T>(
 /// Schedules calls to [action] for each element in [iterable]. No more than
 /// [maxTasks] calls to [action] will be pending at once.
 Future<Null> forEachAsync<T>(Iterable<T> iterable, AsyncAction<Null, T> action,
-    {int maxTasks: 1}) {
+    {int maxTasks = 1}) {
   if (maxTasks == null || maxTasks < 1) {
     throw new ArgumentError('maxTasks must be greater than 0, was: $maxTasks');
   }

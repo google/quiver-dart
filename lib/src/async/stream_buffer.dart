@@ -75,7 +75,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
   /// Create a stream buffer with optional, soft [limit] to the amount of data
   /// the buffer will hold before pausing the underlying stream. A limit of 0
   /// means no buffer limits.
-  StreamBuffer({bool throwOnError: false, int limit: 0})
+  StreamBuffer({bool throwOnError = false, int limit = 0})
       : this._throwOnError = throwOnError,
         this._limit = limit;
 

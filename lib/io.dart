@@ -20,7 +20,7 @@ import 'dart:io';
 
 ///  Converts a [Stream] of byte lists to a [String].
 Future<String> byteStreamToString(Stream<List<int>> stream,
-    {Encoding encoding: utf8}) {
+    {Encoding encoding = utf8}) {
   return stream.transform(encoding.decoder).join();
 }
 
