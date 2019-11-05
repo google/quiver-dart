@@ -32,17 +32,17 @@ part of quiver.async;
 ///    var onAltClick = router.route((e) => e.altKey);
 ///    var onOtherClick router.defaultStream;
 class StreamRouter<T> {
+  /// Create a new StreamRouter that listens to the [incoming] stream.
+  StreamRouter(Stream<T> incoming) : _incoming = incoming {
+    _subscription = _incoming.listen(_handle, onDone: close);
+  }
+
   final Stream<T> _incoming;
   StreamSubscription<T> _subscription;
 
   final List<_Route<T>> _routes = <_Route<T>>[];
   final StreamController<T> _defaultController =
       StreamController<T>.broadcast();
-
-  /// Create a new StreamRouter that listens to the [incoming] stream.
-  StreamRouter(Stream<T> incoming) : _incoming = incoming {
-    _subscription = _incoming.listen(_handle, onDone: close);
-  }
 
   /// Events that match [predicate] are sent to the stream created by this
   /// method, and not sent to any other router streams.
@@ -71,8 +71,8 @@ class StreamRouter<T> {
 typedef _Predicate<T> = bool Function(T event);
 
 class _Route<T> {
+  _Route(this.predicate, this.controller);
+
   final _Predicate<T> predicate;
   final StreamController<T> controller;
-
-  _Route(this.predicate, this.controller);
 }

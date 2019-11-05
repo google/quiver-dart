@@ -18,9 +18,9 @@ import 'package:quiver/collection.dart';
 import 'package:test/test.dart';
 
 class MyIterable extends DelegatingIterable<String> {
-  final Iterable<String> _delegate;
-
   MyIterable(this._delegate);
+
+  final Iterable<String> _delegate;
 
   @override
   Iterable<String> get delegate => _delegate;

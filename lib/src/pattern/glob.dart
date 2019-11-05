@@ -26,10 +26,10 @@ part of quiver.pattern;
 ///   * '?' matches exactly one character except '/'
 ///   * '**' matches one or more characters including '/'
 class Glob implements Pattern {
+  Glob(this.pattern) : regex = _regexpFromGlobPattern(pattern);
+
   final RegExp regex;
   final String pattern;
-
-  Glob(this.pattern) : regex = _regexpFromGlobPattern(pattern);
 
   @override
   Iterable<Match> allMatches(String str, [int start = 0]) =>

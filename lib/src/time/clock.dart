@@ -29,8 +29,6 @@ DateTime systemTime() => DateTime.now();
 /// exactly what time a [Clock] returns and base your test expectations on
 /// that. See specific constructors for how to supply time functions.
 class Clock {
-  final TimeFunction _time;
-
   /// Creates a clock based on the given [timeFunc].
   ///
   /// If [timeFunc] is not provided, creates [Clock] based on system clock.
@@ -42,6 +40,8 @@ class Clock {
 
   /// Creates [Clock] that returns fixed [time] value. Useful in unit-tests.
   Clock.fixed(DateTime time) : _time = (() => time);
+
+  final TimeFunction _time;
 
   /// Returns current time.
   DateTime now() => _time();

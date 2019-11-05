@@ -17,6 +17,15 @@ part of quiver.collection;
 /// A [Set] of items stored in a binary tree according to [comparator].
 /// Supports bidirectional iteration.
 abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
+  /// Create a new [TreeSet] with an ordering defined by [comparator] or the
+  /// default `(a, b) => a.compareTo(b)`.
+  factory TreeSet({Comparator<V> comparator}) {
+    comparator ??= (a, b) => (a as dynamic).compareTo(b);
+    return AvlTreeSet(comparator: comparator);
+  }
+
+  TreeSet._(this.comparator);
+
   final Comparator<V> comparator;
 
   @override
@@ -27,15 +36,6 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
 
   @override
   bool get isNotEmpty => length != 0;
-
-  /// Create a new [TreeSet] with an ordering defined by [comparator] or the
-  /// default `(a, b) => a.compareTo(b)`.
-  factory TreeSet({Comparator<V> comparator}) {
-    comparator ??= (a, b) => (a as dynamic).compareTo(b);
-    return AvlTreeSet(comparator: comparator);
-  }
-
-  TreeSet._(this.comparator);
 
   /// Returns an [BidirectionalIterator] that iterates over this tree.
   @override
@@ -79,6 +79,9 @@ enum TreeSearch {
 
 /// A node in the [TreeSet].
 abstract class _TreeNode<V> {
+  /// TreeNodes are always allocated as leafs.
+  _TreeNode({this.object});
+
   _TreeNode<V> get left;
   _TreeNode<V> get right;
 
@@ -86,9 +89,6 @@ abstract class _TreeNode<V> {
   // note.
   _TreeNode<V> get parent;
   V object;
-
-  /// TreeNodes are always allocated as leafs.
-  _TreeNode({this.object});
 
   /// Return the minimum node for the subtree
   _TreeNode<V> get minimumNode {
@@ -141,6 +141,8 @@ abstract class _TreeNode<V> {
 ///           Ronald L. Rivest, Clifford Stein.
 ///        chapter 13.2
 class AvlTreeSet<V> extends TreeSet<V> {
+  AvlTreeSet({Comparator<V> comparator}) : super._(comparator);
+
   int _length = 0;
   AvlNode<V> _root;
   // Modification count to the tree, monotonically increasing
@@ -148,8 +150,6 @@ class AvlTreeSet<V> extends TreeSet<V> {
 
   @override
   int get length => _length;
-
-  AvlTreeSet({Comparator<V> comparator}) : super._(comparator);
 
   /// Add the element to the tree.
   @override
@@ -875,22 +875,6 @@ typedef _IteratorMove = bool Function();
 /// is included in the first movement (either [moveNext] or [movePrevious]) but
 /// can optionally be excluded in the constructor.
 class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
-  static const LEFT = -1;
-  static const WALK = 0;
-  static const RIGHT = 1;
-
-  final bool reversed;
-  final AvlTreeSet<V> tree;
-  final int _modCountGuard;
-  final V anchorObject;
-  final bool inclusive;
-
-  _IteratorMove _moveNext;
-  _IteratorMove _movePrevious;
-
-  int state;
-  _TreeNode<V> _current;
-
   _AvlTreeIterator._(this.tree,
       {this.reversed = false, this.inclusive = true, this.anchorObject})
       : _modCountGuard = tree._modCount {
@@ -933,6 +917,22 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
       return state == WALK;
     };
   }
+
+  static const LEFT = -1;
+  static const WALK = 0;
+  static const RIGHT = 1;
+
+  final bool reversed;
+  final AvlTreeSet<V> tree;
+  final int _modCountGuard;
+  final V anchorObject;
+  final bool inclusive;
+
+  _IteratorMove _moveNext;
+  _IteratorMove _movePrevious;
+
+  int state;
+  _TreeNode<V> _current;
 
   @override
   V get current => (state != WALK || _current == null) ? null : _current.object;
@@ -986,6 +986,8 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
 
 /// Private class used to track element insertions in the [TreeSet].
 class AvlNode<V> extends _TreeNode<V> {
+  AvlNode({V object}) : super(object: object);
+
   AvlNode<V> _left;
   AvlNode<V> _right;
   // TODO(codefu): Remove need for [parent]; this is just an implementation note
@@ -1002,8 +1004,6 @@ class AvlNode<V> extends _TreeNode<V> {
   AvlNode<V> get parent => _parent;
 
   int get balance => _balanceFactor;
-
-  AvlNode({V object}) : super(object: object);
 
   @override
   String toString() =>

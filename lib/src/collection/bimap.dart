@@ -45,12 +45,12 @@ abstract class BiMap<K, V> implements Map<K, V> {
 
 /// A hash-table based implementation of BiMap.
 class HashBiMap<K, V> implements BiMap<K, V> {
+  HashBiMap() : this._from(HashMap(), HashMap());
+  HashBiMap._from(this._map, this._inverse);
+
   final Map<K, V> _map;
   final Map<V, K> _inverse;
   BiMap<V, K> _cached;
-
-  HashBiMap() : this._from(HashMap(), HashMap());
-  HashBiMap._from(this._map, this._inverse);
 
   @override
   V operator [](Object key) => _map[key];

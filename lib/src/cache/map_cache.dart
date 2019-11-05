@@ -16,11 +16,6 @@ part of quiver.cache;
 
 /// A [Cache] that's backed by a [Map].
 class MapCache<K, V> implements Cache<K, V> {
-  final Map<K, V> _map;
-
-  /// Map of outstanding ifAbsent calls used to prevent concurrent loads of the same key.
-  final _outstanding = <K, FutureOr<V>>{};
-
   /// Creates a new [MapCache], optionally using [map] as the backing [Map].
   MapCache({Map<K, V> map}) : _map = map ?? HashMap<K, V>();
 
@@ -29,6 +24,11 @@ class MapCache<K, V> implements Cache<K, V> {
   factory MapCache.lru({int maximumSize}) {
     return MapCache<K, V>(map: LruMap(maximumSize: maximumSize));
   }
+
+  final Map<K, V> _map;
+
+  /// Map of outstanding ifAbsent calls used to prevent concurrent loads of the same key.
+  final _outstanding = <K, FutureOr<V>>{};
 
   @override
   Future<V> get(K key, {Loader<K, V> ifAbsent}) async {

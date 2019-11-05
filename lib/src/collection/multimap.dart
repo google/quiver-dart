@@ -101,8 +101,6 @@ abstract class Multimap<K, V> {
 /// Abstract base class for multimap implementations.
 abstract class _BaseMultimap<K, V, C extends Iterable<V>>
     implements Multimap<K, V> {
-  static T _id<T>(x) => x;
-
   _BaseMultimap();
 
   /// Constructs a new multimap. For each element e of [iterable], adds an
@@ -116,6 +114,8 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
       add(key(element), value(element));
     }
   }
+
+  static T _id<T>(x) => x;
 
   final Map<K, C> _map = {};
 
@@ -286,9 +286,9 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
 
 /// A [Map] that delegates its operations to an underlying multimap.
 class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
-  final _BaseMultimap<K, V, C> _multimap;
-
   _WrappedMap(this._multimap);
+
+  final _BaseMultimap<K, V, C> _multimap;
 
   @override
   C operator [](Object key) => _multimap[key];
@@ -369,11 +369,11 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
 
 /// Iterable wrapper that syncs to an underlying map.
 class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
+  _WrappedIterable(this._map, this._key, this._delegate);
+
   final K _key;
   final Map<K, C> _map;
   C _delegate;
-
-  _WrappedIterable(this._map, this._key, this._delegate);
 
   void _addToMap() => _map[_key] = _delegate;
 

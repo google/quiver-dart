@@ -37,10 +37,10 @@ Pattern matchAny(Iterable<Pattern> include, {Iterable<Pattern> exclude}) =>
     _MultiPattern(include, exclude: exclude);
 
 class _MultiPattern extends Pattern {
+  _MultiPattern(this.include, {this.exclude});
+
   final Iterable<Pattern> include;
   final Iterable<Pattern> exclude;
-
-  _MultiPattern(this.include, {this.exclude});
 
   @override
   Iterable<Match> allMatches(String str, [int start = 0]) {

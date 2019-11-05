@@ -48,20 +48,6 @@ part of quiver.async;
 ///     2014-05-04 20:06:00.423
 ///     ...
 class Metronome extends Stream<DateTime> {
-  static final DateTime _epoch = DateTime.fromMillisecondsSinceEpoch(0);
-
-  final Clock clock;
-  final Duration interval;
-  final DateTime anchor;
-
-  Timer _timer;
-  StreamController<DateTime> _controller;
-  final int _intervalMs;
-  final int _anchorMs;
-
-  @override
-  bool get isBroadcast => true;
-
   Metronome.epoch(Duration interval, {Clock clock = const Clock()})
       : this._(interval, clock: clock, anchor: _epoch);
 
@@ -81,6 +67,20 @@ class Metronome extends Stream<DateTime> {
           _startTimer(clock.now());
         });
   }
+
+  static final DateTime _epoch = DateTime.fromMillisecondsSinceEpoch(0);
+
+  final Clock clock;
+  final Duration interval;
+  final DateTime anchor;
+
+  Timer _timer;
+  StreamController<DateTime> _controller;
+  final int _intervalMs;
+  final int _anchorMs;
+
+  @override
+  bool get isBroadcast => true;
 
   @override
   StreamSubscription<DateTime> listen(void onData(DateTime event),

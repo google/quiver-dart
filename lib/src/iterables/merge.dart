@@ -31,10 +31,10 @@ Iterable<T> merge<T>(Iterable<Iterable<T>> iterables, [Comparator<T> compare]) {
 }
 
 class _Merge<T> extends IterableBase<T> {
+  _Merge(this._iterables, this._compare);
+
   final Iterable<Iterable<T>> _iterables;
   final Comparator<T> _compare;
-
-  _Merge(this._iterables, this._compare);
 
   @override
   Iterator<T> get iterator => _MergeIterator<T>(
@@ -46,12 +46,12 @@ class _Merge<T> extends IterableBase<T> {
 
 /// Like [Iterator] but one element ahead.
 class _IteratorPeeker<T> {
-  final Iterator<T> _iterator;
-  bool _hasCurrent;
-
   _IteratorPeeker(Iterator<T> iterator)
       : _iterator = iterator,
         _hasCurrent = iterator.moveNext();
+
+  final Iterator<T> _iterator;
+  bool _hasCurrent;
 
   void moveNext() {
     _hasCurrent = _iterator.moveNext();
@@ -61,12 +61,12 @@ class _IteratorPeeker<T> {
 }
 
 class _MergeIterator<T> implements Iterator<T> {
+  _MergeIterator(List<Iterator<T>> iterators, this._compare)
+      : _peekers = iterators.map((i) => _IteratorPeeker(i)).toList();
+
   final List<_IteratorPeeker<T>> _peekers;
   final Comparator<T> _compare;
   T _current;
-
-  _MergeIterator(List<Iterator<T>> iterators, this._compare)
-      : _peekers = iterators.map((i) => _IteratorPeeker(i)).toList();
 
   @override
   bool moveNext() {

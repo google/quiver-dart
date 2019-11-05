@@ -20,9 +20,9 @@ import 'package:quiver/collection.dart';
 import 'package:test/test.dart';
 
 class MySet extends DelegatingSet<String> {
-  final Set<String> _delegate;
-
   MySet(this._delegate);
+
+  final Set<String> _delegate;
 
   @override
   Set<String> get delegate => _delegate;

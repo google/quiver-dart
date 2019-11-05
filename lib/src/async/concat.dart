@@ -35,9 +35,9 @@ part of quiver.async;
 Stream<T> concat<T>(Iterable<Stream<T>> streams) => _ConcatStream(streams);
 
 class _ConcatStream<T> extends Stream<T> {
-  final Iterable<Stream<T>> _streams;
-
   _ConcatStream(Iterable<Stream<T>> streams) : _streams = streams;
+
+  final Iterable<Stream<T>> _streams;
 
   @override
   StreamSubscription<T> listen(void onData(T data),

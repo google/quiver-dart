@@ -284,10 +284,10 @@ class _NonReflexiveObject {
 /// Test class with valid equals and hashCode methods. Testers created
 /// with instances of this class should always pass.
 class _ValidTestObject {
+  _ValidTestObject(this.aspect1, this.aspect2);
+
   int aspect1;
   int aspect2;
-
-  _ValidTestObject(this.aspect1, this.aspect2);
 
   @override
   bool operator ==(Object o) {
@@ -326,11 +326,11 @@ class _InvalidEqualsIncompatibleClassObject {
 
 /// Test class with inconsistent hashCode method.
 class _InconsistentHashCodeObject {
+  _InconsistentHashCodeObject(this._aspect1, this._aspect2);
+
   final int _aspect1;
   final int _aspect2;
   int _hashCode = 0;
-
-  _InconsistentHashCodeObject(this._aspect1, this._aspect2);
 
   @override
   int get hashCode => _hashCode++;
@@ -349,12 +349,12 @@ class _InconsistentHashCodeObject {
 
 /// Test class with invalid hashCode method.
 class _InvalidHashCodeObject {
+  _InvalidHashCodeObject(this._aspect1, this._aspect2);
+
   static int hashCodeSource = 0;
   final int _aspect1;
   final int _aspect2;
   final int _hashCode = hashCodeSource++;
-
-  _InvalidHashCodeObject(this._aspect1, this._aspect2);
 
   @override
   int get hashCode => _hashCode;
@@ -374,10 +374,10 @@ class _InvalidHashCodeObject {
 _NamedObject named(String name) => _NamedObject(name);
 
 class _NamedObject {
+  _NamedObject(this.name);
+
   final Set<String> peerNames = Set();
   final String name;
-
-  _NamedObject(this.name);
 
   void addPeers(List<String> names) {
     peerNames.addAll(names);

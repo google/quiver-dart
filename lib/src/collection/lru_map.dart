@@ -36,26 +36,17 @@ abstract class LruMap<K, V> implements Map<K, V> {
 /// Simple implementation of a linked-list entry that contains a [key] and
 /// [value].
 class _LinkedEntry<K, V> {
+  _LinkedEntry([this.key, this.value]);
+
   K key;
   V value;
 
   _LinkedEntry<K, V> next;
   _LinkedEntry<K, V> previous;
-
-  _LinkedEntry([this.key, this.value]);
 }
 
 /// A linked hash-table based implementation of [LruMap].
 class LinkedLruHashMap<K, V> implements LruMap<K, V> {
-  static const _DEFAULT_MAXIMUM_SIZE = 100;
-
-  final Map<K, _LinkedEntry<K, V>> _entries;
-
-  int _maximumSize;
-
-  _LinkedEntry<K, V> _head;
-  _LinkedEntry<K, V> _tail;
-
   /// Create a new LinkedLruHashMap with a [maximumSize].
   factory LinkedLruHashMap({int maximumSize}) =>
       LinkedLruHashMap._fromMap(HashMap<K, _LinkedEntry<K, V>>(),
@@ -65,6 +56,15 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
       // This pattern is used instead of a default value because we want to
       // be able to respect null values coming in from MapCache.lru.
       : _maximumSize = firstNonNull(maximumSize, _DEFAULT_MAXIMUM_SIZE);
+
+  static const _DEFAULT_MAXIMUM_SIZE = 100;
+
+  final Map<K, _LinkedEntry<K, V>> _entries;
+
+  int _maximumSize;
+
+  _LinkedEntry<K, V> _head;
+  _LinkedEntry<K, V> _tail;
 
   /// Adds all key-value pairs of [other] to this map.
   ///
