@@ -1,5 +1,9 @@
 name: quiver
-version: 2.1.2-dev
+description: >-
+  Quiver is a set of utility libraries for Dart that makes using many Dart
+  libraries easier and more convenient, or adds additional functionality.
+homepage: https://github.com/google/quiver-dart
+version: 2.1.2
 authors:
 - Justin Fagnani <justinfagnani@google.com>
 - Yegor Jbanov <yjbanov@google.com>
@@ -17,8 +21,6 @@ authors:
 - Mark Fielbig <mfielbig@gmail.com>
 - Lucy Gettinger <lucyget@google.com>
 - Michel Feinstein <michel@feinstein.com.br>
-description: A set of utility libraries for Dart
-homepage: https://github.com/google/quiver-dart
 environment:
   sdk: '>=2.0.0-dev.61 <3.0.0'
 dependencies:

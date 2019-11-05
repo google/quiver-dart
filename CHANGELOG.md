@@ -1,4 +1,4 @@
-#### 2.1.2-dev
+#### 2.1.2 - 2019-11-05
 
    * Deprecate `assertCheckedMode`. Checked mode no longer exists in Dart 2.0
      since the vast majority of what checked mode did is now done in the type
