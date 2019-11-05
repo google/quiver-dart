@@ -14,8 +14,8 @@
 
 part of quiver.iterables;
 
-typedef T _Initial<T>();
-typedef T _Next<T>(T value);
+typedef _Initial<T> = T Function();
+typedef _Next<T> = T Function(T value);
 
 Iterable generate(initial(), next(o)) => new GeneratingIterable(initial, next);
 

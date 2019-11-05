@@ -15,7 +15,7 @@
 part of quiver.testing.time;
 
 /// Returns the current test time in microseconds.
-typedef int Now();
+typedef Now = int Function();
 
 /// A [Stopwatch] implementation that gets the current time in microseconds
 /// via a user-supplied function.

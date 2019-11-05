@@ -862,7 +862,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   AvlNode<V> getNode(V object) => _getNode(object);
 }
 
-typedef bool _IteratorMove();
+typedef _IteratorMove = bool Function();
 
 /// This iterator either starts at the beginning or end (see [TreeSet.iterator]
 /// and [TreeSet.reverseIterator]) or from an anchor point in the set (see
