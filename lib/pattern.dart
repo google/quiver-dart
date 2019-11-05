@@ -68,10 +68,8 @@ class _MultiPattern extends Pattern {
   }
 }
 
-/**
- * Returns true if [pattern] has a single match in [str] that matches the whole
- * string, not a substring.
- */
+/// Returns true if [pattern] has a single match in [str] that matches the
+/// whole string, not a substring.
 bool matchesFull(Pattern pattern, String str) {
   var match = pattern.matchAsPrefix(str);
   return match != null && match.end == str.length;
