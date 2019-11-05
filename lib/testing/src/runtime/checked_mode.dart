@@ -18,7 +18,7 @@ part of quiver.testing.runtime;
 ///
 /// Otherwise, throws [StateError].
 void assertCheckedMode() {
-  if (_isCheckedMode == null) _isCheckedMode = _checkForCheckedMode();
+  _isCheckedMode ??= _checkForCheckedMode();
 
   if (!_isCheckedMode) {
     throw new StateError('Not in checked mode.');

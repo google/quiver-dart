@@ -135,11 +135,7 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
 
   @override
   Iterable<V> operator [](Object key) {
-    var values = _map[key];
-    if (values == null) {
-      values = _create();
-    }
-    return _wrap(key, values);
+    return _wrap(key, _map[key] ?? _create());
   }
 
   @override
