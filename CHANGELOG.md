@@ -3,11 +3,14 @@
    * Deprecate `assertCheckedMode`. Checked mode no longer exists in Dart 2.0
      since the vast majority of what checked mode did is now done in the type
      system itself. This will be removed in Quiver 3.0.0.
+   * TreeSet.isEmpty/isNotEmpty are now constant-time checks.
+   * Large amounts of linter-related cleanups.
 
 #### 2.1.1 - 2019-11-03
 
    * Deprecate `doWhileAsync`. Existing callers should migrate to
-     `Future.doWhile()` from `dart:async`.
+     `Future.doWhile()` from `dart:async`. This will be removed in Quiver
+     3.0.0.
    * Fix: Eliminate a crash in `LruMap.putIfAbsent` when `maximumSize` is 1.
    * Add return types on any function that didn't include one.
 
