@@ -27,7 +27,7 @@ class FakeStopwatch implements Stopwatch {
   @override
   int frequency;
 
-  FakeStopwatch(int now(), int this.frequency)
+  FakeStopwatch(int now(), this.frequency)
       : _now = now,
         _start = null,
         _stop = null;

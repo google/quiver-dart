@@ -21,7 +21,7 @@ Iterable<num> count([num start = 0, num step = 1]) => new _Count(start, step);
 class _Count extends InfiniteIterable<num> {
   final num start, step;
 
-  _Count(num this.start, num this.step);
+  _Count(this.start, this.step);
 
   @override
   Iterator<num> get iterator => new _CountIterator(start, step);
@@ -34,7 +34,7 @@ class _CountIterator implements Iterator<num> {
   final num _start, _step;
   num _current;
 
-  _CountIterator(num this._start, this._step);
+  _CountIterator(this._start, this._step);
 
   @override
   num get current => _current;
