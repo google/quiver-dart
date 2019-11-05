@@ -20,7 +20,7 @@ import 'package:test/test.dart';
 void main() {
   group('BiMap', () {
     test('should construct a HashBiMap', () {
-      expect(new BiMap() is HashBiMap, true);
+      expect(BiMap() is HashBiMap, true);
     });
   });
 
@@ -30,7 +30,7 @@ void main() {
     int v1 = 1, v2 = 2, v3 = 3;
 
     setUp(() {
-      map = new HashBiMap();
+      map = HashBiMap();
     });
 
     test('should initialize empty', () {
@@ -278,11 +278,11 @@ void main() {
     });
 
     test('should add entries', () {
-      map.addEntries([new MapEntry<String, int>(k1, v1)]);
+      map.addEntries([MapEntry<String, int>(k1, v1)]);
       expect(map[k1], equals(v1));
       expect(map.inverse[v1], equals(k1));
 
-      map.inverse.addEntries([new MapEntry<int, String>(v2, k2)]);
+      map.inverse.addEntries([MapEntry<int, String>(v2, k2)]);
       expect(map[k2], equals(v2));
       expect(map.inverse[v2], equals(k2));
     });
@@ -307,13 +307,13 @@ void main() {
       map[k1] = v1;
       map[k2] = v2;
 
-      var mapped = map.map((k, v) => new MapEntry(k.toUpperCase(), '$k / $v'));
+      var mapped = map.map((k, v) => MapEntry(k.toUpperCase(), '$k / $v'));
       expect(mapped, contains('K1'));
       expect(mapped, contains('K2'));
       expect(mapped['K1'], equals('k1 / 1'));
       expect(mapped['K2'], equals('k2 / 2'));
 
-      var mapped2 = map.inverse.map((v, k) => new MapEntry('$v$v', k.length));
+      var mapped2 = map.inverse.map((v, k) => MapEntry('$v$v', k.length));
       expect(mapped2, contains('11'));
       expect(mapped2, contains('22'));
       expect(mapped2['11'], equals(2));

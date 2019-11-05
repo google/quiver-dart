@@ -58,7 +58,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
 
   /// Create a new LinkedLruHashMap with a [maximumSize].
   factory LinkedLruHashMap({int maximumSize}) =>
-      new LinkedLruHashMap._fromMap(new HashMap<K, _LinkedEntry<K, V>>(),
+      LinkedLruHashMap._fromMap(HashMap<K, _LinkedEntry<K, V>>(),
           maximumSize: maximumSize);
 
   LinkedLruHashMap._fromMap(this._entries, {int maximumSize})
@@ -89,7 +89,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   @override
   LinkedLruHashMap<K2, V2> cast<K2, V2>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('cast');
+    throw UnimplementedError('cast');
   }
 
   @override
@@ -105,8 +105,8 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   bool containsValue(Object value) => values.contains(value);
 
   @override
-  Iterable<MapEntry<K, V>> get entries => _entries.values
-      .map((entry) => new MapEntry<K, V>(entry.key, entry.value));
+  Iterable<MapEntry<K, V>> get entries =>
+      _entries.values.map((entry) => MapEntry<K, V>(entry.key, entry.value));
 
   /// Applies [action] to each key-value pair of the map in order of MRU to
   /// LRU.
@@ -132,8 +132,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
 
   /// Creates an [Iterable] around the entries of the map.
   Iterable<_LinkedEntry<K, V>> _iterable() {
-    return new GeneratingIterable<_LinkedEntry<K, V>>(
-        () => _head, (n) => n.next);
+    return GeneratingIterable<_LinkedEntry<K, V>>(() => _head, (n) => n.next);
   }
 
   /// The keys of [this] - in order of MRU to LRU.
@@ -153,7 +152,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
     // TODO: Dart 2.0 requires this method to be implemented.
     // Change Object to MapEntry<K2, V2> when
     // the MapEntry class has been added.
-    throw new UnimplementedError('map');
+    throw UnimplementedError('map');
   }
 
   @override
@@ -161,7 +160,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
 
   @override
   set maximumSize(int maximumSize) {
-    if (maximumSize == null) throw new ArgumentError.notNull('maximumSize');
+    if (maximumSize == null) throw ArgumentError.notNull('maximumSize');
     while (length > maximumSize) {
       _removeLru();
     }
@@ -259,7 +258,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
       return '{...}';
     }
 
-    var result = new StringBuffer();
+    var result = StringBuffer();
     try {
       _toStringVisiting.add(this);
       result.write('{');
@@ -287,7 +286,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
       newValue = update(this[key]);
     } else {
       if (ifAbsent == null)
-        throw new ArgumentError.value(key, 'key', 'Key not in map');
+        throw ArgumentError.value(key, 'key', 'Key not in map');
       newValue = ifAbsent();
     }
 
@@ -348,7 +347,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
 
   /// Creates and returns an entry from [key] and [value].
   _LinkedEntry<K, V> _createEntry(K key, V value) {
-    return new _LinkedEntry<K, V>(key, value);
+    return _LinkedEntry<K, V>(key, value);
   }
 
   /// If [entry] does not exist, inserts it into the backing map.  If it does,

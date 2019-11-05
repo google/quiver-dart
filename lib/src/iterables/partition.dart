@@ -16,7 +16,7 @@ part of quiver.iterables;
 
 /// Partitions the input iterable into lists of the specified size.
 Iterable<List<T>> partition<T>(Iterable<T> iterable, int size) {
-  return iterable.isEmpty ? [] : new _Partition<T>(iterable, size);
+  return iterable.isEmpty ? [] : _Partition<T>(iterable, size);
 }
 
 class _Partition<T> extends IterableBase<List<T>> {
@@ -24,12 +24,12 @@ class _Partition<T> extends IterableBase<List<T>> {
   final int _size;
 
   _Partition(this._iterable, this._size) {
-    if (_size <= 0) throw new ArgumentError(_size);
+    if (_size <= 0) throw ArgumentError(_size);
   }
 
   @override
   Iterator<List<T>> get iterator =>
-      new _PartitionIterator<T>(_iterable.iterator, _size);
+      _PartitionIterator<T>(_iterable.iterator, _size);
 }
 
 class _PartitionIterator<T> implements Iterator<List<T>> {

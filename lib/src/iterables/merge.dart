@@ -27,7 +27,7 @@ part of quiver.iterables;
 Iterable<T> merge<T>(Iterable<Iterable<T>> iterables, [Comparator<T> compare]) {
   if (iterables.isEmpty) return const <Null>[];
   if (iterables.every((i) => i.isEmpty)) return const <Null>[];
-  return new _Merge<T>(iterables, compare ?? Comparable.compare);
+  return _Merge<T>(iterables, compare ?? Comparable.compare);
 }
 
 class _Merge<T> extends IterableBase<T> {
@@ -37,7 +37,7 @@ class _Merge<T> extends IterableBase<T> {
   _Merge(this._iterables, this._compare);
 
   @override
-  Iterator<T> get iterator => new _MergeIterator<T>(
+  Iterator<T> get iterator => _MergeIterator<T>(
       _iterables.map((i) => i.iterator).toList(growable: false), _compare);
 
   @override
@@ -66,7 +66,7 @@ class _MergeIterator<T> implements Iterator<T> {
   T _current;
 
   _MergeIterator(List<Iterator<T>> iterators, this._compare)
-      : _peekers = iterators.map((i) => new _IteratorPeeker(i)).toList();
+      : _peekers = iterators.map((i) => _IteratorPeeker(i)).toList();
 
   @override
   bool moveNext() {

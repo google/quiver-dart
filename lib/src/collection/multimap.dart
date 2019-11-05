@@ -21,7 +21,7 @@ part of quiver.collection;
 /// modifications to the returned collections are reflected in the multimap.
 abstract class Multimap<K, V> {
   /// Constructs a new list-backed multimap.
-  factory Multimap() => new ListMultimap<K, V>();
+  factory Multimap() => ListMultimap<K, V>();
 
   /// Constructs a new list-backed multimap. For each element e of [iterable],
   /// adds an association from [key](e) to [value](e). [key] and [value] each
@@ -239,13 +239,13 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
   bool _remove(List<V> iterable, Object value) => iterable.remove(value);
   @override
   List<V> _wrap(Object key, List<V> iterable) =>
-      new _WrappedList(_map, key, iterable);
+      _WrappedList(_map, key, iterable);
   @override
   List<V> operator [](Object key) => super[key];
   @override
   List<V> removeAll(Object key) => super.removeAll(key);
   @override
-  Map<K, List<V>> asMap() => new _WrappedMap<K, V, List<V>>(this);
+  Map<K, List<V>> asMap() => _WrappedMap<K, V, List<V>>(this);
 }
 
 /// A multimap implementation that uses [Set]s to store the values associated
@@ -261,7 +261,7 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
       : super.fromIterable(iterable, key: key, value: value);
 
   @override
-  Set<V> _create() => new Set<V>();
+  Set<V> _create() => Set<V>();
   @override
   void _add(Set<V> iterable, V value) {
     iterable.add(value);
@@ -275,13 +275,13 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
   bool _remove(Set<V> iterable, Object value) => iterable.remove(value);
   @override
   Set<V> _wrap(Object key, Iterable<V> iterable) =>
-      new _WrappedSet(_map, key, iterable);
+      _WrappedSet(_map, key, iterable);
   @override
   Set<V> operator [](Object key) => super[key];
   @override
   Set<V> removeAll(Object key) => super.removeAll(key);
   @override
-  Map<K, Set<V>> asMap() => new _WrappedMap<K, V, Set<V>>(this);
+  Map<K, Set<V>> asMap() => _WrappedMap<K, V, Set<V>>(this);
 }
 
 /// A [Map] that delegates its operations to an underlying multimap.
@@ -295,17 +295,17 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
 
   @override
   void operator []=(K key, C value) {
-    throw new UnsupportedError('Insert unsupported on map view');
+    throw UnsupportedError('Insert unsupported on map view');
   }
 
   @override
   void addAll(Map<K, C> other) {
-    throw new UnsupportedError('Insert unsupported on map view');
+    throw UnsupportedError('Insert unsupported on map view');
   }
 
   @override
   C putIfAbsent(K key, C ifAbsent()) {
-    throw new UnsupportedError('Insert unsupported on map view');
+    throw UnsupportedError('Insert unsupported on map view');
   }
 
   @override
@@ -332,7 +332,7 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   @override
   Map<K2, V2> cast<K2, V2>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('cast');
+    throw UnimplementedError('cast');
   }
 
   @override
@@ -340,7 +340,7 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
 
   @override
   void addEntries(Iterable<MapEntry<K, C>> entries) {
-    throw new UnsupportedError('Insert unsupported on map view');
+    throw UnsupportedError('Insert unsupported on map view');
   }
 
   @override
@@ -349,12 +349,12 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
 
   @override
   C update(K key, C update(C value), {C ifAbsent()}) {
-    throw new UnsupportedError('Update unsupported on map view');
+    throw UnsupportedError('Update unsupported on map view');
   }
 
   @override
   void updateAll(C update(K key, C value)) {
-    throw new UnsupportedError('Update unsupported on map view');
+    throw UnsupportedError('Update unsupported on map view');
   }
 
   @override
@@ -401,7 +401,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   @override
   Iterable<T> cast<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('cast');
+    throw UnimplementedError('cast');
   }
 
   @override
@@ -575,7 +575,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   @override
   Iterable<T> whereType<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('whereType');
+    throw UnimplementedError('whereType');
   }
 }
 
@@ -624,7 +624,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   @override
   List<T> cast<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('cast');
+    throw UnimplementedError('cast');
   }
 
   @override
@@ -642,7 +642,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
 
   @override
   set first(V value) {
-    if (this.isEmpty) throw new RangeError.index(0, this);
+    if (this.isEmpty) throw RangeError.index(0, this);
     this[0] = value;
   }
 
@@ -682,7 +682,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
 
   @override
   set last(V value) {
-    if (this.isEmpty) throw new RangeError.index(0, this);
+    if (this.isEmpty) throw RangeError.index(0, this);
     this[this.length - 1] = value;
   }
 
@@ -819,7 +819,7 @@ class _WrappedSet<K, V> extends _WrappedIterable<K, V, Set<V>>
   @override
   Set<T> cast<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('cast');
+    throw UnimplementedError('cast');
   }
 
   @override

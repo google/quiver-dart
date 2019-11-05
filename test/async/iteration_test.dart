@@ -25,7 +25,7 @@ void main() {
       var items = [];
       return doWhileAsync([1, 2, 3], (e) {
         items.add(e);
-        return new Future(() => true);
+        return Future(() => true);
       }).then((r) {
         expect(items, [1, 2, 3]);
         expect(r, true);
@@ -36,7 +36,7 @@ void main() {
       var items = [];
       return doWhileAsync([1, 2, 3], (e) {
         items.add(e);
-        return new Future(() => e < 2);
+        return Future(() => e < 2);
       }).then((r) {
         expect(items, [1, 2]);
         expect(r, false);
@@ -49,7 +49,7 @@ void main() {
       var items = [];
       return reduceAsync([1, 2, 3], 0, (v, e) {
         items.add(e);
-        return new Future(() => v + e);
+        return Future(() => v + e);
       }).then((r) {
         expect(items, [1, 2, 3]);
         expect(r, 6);
@@ -65,7 +65,7 @@ void main() {
         pending++;
         if (pending > 1) fail('too many pending tasks');
         results.add(i);
-        return new Future(() {
+        return Future(() {
           pending--;
         });
       }).then((_) {
@@ -82,7 +82,7 @@ void main() {
         if (pending > 3) fail('too many pending tasks');
         if (pending > maxPending) maxPending = pending;
         results.add(i);
-        return new Future(() {
+        return Future(() {
           pending--;
         });
       }, maxTasks: 3)

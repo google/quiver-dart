@@ -23,7 +23,7 @@ void main() {
     MapCache<String, String> cache;
 
     setUp(() {
-      cache = new MapCache<String, String>();
+      cache = MapCache<String, String>();
     });
 
     test('should return null for a non-existent key', () {
@@ -59,7 +59,7 @@ void main() {
 
     test('should load a value given an asynchronous loader', () {
       return cache
-          .get('foo', ifAbsent: (k) => new Future.value(k + k))
+          .get('foo', ifAbsent: (k) => Future.value(k + k))
           .then((value) {
         expect(value, 'foofoo');
       });
@@ -89,7 +89,7 @@ void main() {
 
       Future<String> failLoader(String key) async {
         count += 1;
-        throw new StateError('Request failed');
+        throw StateError('Request failed');
       }
 
       await expectLater(

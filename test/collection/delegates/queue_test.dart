@@ -33,7 +33,7 @@ void main() {
     DelegatingQueue<String> delegatingQueue;
 
     setUp(() {
-      delegatingQueue = new MyQueue(new Queue<String>.from(['a', 'b', 'cc']));
+      delegatingQueue = MyQueue(Queue<String>.from(['a', 'b', 'cc']));
     });
 
     test('add', () {

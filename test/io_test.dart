@@ -29,7 +29,7 @@ void main() {
       var string = '箙、靫';
       var encoded = utf8.encoder.convert(string);
       var data = [encoded.sublist(0, 3), encoded.sublist(3)];
-      var stream = new Stream<List<int>>.fromIterable(data);
+      var stream = Stream<List<int>>.fromIterable(data);
       byteStreamToString(stream).then((decoded) {
         expect(decoded, string);
       });
@@ -39,7 +39,7 @@ void main() {
       var string = 'blåbærgrød';
       var encoded = latin1.encoder.convert(string);
       var data = [encoded.sublist(0, 4), encoded.sublist(4)];
-      var stream = new Stream<List<int>>.fromIterable(data);
+      var stream = Stream<List<int>>.fromIterable(data);
       byteStreamToString(stream, encoding: latin1).then((decoded) {
         expect(decoded, string);
       });
@@ -70,12 +70,12 @@ void main() {
      *   7. A broken link
      */
     test('should handle symlinks', () {
-      new File(path.join(testPath, 'file_target')).createSync();
-      new Directory(path.join(testPath, 'dir_target')).createSync();
-      new File(path.join(testPath, 'dir_target/file')).createSync();
-      new Link(path.join(testPath, 'file_link')).createSync('file_target');
-      new Link(path.join(testPath, 'dir_link')).createSync('dir_target');
-      new Link(path.join(testPath, 'broken_link')).createSync('broken_target');
+      File(path.join(testPath, 'file_target')).createSync();
+      Directory(path.join(testPath, 'dir_target')).createSync();
+      File(path.join(testPath, 'dir_target/file')).createSync();
+      Link(path.join(testPath, 'file_link')).createSync('file_target');
+      Link(path.join(testPath, 'dir_link')).createSync('dir_target');
+      Link(path.join(testPath, 'broken_link')).createSync('broken_target');
 
       var results = [];
 
@@ -89,7 +89,7 @@ void main() {
         } else {
           throw 'bad';
         }
-        return new Future.value(true);
+        return Future.value(true);
       }).then((_) {
         var expectation = [
           'file: $testPath/file_target',
@@ -105,15 +105,15 @@ void main() {
     });
 
     test('should conditionally recurse sub-directories', () {
-      new Directory(path.join(testPath, 'dir')).createSync();
-      new File(path.join(testPath, 'dir/file')).createSync();
-      new Directory(path.join(testPath, 'dir2')).createSync();
-      new File(path.join(testPath, 'dir2/file')).createSync();
+      Directory(path.join(testPath, 'dir')).createSync();
+      File(path.join(testPath, 'dir/file')).createSync();
+      Directory(path.join(testPath, 'dir2')).createSync();
+      File(path.join(testPath, 'dir2/file')).createSync();
 
       var files = [];
       return visitDirectory(testDir, (e) {
         files.add(e);
-        return new Future.value(!e.path.endsWith('dir2'));
+        return Future.value(!e.path.endsWith('dir2'));
       }).then((_) {
         expect(
             files.map((e) => e.path),
@@ -126,12 +126,12 @@ void main() {
     });
 
     test('should not infinitely recurse on symlink cycles', () {
-      var dir = new Directory(path.join(testPath, 'dir'))..createSync();
-      new Link(path.join(testPath, 'dir/link')).createSync('../dir');
+      var dir = Directory(path.join(testPath, 'dir'))..createSync();
+      Link(path.join(testPath, 'dir/link')).createSync('../dir');
       var files = [];
       return visitDirectory(dir, (e) {
         files.add(e);
-        return new Future.value(true);
+        return Future.value(true);
       }).then((_) {
         expect(files.length, 1);
         expect(files.first.targetSync(), '../dir');

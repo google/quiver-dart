@@ -17,7 +17,7 @@ part of quiver.iterables;
 /// Returns an [Iterable] of [IndexedValue]s where the nth value holds the nth
 /// element of [iterable] and its index.
 Iterable<IndexedValue<E>> enumerate<E>(Iterable<E> iterable) =>
-    new EnumerateIterable<E>(iterable);
+    EnumerateIterable<E>(iterable);
 
 class IndexedValue<V> {
   final int index;
@@ -46,7 +46,7 @@ class EnumerateIterable<V> extends IterableBase<IndexedValue<V>> {
 
   @override
   Iterator<IndexedValue<V>> get iterator =>
-      new EnumerateIterator<V>(_iterable.iterator);
+      EnumerateIterator<V>(_iterable.iterator);
 
   // Length related functions are independent of the mapping.
   @override
@@ -57,17 +57,17 @@ class EnumerateIterable<V> extends IterableBase<IndexedValue<V>> {
 
   // Index based lookup can be done before transforming.
   @override
-  IndexedValue<V> get first => new IndexedValue<V>(0, _iterable.first);
+  IndexedValue<V> get first => IndexedValue<V>(0, _iterable.first);
 
   @override
-  IndexedValue<V> get last => new IndexedValue<V>(length - 1, _iterable.last);
+  IndexedValue<V> get last => IndexedValue<V>(length - 1, _iterable.last);
 
   @override
-  IndexedValue<V> get single => new IndexedValue<V>(0, _iterable.single);
+  IndexedValue<V> get single => IndexedValue<V>(0, _iterable.single);
 
   @override
   IndexedValue<V> elementAt(int index) =>
-      new IndexedValue<V>(index, _iterable.elementAt(index));
+      IndexedValue<V>(index, _iterable.elementAt(index));
 }
 
 /// The [Iterator] returned by [EnumerateIterable.iterator].
@@ -84,7 +84,7 @@ class EnumerateIterator<V> extends Iterator<IndexedValue<V>> {
   @override
   bool moveNext() {
     if (_iterator.moveNext()) {
-      _current = new IndexedValue(_index++, _iterator.current);
+      _current = IndexedValue(_index++, _iterator.current);
       return true;
     }
     _current = null;

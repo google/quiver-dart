@@ -22,10 +22,10 @@ import 'package:test/test.dart';
 void main() {
   group('Metronome', () {
     test('delivers events as expected', () {
-      new FakeAsync().run((async) {
+      FakeAsync().run((async) {
         int callbacks = 0;
         DateTime lastTime;
-        var sub = new Metronome.epoch(aMinute,
+        var sub = Metronome.epoch(aMinute,
                 clock: async.getClock(DateTime.parse('2014-05-05 20:00:30')))
             .listen((d) {
           callbacks++;
@@ -49,9 +49,9 @@ void main() {
     });
 
     test('can be re-listened to', () {
-      new FakeAsync().run((async) {
+      FakeAsync().run((async) {
         int callbacks = 0;
-        var clock = new Metronome.epoch(aMinute,
+        var clock = Metronome.epoch(aMinute,
             clock: async.getClock(DateTime.parse('2014-05-05 20:00:30')));
         var sub = clock.listen((d) {
           callbacks++;
@@ -70,9 +70,9 @@ void main() {
     });
 
     test('supports multiple listeners joining and leaving', () {
-      new FakeAsync().run((async) {
+      FakeAsync().run((async) {
         List<int> callbacks = [0, 0];
-        var clock = new Metronome.epoch(aMinute,
+        var clock = Metronome.epoch(aMinute,
             clock: async.getClock(DateTime.parse('2014-05-05 20:00:30')));
         List subs = [
           clock.listen((d) {
@@ -92,11 +92,11 @@ void main() {
     });
 
     test('can be anchored at any time', () {
-      new FakeAsync().run((async) {
+      FakeAsync().run((async) {
         List<DateTime> times = [];
         DateTime start = DateTime.parse('2014-05-05 20:06:00');
         Clock clock = async.getClock(start);
-        new Metronome.periodic(aMinute * 10,
+        Metronome.periodic(aMinute * 10,
                 clock: clock, anchor: clock.minutesAgo(59))
             .listen((d) {
           times.add(d);
@@ -114,11 +114,11 @@ void main() {
     });
 
     test('can be anchored in the future', () {
-      new FakeAsync().run((async) {
+      FakeAsync().run((async) {
         List<DateTime> times = [];
         DateTime start = DateTime.parse('2014-05-05 20:06:00');
         Clock clock = async.getClock(start);
-        new Metronome.periodic(aMinute * 10,
+        Metronome.periodic(aMinute * 10,
                 clock: clock, anchor: clock.minutesFromNow(61))
             .listen((d) {
           times.add(d);
@@ -136,10 +136,10 @@ void main() {
     });
 
     test('can be a periodic timer', () {
-      new FakeAsync().run((async) {
+      FakeAsync().run((async) {
         List<DateTime> times = [];
         DateTime start = DateTime.parse('2014-05-05 20:06:00.004');
-        new Metronome.periodic(aMillisecond * 100,
+        Metronome.periodic(aMillisecond * 100,
                 clock: async.getClock(start), anchor: start)
             .listen((d) {
           times.add(d);
@@ -154,10 +154,10 @@ void main() {
     });
 
     test('resyncs when workers taking some time', () {
-      new FakeAsync().run((async) {
+      FakeAsync().run((async) {
         List<DateTime> times = [];
         DateTime start = DateTime.parse('2014-05-05 20:06:00.004');
-        new Metronome.periodic(aMillisecond * 100,
+        Metronome.periodic(aMillisecond * 100,
                 clock: async.getClock(start), anchor: start)
             .listen((d) {
           times.add(d);
@@ -173,10 +173,10 @@ void main() {
     });
 
     test('drops time when workers taking longer than interval', () {
-      new FakeAsync().run((async) {
+      FakeAsync().run((async) {
         List<DateTime> times = [];
         DateTime start = DateTime.parse('2014-05-05 20:06:00.004');
-        new Metronome.periodic(aMillisecond * 100,
+        Metronome.periodic(aMillisecond * 100,
                 clock: async.getClock(start), anchor: start)
             .listen((d) {
           times.add(d);

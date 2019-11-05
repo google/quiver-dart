@@ -23,7 +23,7 @@ void main() {
     LruMap<String, String> lruMap;
 
     test('the length property reflects how many keys are in the map', () {
-      lruMap = new LruMap();
+      lruMap = LruMap();
       expect(lruMap, hasLength(0));
 
       lruMap.addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
@@ -31,8 +31,7 @@ void main() {
     });
 
     test('accessing keys causes them to be promoted', () {
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       expect(lruMap.keys.toList(), ['C', 'B', 'A']);
 
@@ -46,16 +45,14 @@ void main() {
     });
 
     test('new keys are added at the beginning', () {
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       lruMap['D'] = 'Delta';
       expect(lruMap.keys.toList(), ['D', 'C', 'B', 'A']);
     });
 
     test('setting values on existing keys works, and promotes the key', () {
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       lruMap['B'] = 'Bravo';
       expect(lruMap.keys.toList(), ['B', 'C', 'A']);
@@ -63,8 +60,7 @@ void main() {
     });
 
     test('updating values on existing keys works, and promotes the key', () {
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       lruMap.update('B', (v) => '$v$v');
       expect(lruMap.keys.toList(), ['B', 'C', 'A']);
@@ -72,8 +68,7 @@ void main() {
     });
 
     test('updating values on absent keys works, and promotes the key', () {
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       lruMap.update('D', (v) => '$v$v', ifAbsent: () => 'Delta');
       expect(lruMap.keys.toList(), ['D', 'C', 'B', 'A']);
@@ -81,8 +76,7 @@ void main() {
     });
 
     test('updating all values works, and does not change used order', () {
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
       lruMap.updateAll((k, v) => '$v$v');
       expect(lruMap.keys.toList(), ['C', 'B', 'A']);
       expect(lruMap['A'], 'AlphaAlpha');
@@ -91,7 +85,7 @@ void main() {
     });
 
     test('the least recently used key is evicted when capacity hit', () {
-      lruMap = new LruMap(maximumSize: 3)
+      lruMap = LruMap(maximumSize: 3)
         ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       lruMap['D'] = 'Delta';
@@ -99,7 +93,7 @@ void main() {
     });
 
     test('setting maximum size evicts keys until the size is met', () {
-      lruMap = new LruMap(maximumSize: 5)
+      lruMap = LruMap(maximumSize: 5)
         ..addAll({
           'A': 'Alpha',
           'B': 'Beta',
@@ -113,8 +107,7 @@ void main() {
     });
 
     test('accessing the `keys` collection does not affect position', () {
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       expect(lruMap.keys.toList(), ['C', 'B', 'A']);
 
@@ -126,8 +119,7 @@ void main() {
     });
 
     test('accessing the `values` collection does not affect position', () {
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       expect(lruMap.values.toList(), ['Charlie', 'Beta', 'Alpha']);
 
@@ -139,8 +131,7 @@ void main() {
     });
 
     test('clearing removes all keys and values', () {
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       expect(lruMap.isNotEmpty, isTrue);
       expect(lruMap.keys.isNotEmpty, isTrue);
@@ -154,16 +145,14 @@ void main() {
     });
 
     test('`containsKey` returns true if the key is in the map', () {
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       expect(lruMap.containsKey('A'), isTrue);
       expect(lruMap.containsKey('D'), isFalse);
     });
 
     test('`containsValue` returns true if the value is in the map', () {
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       expect(lruMap.containsValue('Alpha'), isTrue);
       expect(lruMap.containsValue('Delta'), isFalse);
@@ -173,8 +162,7 @@ void main() {
       final keys = [];
       final values = [];
 
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       expect(lruMap.keys.toList(), ['C', 'B', 'A']);
       expect(lruMap.values.toList(), ['Charlie', 'Beta', 'Alpha']);
@@ -191,8 +179,7 @@ void main() {
     });
 
     test('`get entries` returns all entries', () {
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       var entries = lruMap.entries;
       expect(entries, hasLength(3));
@@ -203,8 +190,7 @@ void main() {
     });
 
     test('addEntries adds items to the beginning', () {
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       var entries = [const MapEntry('D', 'Delta'), const MapEntry('E', 'Echo')];
       lruMap.addEntries(entries);
@@ -212,8 +198,7 @@ void main() {
     });
 
     test('addEntries adds existing items to the beginning', () {
-      lruMap = new LruMap()
-        ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+      lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
 
       var entries = [const MapEntry('B', 'Bravo'), const MapEntry('E', 'Echo')];
       lruMap.addEntries(entries);
@@ -222,7 +207,7 @@ void main() {
 
     test('Re-adding the head entry is a no-op', () {
       // See: https://github.com/google/quiver-dart/issues/357
-      lruMap = new LruMap();
+      lruMap = LruMap();
       lruMap['A'] = 'Alpha';
       lruMap['A'] = 'Alpha';
 
@@ -232,8 +217,7 @@ void main() {
 
     group('`remove`', () {
       setUp(() {
-        lruMap = new LruMap()
-          ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+        lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
       });
 
       test('returns the value associated with a key, if it exists', () {
@@ -246,7 +230,7 @@ void main() {
 
       test('can remove the last item (head and tail)', () {
         // See: https://github.com/google/quiver-dart/issues/385
-        lruMap = new LruMap(maximumSize: 1)
+        lruMap = LruMap(maximumSize: 1)
           ..addAll({'A': 'Alpha'})
           ..remove('A');
         lruMap['B'] = 'Beta';
@@ -292,7 +276,7 @@ void main() {
     });
 
     test('the linked list is mutated when promoting an item in the middle', () {
-      LruMap<String, int> lruMap = new LruMap(maximumSize: 3)
+      LruMap<String, int> lruMap = LruMap(maximumSize: 3)
         ..addAll({'C': 1, 'A': 1, 'B': 1});
       // Order is now [B, A, C]. Trigger promotion of A.
       lruMap['A'] = 1;
@@ -305,8 +289,7 @@ void main() {
 
     group('`putIfAbsent`', () {
       setUp(() {
-        lruMap = new LruMap()
-          ..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
+        lruMap = LruMap()..addAll({'A': 'Alpha', 'B': 'Beta', 'C': 'Charlie'});
       });
 
       test('adds an item if it does not exist, and moves it to the MRU', () {
@@ -337,7 +320,7 @@ void main() {
     LruMap<String, dynamic> lruMap;
 
     setUp(() {
-      lruMap = new LruMap();
+      lruMap = LruMap();
     });
 
     test('for an empty map', () {

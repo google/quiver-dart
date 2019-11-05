@@ -39,7 +39,7 @@ bool isNotEmpty(String s) => s != null && s.isNotEmpty;
 /// use. No replacement is provided.
 String _reverse(String s) {
   if (s == null || s == '') return s;
-  StringBuffer sb = new StringBuffer();
+  StringBuffer sb = StringBuffer();
   var runes = s.runes.iterator..reset(s.length);
   while (runes.movePrevious()) {
     sb.writeCharCode(runes.current);
@@ -69,7 +69,7 @@ String _reverse(String s) {
 /// loop('ldwor', -3, 2) == 'world'
 String loop(String s, int from, [int to]) {
   if (s == null || s == '') {
-    throw new ArgumentError('Input string cannot be null or empty');
+    throw ArgumentError('Input string cannot be null or empty');
   }
   if (to != null && to < from) {
     // TODO(cbracken): throw ArgumentError in this case.
@@ -83,7 +83,7 @@ String loop(String s, int from, [int to]) {
   if (fragOffset == -1) {
     return s.substring(from - leftFrag * len, to - rightFrag * len);
   }
-  StringBuffer sink = new StringBuffer(s.substring(from - leftFrag * len));
+  StringBuffer sink = StringBuffer(s.substring(from - leftFrag * len));
   _repeat(sink, s, fragOffset);
   sink.write(s.substring(0, to - rightFrag * len));
   return sink.toString();
@@ -135,7 +135,7 @@ bool isWhitespace(int rune) =>
 /// padded with one more than the left.
 String center(String input, int width, String fill) {
   if (fill == null || fill.isEmpty) {
-    throw new ArgumentError('fill cannot be null or empty');
+    throw ArgumentError('fill cannot be null or empty');
   }
   input ??= '';
   if (input.length >= width) return input;

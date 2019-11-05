@@ -25,7 +25,7 @@ void main() {
         () => concat([]).toList().then((events) => expect(events, isEmpty)));
 
     test('should echo events of a single stream', () {
-      var controller = new StreamController<String>();
+      var controller = StreamController<String>();
       var concatenated = concat([controller.stream]);
       var expectation = concatenated.toList().then((e) {
         expect(e, ['a', 'b', 'c']);
@@ -35,15 +35,15 @@ void main() {
     });
 
     test('should handle empty streams', () {
-      var concatenated = concat([new Stream.fromIterable([])]);
+      var concatenated = concat([Stream.fromIterable([])]);
       return concatenated.toList().then((e) {
         expect(e, []);
       });
     });
 
     test('should concatenate stream data events', () {
-      var controller1 = new StreamController<String>();
-      var controller2 = new StreamController<String>();
+      var controller1 = StreamController<String>();
+      var controller2 = StreamController<String>();
       var concatenated = concat([controller1.stream, controller2.stream]);
       var expectation = concatenated.toList().then((e) {
         expect(e, ['a', 'b', 'c', 'd', 'e', 'f']);
@@ -55,8 +55,8 @@ void main() {
     });
 
     test('should concatenate stream error events', () {
-      var controller1 = new StreamController<String>();
-      var controller2 = new StreamController<String>();
+      var controller1 = StreamController<String>();
+      var controller2 = StreamController<String>();
       var concatenated = concat([controller1.stream, controller2.stream]);
       var errors = [];
       concatenated.listen(null, onError: errors.add);
@@ -69,7 +69,7 @@ void main() {
 
     test('should forward pause, resume, and cancel to current stream', () {
       var wasPaused = false, wasResumed = false, wasCanceled = false;
-      var controller = new StreamController<String>(
+      var controller = StreamController<String>(
           onPause: () => wasPaused = true,
           onResume: () => wasResumed = true,
           onCancel: () {
@@ -78,13 +78,13 @@ void main() {
       var concatenated = concat([controller.stream]);
       var subscription = concatenated.listen(null);
       controller.add('a');
-      return new Future.value()
+      return Future.value()
           .then((_) => subscription.pause())
           .then((_) => subscription.resume())
 
           // Give resume a chance to take effect.
           .then((_) => controller.add('b'))
-          .then((_) => new Future(subscription.cancel))
+          .then((_) => Future(subscription.cancel))
           .then((_) {
         expect(wasPaused, isTrue, reason: 'was not paused');
         expect(wasResumed, isTrue, reason: 'was not resumed');
@@ -97,7 +97,7 @@ void main() {
       var badIteration =
           ['e', 'this should not get thrown'].map((message) => throw message);
       var concatenated = concat(badIteration);
-      var completer = new Completer();
+      var completer = Completer();
       concatenated.listen(data.add,
           onError: errors.add, onDone: completer.complete);
       return completer.future.then((_) {

@@ -25,10 +25,10 @@ void main() {
     _ValidTestObject notEqualObject1;
 
     setUp(() {
-      reference = new _ValidTestObject(1, 2);
-      equalObject1 = new _ValidTestObject(1, 2);
-      equalObject2 = new _ValidTestObject(1, 2);
-      notEqualObject1 = new _ValidTestObject(0, 2);
+      reference = _ValidTestObject(1, 2);
+      equalObject1 = _ValidTestObject(1, 2);
+      equalObject2 = _ValidTestObject(1, 2);
+      notEqualObject1 = _ValidTestObject(0, 2);
     });
 
     test('Test null reference yields error', () {
@@ -108,7 +108,7 @@ void main() {
 
     test('Test proper handling of case where an object is not equal to itself',
         () {
-      Object obj = new _NonReflexiveObject();
+      Object obj = _NonReflexiveObject();
       try {
         expect({
           'non-reflexive': [obj]
@@ -120,7 +120,7 @@ void main() {
     });
 
     test('Test proper handling of case where hashcode is not idempotent', () {
-      Object obj = new _InconsistentHashCodeObject(1, 2);
+      Object obj = _InconsistentHashCodeObject(1, 2);
       try {
         expect({
           'non-reflexive': [obj]
@@ -137,7 +137,7 @@ void main() {
     test(
         'Test proper handling where an object incorrectly tests for an '
         'incompatible class', () {
-      Object obj = new _InvalidEqualsIncompatibleClassObject();
+      Object obj = _InvalidEqualsIncompatibleClassObject();
       try {
         expect({
           'equals method broken': [obj]
@@ -171,8 +171,8 @@ void main() {
         'Test for an invalid hashCode method, i.e., one that returns '
         'different value for objects that are equal according to the equals '
         'method', () {
-      Object a = new _InvalidHashCodeObject(1, 2);
-      Object b = new _InvalidHashCodeObject(1, 2);
+      Object a = _InvalidHashCodeObject(1, 2);
+      Object b = _InvalidHashCodeObject(1, 2);
       try {
         expect({
           'invalid hashcode': [a, b]
@@ -371,10 +371,10 @@ class _InvalidHashCodeObject {
   }
 }
 
-_NamedObject named(String name) => new _NamedObject(name);
+_NamedObject named(String name) => _NamedObject(name);
 
 class _NamedObject {
-  final Set<String> peerNames = new Set();
+  final Set<String> peerNames = Set();
   final String name;
 
   _NamedObject(this.name);

@@ -30,7 +30,7 @@ part of quiver.testing.async;
 /// Example:
 ///
 ///     test('testedFunc', () {
-///       new FakeAsync().run((async) {
+///       FakeAsync().run((async) {
 ///         testedFunc(clock: async.getClock(initialTime));
 ///         async.elapse(duration);
 ///         expect(...)
@@ -127,20 +127,20 @@ abstract class FakeAsync {
 class _FakeAsync implements FakeAsync {
   Duration _elapsed = Duration.zero;
   Duration _elapsingTo;
-  final Queue<Function> _microtasks = new Queue();
-  final Set<_FakeTimer> _timers = new Set<_FakeTimer>();
+  final Queue<Function> _microtasks = Queue();
+  final Set<_FakeTimer> _timers = Set<_FakeTimer>();
 
   @override
   Clock getClock(DateTime initialTime) =>
-      new Clock(() => initialTime.add(_elapsed));
+      Clock(() => initialTime.add(_elapsed));
 
   @override
   void elapse(Duration duration) {
     if (duration.inMicroseconds < 0) {
-      throw new ArgumentError('Cannot call elapse with negative duration');
+      throw ArgumentError('Cannot call elapse with negative duration');
     }
     if (_elapsingTo != null) {
-      throw new StateError('Cannot elapse until previous elapse is complete.');
+      throw StateError('Cannot elapse until previous elapse is complete.');
     }
     _elapsingTo = _elapsed + duration;
     _drainTimersWhile((_FakeTimer next) => next._nextCall <= _elapsingTo);
@@ -151,7 +151,7 @@ class _FakeAsync implements FakeAsync {
   @override
   void elapseBlocking(Duration duration) {
     if (duration.inMicroseconds < 0) {
-      throw new ArgumentError('Cannot call elapse with negative duration');
+      throw ArgumentError('Cannot call elapse with negative duration');
     }
     _elapsed += duration;
     if (_elapsingTo != null && _elapsed > _elapsingTo) {
@@ -171,7 +171,7 @@ class _FakeAsync implements FakeAsync {
     final absoluteTimeout = _elapsed + timeout;
     _drainTimersWhile((_FakeTimer timer) {
       if (timer._nextCall > absoluteTimeout) {
-        throw new StateError('Exceeded timeout $timeout while flushing timers');
+        throw StateError('Exceeded timeout $timeout while flushing timers');
       }
       if (flushPeriodicTimers) {
         return _timers.isNotEmpty;
@@ -211,7 +211,7 @@ class _FakeAsync implements FakeAsync {
   @override
   int get microtaskCount => _microtasks.length;
 
-  ZoneSpecification get _zoneSpec => new ZoneSpecification(
+  ZoneSpecification get _zoneSpec => ZoneSpecification(
           createTimer: (_, __, ___, Duration duration, Function callback) {
         return _createTimer(duration, callback, false);
       }, createPeriodicTimer:
@@ -237,7 +237,7 @@ class _FakeAsync implements FakeAsync {
   }
 
   Timer _createTimer(Duration duration, Function callback, bool isPeriodic) {
-    var timer = new _FakeTimer._(duration, callback, isPeriodic, this);
+    var timer = _FakeTimer._(duration, callback, isPeriodic, this);
     _timers.add(timer);
     return timer;
   }
@@ -301,7 +301,7 @@ class _FakeTimer implements Timer {
   @override
   int get tick {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('tick');
+    throw UnimplementedError('tick');
   }
 
   /// Returns debugging information to try to identify the source of the

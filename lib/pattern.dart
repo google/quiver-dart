@@ -20,7 +20,7 @@ part 'src/pattern/glob.dart';
 
 // From the PatternCharacter rule here:
 // http://ecma-international.org/ecma-262/5.1/#sec-15.10
-final _specialChars = new RegExp(r'([\\\^\$\.\|\+\[\]\(\)\{\}])');
+final _specialChars = RegExp(r'([\\\^\$\.\|\+\[\]\(\)\{\}])');
 
 /// Escapes special regex characters in [str] so that it can be used as a
 /// literal match inside of a [RegExp].
@@ -34,7 +34,7 @@ String escapeRegex(String str) => str.splitMapJoin(_specialChars,
 /// returns all the matches. If the input string matches against any pattern in
 /// [exclude] no matches are returned.
 Pattern matchAny(Iterable<Pattern> include, {Iterable<Pattern> exclude}) =>
-    new _MultiPattern(include, exclude: exclude);
+    _MultiPattern(include, exclude: exclude);
 
 class _MultiPattern extends Pattern {
   final Iterable<Pattern> include;

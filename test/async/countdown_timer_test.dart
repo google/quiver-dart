@@ -23,12 +23,12 @@ import 'package:quiver/testing/time.dart';
 void main() {
   group('CountdownTimer', () {
     test('should countdown', () {
-      new FakeAsync().run((FakeAsync async) {
-        var clock = async.getClock(new DateTime.fromMillisecondsSinceEpoch(0));
-        var stopwatch = new FakeStopwatch(
+      FakeAsync().run((FakeAsync async) {
+        var clock = async.getClock(DateTime.fromMillisecondsSinceEpoch(0));
+        var stopwatch = FakeStopwatch(
             () => 1000 * clock.now().millisecondsSinceEpoch, 1000000);
 
-        var timings = new CountdownTimer(const Duration(milliseconds: 500),
+        var timings = CountdownTimer(const Duration(milliseconds: 500),
                 const Duration(milliseconds: 100),
                 stopwatch: stopwatch)
             .map((c) => c.remaining.inMilliseconds);
@@ -44,7 +44,7 @@ void main() {
     });
 
     test('should set increment to the initialized value', () {
-      var timer = new CountdownTimer(
+      var timer = CountdownTimer(
           const Duration(milliseconds: 321), const Duration(milliseconds: 123));
       expect(timer.increment, const Duration(milliseconds: 123));
     });

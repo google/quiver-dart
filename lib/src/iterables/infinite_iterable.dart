@@ -25,43 +25,41 @@ abstract class InfiniteIterable<T> extends IterableBase<T> {
   bool get isNotEmpty => true;
 
   @override
-  T get last => throw new UnsupportedError('last');
+  T get last => throw UnsupportedError('last');
 
   @override
-  int get length => throw new UnsupportedError('length');
+  int get length => throw UnsupportedError('length');
 
   @override
-  T get single => throw new StateError('single');
+  T get single => throw StateError('single');
 
   @override
-  bool every(bool test(T element)) => throw new UnsupportedError('every');
+  bool every(bool test(T element)) => throw UnsupportedError('every');
 
   @override
   T1 fold<T1>(T1 initialValue, T1 combine(T1 previousValue, T element)) =>
-      throw new UnsupportedError('fold');
+      throw UnsupportedError('fold');
 
   @override
-  void forEach(void f(T element)) => throw new UnsupportedError('forEach');
+  void forEach(void f(T element)) => throw UnsupportedError('forEach');
 
   @override
-  String join([String separator = '']) => throw new UnsupportedError('join');
+  String join([String separator = '']) => throw UnsupportedError('join');
 
   @override
   T lastWhere(bool test(T value), {T orElse()}) =>
-      throw new UnsupportedError('lastWhere');
+      throw UnsupportedError('lastWhere');
 
   @override
-  T reduce(T combine(T value, T element)) =>
-      throw new UnsupportedError('reduce');
+  T reduce(T combine(T value, T element)) => throw UnsupportedError('reduce');
 
   @override
   T singleWhere(bool test(T value), {T orElse()}) =>
-      throw new UnsupportedError('singleWhere');
+      throw UnsupportedError('singleWhere');
 
   @override
-  List<T> toList({bool growable = true}) =>
-      throw new UnsupportedError('toList');
+  List<T> toList({bool growable = true}) => throw UnsupportedError('toList');
 
   @override
-  Set<T> toSet() => throw new UnsupportedError('toSet');
+  Set<T> toSet() => throw UnsupportedError('toSet');
 }

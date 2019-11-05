@@ -18,7 +18,7 @@ part of quiver.collection;
 /// For instance you can create a FruitSet like this :
 ///
 ///     class FruitSet extends DelegatingSet<Fruit> {
-///       final Set<Fruit> _fruits = new Set<Fruit>();
+///       final Set<Fruit> _fruits = Set<Fruit>();
 ///
 ///       Set<Fruit> get delegate => _fruits;
 ///
@@ -38,7 +38,7 @@ abstract class DelegatingSet<E> extends DelegatingIterable<E>
   @override
   DelegatingSet<T> cast<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('cast');
+    throw UnimplementedError('cast');
   }
 
   @override

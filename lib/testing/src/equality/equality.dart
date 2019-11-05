@@ -78,17 +78,17 @@ class _EqualityGroupMatcher extends Matcher {
 
   void _verifyEqualityGroups(Map<String, List> equalityGroups, Map matchState) {
     if (equalityGroups == null) {
-      throw new MatchError('Equality Group must not be null');
+      throw MatchError('Equality Group must not be null');
     }
     final equalityGroupsCopy = <String, List>{};
     equalityGroups.forEach((String groupName, List group) {
       if (groupName == null) {
-        throw new MatchError('Group name must not be null');
+        throw MatchError('Group name must not be null');
       }
       if (group == null) {
-        throw new MatchError('Group must not be null');
+        throw MatchError('Group must not be null');
       }
-      equalityGroupsCopy[groupName] = new List.from(group);
+      equalityGroupsCopy[groupName] = List.from(group);
     });
 
     // Run the test multiple times to ensure deterministic equals
@@ -102,16 +102,16 @@ class _EqualityGroupMatcher extends Matcher {
     var flattened = equalityGroups.values.expand((group) => group);
     for (final item in flattened) {
       if (item == _NotAnInstance.equalToNothing) {
-        throw new MatchError(
+        throw MatchError(
             '$item must not be equal to an arbitrary object of another class');
       }
 
       if (item != item) {
-        throw new MatchError('$item must be equal to itself');
+        throw MatchError('$item must be equal to itself');
       }
 
       if (item.hashCode != item.hashCode) {
-        throw new MatchError('the implementation of hashCode of $item must '
+        throw MatchError('the implementation of hashCode of $item must '
             'be idempotent');
       }
     }
@@ -160,11 +160,11 @@ class _EqualityGroupMatcher extends Matcher {
     var relatedInfo = _createItem(equalityGroups, groupName, relatedItemNumber);
 
     if (itemInfo.value != relatedInfo.value) {
-      throw new MatchError('$itemInfo must be equal to $relatedInfo');
+      throw MatchError('$itemInfo must be equal to $relatedInfo');
     }
 
     if (itemInfo.value.hashCode != relatedInfo.value.hashCode) {
-      throw new MatchError(
+      throw MatchError(
           'the hashCode (${itemInfo.value.hashCode}) of $itemInfo must '
           'be equal to the hashCode (${relatedInfo.value.hashCode}) of '
           '$relatedInfo}');
@@ -178,13 +178,13 @@ class _EqualityGroupMatcher extends Matcher {
         _createItem(equalityGroups, unrelatedGroupName, unrelatedItemNumber);
 
     if (itemInfo.value == unrelatedInfo.value) {
-      throw new MatchError('$itemInfo must not be equal to $unrelatedInfo)');
+      throw MatchError('$itemInfo must not be equal to $unrelatedInfo)');
     }
   }
 
   _Item _createItem(
           Map<String, List> equalityGroups, String groupName, int itemNumber) =>
-      new _Item(equalityGroups[groupName][itemNumber], groupName, itemNumber);
+      _Item(equalityGroups[groupName][itemNumber], groupName, itemNumber);
 }
 
 class _NotAnInstance {

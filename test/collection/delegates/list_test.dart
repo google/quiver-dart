@@ -31,7 +31,7 @@ void main() {
     DelegatingList<String> delegatingList;
 
     setUp(() {
-      delegatingList = new MyList(['a', 'b', 'cc']);
+      delegatingList = MyList(['a', 'b', 'cc']);
     });
 
     test('[]', () {

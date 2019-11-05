@@ -31,7 +31,7 @@ void main() {
     DelegatingIterable<String> delegatingIterable;
 
     setUp(() {
-      delegatingIterable = new MyIterable(['a', 'b', 'cc']);
+      delegatingIterable = MyIterable(['a', 'b', 'cc']);
     });
 
     test('any', () {
@@ -73,19 +73,19 @@ void main() {
     });
 
     test('forEach', () {
-      final s = new StringBuffer();
+      final s = StringBuffer();
       delegatingIterable.forEach(s.write);
       expect(s.toString(), equals('abcc'));
     });
 
     test('isEmpty', () {
       expect(delegatingIterable.isEmpty, isFalse);
-      expect(new MyIterable([]).isEmpty, isTrue);
+      expect(MyIterable([]).isEmpty, isTrue);
     });
 
     test('isNotEmpty', () {
       expect(delegatingIterable.isNotEmpty, isTrue);
-      expect(new MyIterable([]).isNotEmpty, isFalse);
+      expect(MyIterable([]).isNotEmpty, isFalse);
     });
 
     test('followedBy', () {
@@ -139,7 +139,7 @@ void main() {
 
     test('single', () {
       expect(() => delegatingIterable.single, throwsStateError);
-      expect(new MyIterable(['a']).single, equals('a'));
+      expect(MyIterable(['a']).single, equals('a'));
     });
 
     test('singleWhere', () {
@@ -173,7 +173,7 @@ void main() {
 
     test('toSet', () {
       expect(delegatingIterable.toSet(),
-          equals(new Set<String>.from(['a', 'b', 'cc'])));
+          equals(Set<String>.from(['a', 'b', 'cc'])));
     });
 
     test('where', () {

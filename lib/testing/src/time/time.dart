@@ -67,7 +67,7 @@ class FakeStopwatch implements Stopwatch {
   }
 
   @override
-  Duration get elapsed => new Duration(microseconds: elapsedMicroseconds);
+  Duration get elapsed => Duration(microseconds: elapsedMicroseconds);
 
   @override
   int get elapsedMicroseconds => (elapsedTicks * 1000000) ~/ frequency;

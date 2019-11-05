@@ -52,7 +52,7 @@ class Glob implements Pattern {
 }
 
 RegExp _regexpFromGlobPattern(String pattern) {
-  var sb = new StringBuffer();
+  var sb = StringBuffer();
   sb.write('^');
   var chars = pattern.split('');
   for (var i = 0; i < chars.length; i++) {
@@ -73,5 +73,5 @@ RegExp _regexpFromGlobPattern(String pattern) {
     }
   }
   sb.write(r'$');
-  return new RegExp(sb.toString());
+  return RegExp(sb.toString());
 }

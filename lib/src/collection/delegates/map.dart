@@ -43,13 +43,13 @@ abstract class DelegatingMap<K, V> implements Map<K, V> {
     // TODO: Dart 2.0 requires this method to be implemented.
     // Change Iterable<Object> to Iterable<MapEntry<K, V>> when
     // the MapEntry class has been added.
-    throw new UnimplementedError('addEntries');
+    throw UnimplementedError('addEntries');
   }
 
   @override
   Map<K2, V2> cast<K2, V2>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('cast');
+    throw UnimplementedError('cast');
   }
 
   @override
@@ -66,7 +66,7 @@ abstract class DelegatingMap<K, V> implements Map<K, V> {
     // TODO: Dart 2.0 requires this method to be implemented.
     // Change Iterable<Null> to Iterable<MapEntry<K, V>> when
     // the MapEntry class has been added.
-    throw new UnimplementedError('entries');
+    throw UnimplementedError('entries');
   }
 
   @override
@@ -89,7 +89,7 @@ abstract class DelegatingMap<K, V> implements Map<K, V> {
     // TODO: Dart 2.0 requires this method to be implemented.
     // Change Object to MapEntry<K2, V2> when
     // the MapEntry class has been added.
-    throw new UnimplementedError('map');
+    throw UnimplementedError('map');
   }
 
   @override
@@ -101,19 +101,19 @@ abstract class DelegatingMap<K, V> implements Map<K, V> {
   @override
   void removeWhere(bool test(K key, V value)) {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('removeWhere');
+    throw UnimplementedError('removeWhere');
   }
 
   @override
   V update(K key, V update(V value), {V ifAbsent()}) {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('update');
+    throw UnimplementedError('update');
   }
 
   @override
   void updateAll(V update(K key, V value)) {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('updateAll');
+    throw UnimplementedError('updateAll');
   }
 
   @override

@@ -32,7 +32,7 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   /// default `(a, b) => a.compareTo(b)`.
   factory TreeSet({Comparator<V> comparator}) {
     comparator ??= (a, b) => (a as dynamic).compareTo(b);
-    return new AvlTreeSet(comparator: comparator);
+    return AvlTreeSet(comparator: comparator);
   }
 
   TreeSet._(this.comparator);
@@ -154,7 +154,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   @override
   bool add(V element) {
     if (_root == null) {
-      AvlNode<V> node = new AvlNode<V>(object: element);
+      AvlNode<V> node = AvlNode<V>(object: element);
       _root = node;
       ++_length;
       ++_modCount;
@@ -168,7 +168,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
         return false;
       } else if (compare < 0) {
         if (x._left == null) {
-          AvlNode<V> node = new AvlNode<V>(object: element).._parent = x;
+          AvlNode<V> node = AvlNode<V>(object: element).._parent = x;
           x
             .._left = node
             .._balanceFactor -= 1;
@@ -177,7 +177,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
         x = x.left;
       } else {
         if (x._right == null) {
-          AvlNode<V> node = new AvlNode<V>(object: element).._parent = x;
+          AvlNode<V> node = AvlNode<V>(object: element).._parent = x;
           x
             .._right = node
             .._balanceFactor += 1;
@@ -295,7 +295,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   /// Assertion: must have a left element
   void _rotateRight(AvlNode<V> node) {
     AvlNode<V> y = node.left;
-    if (y == null) throw new AssertionError();
+    if (y == null) throw AssertionError();
 
     // turn Y's right subtree(B) into N's left subtree.
     node._left = y.right;
@@ -330,7 +330,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   /// Assertion: must have a right element
   void _rotateLeft(AvlNode<V> node) {
     AvlNode<V> y = node.right;
-    if (y == null) throw new AssertionError();
+    if (y == null) throw AssertionError();
 
     // turn Y's left subtree(B) into N's right subtree.
     node._right = y.left;
@@ -395,7 +395,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   @override
   AvlTreeSet<T> cast<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('cast');
+    throw UnimplementedError('cast');
   }
 
   @override
@@ -726,18 +726,18 @@ class AvlTreeSet<V> extends TreeSet<V> {
 
   /// See [IterableBase.iterator]
   @override
-  BidirectionalIterator<V> get iterator => new _AvlTreeIterator._(this);
+  BidirectionalIterator<V> get iterator => _AvlTreeIterator._(this);
 
   /// See [TreeSet.reverseIterator]
   @override
   BidirectionalIterator<V> get reverseIterator =>
-      new _AvlTreeIterator._(this, reversed: true);
+      _AvlTreeIterator._(this, reversed: true);
 
   /// See [TreeSet.fromIterator]
   @override
   BidirectionalIterator<V> fromIterator(V anchor,
           {bool reversed = false, bool inclusive = true}) =>
-      new _AvlTreeIterator<V>._(this,
+      _AvlTreeIterator<V>._(this,
           anchorObject: anchor, reversed: reversed, inclusive: inclusive);
 
   /// See [IterableBase.contains]
@@ -754,7 +754,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   /// See [Set.intersection]
   @override
   Set<V> intersection(Set<Object> other) {
-    TreeSet<V> set = new TreeSet(comparator: comparator);
+    TreeSet<V> set = TreeSet(comparator: comparator);
 
     // Optimized for sorted sets
     if (other is TreeSet<V>) {
@@ -789,7 +789,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   /// See [Set.union]
   @override
   Set<V> union(Set<V> other) {
-    TreeSet<V> set = new TreeSet(comparator: comparator);
+    TreeSet<V> set = TreeSet(comparator: comparator);
 
     if (other is TreeSet) {
       var i1 = iterator;
@@ -826,7 +826,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   /// See [Set.difference]
   @override
   Set<V> difference(Set<Object> other) {
-    TreeSet<V> set = new TreeSet(comparator: comparator);
+    TreeSet<V> set = TreeSet(comparator: comparator);
 
     if (other is TreeSet) {
       var i1 = iterator;
@@ -944,7 +944,7 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
 
   bool _moveNextNormal() {
     if (_modCountGuard != tree._modCount) {
-      throw new ConcurrentModificationError(tree);
+      throw ConcurrentModificationError(tree);
     }
     if (state == RIGHT || tree.isEmpty) return false;
     switch (state) {
@@ -964,7 +964,7 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
 
   bool _movePreviousNormal() {
     if (_modCountGuard != tree._modCount) {
-      throw new ConcurrentModificationError(tree);
+      throw ConcurrentModificationError(tree);
     }
     if (state == LEFT || tree.isEmpty) return false;
     switch (state) {

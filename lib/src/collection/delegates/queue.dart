@@ -18,7 +18,7 @@ part of quiver.collection;
 /// For instance you can create a FruitQueue like this :
 ///
 ///     class FruitQueue extends DelegatingQueue<Fruit> {
-///       final Queue<Fruit> _fruits = new Queue<Fruit>();
+///       final Queue<Fruit> _fruits = Queue<Fruit>();
 ///
 ///       Queue<Fruit> get delegate => _fruits;
 ///
@@ -44,7 +44,7 @@ abstract class DelegatingQueue<E> extends DelegatingIterable<E>
   @override
   DelegatingQueue<T> cast<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError('cast');
+    throw UnimplementedError('cast');
   }
 
   @override

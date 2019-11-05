@@ -30,5 +30,5 @@ dynamic firstNonNull(o1, o2, [o3, o4]) {
   if (o2 != null) return o2;
   if (o3 != null) return o3;
   if (o4 != null) return o4;
-  throw new ArgumentError('All arguments were null');
+  throw ArgumentError('All arguments were null');
 }

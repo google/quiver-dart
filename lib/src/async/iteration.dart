@@ -65,16 +65,16 @@ Future<S> _reduceAsync<S, T>(
 Future<Null> forEachAsync<T>(Iterable<T> iterable, AsyncAction<Null, T> action,
     {int maxTasks = 1}) {
   if (maxTasks == null || maxTasks < 1) {
-    throw new ArgumentError('maxTasks must be greater than 0, was: $maxTasks');
+    throw ArgumentError('maxTasks must be greater than 0, was: $maxTasks');
   }
 
   if (iterable == null) {
-    throw new ArgumentError('iterable must not be null');
+    throw ArgumentError('iterable must not be null');
   }
 
-  if (iterable.isEmpty) return new Future.value();
+  if (iterable.isEmpty) return Future.value();
 
-  var completer = new Completer<Null>();
+  var completer = Completer<Null>();
   var iterator = iterable.iterator;
   int pending = 0;
   bool failed = false;

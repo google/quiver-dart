@@ -31,7 +31,7 @@ void main() {
 
   group('implements', () {
     test('should return true if an object implements an interface', () {
-      var foo = new Foo();
+      var foo = Foo();
       expect(implements(foo, Object), true);
       expect(implements(foo, Foo), true);
       expect(implements(foo, Comparable), true);
@@ -39,7 +39,7 @@ void main() {
     });
 
     test("should return false if an object doesn't implement an interface", () {
-      var foo = new Foo();
+      var foo = Foo();
       expect(implements(foo, String), false);
       expect(implements(foo, num), false);
     });
@@ -47,7 +47,7 @@ void main() {
 
   group('classImplements', () {
     test('should return true if an class implements an interface', () {
-      var foo = new Foo();
+      var foo = Foo();
       var mirror = reflect(foo).type;
       expect(classImplements(mirror, reflectClass(Object)), true);
       expect(classImplements(mirror, reflectClass(Foo)), true);
@@ -56,7 +56,7 @@ void main() {
     });
 
     test("should return false if an object doesn't implement an interface", () {
-      var foo = new Foo();
+      var foo = Foo();
       var mirror = reflect(foo).type;
       expect(classImplements(mirror, reflectClass(String)), false);
       expect(classImplements(mirror, reflectClass(num)), false);
@@ -65,7 +65,7 @@ void main() {
 
   group('getMemberMirror', () {
     test('should return a member of a class', () {
-      var mirror = reflect(new Foo()).type;
+      var mirror = reflect(Foo()).type;
       expect(getDeclaration(mirror, const Symbol('toString')),
           isA<MethodMirror>());
       expect(getDeclaration(mirror, const Symbol('a')), isA<VariableMirror>());
@@ -76,7 +76,7 @@ void main() {
     test('should be callable', () {
       var i = 2;
       var mirror = reflect(i);
-      var method = new Method(mirror, const Symbol('+')) as dynamic;
+      var method = Method(mirror, const Symbol('+')) as dynamic;
       expect(method(3), 5);
     });
 
@@ -84,7 +84,7 @@ void main() {
       // this test will fail when named argument support is added
       var i = [1, 2];
       var mirror = reflect(i);
-      var method = new Method(mirror, const Symbol('toList')) as dynamic;
+      var method = Method(mirror, const Symbol('toList')) as dynamic;
       expect(method(growable: false), [1, 2]);
     });
   });

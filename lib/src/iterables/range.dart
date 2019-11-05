@@ -29,12 +29,12 @@ Iterable<num> range(num startOrStop, [num stop, num step]) sync* {
   stop ??= startOrStop;
   step ??= 1;
 
-  if (step == 0) throw new ArgumentError('step cannot be 0');
+  if (step == 0) throw ArgumentError('step cannot be 0');
   if (step > 0 && stop < start)
-    throw new ArgumentError('if step is positive,'
+    throw ArgumentError('if step is positive,'
         ' stop must be greater than start');
   if (step < 0 && stop > start)
-    throw new ArgumentError('if step is negative,'
+    throw ArgumentError('if step is negative,'
         ' stop must be less than start');
 
   for (num value = start; step < 0 ? value > stop : value < stop; value += step)

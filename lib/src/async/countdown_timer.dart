@@ -39,10 +39,9 @@ class CountdownTimer extends Stream<CountdownTimer> {
   /// and [FakeStopwatch].
   CountdownTimer(Duration duration, this.increment, {Stopwatch stopwatch})
       : _duration = duration,
-        _stopwatch = stopwatch ?? new Stopwatch(),
-        _controller =
-            new StreamController<CountdownTimer>.broadcast(sync: true) {
-    _timer = new Timer.periodic(increment, _tick);
+        _stopwatch = stopwatch ?? Stopwatch(),
+        _controller = StreamController<CountdownTimer>.broadcast(sync: true) {
+    _timer = Timer.periodic(increment, _tick);
     _stopwatch.start();
   }
 

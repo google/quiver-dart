@@ -61,14 +61,14 @@ void main() {
   group('matchesFull', () {
     test('should match a string', () {
       expect(matchesFull('abcd', 'abcd'), true);
-      expect(matchesFull(new RegExp('a.*d'), 'abcd'), true);
+      expect(matchesFull(RegExp('a.*d'), 'abcd'), true);
     });
 
     test('should return false for a partial match', () {
       expect(matchesFull('abc', 'abcd'), false);
       expect(matchesFull('bcd', 'abcd'), false);
-      expect(matchesFull(new RegExp('a.*c'), 'abcd'), false);
-      expect(matchesFull(new RegExp('b.*d'), 'abcd'), false);
+      expect(matchesFull(RegExp('a.*c'), 'abcd'), false);
+      expect(matchesFull(RegExp('b.*d'), 'abcd'), false);
     });
   });
 }

@@ -22,8 +22,8 @@ import 'package:quiver/async.dart';
 void main() {
   group('StreamRouter', () {
     test('should route an event to the correct stream', () {
-      var controller = new StreamController<String>();
-      new StreamRouter<String>(controller.stream)
+      var controller = StreamController<String>();
+      StreamRouter<String>(controller.stream)
         ..route((e) => e == 'foo').listen((e) {
           expect(e, 'foo');
         })
@@ -41,8 +41,8 @@ void main() {
     });
 
     test('should send events that match no predicate to defaultStream', () {
-      var controller = new StreamController<String>();
-      new StreamRouter<String>(controller.stream)
+      var controller = StreamController<String>();
+      StreamRouter<String>(controller.stream)
         ..route((e) => e == 'foo').listen((e) {
           fail('wrong stream');
         })
@@ -57,8 +57,8 @@ void main() {
     });
 
     test('should close child streams', () {
-      var controller = new StreamController<int>(sync: true);
-      var router = new StreamRouter<int>(controller.stream);
+      var controller = StreamController<int>(sync: true);
+      var router = StreamRouter<int>(controller.stream);
       // toList() will only complete when the child streams are closed
       var future = Future.wait([
         router.route((e) => e % 2 == 0).toList(),

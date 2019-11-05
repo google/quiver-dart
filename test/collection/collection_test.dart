@@ -55,18 +55,17 @@ void main() {
   group('setsEqual', () {
     test('return true for equal sets', () {
       expect(setsEqual(null, null), isTrue);
-      expect(setsEqual(new Set(), new Set()), isTrue);
-      expect(setsEqual(new Set.from([1]), new Set.from([1])), isTrue);
-      expect(setsEqual(new Set.from(['a', 'b']), new Set.from(['a', 'b'])),
-          isTrue);
+      expect(setsEqual(Set(), Set()), isTrue);
+      expect(setsEqual(Set.from([1]), Set.from([1])), isTrue);
+      expect(setsEqual(Set.from(['a', 'b']), Set.from(['a', 'b'])), isTrue);
     });
 
     test('return false for non-equal sets', () {
-      expect(setsEqual(null, new Set()), isFalse);
-      expect(setsEqual(new Set(), null), isFalse);
-      expect(setsEqual(new Set.from([1]), new Set.from([2])), isFalse);
-      expect(setsEqual(new Set.from([1]), new Set()), isFalse);
-      expect(setsEqual(new Set(), new Set.from([1])), isFalse);
+      expect(setsEqual(null, Set()), isFalse);
+      expect(setsEqual(Set(), null), isFalse);
+      expect(setsEqual(Set.from([1]), Set.from([2])), isFalse);
+      expect(setsEqual(Set.from([1]), Set()), isFalse);
+      expect(setsEqual(Set(), Set.from([1])), isFalse);
     });
   });
 

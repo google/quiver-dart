@@ -22,9 +22,9 @@ import 'package:quiver/async.dart';
 void main() {
   group('FutureStream', () {
     test('should forward an event', () {
-      var completer = new Completer<Stream<String>>();
-      var controller = new StreamController<String>();
-      var futureStream = new FutureStream(completer.future);
+      var completer = Completer<Stream<String>>();
+      var controller = StreamController<String>();
+      var futureStream = FutureStream(completer.future);
 
       var done = futureStream.first.then((s) {
         expect(s, 'hello');
@@ -37,11 +37,11 @@ void main() {
     });
 
     test('should close when the wrapped Steam closes', () {
-      var completer = new Completer<Stream<String>>();
-      var controller = new StreamController<String>();
-      var futureStream = new FutureStream(completer.future);
+      var completer = Completer<Stream<String>>();
+      var controller = StreamController<String>();
+      var futureStream = FutureStream(completer.future);
 
-      var testCompleter = new Completer();
+      var testCompleter = Completer();
 
       futureStream.listen((_) {}, onDone: () {
         // pass
@@ -55,11 +55,11 @@ void main() {
     });
 
     test('should forward errors', () {
-      var completer = new Completer<Stream<String>>();
-      var controller = new StreamController<String>();
-      var futureStream = new FutureStream(completer.future);
+      var completer = Completer<Stream<String>>();
+      var controller = StreamController<String>();
+      var futureStream = FutureStream(completer.future);
 
-      var testCompleter = new Completer();
+      var testCompleter = Completer();
 
       futureStream.listen((_) {}, onError: (e) {
         expect(e, 'error');
@@ -73,8 +73,8 @@ void main() {
     });
 
     test('should be broadcast', () {
-      var completer = new Completer<Stream<String>>();
-      var futureStream = new FutureStream(completer.future, broadcast: true);
+      var completer = Completer<Stream<String>>();
+      var futureStream = FutureStream(completer.future, broadcast: true);
       expect(futureStream.isBroadcast, isTrue);
     });
   });
