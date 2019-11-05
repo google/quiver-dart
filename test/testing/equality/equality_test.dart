@@ -278,7 +278,7 @@ class _NonReflexiveObject {
   bool operator ==(Object o) => false;
 
   @override
-  int get hashCode => super.hashCode;
+  int get hashCode => 0;
 }
 
 /// Test class with valid equals and hashCode methods. Testers created
