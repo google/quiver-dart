@@ -480,7 +480,7 @@ void main() {
         new FakeAsync().run((async) {
           int count = 0;
           // Schedule 3 timers. All but the last one should fire.
-          for (int delay in [30, 60, 90]) {
+          for (final delay in [30, 60, 90]) {
             new Future.delayed(new Duration(minutes: delay), () {
               count++;
             });

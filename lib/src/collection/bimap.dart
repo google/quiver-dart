@@ -97,7 +97,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
 
   @override
   void addEntries(Iterable<MapEntry<K, V>> entries) {
-    for (var entry in entries) {
+    for (final entry in entries) {
       _add(entry.key, entry.value, false);
     }
   }
@@ -149,7 +149,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
 
   @override
   void updateAll(V update(K key, V value)) {
-    for (var key in this.keys) {
+    for (final key in this.keys) {
       _add(key, update(key, _map[key]), true);
     }
   }

@@ -58,7 +58,7 @@ bool mapsEqual(Map a, Map b) {
   if (a == null || b == null) return false;
   if (a.length != b.length) return false;
 
-  for (var k in a.keys) {
+  for (final k in a.keys) {
     var bValue = b[k];
     if (bValue == null && !b.containsKey(k)) return false;
     if (bValue != a[k]) return false;
@@ -92,7 +92,7 @@ int indexOf<T>(Iterable<T> elements, bool predicate(T element)) {
   }
 
   int i = 0;
-  for (T element in elements) {
+  for (final element in elements) {
     if (predicate(element)) return i;
     i++;
   }

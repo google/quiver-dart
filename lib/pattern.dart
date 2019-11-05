@@ -45,11 +45,11 @@ class _MultiPattern extends Pattern {
   @override
   Iterable<Match> allMatches(String str, [int start = 0]) {
     final _allMatches = <Match>[];
-    for (var pattern in include) {
+    for (final pattern in include) {
       var matches = pattern.allMatches(str, start);
       if (_hasMatch(matches)) {
         if (exclude != null) {
-          for (var excludePattern in exclude) {
+          for (final excludePattern in exclude) {
             if (_hasMatch(excludePattern.allMatches(str, start))) {
               return [];
             }

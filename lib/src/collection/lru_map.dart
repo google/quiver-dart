@@ -247,7 +247,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
     _entries.forEach((key, entry) {
       if (test(key, entry.value)) keysToRemove.add(key);
     });
-    for (var key in keysToRemove) {
+    for (final key in keysToRemove) {
       remove(key);
     }
   }
