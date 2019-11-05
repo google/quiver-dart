@@ -98,7 +98,7 @@ linter:
     # - prefer_asserts_with_message # not yet tested
     # ENABLE - prefer_collection_literals
     - prefer_conditional_assignment
-    # ENABLE - prefer_const_constructors
+    - prefer_const_constructors
     - prefer_const_constructors_in_immutables
     - prefer_const_declarations
     - prefer_const_literals_to_create_immutables

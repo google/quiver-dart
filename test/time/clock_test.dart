@@ -41,7 +41,10 @@ void main() {
       // At 10ms the test doesn't seem to be flaky.
       var epsilon = 10;
       expect(
-          new DateTime.now().difference(new Clock().now()).inMilliseconds.abs(),
+          new DateTime.now()
+              .difference(const Clock().now())
+              .inMilliseconds
+              .abs(),
           lessThan(epsilon));
       expect(
           new DateTime.now()

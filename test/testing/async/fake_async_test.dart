@@ -464,10 +464,10 @@ void main() {
           'if scheduled first', () {
         new FakeAsync().run((async) {
           final log = [];
-          new Timer.periodic(new Duration(seconds: 1), (_) {
+          new Timer.periodic(const Duration(seconds: 1), (_) {
             log.add('periodic');
           });
-          new Future.delayed(new Duration(seconds: 2), () {
+          new Future.delayed(const Duration(seconds: 2), () {
             log.add('delayed');
           });
           expect(log, hasLength(0), reason: 'should not flush until asked to');

@@ -20,7 +20,7 @@ import 'package:test/test.dart';
 void main() {
   group('Optional', () {
     test('absent should be not present and not gettable', () {
-      Optional absent = new Optional<int>.absent();
+      const Optional absent = const Optional<int>.absent();
       expect(absent.isPresent, isFalse);
       expect(absent.isNotPresent, isTrue);
       expect(() => absent.value, throwsStateError);
@@ -39,7 +39,7 @@ void main() {
         value = v;
       });
       expect(value, 7);
-      new Optional<int>.absent().ifPresent((v) {
+      const Optional<int>.absent().ifPresent((v) {
         value = v;
       });
       expect(value, 7);
@@ -51,33 +51,33 @@ void main() {
         value = 7;
       });
       expect(value, null);
-      new Optional<int>.absent().ifAbsent(() {
+      const Optional<int>.absent().ifAbsent(() {
         value = 7;
       });
       expect(value, 7);
     });
 
     test('fromNullable should allow present or absent', () {
-      expect(new Optional<int>.fromNullable(7).value, 7);
-      expect(new Optional<int>.fromNullable(null).isPresent, isFalse);
-      expect(new Optional<int>.fromNullable(null).isNotPresent, isTrue);
+      expect(const Optional<int>.fromNullable(7).value, 7);
+      expect(const Optional<int>.fromNullable(null).isPresent, isFalse);
+      expect(const Optional<int>.fromNullable(null).isNotPresent, isTrue);
     });
 
     test('or should return present and replace absent', () {
-      expect(new Optional<int>.fromNullable(7).or(13), 7);
-      expect(new Optional<int>.fromNullable(null).or(13), 13);
+      expect(const Optional<int>.fromNullable(7).or(13), 7);
+      expect(const Optional<int>.fromNullable(null).or(13), 13);
     });
 
     test('orNull should return value if present or null if absent', () {
-      expect(new Optional<int>.fromNullable(7).orNull, isNotNull);
-      expect(new Optional<int>.fromNullable(null).orNull, isNull);
+      expect(const Optional<int>.fromNullable(7).orNull, isNotNull);
+      expect(const Optional<int>.fromNullable(null).orNull, isNull);
     });
 
     test('transform should return transformed value or absent', () {
-      expect(new Optional<int>.fromNullable(7).transform((a) => a + 1),
+      expect(const Optional<int>.fromNullable(7).transform((a) => a + 1),
           equals(new Optional<int>.of(8)));
       expect(
-          new Optional<int>.fromNullable(null)
+          const Optional<int>.fromNullable(null)
               .transform((a) => a + 1)
               .isPresent,
           isFalse);
@@ -85,15 +85,16 @@ void main() {
 
     test('transform should throw ArgumentError if transformed value is null',
         () {
-      expect(() => new Optional<int>.fromNullable(7).transform((_) => null),
+      expect(() => const Optional<int>.fromNullable(7).transform((_) => null),
           throwsArgumentError);
     });
 
     test('transformNullable should return transformed value or absent', () {
-      expect(new Optional<int>.fromNullable(7).transformNullable((a) => a + 1),
+      expect(
+          const Optional<int>.fromNullable(7).transformNullable((a) => a + 1),
           equals(new Optional<int>.of(8)));
       expect(
-          new Optional<int>.fromNullable(null)
+          const Optional<int>.fromNullable(null)
               .transformNullable((a) => a + 1)
               .isPresent,
           isFalse);
@@ -102,7 +103,7 @@ void main() {
     test('transformNullable should return absent if transformed value is null',
         () {
       expect(
-          new Optional<int>.fromNullable(7)
+          const Optional<int>.fromNullable(7)
               .transformNullable((_) => null)
               .isPresent,
           isFalse);
@@ -113,12 +114,12 @@ void main() {
           new Set.from([
             new Optional<int>.of(7),
             new Optional<int>.of(8),
-            new Optional<int>.absent()
+            const Optional<int>.absent()
           ]),
           equals(new Set.from([
             new Optional<int>.of(7),
             new Optional<int>.of(8),
-            new Optional<int>.absent()
+            const Optional<int>.absent()
           ])));
       expect(
           new Set.from([new Optional<int>.of(7), new Optional<int>.of(8)]),
@@ -128,13 +129,13 @@ void main() {
 
     test('== should compare by value', () {
       expect(new Optional<int>.of(7), equals(new Optional<int>.of(7)));
-      expect(new Optional<int>.fromNullable(null),
-          equals(new Optional<int>.fromNullable(null)));
+      expect(const Optional<int>.fromNullable(null),
+          equals(const Optional<int>.fromNullable(null)));
       expect(
-          new Optional<int>.fromNullable(null) ==
-              new Optional<String>.fromNullable(null),
+          const Optional<int>.fromNullable(null) ==
+              const Optional<String>.fromNullable(null),
           isFalse);
-      expect(new Optional<int>.fromNullable(null),
+      expect(const Optional<int>.fromNullable(null),
           isNot(equals(new Optional<int>.of(7))));
       expect(new Optional<int>.of(7), isNot(equals(new Optional<int>.of(8))));
     });
@@ -142,7 +143,7 @@ void main() {
     test('toString should show the value or absent', () {
       expect(
           new Optional<int>.of(7).toString(), equals('Optional { value: 7 }'));
-      expect(new Optional<int>.fromNullable(null).toString(),
+      expect(const Optional<int>.fromNullable(null).toString(),
           equals('Optional { absent }'));
     });
 
