@@ -151,7 +151,7 @@ linter:
     - unnecessary_null_aware_assignments
     - unnecessary_null_in_if_null_operators
     - unnecessary_overrides
-    # ENABLE - unnecessary_parenthesis
+    - unnecessary_parenthesis
     # ENABLE - unnecessary_statements
     # ENABLE - unnecessary_this
     # ENABLE - unrelated_type_equality_checks
