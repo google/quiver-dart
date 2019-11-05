@@ -71,7 +71,7 @@ linter:
     - empty_statements
     # - file_names # not yet tested
     # ENABLE - flutter_style_todos
-    # ENABLE - hash_and_equals
+    - hash_and_equals
     - implementation_imports
     # - invariant_booleans # too many false positives: https://github.com/dart-lang/linter/issues/811
     - iterable_contains_unrelated_type
