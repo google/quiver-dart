@@ -1016,9 +1016,9 @@ void main() {
   });
 }
 
-class Pair {
-  final x;
-  final y;
+class Pair<T> {
+  final T x;
+  final T y;
   Pair(this.x, this.y) : assert(x != null && y != null);
 
   @override

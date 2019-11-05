@@ -228,12 +228,12 @@ void main() {
       });
 
       group('fails', () {
-        var it;
+        Iterator<num> it;
         setUp(() => it = tree.iterator);
 
         test('after tree is cleared', () {
           tree.clear();
-          var error;
+          dynamic error;
           try {
             it.moveNext();
           } catch (e) {
@@ -244,7 +244,7 @@ void main() {
 
         test('after inserting an element', () {
           tree.add(101);
-          var error;
+          dynamic error;
           try {
             it.moveNext();
           } catch (e) {
@@ -255,7 +255,7 @@ void main() {
 
         test('after removing an element', () {
           tree.remove(10);
-          var error;
+          dynamic error;
           try {
             it.moveNext();
           } catch (e) {
@@ -266,12 +266,12 @@ void main() {
       });
 
       group('still works', () {
-        var it;
+        Iterator<num> it;
         setUp(() => it = tree.iterator);
 
         test('when removing non-existing element', () {
           tree.remove(42);
-          var error;
+          dynamic error;
           try {
             it.moveNext();
           } catch (e) {
@@ -281,7 +281,7 @@ void main() {
         });
         test('when adding an already existing element', () {
           tree.add(10);
-          var error;
+          dynamic error;
           try {
             it.moveNext();
           } catch (e) {

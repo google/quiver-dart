@@ -204,7 +204,7 @@ class _Item {
 }
 
 class MatchError extends Error {
-  final message;
+  final String message;
 
   /// The [message] describes the match error.
   MatchError([this.message]);

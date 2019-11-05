@@ -17,7 +17,7 @@ part of quiver.async;
 /// Underflow errors happen when the socket feeding a buffer is finished while
 /// there are still blocked readers. Each reader will complete with this error.
 class UnderflowError extends Error {
-  final message;
+  final String message;
 
   /// The [message] describes the underflow.
   UnderflowError([this.message]);
@@ -171,12 +171,12 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
 
   @override
   Future close() {
-    var ret;
+    Future ret;
     if (_sub != null) {
       ret = _sub.cancel();
       _sub = null;
     }
-    return ret is Future ? ret : new Future.value();
+    return ret ?? new Future.value();
   }
 }
 
