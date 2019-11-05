@@ -1,3 +1,9 @@
+#### 2.1.2-dev
+
+   * Deprecate `assertCheckedMode`. Checked mode no longer exists in Dart 2.0
+     since the vast majority of what checked mode did is now done in the type
+     system itself. This will be removed in Quiver 3.0.0.
+
 #### 2.1.1 - 2019-11-03
 
    * Deprecate `doWhileAsync`. Existing callers should migrate to

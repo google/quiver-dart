@@ -17,6 +17,7 @@ part of quiver.testing.runtime;
 /// Asserts that the current runtime has checked mode enabled.
 ///
 /// Otherwise, throws [StateError].
+@Deprecated('Checked mode is meaningless in Dart 2.0. Will be removed in 3.0.0')
 void assertCheckedMode() {
   _isCheckedMode ??= _checkForCheckedMode();
 
