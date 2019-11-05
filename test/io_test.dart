@@ -81,24 +81,24 @@ void main() {
 
       return visitDirectory(testDir, (FileSystemEntity e) {
         if (e is File) {
-          results.add("file: ${e.path}");
+          results.add('file: ${e.path}');
         } else if (e is Directory) {
-          results.add("dir: ${e.path}");
+          results.add('dir: ${e.path}');
         } else if (e is Link) {
-          results.add("link: ${e.path}, ${e.targetSync()}");
+          results.add('link: ${e.path}, ${e.targetSync()}');
         } else {
-          throw "bad";
+          throw 'bad';
         }
         return new Future.value(true);
       }).then((_) {
         var expectation = [
-          "file: $testPath/file_target",
-          "dir: $testPath/dir_target",
-          "file: $testPath/dir_target/file",
-          "link: $testPath/file_link, file_target",
-          "link: $testPath/dir_link, dir_target",
-          "file: $testPath/dir_link/file",
-          "link: $testPath/broken_link, broken_target",
+          'file: $testPath/file_target',
+          'dir: $testPath/dir_target',
+          'file: $testPath/dir_target/file',
+          'link: $testPath/file_link, file_target',
+          'link: $testPath/dir_link, dir_target',
+          'file: $testPath/dir_link/file',
+          'link: $testPath/broken_link, broken_target',
         ];
         expect(results, unorderedEquals(expectation));
       });
@@ -118,9 +118,9 @@ void main() {
         expect(
             files.map((e) => e.path),
             unorderedEquals([
-              "$testPath/dir",
-              "$testPath/dir/file",
-              "$testPath/dir2",
+              '$testPath/dir',
+              '$testPath/dir/file',
+              '$testPath/dir2',
             ]));
       });
     });

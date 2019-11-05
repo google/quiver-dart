@@ -19,13 +19,13 @@ import 'package:quiver/iterables.dart';
 
 void main() {
   group('cycle', () {
-    test("should create an empty iterable given an empty iterable", () {
+    test('should create an empty iterable given an empty iterable', () {
       expect(cycle([]), []);
       expect(cycle([]).isEmpty, true);
       expect(cycle([]).isNotEmpty, false);
     });
 
-    test("should cycle its argument", () {
+    test('should cycle its argument', () {
       expect(cycle([1, 2, 3]).take(7), [1, 2, 3, 1, 2, 3, 1]);
       expect(cycle([1, 2, 3]).isEmpty, false);
       expect(cycle([1, 2, 3]).isNotEmpty, true);

@@ -19,38 +19,38 @@ import 'package:quiver/iterables.dart';
 
 void main() {
   group('range', () {
-    test("should create an empty iterator if stop is 0", () {
+    test('should create an empty iterator if stop is 0', () {
       expect(range(0), []);
     });
 
-    test("should create a sequence from 0 to stop - 1", () {
+    test('should create a sequence from 0 to stop - 1', () {
       expect(range(10), [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]);
     });
 
-    test("should start sequences at start_or_stop", () {
+    test('should start sequences at start_or_stop', () {
       expect(range(1, 11), [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
     });
 
-    test("should create an empty iterator if start and stop are equal", () {
+    test('should create an empty iterator if start and stop are equal', () {
       expect(range(1, 1), []);
     });
 
-    test("should step by step", () {
+    test('should step by step', () {
       expect(range(0, 10, 2), [0, 2, 4, 6, 8]);
       expect(range(0, 10, 3), [0, 3, 6, 9]);
     });
 
-    test("should step by a negative step", () {
+    test('should step by a negative step', () {
       expect(range(10, 0, -1), [10, 9, 8, 7, 6, 5, 4, 3, 2, 1]);
       expect(range(0, -8, -1), [0, -1, -2, -3, -4, -5, -6, -7]);
       expect(range(0, -10, -3), [0, -3, -6, -9]);
     });
 
-    test("should throw with a bad range", () {
+    test('should throw with a bad range', () {
       expect(() => range(10, 0), throwsArgumentError);
     });
 
-    test("should throw with a bad step", () {
+    test('should throw with a bad step', () {
       expect(() => range(0, 10, -1), throwsArgumentError);
     });
   });

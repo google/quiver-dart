@@ -63,7 +63,7 @@ void main() {
       var results = [];
       return forEachAsync([1, 2, 3], (i) {
         pending++;
-        if (pending > 1) fail("too many pending tasks");
+        if (pending > 1) fail('too many pending tasks');
         results.add(i);
         return new Future(() {
           pending--;
@@ -79,7 +79,7 @@ void main() {
       var results = [];
       return forEachAsync([1, 2, 3, 4], (i) {
         pending++;
-        if (pending > 3) fail("too many pending tasks");
+        if (pending > 3) fail('too many pending tasks');
         if (pending > maxPending) maxPending = pending;
         results.add(i);
         return new Future(() {

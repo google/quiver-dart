@@ -74,7 +74,7 @@ class _EqualityGroupMatcher extends Matcher {
   @override
   Description describeMismatch(item, Description mismatchDescription,
           Map matchState, bool verbose) =>
-      mismatchDescription.add(" ${matchState[failureReason]}");
+      mismatchDescription.add(' ${matchState[failureReason]}');
 
   void _verifyEqualityGroups(Map<String, List> equalityGroups, Map matchState) {
     if (equalityGroups == null) {
@@ -103,16 +103,16 @@ class _EqualityGroupMatcher extends Matcher {
     for (final item in flattened) {
       if (item == _NotAnInstance.equalToNothing) {
         throw new MatchError(
-            "$item must not be equal to an arbitrary object of another class");
+            '$item must not be equal to an arbitrary object of another class');
       }
 
       if (item != item) {
-        throw new MatchError("$item must be equal to itself");
+        throw new MatchError('$item must be equal to itself');
       }
 
       if (item.hashCode != item.hashCode) {
-        throw new MatchError("the implementation of hashCode of $item must "
-            "be idempotent");
+        throw new MatchError('the implementation of hashCode of $item must '
+            'be idempotent');
       }
     }
   }
@@ -160,14 +160,14 @@ class _EqualityGroupMatcher extends Matcher {
     var relatedInfo = _createItem(equalityGroups, groupName, relatedItemNumber);
 
     if (itemInfo.value != relatedInfo.value) {
-      throw new MatchError("$itemInfo must be equal to $relatedInfo");
+      throw new MatchError('$itemInfo must be equal to $relatedInfo');
     }
 
     if (itemInfo.value.hashCode != relatedInfo.value.hashCode) {
       throw new MatchError(
-          "the hashCode (${itemInfo.value.hashCode}) of $itemInfo must "
-          "be equal to the hashCode (${relatedInfo.value.hashCode}) of "
-          "$relatedInfo}");
+          'the hashCode (${itemInfo.value.hashCode}) of $itemInfo must '
+          'be equal to the hashCode (${relatedInfo.value.hashCode}) of '
+          '$relatedInfo}');
     }
   }
 
@@ -178,7 +178,7 @@ class _EqualityGroupMatcher extends Matcher {
         _createItem(equalityGroups, unrelatedGroupName, unrelatedItemNumber);
 
     if (itemInfo.value == unrelatedInfo.value) {
-      throw new MatchError("$itemInfo must not be equal to " "$unrelatedInfo)");
+      throw new MatchError('$itemInfo must not be equal to $unrelatedInfo)');
     }
   }
 

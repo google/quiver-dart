@@ -652,14 +652,14 @@ void main() {
           timer = new Timer(timeout, () {
             counter++;
             expect(timer.isActive, isFalse,
-                reason: "is not active while executing callback");
+                reason: 'is not active while executing callback');
           });
           expect(timer.isActive, isTrue,
-              reason: "is active before executing callback");
+              reason: 'is active before executing callback');
           async.elapse(timeout);
-          expect(counter, equals(1), reason: "timer executed");
+          expect(counter, equals(1), reason: 'timer executed');
           expect(timer.isActive, isFalse,
-              reason: "is not active after executing callback");
+              reason: 'is not active after executing callback');
         });
       });
     });

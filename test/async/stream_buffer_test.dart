@@ -19,8 +19,8 @@ import 'package:test/test.dart';
 import 'package:quiver/async.dart';
 
 void main() {
-  group("StreamBuffer", () {
-    test("returns orderly overlaps", () {
+  group('StreamBuffer', () {
+    test('returns orderly overlaps', () {
       StreamBuffer<int> buf = new StreamBuffer();
       new Stream.fromIterable([
         [1],
@@ -36,7 +36,7 @@ void main() {
       });
     }, tags: ['fails-on-dartdevc']);
 
-    test("respects pausing of stream", () {
+    test('respects pausing of stream', () {
       StreamBuffer<int> buf = new StreamBuffer()..limit = 2;
       new Stream.fromIterable([
         [1],
@@ -53,7 +53,7 @@ void main() {
       });
     }, tags: ['fails-on-dartdevc']);
 
-    test("throws when reading too much", () {
+    test('throws when reading too much', () {
       StreamBuffer<int> buf = new StreamBuffer()..limit = 1;
       new Stream.fromIterable([
         [1],
@@ -65,10 +65,10 @@ void main() {
         expect(e, isArgumentError);
         return;
       }
-      fail("error not thrown when reading more data than buffer limit");
+      fail('error not thrown when reading more data than buffer limit');
     });
 
-    test("allows patching of streams", () {
+    test('allows patching of streams', () {
       StreamBuffer<int> buf = new StreamBuffer();
       new Stream.fromIterable([
         [1, 2]
@@ -84,16 +84,16 @@ void main() {
       });
     });
 
-    test("underflows when asked to", () {
+    test('underflows when asked to', () {
       StreamBuffer<int> buf = new StreamBuffer(throwOnError: true);
       var error;
       var future = buf.read(4).then((bytes) {
-        fail("should not have gotten bytes: $bytes");
+        fail('should not have gotten bytes: $bytes');
       }).catchError((e) {
         error = e;
       }).then((_) {
         expect(error is UnderflowError, isTrue,
-            reason: "!UnderflowError: $error");
+            reason: '!UnderflowError: $error');
       });
       new Stream.fromIterable([
         [1, 2, 3]
@@ -101,7 +101,7 @@ void main() {
       return future;
     });
 
-    test("accepts several streams", () async {
+    test('accepts several streams', () async {
       StreamBuffer<int> buf = new StreamBuffer();
       new Stream.fromIterable([
         [1]

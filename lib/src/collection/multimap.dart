@@ -295,17 +295,17 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
 
   @override
   void operator []=(K key, C value) {
-    throw new UnsupportedError("Insert unsupported on map view");
+    throw new UnsupportedError('Insert unsupported on map view');
   }
 
   @override
   void addAll(Map<K, C> other) {
-    throw new UnsupportedError("Insert unsupported on map view");
+    throw new UnsupportedError('Insert unsupported on map view');
   }
 
   @override
   C putIfAbsent(K key, C ifAbsent()) {
-    throw new UnsupportedError("Insert unsupported on map view");
+    throw new UnsupportedError('Insert unsupported on map view');
   }
 
   @override
@@ -332,7 +332,7 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   @override
   Map<K2, V2> cast<K2, V2>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError("cast");
+    throw new UnimplementedError('cast');
   }
 
   @override
@@ -340,7 +340,7 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
 
   @override
   void addEntries(Iterable<MapEntry<K, C>> entries) {
-    throw new UnsupportedError("Insert unsupported on map view");
+    throw new UnsupportedError('Insert unsupported on map view');
   }
 
   @override
@@ -349,12 +349,12 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
 
   @override
   C update(K key, C update(C value), {C ifAbsent()}) {
-    throw new UnsupportedError("Update unsupported on map view");
+    throw new UnsupportedError('Update unsupported on map view');
   }
 
   @override
   void updateAll(C update(K key, C value)) {
-    throw new UnsupportedError("Update unsupported on map view");
+    throw new UnsupportedError('Update unsupported on map view');
   }
 
   @override
@@ -403,7 +403,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   @override
   Iterable<T> cast<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError("cast");
+    throw new UnimplementedError('cast');
   }
 
   @override
@@ -479,7 +479,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   }
 
   @override
-  String join([String separator = ""]) {
+  String join([String separator = '']) {
     _syncDelegate();
     return _delegate.join(separator);
   }
@@ -577,7 +577,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   @override
   Iterable<T> whereType<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError("whereType");
+    throw new UnimplementedError('whereType');
   }
 }
 
@@ -626,7 +626,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   @override
   List<T> cast<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError("cast");
+    throw new UnimplementedError('cast');
   }
 
   @override
@@ -821,7 +821,7 @@ class _WrappedSet<K, V> extends _WrappedIterable<K, V, Set<V>>
   @override
   Set<T> cast<T>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError("cast");
+    throw new UnimplementedError('cast');
   }
 
   @override

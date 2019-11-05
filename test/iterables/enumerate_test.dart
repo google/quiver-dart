@@ -19,38 +19,38 @@ import 'package:quiver/iterables.dart';
 
 void main() {
   group('enumerate', () {
-    test("should add indices to its argument", () {
+    test('should add indices to its argument', () {
       var e = enumerate(['a', 'b', 'c']);
       expect(e.map((v) => v.index), [0, 1, 2]);
       expect(e.map((v) => v.value), ['a', 'b', 'c']);
     });
 
-    test("should return an empty iterable given an empty iterable", () {
+    test('should return an empty iterable given an empty iterable', () {
       expect(enumerate([]), []);
     });
 
-    test("should add indices to its argument", () {
+    test('should add indices to its argument', () {
       var e = enumerate(['a', 'b', 'c']);
       expect(e.map((v) => v.index), [0, 1, 2]);
       expect(e.map((v) => v.index), [0, 1, 2],
           reason: 'should enumerate to the same values a second time');
     });
 
-    test("first", () {
+    test('first', () {
       var e = enumerate(['a', 'b', 'c']);
       expect(e.first.value, 'a');
       expect(e.first.index, 0);
       expect(e.first.value, 'a');
     });
 
-    test("last", () {
+    test('last', () {
       var e = enumerate(['a', 'b', 'c']);
       expect(e.last.value, 'c');
       expect(e.last.index, 2);
       expect(e.last.value, 'c');
     });
 
-    test("single", () {
+    test('single', () {
       var e = enumerate(['a']);
       expect(e.single.value, 'a');
       expect(e.single.index, 0);
@@ -59,11 +59,11 @@ void main() {
       expect(() => enumerate([1, 2]).single, throwsStateError);
     });
 
-    test("length", () {
+    test('length', () {
       expect(enumerate([7, 8, 9]).length, 3);
     });
 
-    test("elementAt", () {
+    test('elementAt', () {
       var list = ['a', 'b', 'c'];
       var e = enumerate(list);
       for (int i = 2; i >= 0; i--) {
@@ -72,7 +72,7 @@ void main() {
       }
     });
 
-    test("equals and hashcode", () {
+    test('equals and hashcode', () {
       var list = ['a', 'b', 'c'];
       var e1 = enumerate(list);
       var e2 = enumerate(list);

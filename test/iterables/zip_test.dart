@@ -19,11 +19,11 @@ import 'package:quiver/iterables.dart';
 
 void main() {
   group('zip', () {
-    test("should create an empty iterable if given no iterables", () {
+    test('should create an empty iterable if given no iterables', () {
       expect(zip([]), []);
     });
 
-    test("should zip equal length lists", () {
+    test('should zip equal length lists', () {
       expect(
           zip([
             [1, 2, 3],
@@ -46,7 +46,7 @@ void main() {
           ]);
     });
 
-    test("should stop at the end of the shortest iterable", () {
+    test('should stop at the end of the shortest iterable', () {
       expect(
           zip([
             [1, 2],

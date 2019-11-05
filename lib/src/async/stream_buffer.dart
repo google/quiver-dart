@@ -25,9 +25,9 @@ class UnderflowError extends Error {
   @override
   String toString() {
     if (message != null) {
-      return "StreamBuffer Underflow: $message";
+      return 'StreamBuffer Underflow: $message';
     }
-    return "StreamBuffer Underflow";
+    return 'StreamBuffer Underflow';
   }
 }
 
@@ -116,7 +116,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
   /// Throws [ArgumentError] if size is larger than optional buffer [limit].
   Future<List<T>> read(int size) {
     if (limited && size > limit) {
-      throw new ArgumentError("Cannot read $size with limit $limit");
+      throw new ArgumentError('Cannot read $size with limit $limit');
     }
 
     // If we have enough data to consume and there are no other readers, then

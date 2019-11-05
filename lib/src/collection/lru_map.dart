@@ -89,7 +89,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   @override
   LinkedLruHashMap<K2, V2> cast<K2, V2>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError("cast");
+    throw new UnimplementedError('cast');
   }
 
   @override
@@ -153,7 +153,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
     // TODO: Dart 2.0 requires this method to be implemented.
     // Change Object to MapEntry<K2, V2> when
     // the MapEntry class has been added.
-    throw new UnimplementedError("map");
+    throw new UnimplementedError('map');
   }
 
   @override

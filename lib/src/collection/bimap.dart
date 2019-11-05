@@ -105,7 +105,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   @override
   Map<K2, V2> cast<K2, V2>() {
     // TODO: Dart 2.0 requires this method to be implemented.
-    throw new UnimplementedError("cast");
+    throw new UnimplementedError('cast');
   }
 
   @override
@@ -161,12 +161,12 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   }
 
   V _add(K key, V value, bool replace) {
-    if (key == null) throw new ArgumentError("null key");
-    if (value == null) throw new ArgumentError("null value");
+    if (key == null) throw new ArgumentError('null key');
+    if (value == null) throw new ArgumentError('null value');
     var oldValue = _map[key];
     if (oldValue == value) return value;
     if (_inverse.containsKey(value)) {
-      if (!replace) throw new ArgumentError("Mapping for $value exists");
+      if (!replace) throw new ArgumentError('Mapping for $value exists');
       _map.remove(_inverse[value]);
     }
     _inverse.remove(oldValue);
