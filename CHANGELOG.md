@@ -1,6 +1,8 @@
 #### 3.0.0-dev
 
    * BREAKING CHANGE: Deleted `doWhileAsync`, which was deprecated in 2.1.1.
+   * BREAKING CHANGE: Deleted `assertCheckedMode`, which was deprecated in
+     2.1.2. Checked mode no longer exists as of Dart 2.0.0.
 
 #### 2.1.2+1 - 2019-11-05
 
