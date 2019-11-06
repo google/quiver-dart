@@ -1,5 +1,6 @@
 #### 3.0.0-dev
 
+   * BREAKING CHANGE: Deleted `doWhileAsync`, which was deprecated in 2.1.1.
 
 #### 2.1.2+1 - 2019-11-05
 
