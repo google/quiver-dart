@@ -1,5 +1,6 @@
 #### 3.0.0-dev
 
+   * Updated Dart SDK constraint to >=2.2.0 < 3.0.0.
    * BREAKING CHANGE: Deleted `doWhileAsync`, which was deprecated in 2.1.1.
    * BREAKING CHANGE: Deleted `assertCheckedMode`, which was deprecated in
      2.1.2. Checked mode no longer exists as of Dart 2.0.0.

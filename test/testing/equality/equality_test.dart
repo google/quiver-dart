@@ -376,7 +376,7 @@ _NamedObject named(String name) => _NamedObject(name);
 class _NamedObject {
   _NamedObject(this.name);
 
-  final Set<String> peerNames = Set();
+  final Set<String> peerNames = {};
   final String name;
 
   void addPeers(List<String> names) {

@@ -172,8 +172,7 @@ void main() {
     });
 
     test('toSet', () {
-      expect(delegatingIterable.toSet(),
-          equals(Set<String>.from(['a', 'b', 'cc'])));
+      expect(delegatingIterable.toSet(), equals({'a', 'b', 'cc'}));
     });
 
     test('where', () {

@@ -261,7 +261,7 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
       : super.fromIterable(iterable, key: key, value: value);
 
   @override
-  Set<V> _create() => Set<V>();
+  Set<V> _create() => <V>{};
   @override
   void _add(Set<V> iterable, V value) {
     iterable.add(value);

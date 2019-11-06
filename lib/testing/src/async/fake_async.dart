@@ -128,7 +128,7 @@ class _FakeAsync implements FakeAsync {
   Duration _elapsed = Duration.zero;
   Duration _elapsingTo;
   final Queue<Function> _microtasks = Queue();
-  final Set<_FakeTimer> _timers = Set<_FakeTimer>();
+  final Set<_FakeTimer> _timers = <_FakeTimer>{};
 
   @override
   Clock getClock(DateTime initialTime) =>

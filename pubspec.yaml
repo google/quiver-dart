@@ -5,7 +5,7 @@ description: >-
 homepage: https://github.com/google/quiver-dart
 version: 3.0.0-dev
 environment:
-  sdk: '>=2.0.0-dev.61 <3.0.0'
+  sdk: '>=2.2.0 <3.0.0'
 dependencies:
   matcher: '>=0.12.5 <0.13.0'
   meta: '>=1.0.0 <2.0.0'

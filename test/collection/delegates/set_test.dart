@@ -14,8 +14,6 @@
 
 library quiver.collection.delegates.set_test;
 
-import 'dart:collection' show LinkedHashSet;
-
 import 'package:quiver/collection.dart';
 import 'package:test/test.dart';
 
@@ -33,7 +31,7 @@ void main() {
     DelegatingSet<String> delegatingSet;
 
     setUp(() {
-      delegatingSet = MySet(LinkedHashSet<String>.from(['a', 'b', 'cc']));
+      delegatingSet = MySet({'a', 'b', 'cc'});
     });
 
     test('add', () {
@@ -59,16 +57,13 @@ void main() {
     });
 
     test('difference', () {
-      expect(delegatingSet.difference(Set<String>.from(['a', 'cc'])),
-          equals(['b']));
-      expect(delegatingSet.difference(Set<String>.from(['cc'])),
-          equals(['a', 'b']));
+      expect(delegatingSet.difference({'a', 'cc'}), equals(['b']));
+      expect(delegatingSet.difference({'cc'}), equals(['a', 'b']));
     });
 
     test('intersection', () {
-      expect(delegatingSet.intersection(Set<String>.from(['a', 'dd'])),
-          equals(['a']));
-      expect(delegatingSet.intersection(Set<String>.from(['e'])), equals([]));
+      expect(delegatingSet.intersection({'a', 'dd'}), equals(['a']));
+      expect(delegatingSet.intersection({'e'}), equals([]));
     });
 
     test('remove', () {
@@ -97,8 +92,8 @@ void main() {
     });
 
     test('union', () {
-      expect(delegatingSet.union(LinkedHashSet<String>.from(['a', 'cc', 'd'])),
-          equals(['a', 'b', 'cc', 'd']));
+      expect(
+          delegatingSet.union({'a', 'cc', 'd'}), equals(['a', 'b', 'cc', 'd']));
     });
   });
 }
