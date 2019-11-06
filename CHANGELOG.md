@@ -1,3 +1,7 @@
+#### 2.1.2+1 - 2019-11-05
+   * Minor linter fix: added curly brackets on flow-control structures to make
+     Pana package scoring happier.
+
 #### 2.1.2 - 2019-11-05
 
    * Deprecate `assertCheckedMode`. Checked mode no longer exists in Dart 2.0
