@@ -225,12 +225,6 @@ supported.
 
 [quiver.testing.equality]: https://pub.dev/documentation/quiver/latest/quiver.testing.equality/quiver.testing.equality-library.html
 
-## [quiver.testing.runtime][]
-
-`assertCheckedMode` asserts the current runtime has checked mode enabled.
-
-[quiver.testing.runtime]: https://pub.dev/documentation/quiver/latest/quiver.testing.runtime/quiver.testing.runtime-library.html
-
 ## [quiver.testing.time][]
 
 `FakeStopwatch` is a Stopwatch that uses a provided `now()` function to get the
