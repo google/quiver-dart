@@ -9,7 +9,7 @@ libraries easier and more convenient, or adds additional functionality.
 
 ## Documentation
 
-[API Docs](http://www.dartdocs.org/documentation/quiver/latest) are available.
+[API Docs](https://pub.dev/documentation/quiver/latest/) are available.
 
 
 Main Libraries
@@ -236,4 +236,4 @@ supported.
 `FakeStopwatch` is a Stopwatch that uses a provided `now()` function to get the
 current time.
 
-[quiver.testing.time]: http://www.dartdocs.org/documentation/quiver/latest#quiver/quiver-testing-time
+[quiver.testing.time]: https://pub.dev/documentation/quiver/latest/quiver.testing.time/quiver.testing.time-library.html
