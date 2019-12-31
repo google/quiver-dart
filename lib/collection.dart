@@ -21,16 +21,18 @@ import 'dart:math';
 import 'package:meta/meta.dart';
 import 'package:quiver/core.dart';
 import 'package:quiver/iterables.dart';
+import 'package:quiver/time.dart';
 
 part 'src/collection/bimap.dart';
-part 'src/collection/lru_map.dart';
-part 'src/collection/multimap.dart';
-part 'src/collection/treeset.dart';
 part 'src/collection/delegates/iterable.dart';
 part 'src/collection/delegates/list.dart';
 part 'src/collection/delegates/map.dart';
 part 'src/collection/delegates/queue.dart';
 part 'src/collection/delegates/set.dart';
+part 'src/collection/lru_map.dart';
+part 'src/collection/multimap.dart';
+part 'src/collection/tlru_map.dart';
+part 'src/collection/treeset.dart';
 
 /// Checks [List]s [a] and [b] for equality.
 ///

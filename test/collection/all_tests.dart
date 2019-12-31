@@ -23,6 +23,7 @@ import 'delegates/queue_test.dart' as delegate_queue;
 import 'delegates/set_test.dart' as delegate_set;
 import 'lru_map_test.dart' as lru_map;
 import 'multimap_test.dart' as multimap;
+import 'tlru_map_test.dart' as tlru_map;
 import 'treeset_test.dart' as treeset;
 
 void main() {
@@ -34,6 +35,7 @@ void main() {
   delegate_queue.main();
   delegate_set.main();
   lru_map.main();
+  tlru_map.main();
   multimap.main();
   treeset.main();
 }

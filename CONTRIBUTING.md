@@ -12,13 +12,14 @@ do this once.
 
 ### Contribution Guidelines
 
-We welcome your pull requests, issue reports and enhacement requests. To make
+We welcome your pull requests, issue reports and enhancement requests. To make
 the process as smooth as possible, we request the following:
 
    * Sign the [CLA](https://cla.developers.google.com/about/google-individual)
      (see above) before sending your pull request. It's quick, we promise!
-   * Have test cases for your changes and ensure that the existing ones pass in
-     checked mode.
+   * Have test cases for your changes and ensure that the existing ones pass
+     with [assertions](https://dart.dev/guides/language/language-tour#assert) 
+     enabled.
    * Run your changes through `dartfmt`. Follow the installation instructions
      in the [dart_style](https://github.com/dart-lang/dart_style) README for
      more info.
@@ -29,5 +30,6 @@ the process as smooth as possible, we request the following:
    * During code review, go ahead and pile up commits addressing review
      comments. Once you get an LGTM (looks good to me) on the review, we'll
      squash your commits and merge!
-   * If you're not already listed as an author in `pubspec.yaml`, remember to
-     add yourself and claim your rightful place amongst the Quiverati.
+   * If you're not already listed as an author in the [AUTHORS](./AUTHORS)
+     file, remember to add yourself and claim your rightful place amongst the 
+     Quiverati.
