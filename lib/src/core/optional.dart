@@ -34,7 +34,14 @@ class Optional<T> extends IterableBase<T> {
   ///
   /// If [value] is null, returns [absent()].
   const Optional.fromNullable(T value) : _value = value;
-
+  
+  /// Constructs an Optional of the given [value].
+  ///
+  /// If [value] is null, returns [null].
+  factory Optional.fromValue(T value) {
+    return value != null ? Optional.fromNullable(value) : null;
+  }
+  
   final T _value;
 
   /// True when this optional contains a value.
