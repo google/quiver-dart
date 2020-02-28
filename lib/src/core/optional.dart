@@ -90,7 +90,7 @@ class Optional<T> extends IterableBase<T> {
   Optional<S> transform<S>(S transformer(T value)) {
     return _value == null
         ? Optional<S>.absent()
-        : Optional.of(transformer(_value));
+        : Optional<S>.of(transformer(_value));
   }
 
   /// Transforms the Optional value.
@@ -101,7 +101,7 @@ class Optional<T> extends IterableBase<T> {
   Optional<S> transformNullable<S>(S transformer(T value)) {
     return _value == null
         ? Optional<S>.absent()
-        : Optional.fromNullable(transformer(_value));
+        : Optional<S>.fromNullable(transformer(_value));
   }
 
   @override
