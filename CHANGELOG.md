@@ -1,3 +1,10 @@
+#### 2.1.3 - 2020-02-28
+
+  * Fix: revert const constructor change to `Optional.transform`,
+    `Optional.transformNull` which causes type errors when used in combination
+    with certain operations that trigger an implicit type check. The error in
+    question was introduced in 2.1.2.
+
 #### 2.1.2+1 - 2019-11-05
 
    * Minor linter fix: added curly brackets on flow-control structures to make
