@@ -185,7 +185,7 @@ supporting a number of use-cases, including:
 ## [quiver.time][]
 
 `Clock` provides points in time relative to the current point in time, for
-example: now, 2 days ago, 4 weeks from now, etc. For tesability, use Clock
+example: now, 2 days ago, 4 weeks from now, etc. For testability, use Clock
 rather than other ways of accessing time, like `new DateTime()`, so that you
 can use a fake time function in your tests to control time.
 
