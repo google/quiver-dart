@@ -24,6 +24,7 @@ import 'merge_test.dart' as merge;
 import 'min_max_test.dart' as min_max;
 import 'partition_test.dart' as partition;
 import 'range_test.dart' as range;
+import 'sum_test.dart' as sum;
 import 'zip_test.dart' as zip;
 
 void main() {
@@ -38,4 +39,5 @@ void main() {
   partition.main();
   range.main();
   zip.main();
+  sum.main();
 }
