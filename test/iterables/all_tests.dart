@@ -14,6 +14,7 @@
 
 library quiver.iterables.all_tests;
 
+import 'avg_test.dart' as avg;
 import 'concat_test.dart' as concat;
 import 'count_test.dart' as count;
 import 'cycle_test.dart' as cycle;
@@ -38,4 +39,5 @@ void main() {
   partition.main();
   range.main();
   zip.main();
+  avg.main();
 }

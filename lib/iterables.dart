@@ -27,3 +27,4 @@ part 'src/iterables/partition.dart';
 part 'src/iterables/generating_iterable.dart';
 part 'src/iterables/range.dart';
 part 'src/iterables/zip.dart';
+part 'src/iterables/avg.dart';
