@@ -54,7 +54,7 @@ void main() {
           throwsNoSuchMethodError);
     });
 
-    test('should reflectchanges in the inputs', () {
+    test('should reflect changes in the inputs', () {
       var a = [1, 2];
       var b = [4, 5];
       var ab = concat([a, b]);
