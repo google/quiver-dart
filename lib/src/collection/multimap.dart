@@ -66,6 +66,9 @@ abstract class Multimap<K, V> {
   /// removed values, or an empty iterable if [key] was unmapped.
   Iterable<V> removeAll(Object key);
 
+  /// Removes all entries of this multimap that satisfy the given [predicate].
+  void removeWhere(bool predicate(K key, V value));
+
   /// Removes all data from the multimap.
   void clear();
 
@@ -124,6 +127,7 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
   void _addAll(C iterable, Iterable<V> value);
   void _clear(C iterable);
   bool _remove(C iterable, Object value);
+  void _removeWhere(C iterable, K key, bool predicate(K key, V value));
   Iterable<V> _wrap(Object key, C iterable);
 
   @override
@@ -179,6 +183,16 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
       values.clear();
     }
     return retValues;
+  }
+
+  @override
+  void removeWhere(bool predicate(K key, V value)) {
+    final emptyKeys = <K>{};
+    _map.forEach((K key, Iterable<V> values) {
+      _removeWhere(values, key, predicate);
+      if (_map[key].isEmpty) emptyKeys.add(key);
+    });
+    emptyKeys.forEach((emptyKey) => _map.remove(emptyKey));
   }
 
   @override
@@ -238,6 +252,9 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
   @override
   bool _remove(List<V> iterable, Object value) => iterable.remove(value);
   @override
+  void _removeWhere(List<V> iterable, K key, bool predicate(K key, V value)) =>
+      iterable.removeWhere((value) => predicate(key, value));
+  @override
   List<V> _wrap(Object key, List<V> iterable) =>
       _WrappedList(_map, key, iterable);
   @override
@@ -273,6 +290,9 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
   void _clear(Set<V> iterable) => iterable.clear();
   @override
   bool _remove(Set<V> iterable, Object value) => iterable.remove(value);
+  @override
+  void _removeWhere(Set<V> iterable, K key, bool predicate(K key, V value)) =>
+      iterable.removeWhere((value) => predicate(key, value));
   @override
   Set<V> _wrap(Object key, Iterable<V> iterable) =>
       _WrappedSet(_map, key, iterable);

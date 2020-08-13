@@ -417,6 +417,34 @@ void main() {
       expect(map.containsKey('k2'), true);
     });
 
+    test('should call removeWhere with all {key, value} pairs', () {
+      Set s = Set();
+      ListMultimap<String, String>()
+        ..add('k1', 'v1')
+        ..add('k1', 'v2')
+        ..add('k2', 'v3')
+        ..removeWhere((k, v) {
+          s.add(Pair(k, v));
+          return false;
+        });
+      expect(
+          s,
+          unorderedEquals(
+              [Pair('k1', 'v1'), Pair('k1', 'v2'), Pair('k2', 'v3')]));
+    });
+
+    test(
+        'should remove all the {key, value} pairs that satisfy the '
+        'predicate in removeWhere', () {
+      var map = ListMultimap<String, String>()
+        ..add('k1', 'v1')
+        ..add('k1', 'v2')
+        ..add('k2', 'v1')
+        ..removeWhere((k, v) => k == 'k2' || v == 'v1');
+      expect(map.keys, equals(['k1']));
+      expect(map.values, equals(['v2']));
+    });
+
     test('should clear underlying iterable on remove', () {
       var map = ListMultimap<String, String>()..add('k1', 'v1');
       List values = map['k1'];
@@ -808,6 +836,34 @@ void main() {
       expect(map.removeAll('k1'), unorderedEquals(['v1', 'v2']));
       expect(map.containsKey('k1'), false);
       expect(map.containsKey('k2'), true);
+    });
+
+    test('should call removeWhere with all {key, value} pairs', () {
+      Set s = Set();
+      SetMultimap<String, String>()
+        ..add('k1', 'v1')
+        ..add('k1', 'v2')
+        ..add('k2', 'v3')
+        ..removeWhere((k, v) {
+          s.add(Pair(k, v));
+          return false;
+        });
+      expect(
+          s,
+          unorderedEquals(
+              [Pair('k1', 'v1'), Pair('k1', 'v2'), Pair('k2', 'v3')]));
+    });
+
+    test(
+        'should remove all the {key, value} pairs that satisfy the '
+        'predicate in removeWhere', () {
+      var map = SetMultimap<String, String>()
+        ..add('k1', 'v1')
+        ..add('k1', 'v2')
+        ..add('k2', 'v1')
+        ..removeWhere((k, v) => k == 'k2' || v == 'v1');
+      expect(map.keys, equals(['k1']));
+      expect(map.values, equals(['v2']));
     });
 
     test('should clear underlying iterable on remove', () {
