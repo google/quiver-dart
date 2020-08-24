@@ -14,8 +14,8 @@
 
 part of quiver.collection;
 
-/// An implementation of a [Map] which has a maximum size and uses a (Least
-/// Recently Used)[http://en.wikipedia.org/wiki/Cache_algorithms#LRU] algorithm
+/// An implementation of a [Map] which has a maximum size and uses a [Least
+/// Recently Used](http://en.wikipedia.org/wiki/Cache_algorithms#LRU) algorithm
 /// to remove items from the [Map] when the [maximumSize] is reached and new
 /// items are added.
 ///
