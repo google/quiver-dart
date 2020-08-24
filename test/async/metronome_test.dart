@@ -24,9 +24,10 @@ void main() {
     test('delivers events as expected', () {
       FakeAsync().run((async) {
         int callbacks = 0;
-        DateTime lastTime;
-        var sub = Metronome.epoch(aMinute,
-                clock: async.getClock(DateTime.parse('2014-05-05 20:00:30')))
+
+        // Initialize metronome with start time.
+        DateTime lastTime = DateTime.parse('2014-05-05 20:00:30');
+        var sub = Metronome.epoch(aMinute, clock: async.getClock(lastTime))
             .listen((d) {
           callbacks++;
           lastTime = d;
