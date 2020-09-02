@@ -20,7 +20,7 @@ import 'package:quiver/cache.dart';
 
 void main() {
   group('MapCache', () {
-    MapCache<String, String> cache;
+    /*late*/ MapCache<String, String> cache;
 
     setUp(() {
       cache = MapCache<String, String>();
