@@ -20,7 +20,7 @@ import 'package:test/test.dart';
 void main() {
   group('TreeSet', () {
     group('when empty', () {
-      TreeSet<num> tree;
+      /*late*/ TreeSet<num> tree;
       setUp(() {
         tree = TreeSet<num>();
       });
@@ -41,7 +41,7 @@ void main() {
     });
 
     group('with [10, 20, 15]', () {
-      AvlTreeSet<num> tree;
+      /*late*/ AvlTreeSet<num> tree;
       setUp(() {
         tree = TreeSet<num>()..addAll([10, 20, 15]);
       });
@@ -67,7 +67,7 @@ void main() {
     });
 
     group('with repeated elements', () {
-      TreeSet<num> tree;
+      /*late*/ TreeSet<num> tree;
       setUp(() {
         tree = TreeSet<num>()..addAll([10, 20, 15, 21, 30, 20]);
       });
@@ -83,7 +83,7 @@ void main() {
     });
 
     group('iteration', () {
-      TreeSet<num> tree;
+      /*late*/ TreeSet<num> tree;
       setUp(() {
         tree = TreeSet<num>()..addAll([10, 20, 15, 21, 30]);
       });
@@ -266,7 +266,7 @@ void main() {
       });
 
       group('still works', () {
-        Iterator<num> it;
+        /*late*/ Iterator<num> it;
         setUp(() => it = tree.iterator);
 
         test('when removing non-existing element', () {
@@ -293,7 +293,7 @@ void main() {
     });
 
     group('removal', () {
-      TreeSet<num> tree;
+      /*late*/ TreeSet<num> tree;
 
       test('remove from empty tree', () {
         tree = TreeSet();
@@ -367,12 +367,12 @@ void main() {
       /// we do not check the performance, only that the resulting math
       /// is equivilant to non-sorted sets.
 
-      TreeSet<num> tree;
-      List<num> expectedUnion;
-      List<num> expectedIntersection;
-      List<num> expectedDifference;
-      Set<num> nonSortedTestSet;
-      TreeSet<num> sortedTestSet;
+      /*late*/ TreeSet<num> tree;
+      /*late*/ List<num> expectedUnion;
+      /*late*/ List<num> expectedIntersection;
+      /*late*/ List<num> expectedDifference;
+      /*late*/ Set<num> nonSortedTestSet;
+      /*late*/ TreeSet<num> sortedTestSet;
 
       setUp(() {
         tree = TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
@@ -517,7 +517,7 @@ void main() {
     });
 
     group('nearest search', () {
-      TreeSet<num> tree;
+      /*late*/ TreeSet<num> tree;
       setUp(() {
         tree = TreeSet<num>(comparator: (num left, num right) {
           return left - right;

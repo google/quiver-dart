@@ -28,7 +28,7 @@ class MyIterable extends DelegatingIterable<String> {
 
 void main() {
   group('DelegatingIterable', () {
-    DelegatingIterable<String> delegatingIterable;
+    /*late*/ DelegatingIterable<String> delegatingIterable;
 
     setUp(() {
       delegatingIterable = MyIterable(['a', 'b', 'cc']);
