@@ -30,7 +30,7 @@ class MyQueue extends DelegatingQueue<String> {
 
 void main() {
   group('DelegatingQueue', () {
-    DelegatingQueue<String> delegatingQueue;
+    /*late*/ DelegatingQueue<String> delegatingQueue;
 
     setUp(() {
       delegatingQueue = MyQueue(Queue<String>.from(['a', 'b', 'cc']));

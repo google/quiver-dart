@@ -65,8 +65,8 @@ void main() {
   });
 
   group('Multimap asMap() view', () {
-    Multimap<String, String> mmap;
-    Map<String, Iterable<String>> map;
+    /*late*/ Multimap<String, String> mmap;
+    /*late*/ Map<String, Iterable<String>> map;
     setUp(() {
       mmap = Multimap()..add('k1', 'v1')..add('k1', 'v2')..add('k2', 'v3');
       map = mmap.asMap();

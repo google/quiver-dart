@@ -28,7 +28,7 @@ class MyMap extends DelegatingMap<String, int> {
 
 void main() {
   group('DelegatingMap', () {
-    DelegatingMap<String, int> delegatingMap;
+    /*late*/ DelegatingMap<String, int> delegatingMap;
 
     setUp(() {
       delegatingMap = MyMap({'a': 1, 'bb': 2});
