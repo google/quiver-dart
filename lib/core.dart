@@ -15,6 +15,8 @@
 /// Simple code with broad use cases.
 library quiver.core;
 
+// @dart = 2.6
+
 import 'dart:collection';
 
 part 'src/core/hash.dart';
