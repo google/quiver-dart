@@ -20,7 +20,7 @@ import 'package:test/test.dart';
 void main() {
   group('LruMap', () {
     /// A map that will be initialize by individual tests.
-    LruMap<String, String> lruMap;
+    /*late*/ LruMap<String, String> lruMap;
 
     test('the length property reflects how many keys are in the map', () {
       lruMap = LruMap();
@@ -317,7 +317,7 @@ void main() {
   });
 
   group('LruMap builds an informative string representation', () {
-    LruMap<String, dynamic> lruMap;
+    /*late*/ LruMap<String, dynamic> lruMap;
 
     setUp(() {
       lruMap = LruMap();

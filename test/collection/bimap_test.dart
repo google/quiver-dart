@@ -25,9 +25,9 @@ void main() {
   });
 
   group('HashBiMap', () {
-    BiMap<String, int> map;
-    String k1 = 'k1', k2 = 'k2', k3 = 'k3';
-    int v1 = 1, v2 = 2, v3 = 3;
+    /*late*/ BiMap<String, int> map;
+    final String k1 = 'k1', k2 = 'k2', k3 = 'k3';
+    final int v1 = 1, v2 = 2, v3 = 3;
 
     setUp(() {
       map = HashBiMap();

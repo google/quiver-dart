@@ -30,7 +30,7 @@ class MySet extends DelegatingSet<String> {
 
 void main() {
   group('DelegatingSet', () {
-    DelegatingSet<String> delegatingSet;
+    /*late*/ DelegatingSet<String> delegatingSet;
 
     setUp(() {
       delegatingSet = MySet(LinkedHashSet<String>.from(['a', 'b', 'cc']));

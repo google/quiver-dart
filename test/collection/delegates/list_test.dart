@@ -28,7 +28,7 @@ class MyList extends DelegatingList<String> {
 
 void main() {
   group('DelegatingList', () {
-    DelegatingList<String> delegatingList;
+    /*late*/ DelegatingList<String> delegatingList;
 
     setUp(() {
       delegatingList = MyList(['a', 'b', 'cc']);
