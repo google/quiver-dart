@@ -16,6 +16,10 @@ library quiver.strings;
 
 /// Returns [true] if [s] is either null, empty or is solely made of whitespace
 /// characters (as defined by [String.trim]).
+///
+/// See also:
+///
+///  * [isNotBlank]
 bool isBlank(String s) => s == null || s.trim().isEmpty;
 
 /// Returns [true] if [s] is neither null, empty nor is solely made of whitespace
@@ -27,9 +31,17 @@ bool isBlank(String s) => s == null || s.trim().isEmpty;
 bool isNotBlank(String s) => s != null && s.trim().isNotEmpty;
 
 /// Returns [true] if [s] is either null or empty.
+///
+/// See also:
+///
+///  * [isNotEmpty]
 bool isEmpty(String s) => s == null || s.isEmpty;
 
 /// Returns [true] if [s] is a not empty string.
+///
+/// See also:
+///
+///  * [isEmpty]
 bool isNotEmpty(String s) => s != null && s.isNotEmpty;
 
 /// Returns a string with characters from the given [s] in reverse order.
@@ -50,7 +62,7 @@ String _reverse(String s) {
 /// Loops over [s] and returns traversed characters. Takes arbitrary [from] and
 /// [to] indices. Works as a substitute for [String.substring], except it never
 /// throws [RangeError]. Supports negative indices. Think of an index as a
-/// coordinate in an infinite in both directions vector filled with repeating
+/// coordinate in an infinite in both directions vector, filled with repeating
 /// string [s], whose 0-th coordinate coincides with the 0-th character in [s].
 /// Then [loop] returns the sub-vector defined by the interval ([from], [to]).
 /// [from] is inclusive. [to] is exclusive.
@@ -123,12 +135,12 @@ bool isWhitespace(int rune) =>
     rune == 0xFEFF;
 
 /// Returns a [String] of length [width] padded with the same number of
-/// characters on the left and right from [fill].  On the right, characters are
+/// characters on the left and right from [fill]. On the right, characters are
 /// selected from [fill] starting at the end so that the last character in
 /// [fill] is the last character in the result. [fill] is repeated if
-/// neccessary to pad.
+/// necessary to pad.
 ///
-/// Returns [input] if `input.length` is equal to or greater than width.
+/// Returns [input] if `input.length` is equal to or greater than [width].
 /// [input] can be `null` and is treated as an empty string.
 ///
 /// If there are an odd number of characters to pad, then the right will be
