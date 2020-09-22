@@ -24,19 +24,16 @@ void main() {
       expect(isBlank(null), isTrue);
     });
     test('should consider empty string a blank', () {
-      String s = '';
-      expect(isBlank(s), isTrue);
-      expect(s.isBlank, isTrue);
+      expect(isBlank(''), isTrue);
+      expect(''.isBlank, isTrue);
     });
     test('should consider white-space-only string a blank', () {
-      String s = ' \n\t\r\f';
-      expect(isBlank(s), isTrue);
-      expect(s.isBlank, isTrue);
+      expect(isBlank(' \n\t\r\f'), isTrue);
+      expect(' \n\t\r\f'.isBlank, isTrue);
     });
     test('should consider non-whitespace string not a blank', () {
-      String s = 'hello';
-      expect(isBlank(s), isFalse);
-      expect(s.isBlank, isFalse);
+      expect(isBlank('hello'), isFalse);
+      expect('hello'.isBlank, isFalse);
     });
   });
 
@@ -45,19 +42,16 @@ void main() {
       expect(isNotBlank(null), isFalse);
     });
     test('should consider empty string a blank', () {
-      String s = '';
-      expect(isNotBlank(s), isFalse);
-      expect(s.isNotBlank, isFalse);
+      expect(isNotBlank(''), isFalse);
+      expect(''.isNotBlank, isFalse);
     });
     test('should consider white-space-only string a blank', () {
-      String s = ' \n\t\r\f';
-      expect(isNotBlank(s), isFalse);
-      expect(s.isNotBlank, isFalse);
+      expect(isNotBlank(' \n\t\r\f'), isFalse);
+      expect(' \n\t\r\f'.isNotBlank, isFalse);
     });
     test('should consider non-whitespace string not a blank', () {
-      String s = 'hello';
-      expect(isNotBlank(s), isTrue);
-      expect(s.isNotBlank, isTrue);
+      expect(isNotBlank('hello'), isTrue);
+      expect('hello'.isNotBlank, isTrue);
     });
   });
 
@@ -66,19 +60,16 @@ void main() {
       expect(isEmpty(null), isTrue);
     });
     test('should consider the empty string to be empty', () {
-      String s = '';
-      expect(isEmpty(s), isTrue);
-      expect(s.isEmpty, isTrue);
+      expect(isEmpty(''), isTrue);
+      expect(''.isEmpty, isTrue);
     });
     test('should consider whitespace string to be not empty', () {
-      String s = ' ';
-      expect(isEmpty(s), isFalse);
-      expect(s.isEmpty, isFalse);
+      expect(isEmpty(' '), isFalse);
+      expect(' '.isEmpty, isFalse);
     });
     test('should consider non-whitespace string to be not empty', () {
-      String s = 'hello';
-      expect(isEmpty(s), isFalse);
-      expect(s.isEmpty, isFalse);
+      expect(isEmpty('hello'), isFalse);
+      expect('hello'.isEmpty, isFalse);
     });
   });
 
@@ -87,19 +78,16 @@ void main() {
       expect(isNotEmpty(null), isFalse);
     });
     test('should consider the empty string to be empty', () {
-      String s = '';
-      expect(isNotEmpty(s), isFalse);
-      expect(s.isNotEmpty, isFalse);
+      expect(isNotEmpty(''), isFalse);
+      expect(''.isNotEmpty, isFalse);
     });
     test('should consider whitespace string to be not empty', () {
-      String s = ' ';
-      expect(isNotEmpty(s), isTrue);
-      expect(s.isNotEmpty, isTrue);
+      expect(isNotEmpty(' '), isTrue);
+      expect(' '.isNotEmpty, isTrue);
     });
     test('should consider non-whitespace string to be not empty', () {
-      String s = 'hello';
-      expect(isNotEmpty(s), isTrue);
-      expect(s.isNotEmpty, isTrue);
+      expect(isNotEmpty('hello'), isTrue);
+      expect('hello'.isNotEmpty, isTrue);
     });
   });
 
@@ -127,19 +115,16 @@ void main() {
   group('loop', () {
     // Forward direction test cases
     test('should work like normal substring', () {
-      String s = 'hello';
-      expect(loop(s, 1, 3), 'el');
-      expect(s.loop(1, 3), 'el');
+      expect(loop('hello', 1, 3), 'el');
+      expect('hello'.loop(1, 3), 'el');
     });
     test('should work like normal substring full-string', () {
-      String s = 'hello';
-      expect(loop(s, 0, 5), 'hello');
-      expect(s.loop(0, 5), 'hello');
+      expect(loop('hello', 0, 5), 'hello');
+      expect('hello'.loop(0, 5), 'hello');
     });
     test('should be circular', () {
-      String s = 'ldwor';
-      expect(loop(s, -3, 2), 'world');
-      expect(s.loop(-3, 2), 'world');
+      expect(loop('ldwor', -3, 2), 'world');
+      expect('ldwor'.loop(-3, 2), 'world');
     });
     test('should be circular over many loops', () {
       expect(loop('ab', 0, 8), 'abababab');
@@ -147,38 +132,49 @@ void main() {
     });
     test('should be circular over many loops starting loops away', () {
       expect(loop('ab', 4, 12), 'abababab');
+      expect('ab'.loop(4, 12), 'abababab');
     });
     test('should be circular over many loops starting mid-way', () {
       expect(loop('ab', 1, 9), 'babababa');
+      expect('ab'.loop(1, 9), 'babababa');
     });
     test('should be circular over many loops starting mid-way loops away', () {
       expect(loop('ab', 5, 13), 'babababa');
+      expect('ab'.loop( 5, 13), 'babababa');
     });
     test('should default to end of string', () {
       expect(loop('hello', 3), 'lo');
+      expect('hello'.loop(3), 'lo');
     });
     test('should default to end of string from negative index', () {
       expect(loop('/home/user/test.txt', -3), 'txt');
+      expect('/home/user/test.txt'.loop(-3), 'txt');
     });
     test('should default to end of string from far negative index', () {
       expect(loop('ab', -5), 'b');
+      expect('ab'.loop(-5), 'b');
     });
     test('should handle in-fragment substring loops away negative', () {
       expect(loop('hello', -4, -2), 'el');
+      expect('hello'.loop(-4, -2), 'el');
     });
     test('should handle in-fragment substring loops away positive', () {
       expect(loop('hello', 6, 8), 'el');
+      expect('hello'.loop(6, 8), 'el');
     });
 
     // Backward direction test cases
     test('should traverse backwards', () {
       expect(loop('hello', 3, 0), 'leh');
+      expect('hello'.loop(3, 0), 'leh');
     });
     test('should traverse backwards across boundary', () {
       expect(loop('eholl', 2, -3), 'hello');
+      expect('eholl'.loop(2, -3), 'hello');
     });
     test('should traverse backwards many loops', () {
       expect(loop('ab', 0, -6), 'bababa');
+      expect('ab'.loop(0, -6), 'bababa');
     });
 
     // Corner cases
@@ -187,46 +183,66 @@ void main() {
     });
     test('should throw on empty', () {
       expect(() => loop('', 6, 8), throwsArgumentError);
+      expect(() => ''.loop(6, 8), throwsArgumentError);
     });
   });
 
   group('center', () {
     test('should return the input if length greater than width', () {
       expect(center('abc', 2, '0'), 'abc');
+      expect('abc'.center(2, '0'), 'abc');
+
       expect(center('abc', 3, '0'), 'abc');
+      expect('abc'.center(3, '0'), 'abc');
     });
 
     test('should pad equal chars on left and right for even padding count', () {
       expect(center('abc', 5, '0'), '0abc0');
+      expect('abc'.center(5, '0'), '0abc0');
+
       expect(center('abc', 9, '0'), '000abc000');
+      expect('abc'.center(9, '0'), '000abc000');
     });
 
     test('should pad extra char on right for odd padding amount', () {
       expect(center('abc', 4, '0'), 'abc0');
+      expect('abc'.center(4, '0'), 'abc0');
+
       expect(center('abc', 8, '0'), '00abc000');
+      expect('abc'.center(8, '0'), '00abc000');
     });
 
     test('should use multi-character fills', () {
       expect(center('abc', 7, '012345'), '01abc45');
+      expect('abc'.center(7, '012345'), '01abc45');
+
       expect(center('abc', 6, '012345'), '0abc45');
+      expect('abc'.center(6, '012345'), '0abc45');
+
       expect(center('abc', 9, '01'), '010abc101');
+        expect('abc'.center(9, '01'), '010abc101');
     });
 
     test('should handle null and empty inputs', () {
       expect(center(null, 4, '012345'), '0145');
       expect(center('', 4, '012345'), '0145');
+      expect(''.center(4, '012345'), '0145');
+
       expect(center(null, 5, '012345'), '01345');
       expect(center('', 5, '012345'), '01345');
+      expect(''.center(5, '012345'), '01345');
     });
   });
 
   group('equalsIgnoreCase', () {
     test('should return true for equal Strings', () {
       expect(equalsIgnoreCase('abc', 'abc'), isTrue);
+      expect('abc'.equalsIgnoreCase('abc'), isTrue);
     });
 
     test('should return true for case-insensitivly equal Strings', () {
       expect(equalsIgnoreCase('abc', 'AbC'), isTrue);
+      expect('abc'.equalsIgnoreCase('AbC'), isTrue);
     });
 
     test('should return true for nulls', () {
@@ -235,25 +251,37 @@ void main() {
 
     test('should return false for unequal Strings', () {
       expect(equalsIgnoreCase('abc', 'bcd'), isFalse);
+      expect('abc'.equalsIgnoreCase('bcd'), isFalse);
     });
 
     test('should return false if one is null', () {
-      expect(equalsIgnoreCase('abc', null), isFalse);
       expect(equalsIgnoreCase(null, 'abc'), isFalse);
+      expect(equalsIgnoreCase('abc', null), isFalse);
+      expect('abc'.equalsIgnoreCase(null), isFalse);
     });
   });
 
   group('compareIgnoreCase', () {
     test('should return 0 for case-insensitivly equal Strings', () {
       expect(compareIgnoreCase('abc', 'abc'), 0);
+      expect('abc'.compareIgnoreCase('abc'), 0);
+
       expect(compareIgnoreCase('abc', 'AbC'), 0);
+      expect('abc'.compareIgnoreCase('AbC'), 0);
     });
 
     test('should return compare unequal Strings correctly', () {
       expect(compareIgnoreCase('abc', 'abd'), lessThan(0));
+      expect('abc'.compareIgnoreCase('abd'), lessThan(0));
+
       expect(compareIgnoreCase('abc', 'abD'), lessThan(0));
+      expect('abc'.compareIgnoreCase('abD'), lessThan(0));
+
       expect(compareIgnoreCase('abd', 'abc'), greaterThan(0));
+      expect('abd'.compareIgnoreCase('abc'), greaterThan(0));
+
       expect(compareIgnoreCase('abD', 'abc'), greaterThan(0));
+      expect('abD'.compareIgnoreCase('abc'), greaterThan(0));
     });
   });
 }
