@@ -15,6 +15,7 @@
 library quiver.strings;
 
 import 'package:quiver/strings.dart';
+import 'package:quiver/string_extensions.dart';
 import 'package:test/test.dart' hide isEmpty, isNotEmpty;
 
 void main() {
@@ -23,13 +24,19 @@ void main() {
       expect(isBlank(null), isTrue);
     });
     test('should consider empty string a blank', () {
-      expect(isBlank(''), isTrue);
+      String s = '';
+      expect(isBlank(s), isTrue);
+      expect(s.isBlank, isTrue);
     });
     test('should consider white-space-only string a blank', () {
-      expect(isBlank(' \n\t\r\f'), isTrue);
+      String s = ' \n\t\r\f';
+      expect(isBlank(s), isTrue);
+      expect(s.isBlank, isTrue);
     });
     test('should consider non-whitespace string not a blank', () {
-      expect(isBlank('hello'), isFalse);
+      String s = 'hello';
+      expect(isBlank(s), isFalse);
+      expect(s.isBlank, isFalse);
     });
   });
 
@@ -38,13 +45,19 @@ void main() {
       expect(isNotBlank(null), isFalse);
     });
     test('should consider empty string a blank', () {
-      expect(isNotBlank(''), isFalse);
+      String s = '';
+      expect(isNotBlank(s), isFalse);
+      expect(s.isNotBlank, isFalse);
     });
     test('should consider white-space-only string a blank', () {
-      expect(isNotBlank(' \n\t\r\f'), isFalse);
+      String s = ' \n\t\r\f';
+      expect(isNotBlank(s), isFalse);
+      expect(s.isNotBlank, isFalse);
     });
     test('should consider non-whitespace string not a blank', () {
-      expect(isNotBlank('hello'), isTrue);
+      String s = 'hello';
+      expect(isNotBlank(s), isTrue);
+      expect(s.isNotBlank, isTrue);
     });
   });
 
@@ -53,13 +66,19 @@ void main() {
       expect(isEmpty(null), isTrue);
     });
     test('should consider the empty string to be empty', () {
-      expect(isEmpty(''), isTrue);
+      String s = '';
+      expect(isEmpty(s), isTrue);
+      expect(s.isEmpty, isTrue);
     });
     test('should consider whitespace string to be not empty', () {
-      expect(isEmpty(' '), isFalse);
+      String s = ' ';
+      expect(isEmpty(s), isFalse);
+      expect(s.isEmpty, isFalse);
     });
     test('should consider non-whitespace string to be not empty', () {
-      expect(isEmpty('hello'), isFalse);
+      String s = 'hello';
+      expect(isEmpty(s), isFalse);
+      expect(s.isEmpty, isFalse);
     });
   });
 
@@ -68,42 +87,63 @@ void main() {
       expect(isNotEmpty(null), isFalse);
     });
     test('should consider the empty string to be empty', () {
-      expect(isNotEmpty(''), isFalse);
+      String s = '';
+      expect(isNotEmpty(s), isFalse);
+      expect(s.isNotEmpty, isFalse);
     });
     test('should consider whitespace string to be not empty', () {
-      expect(isNotEmpty(' '), isTrue);
+      String s = ' ';
+      expect(isNotEmpty(s), isTrue);
+      expect(s.isNotEmpty, isTrue);
     });
     test('should consider non-whitespace string to be not empty', () {
-      expect(isNotEmpty('hello'), isTrue);
+      String s = 'hello';
+      expect(isNotEmpty(s), isTrue);
+      expect(s.isNotEmpty, isTrue);
     });
   });
 
   group('isDigit', () {
     test('should return true for standard digits', () {
       for (var i = 0; i <= 9; i++) {
-        expect(isDigit('$i'.codeUnitAt(0)), isTrue);
+        int codeUnit = '$i'.codeUnitAt(0);
+
+        expect(isDigit(codeUnit), isTrue);
+        expect(codeUnit.isDigit, isTrue);
       }
     });
     test('should return false for non-digits', () {
       expect(isDigit('a'.codeUnitAt(0)), isFalse);
+      expect('a'.codeUnitAt(0).isDigit, isFalse);
+
       expect(isDigit(' '.codeUnitAt(0)), isFalse);
+      expect(' '.codeUnitAt(0).isDigit, isFalse);
+
       expect(isDigit('%'.codeUnitAt(0)), isFalse);
+      expect('%'.codeUnitAt(0).isDigit, isFalse);
     });
   });
 
   group('loop', () {
     // Forward direction test cases
     test('should work like normal substring', () {
-      expect(loop('hello', 1, 3), 'el');
+      String s = 'hello';
+      expect(loop(s, 1, 3), 'el');
+      expect(s.loop(1, 3), 'el');
     });
     test('should work like normal substring full-string', () {
-      expect(loop('hello', 0, 5), 'hello');
+      String s = 'hello';
+      expect(loop(s, 0, 5), 'hello');
+      expect(s.loop(0, 5), 'hello');
     });
     test('should be circular', () {
-      expect(loop('ldwor', -3, 2), 'world');
+      String s = 'ldwor';
+      expect(loop(s, -3, 2), 'world');
+      expect(s.loop(-3, 2), 'world');
     });
     test('should be circular over many loops', () {
       expect(loop('ab', 0, 8), 'abababab');
+      expect('ab'.loop(0, 8), 'abababab');
     });
     test('should be circular over many loops starting loops away', () {
       expect(loop('ab', 4, 12), 'abababab');
