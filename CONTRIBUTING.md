@@ -29,5 +29,5 @@ the process as smooth as possible, we request the following:
    * During code review, go ahead and pile up commits addressing review
      comments. Once you get an LGTM (looks good to me) on the review, we'll
      squash your commits and merge!
-   * If you're not already listed as an author in `pubspec.yaml`, remember to
+   * If you're not already listed as an author in `AUTHORS`, remember to
      add yourself and claim your rightful place amongst the Quiverati.
