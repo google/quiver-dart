@@ -54,7 +54,7 @@ Future visitDirectory(Directory dir, Future<bool> visit(FileSystemEntity f)) {
                   _list(Directory(entity.path));
                 }
               }
-            } else {
+            } else if (entity is Directory) {
               _list(entity);
             }
           }
