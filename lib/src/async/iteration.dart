@@ -120,12 +120,11 @@ Future<S> _reduceAsync<S, T>(
 @Deprecated('Use Future.forEach or package:pool. Will be removed in 3.0.0.')
 Future<Null> forEachAsync<T>(Iterable<T> iterable, AsyncAction<Null, T> action,
     {int maxTasks = 1}) {
-  if (maxTasks == null || maxTasks < 1) {
+  // TODO(cbracken): Remove post-NNBD. https://github.com/google/quiver-dart/issues/612
+  ArgumentError.checkNotNull(iterable);
+  ArgumentError.checkNotNull(maxTasks);
+  if (maxTasks < 1) {
     throw ArgumentError('maxTasks must be greater than 0, was: $maxTasks');
-  }
-
-  if (iterable == null) {
-    throw ArgumentError('iterable must not be null');
   }
 
   if (iterable.isEmpty) return Future.value();

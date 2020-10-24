@@ -63,8 +63,6 @@ is false.
 
 `checkListIndex` throws `RangeError` if the specified index is out of bounds.
 
-`checkNotNull` throws `ArgumentError` if the specified argument is null.
-
 `checkState` throws `StateError` if the specifed state check expression is
 false.
 
@@ -93,8 +91,6 @@ the ability to iterate from an arbitrary anchor, and 'nearest' search.
 ## [quiver.core][]
 
 `Optional` is a way to represent optional values without allowing `null`.
-
-`firstNonNull` returns its first non-null argument.
 
 `hashObjects`, `hash2`, `hash3`, and `hash4` generate high-quality hashCodes for
 a list of objects, or 2, 3, or 4 arguments respectively.

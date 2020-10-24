@@ -1,6 +1,10 @@
 #### 3.0.0-nullsafety
 
   * BREAKING CHANGE: This verion requires Dart SDK 2.10.0 or later.
+  * Deprecate `checkNotNull`. Users of this function should migrate to
+    `ArgumentError.checkNotNull`.
+  * Deprecate `firstNonNull`. Users of this function should migrate to
+    `var v = o1 ?? o2 ?? o3 ?? o4; ArgumentError.checkNotNull(v);`.
 
 #### 2.1.5 - 2020-11-05
 
