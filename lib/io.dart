@@ -41,7 +41,7 @@ Future visitDirectory(Directory dir, Future<bool> visit(FileSystemEntity f)) {
     directories.putIfAbsent(dir.path, () => false);
     dir.list(followLinks: false).listen((FileSystemEntity entity) {
       var future = visit(entity);
-      // TODO(cbracken): Remove this post-NNBD.
+      // TODO(cbracken): Remove post-NNBD. https://github.com/google/quiver-dart/issues/612
       if (future == null) return;
       future.then((bool recurse) {
         // recurse on directories, but not cyclic symlinks

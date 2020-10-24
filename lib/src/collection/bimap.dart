@@ -162,8 +162,9 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   }
 
   V _add(K key, V value, bool replace) {
-    if (key == null) throw ArgumentError('null key');
-    if (value == null) throw ArgumentError('null value');
+    // TODO(cbracken): Remove post-NNBD. https://github.com/google/quiver-dart/issues/612
+    ArgumentError.checkNotNull(key);
+    ArgumentError.checkNotNull(value);
     var oldValue = _map[key];
     if (oldValue == value) return value;
     if (_inverse.containsKey(value)) {

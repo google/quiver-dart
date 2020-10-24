@@ -27,7 +27,8 @@ class Optional<T> extends IterableBase<T> {
   ///
   /// Throws [ArgumentError] if [value] is null.
   Optional.of(T value) : _value = value {
-    if (_value == null) throw ArgumentError('Must not be null.');
+    // TODO(cbracken): Remove post-NNBD. https://github.com/google/quiver-dart/issues/612
+    ArgumentError.checkNotNull(value);
   }
 
   /// Constructs an Optional of the given [value].
@@ -73,9 +74,8 @@ class Optional<T> extends IterableBase<T> {
   ///
   /// Throws [ArgumentError] if [defaultValue] is null.
   T or(T defaultValue) {
-    if (defaultValue == null) {
-      throw ArgumentError('defaultValue must not be null.');
-    }
+    // TODO(cbracken): Remove post-NNBD. https://github.com/google/quiver-dart/issues/612
+    ArgumentError.checkNotNull(defaultValue);
     return _value ?? defaultValue;
   }
 
