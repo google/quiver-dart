@@ -30,6 +30,7 @@ part 'src/core/optional.dart';
 ///     ArgumentError.checkNotNull(value);
 ///
 /// If [o1] is an [Optional], this can be accomplished with `o1.or(o2)`.
+@Deprecated('Use ?? and ArgumentError.checkNotNull. Will be removed in 4.0.0')
 dynamic firstNonNull(o1, o2, [o3, o4]) {
   // TODO(cbracken): make this generic.
   if (o1 != null) return o1;
