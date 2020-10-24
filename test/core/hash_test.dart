@@ -23,6 +23,16 @@ void main() {
     expect(h, isA<int>());
   });
 
+  test('hashObjects should handle null', () {
+    int h = hashObjects(['123', null]);
+    expect(h, isA<int>());
+  });
+
+  test('hashObjects should handle all objects being null', () {
+    int h = hashObjects([null, null]);
+    expect(h, isA<int>());
+  });
+
   test('hash2 should return an int', () {
     int h = hash2('123', 456);
     expect(h, isA<int>());
