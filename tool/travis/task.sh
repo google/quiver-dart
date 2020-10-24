@@ -16,6 +16,7 @@
 
 if [ "$#" == "0" ]; then
   echo -e '\033[31mAt least one task argument must be provided!\033[0m'
+  echo -e 'Valid tasks: dartfmt dartanalyzer vm_test dart2js_test dartdevc_test'
   exit 1
 fi
 
