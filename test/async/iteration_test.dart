@@ -20,30 +20,6 @@ import 'package:test/test.dart';
 import 'package:quiver/async.dart';
 
 void main() {
-  group('doWhileAsync', () {
-    test('should process the entier iterable if action returns true', () {
-      var items = [];
-      return doWhileAsync([1, 2, 3], (e) {
-        items.add(e);
-        return Future(() => true);
-      }).then((r) {
-        expect(items, [1, 2, 3]);
-        expect(r, true);
-      });
-    });
-
-    test('should process the entier iterable until action returns false', () {
-      var items = [];
-      return doWhileAsync([1, 2, 3], (e) {
-        items.add(e);
-        return Future(() => e < 2);
-      }).then((r) {
-        expect(items, [1, 2]);
-        expect(r, false);
-      });
-    });
-  });
-
   group('reduceAsync', () {
     test('should reduce iterable', () {
       var items = [];
