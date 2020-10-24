@@ -68,8 +68,10 @@ String _reverse(String s) {
 /// loop('test.txt', -3) == 'txt'
 /// loop('ldwor', -3, 2) == 'world'
 String loop(String s, int from, [int to]) {
-  if (s == null || s == '') {
-    throw ArgumentError('Input string cannot be null or empty');
+  // TODO(cbracken): Remove post-NNBD. https://github.com/google/quiver-dart/issues/612
+  ArgumentError.checkNotNull(s);
+  if (s.isEmpty) {
+    throw ArgumentError('Input string cannot be empty');
   }
   if (to != null && to < from) {
     // TODO(cbracken): throw ArgumentError in this case.
@@ -134,8 +136,10 @@ bool isWhitespace(int rune) =>
 /// If there are an odd number of characters to pad, then the right will be
 /// padded with one more than the left.
 String center(String input, int width, String fill) {
-  if (fill == null || fill.isEmpty) {
-    throw ArgumentError('fill cannot be null or empty');
+  // TODO(cbracken): Remove post-NNBD. https://github.com/google/quiver-dart/issues/612
+  ArgumentError.checkNotNull(fill);
+  if (fill.isEmpty) {
+    throw ArgumentError('fill cannot be empty');
   }
   input ??= '';
   if (input.length >= width) return input;
