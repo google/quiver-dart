@@ -20,10 +20,16 @@ import 'dart:collection';
 part 'src/core/hash.dart';
 part 'src/core/optional.dart';
 
-/// Returns the first non-null argument. If all arguments are null, throws an
-/// [ArgumentError].
+/// Returns the first non-null argument.
 ///
-/// Note: if [o1] is an [Optional], this can be accomplished with `o1.or(o2)`.
+/// If all arguments are null, throws an [ArgumentError].
+///
+/// Users of Dart SDK 2.1 or later should prefer:
+///
+///     var value = o1 ?? o2 ?? o3 ?? o4;
+///     ArgumentError.checkNotNull(value);
+///
+/// If [o1] is an [Optional], this can be accomplished with `o1.or(o2)`.
 dynamic firstNonNull(o1, o2, [o3, o4]) {
   // TODO(cbracken): make this generic.
   if (o1 != null) return o1;
