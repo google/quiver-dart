@@ -1,3 +1,7 @@
+#### 3.0.0-nullsafety
+
+  * BREAKING CHANGE: This verion requires Dart SDK 2.10.0 or later.
+
 #### 2.1.5 - 2020-11-05
 
   * Deprecate `forEachAsync`, `reduceAsync`. Existing callers should
