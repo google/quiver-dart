@@ -21,28 +21,6 @@ typedef AsyncAction<T, E> = Future<T> Function(E e);
 /// value [previous], for use with [reduceAsync].
 typedef AsyncCombiner<T, E> = Future<T> Function(T previous, E e);
 
-/// Calls [action] for each item in [iterable] in turn, waiting for the Future
-/// returned by action to complete.
-///
-/// If the Future completes to [true], iteration continues.
-///
-/// The Future returned completes to [true] if the entire iterable was
-/// processed, otherwise [false].
-@Deprecated('Use Future.doWhile from dart:async. Will be removed in 3.0.0.')
-Future<bool> doWhileAsync<T>(
-        Iterable<T> iterable, AsyncAction<bool, T> action) =>
-    _doWhileAsync(iterable.iterator, action);
-
-Future<bool> _doWhileAsync<T>(
-    Iterator<T> iterator, AsyncAction<bool, T> action) async {
-  if (iterator.moveNext()) {
-    return await action(iterator.current)
-        ? _doWhileAsync(iterator, action)
-        : false;
-  }
-  return true;
-}
-
 /// Reduces a collection to a single value by iteratively combining elements of
 /// the collection using the provided [combine] function. Similar to
 /// [Iterable.reduce], except that [combine] is an async function that returns
