@@ -1,10 +1,16 @@
 #### 3.0.0-nullsafety
 
   * BREAKING CHANGE: This verion requires Dart SDK 2.10.0 or later.
+  * BREAKING CHANGE: Remove `assertCheckedMode`. This was deprecated in 2.1.2.
+    Checked mode no longer exists in Dart 2.0 since the vast majority of what
+    checked mode did is now done in the type system itself.
+  * BREAKING CHANGE: Remove `doWhileAsync`. This was deprecated in 2.1.1.
+    Existing callers should migrate to `Future.doWhile()`.
   * Deprecate `checkNotNull`. Users of this function should migrate to
-    `ArgumentError.checkNotNull`.
+    `ArgumentError.checkNotNull`. This will be removed in 4.0.0.
   * Deprecate `firstNonNull`. Users of this function should migrate to
-    `var v = o1 ?? o2 ?? o3 ?? o4; ArgumentError.checkNotNull(v);`.
+    `var v = o1 ?? o2 ?? o3 ?? o4; ArgumentError.checkNotNull(v);`. This will be
+    removed in 4.0.0
 
 #### 2.1.4+1 - 2020-10-26
 
