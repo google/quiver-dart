@@ -41,25 +41,25 @@ Future visitDirectory(Directory dir, Future<bool> visit(FileSystemEntity f)) {
     directories.putIfAbsent(dir.path, () => false);
     dir.list(followLinks: false).listen((FileSystemEntity entity) {
       var future = visit(entity);
-      if (future != null) {
-        future.then((bool recurse) {
-          // recurse on directories, but not cyclic symlinks
-          if (entity is! File && recurse == true) {
-            if (entity is Link) {
-              if (FileSystemEntity.typeSync(entity.path, followLinks: true) ==
-                  FileSystemEntityType.directory) {
-                var fullPath = getFullPath(entity.path).toString();
-                var dirFullPath = getFullPath(dir.path).toString();
-                if (!dirFullPath.startsWith(fullPath)) {
-                  _list(Directory(entity.path));
-                }
+      // TODO(cbracken): Remove this post-NNBD.
+      if (future == null) return;
+      future.then((bool recurse) {
+        // recurse on directories, but not cyclic symlinks
+        if (entity is! File && recurse == true) {
+          if (entity is Link) {
+            if (FileSystemEntity.typeSync(entity.path, followLinks: true) ==
+                FileSystemEntityType.directory) {
+              var fullPath = getFullPath(entity.path).toString();
+              var dirFullPath = getFullPath(dir.path).toString();
+              if (!dirFullPath.startsWith(fullPath)) {
+                _list(Directory(entity.path));
               }
-            } else if (entity is Directory) {
-              _list(entity);
             }
+          } else if (entity is Directory) {
+            _list(entity);
           }
-        });
-      }
+        }
+      });
     }, onDone: () {
       directories[dir.path] = true;
       if (directories.values.every((v) => v)) {
