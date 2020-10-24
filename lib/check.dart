@@ -58,6 +58,8 @@ int checkListIndex(int index, int size, {message}) {
 
 /// Throws an [ArgumentError] if the given [reference] is `null`. Otherwise,
 /// returns the [reference] parameter.
+///
+/// Users of Dart SDK 2.1 or later should prefer [ArgumentError.checkNotNull].
 T checkNotNull<T>(T reference, {message}) {
   if (reference == null) {
     throw ArgumentError(_resolveMessage(message, 'null pointer'));
