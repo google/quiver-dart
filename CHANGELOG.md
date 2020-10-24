@@ -1,3 +1,7 @@
+#### 3.0.0-nullsafety
+
+  * BREAKING CHANGE: This verion requires Dart SDK 2.10.0 or later.
+
 #### 2.1.3 - 2020-02-28
 
   * Fix: revert const constructor change to `Optional.transform`,
