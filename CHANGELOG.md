@@ -1,3 +1,7 @@
+#### 3.0.0-nullsafety
+
+  * BREAKING CHANGE: This verion requires Dart SDK 2.10.0 or later.
+
 #### 2.1.4+1 - 2020-10-26
 
   * Fix: Add dart:async import to async/string.dart. Stream wasn't
