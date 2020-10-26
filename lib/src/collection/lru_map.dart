@@ -14,7 +14,6 @@
 
 import 'dart:collection';
 
-import 'package:quiver/core.dart' show firstNonNull;
 import 'package:quiver/iterables.dart' show GeneratingIterable;
 
 /// An implementation of a [Map] which has a maximum size and uses a [Least
@@ -58,7 +57,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   LinkedLruHashMap._fromMap(this._entries, {int maximumSize})
       // This pattern is used instead of a default value because we want to
       // be able to respect null values coming in from MapCache.lru.
-      : _maximumSize = firstNonNull(maximumSize, _DEFAULT_MAXIMUM_SIZE);
+      : _maximumSize = maximumSize ?? _DEFAULT_MAXIMUM_SIZE;
 
   static const _DEFAULT_MAXIMUM_SIZE = 100;
 
