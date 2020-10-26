@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
-
 /// Returns the maximum value in [i], according to the order specified by the
 /// [compare] function, or `null` if [i] is empty.
 ///

@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
-
 /// Returns an [Iterable] sequence of [num]s.
 ///
 /// If only one argument is provided, [startOrStop] is the upper bound for the

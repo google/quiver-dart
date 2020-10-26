@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.collection;
+import 'dart:collection';
+
+import 'package:meta/meta.dart' show visibleForTesting;
 
 /// A [Set] of items stored in a binary tree according to [comparator].
 /// Supports bidirectional iteration.

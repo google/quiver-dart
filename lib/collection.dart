@@ -15,22 +15,15 @@
 /// Collection classes and related utilities.
 library quiver.collection;
 
-import 'dart:collection';
-import 'dart:math';
-
-import 'package:meta/meta.dart';
-import 'package:quiver/core.dart';
-import 'package:quiver/iterables.dart';
-
-part 'src/collection/bimap.dart';
-part 'src/collection/lru_map.dart';
-part 'src/collection/multimap.dart';
-part 'src/collection/treeset.dart';
-part 'src/collection/delegates/iterable.dart';
-part 'src/collection/delegates/list.dart';
-part 'src/collection/delegates/map.dart';
-part 'src/collection/delegates/queue.dart';
-part 'src/collection/delegates/set.dart';
+export 'src/collection/bimap.dart';
+export 'src/collection/delegates/iterable.dart';
+export 'src/collection/delegates/list.dart';
+export 'src/collection/delegates/map.dart';
+export 'src/collection/delegates/queue.dart';
+export 'src/collection/delegates/set.dart';
+export 'src/collection/lru_map.dart';
+export 'src/collection/multimap.dart';
+export 'src/collection/treeset.dart';
 
 /// Checks [List]s [a] and [b] for equality.
 ///

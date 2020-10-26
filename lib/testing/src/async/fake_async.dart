@@ -12,7 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.testing.async;
+import 'dart:async';
+import 'dart:collection' show Queue;
+
+import 'package:quiver/time.dart';
 
 /// A mechanism to make time-dependent units testable.
 ///

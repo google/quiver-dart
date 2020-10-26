@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.core;
-
 /// Generates a hash code for multiple [objects].
 int hashObjects(Iterable objects) =>
     _finish(objects.fold(0, (h, i) => _combine(h, i.hashCode)));

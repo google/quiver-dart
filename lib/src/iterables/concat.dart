@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
-
 /// Returns the concatentation of the input iterables.
 ///
 /// The returned iterable is a lazily-evaluated view on the input iterables.

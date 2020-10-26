@@ -16,8 +16,6 @@
 /// [Pattern]s.
 library quiver.pattern;
 
-part 'src/pattern/glob.dart';
-
 // From the PatternCharacter rule here:
 // http://ecma-international.org/ecma-262/5.1/#sec-15.10
 final _specialChars = RegExp(r'([\\\^\$\.\|\+\[\]\(\)\{\}])');
@@ -76,3 +74,65 @@ bool matchesFull(Pattern pattern, String str) {
 }
 
 bool _hasMatch(Iterable<Match> matches) => matches.iterator.moveNext();
+
+// TODO(justin): add more detailed documentation and explain how matching
+// differs or is similar to globs in Python and various shells.
+/// A [Pattern] that matches against filesystem path-like strings with
+/// wildcards.
+///
+/// The pattern matches strings as follows:
+///   * The whole string must match, not a substring
+///   * Any non wildcard is matched as a literal
+///   * '*' matches one or more characters except '/'
+///   * '?' matches exactly one character except '/'
+///   * '**' matches one or more characters including '/'
+class Glob implements Pattern {
+  Glob(this.pattern) : regex = _regexpFromGlobPattern(pattern);
+
+  final RegExp regex;
+  final String pattern;
+
+  @override
+  Iterable<Match> allMatches(String str, [int start = 0]) =>
+      regex.allMatches(str, start);
+
+  @override
+  Match matchAsPrefix(String string, [int start = 0]) =>
+      regex.matchAsPrefix(string, start);
+
+  bool hasMatch(String str) => regex.hasMatch(str);
+
+  @override
+  String toString() => pattern;
+
+  @override
+  int get hashCode => pattern.hashCode;
+
+  @override
+  bool operator ==(other) => other is Glob && pattern == other.pattern;
+}
+
+RegExp _regexpFromGlobPattern(String pattern) {
+  var sb = StringBuffer();
+  sb.write('^');
+  var chars = pattern.split('');
+  for (var i = 0; i < chars.length; i++) {
+    var c = chars[i];
+    if (_specialChars.hasMatch(c)) {
+      sb.write('\\$c');
+    } else if (c == '*') {
+      if ((i + 1 < chars.length) && (chars[i + 1] == '*')) {
+        sb.write('.*');
+        i++;
+      } else {
+        sb.write('[^/]*');
+      }
+    } else if (c == '?') {
+      sb.write('[^/]');
+    } else {
+      sb.write(c);
+    }
+  }
+  sb.write(r'$');
+  return RegExp(sb.toString());
+}

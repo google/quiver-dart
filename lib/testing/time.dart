@@ -15,4 +15,4 @@
 /// Testing support for dart:core time functionality.
 library quiver.testing.time;
 
-part 'src/time/time.dart';
+export 'src/time/time.dart';

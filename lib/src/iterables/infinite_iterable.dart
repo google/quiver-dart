@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
+import 'dart:collection';
 
 /// A base class for [Iterable]s of infinite length that throws
 /// [UnsupportedError] for methods that would require the Iterable to

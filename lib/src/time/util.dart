@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.time;
+import 'package:meta/meta.dart';
 
 /// Days in a month. This array uses 1-based month numbers, i.e. January is
 /// the 1-st element in the array, not the 0-th.

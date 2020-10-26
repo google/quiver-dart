@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
+import 'dart:collection';
 
 /// Returns the result of merging an [Iterable] of [Iterable]s, according to
 /// the order specified by the [compare] function. This function assumes the

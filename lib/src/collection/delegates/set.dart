@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.collection;
+import 'iterable.dart';
 
 /// An implementation of [Set] that delegates all methods to another [Set].
 /// For instance you can create a FruitSet like this :

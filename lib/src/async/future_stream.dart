@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.async;
+import 'dart:async';
 
 /// A Stream that will emit the same values as the stream returned by [future]
 /// once [future] completes.

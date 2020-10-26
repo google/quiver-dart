@@ -15,4 +15,4 @@
 /// Testing support related to the Dart runtime.
 library quiver.testing.runtime;
 
-part 'src/runtime/checked_mode.dart';
+export 'src/runtime/checked_mode.dart';

@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.collection;
-
 /// An implementation of [Map] that delegates all methods to another [Map].
 /// For instance you can create a FruitMap like this :
 ///

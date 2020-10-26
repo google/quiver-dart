@@ -14,10 +14,5 @@
 
 library quiver.cache;
 
-import 'dart:async';
-import 'dart:collection';
-
-import 'package:quiver/collection.dart' show LruMap;
-
-part 'src/cache/cache.dart';
-part 'src/cache/map_cache.dart';
+export 'src/cache/cache.dart';
+export 'src/cache/map_cache.dart';

@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
+import 'dart:collection';
 
 /// Returns an [Iterable] of [IndexedValue]s where the nth value holds the nth
 /// element of [iterable] and its index.

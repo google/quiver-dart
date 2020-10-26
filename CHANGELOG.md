@@ -1,3 +1,11 @@
+#### dev
+
+  * Switched from using part/part of to re-exporting the underlying
+    libraries. We weren't making use of private symbols across files
+    within lib/src. This improves readability by keeping imports with
+    the code that's using them. It also allows for cross-imports within
+    lib/src if necessary.
+
 #### 2.1.3 - 2020-02-28
 
   * Fix: revert const constructor change to `Optional.transform`,

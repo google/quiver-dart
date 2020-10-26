@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.collection;
+import 'dart:math' show Random;
 
 /// An associative container that maps a key to multiple values.
 ///

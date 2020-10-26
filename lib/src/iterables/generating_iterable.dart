@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
+import 'dart:collection';
 
 typedef _Initial<T> = T Function();
 typedef _Next<T> = T Function(T value);

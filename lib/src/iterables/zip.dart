@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
-
 /// Returns an [Iterable] of [List]s where the nth element in the returned
 /// iterable contains the nth element from every Iterable in [iterables]. The
 /// returned Iterable is as long as the shortest Iterable in the argument. If

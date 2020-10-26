@@ -15,6 +15,4 @@
 /// Utilities for testing the equality of Dart object
 library quiver.testing.equality;
 
-import 'package:matcher/matcher.dart';
-
-part 'src/equality/equality.dart';
+export 'src/equality/equality.dart';
