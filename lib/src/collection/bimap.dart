@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.collection;
+import 'dart:collection';
 
 /// A bi-directional map whose key-value pairs form a one-to-one
 /// correspondence.  BiMaps support an `inverse` property which gives access to

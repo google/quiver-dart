@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.collection;
+import 'dart:math' show Random;
+
+import 'iterable.dart';
 
 /// An implementation of [List] that delegates all methods to another [List].
 /// For instance you can create a FruitList like this :

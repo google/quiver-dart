@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.testing.equality;
+import 'package:matcher/matcher.dart';
 
 /// Matcher for == and hashCode methods of a class.
 ///

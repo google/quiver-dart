@@ -12,7 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.collection;
+import 'dart:collection';
+
+import 'package:quiver/core.dart' show firstNonNull;
+import 'package:quiver/iterables.dart' show GeneratingIterable;
 
 /// An implementation of a [Map] which has a maximum size and uses a [Least
 /// Recently Used](http://en.wikipedia.org/wiki/Cache_algorithms#LRU) algorithm

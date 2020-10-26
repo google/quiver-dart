@@ -12,7 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.cache;
+import 'dart:async';
+import 'dart:collection';
+
+import 'package:quiver/collection.dart' show LruMap;
+
+import 'cache.dart';
 
 /// A [Cache] that's backed by a [Map].
 class MapCache<K, V> implements Cache<K, V> {

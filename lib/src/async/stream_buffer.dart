@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.async;
+import 'dart:async';
 
 /// Underflow errors happen when the socket feeding a buffer is finished while
 /// there are still blocked readers. Each reader will complete with this error.

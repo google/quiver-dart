@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.testing.runtime;
-
 /// Asserts that the current runtime has checked mode enabled.
 ///
 /// Otherwise, throws [StateError].

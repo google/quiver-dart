@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
+import 'infinite_iterable.dart';
 
 /// Returns an infinite [Iterable] of [num]s, starting from [start] and
 /// increasing by [step].

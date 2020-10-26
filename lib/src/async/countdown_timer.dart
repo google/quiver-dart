@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.async;
+import 'dart:async';
 
 /// A simple countdown timer that fires events in regular increments until a
 /// duration has passed.

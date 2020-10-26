@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
+import 'infinite_iterable.dart';
 
 /// Returns an [Iterable] that infinitely cycles through the elements of
 /// [iterable]. If [iterable] is empty, the returned Iterable will also be empty.

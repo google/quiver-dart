@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.iterables;
+import 'dart:collection';
 
 /// Partitions the input iterable into lists of the specified size.
 Iterable<List<T>> partition<T>(Iterable<T> iterable, int size) {

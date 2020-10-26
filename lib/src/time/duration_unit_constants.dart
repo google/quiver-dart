@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-part of quiver.time;
-
 const Duration aMicrosecond = Duration(microseconds: 1);
 const Duration aMillisecond = Duration(milliseconds: 1);
 const Duration aSecond = Duration(seconds: 1);
