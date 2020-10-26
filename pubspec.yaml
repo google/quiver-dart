@@ -3,7 +3,7 @@ description: >-
   Quiver is a set of utility libraries for Dart that makes using many Dart
   libraries easier and more convenient, or adds additional functionality.
 homepage: https://github.com/google/quiver-dart
-version: 2.1.4
+version: 2.1.4+1
 environment:
   sdk: '>=2.0.0-dev.61 <3.0.0'
 dependencies:

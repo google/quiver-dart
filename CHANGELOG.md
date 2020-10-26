@@ -1,3 +1,9 @@
+#### 2.1.4+1 - 2020-10-26
+
+  * Fix: Add dart:async import to async/string.dart. Stream wasn't
+    exported from dart:core until Dart 2.1 but Quiver supports back to
+    Dart 2.0.
+
 #### 2.1.4 - 2020-10-26
 
   * Move `stringFromByteStream` from the IO library to the async library. The
