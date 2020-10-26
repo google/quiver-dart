@@ -192,7 +192,7 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
       _removeWhere(values, key, predicate);
       if (_map[key].isEmpty) emptyKeys.add(key);
     });
-    emptyKeys.forEach((emptyKey) => _map.remove(emptyKey));
+    emptyKeys.forEach(_map.remove);
   }
 
   @override
