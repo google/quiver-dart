@@ -12,15 +12,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-library quiver.async;
+import 'dart:convert' show Encoding, utf8;
 
-export 'src/async/collect.dart';
-export 'src/async/concat.dart';
-export 'src/async/countdown_timer.dart';
-export 'src/async/enumerate.dart';
-export 'src/async/future_stream.dart';
-export 'src/async/iteration.dart';
-export 'src/async/metronome.dart';
-export 'src/async/stream_buffer.dart';
-export 'src/async/stream_router.dart';
-export 'src/async/string.dart';
+///  Converts a [Stream] of byte lists to a [String].
+Future<String> byteStreamToString(Stream<List<int>> stream,
+    {Encoding encoding = utf8}) {
+  return stream.transform(encoding.decoder).join();
+}

@@ -18,13 +18,16 @@ import 'dart:async';
 import 'dart:convert' show Encoding, utf8;
 import 'dart:io';
 
+import 'src/async/string.dart' as astring;
+
 ///  Converts a [Stream] of byte lists to a [String].
+@Deprecated('Moved to quiver/async.dart. This copy will be removed in 3.0.0')
 Future<String> byteStreamToString(Stream<List<int>> stream,
-    {Encoding encoding = utf8}) {
-  return stream.transform(encoding.decoder).join();
-}
+        {Encoding encoding = utf8}) =>
+    astring.byteStreamToString(stream, encoding: encoding);
 
 /// Gets the full path of [path] by using [File.fullPathSync].
+@Deprecated('Use File(path).resolveSymbolicLinksSync. Will be removed in 3.0.0')
 String getFullPath(path) => File(path).resolveSymbolicLinksSync();
 
 /// Lists the sub-directories and files of this Directory, optionally recursing
@@ -33,6 +36,7 @@ String getFullPath(path) => File(path).resolveSymbolicLinksSync();
 /// [visit] is called with a [File], [Directory] or [Link] to a directory,
 /// never a Symlink to a File. If [visit] returns true, then its argument is
 /// listed recursively.
+@Deprecated('Will be removed in 3.0.0')
 Future visitDirectory(Directory dir, Future<bool> visit(FileSystemEntity f)) {
   final completer = Completer();
   final directories = <String, bool>{dir.path: false};
