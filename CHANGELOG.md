@@ -1,4 +1,4 @@
-#### dev
+#### 2.1.4 - 2020-10-26
 
   * Move `stringFromByteStream` from the IO library to the async library. The
     original in IO has been deprecated and will be removed in 3.0.0. Users
