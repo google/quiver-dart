@@ -41,6 +41,8 @@ increments.
 a simple, tracking periodic stream of `DateTime` events with optional anchor
 time.
 
+`stringFromByteStream` constructs a string from a stream of byte lists.
+
 [quiver.async]: https://pub.dev/documentation/quiver/latest/quiver.async/quiver.async-library.html
 
 ## [quiver.cache][]
@@ -98,13 +100,6 @@ the ability to iterate from an arbitrary anchor, and 'nearest' search.
 a list of objects, or 2, 3, or 4 arguments respectively.
 
 [quiver.core]: https://pub.dev/documentation/quiver/latest/quiver.core/quiver.core-library.html
-
-## [quiver.io][]
-
-`visitDirectory` is a recursive directory lister that conditionally recurses
-into sub-directories based on the result of a handler function.
-
-[quiver.io]: https://pub.dev/documentation/quiver/latest/quiver.io/quiver.io-library.html
 
 ## [quiver.iterables][]
 

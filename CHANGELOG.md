@@ -1,14 +1,22 @@
 #### dev
 
+  * Move `stringFromByteStream` from the IO library to the async library. The
+    original in IO has been deprecated and will be removed in 3.0.0. Users
+    should update their code to import this function from `quiver/async.dart`.
+    If both `quiver/io.dart` and `quiver.async.dart` are imported in the same
+    file, users should hide the symbol from IO as described here:
+    https://dart.dev/guides/language/language-tour#importing-only-part-of-a-library
+  * Deprecate `getFullPath`. Users should use
+    `File(path).resolveSymbolicLinksSync`. This will be removed in 3.0.0.
+  * Deprecate `visitDirectory`. This will be removed in 3.0.0. The source can be
+    copied under the terms of the Apache 2.0 license.
   * Fix: Eliminate a set literal inadvertently introduced in
-    https://github.com/google/quiver-dart/pull/359. Set literals are
-    only supported starting in Dart 2.2, but Quiver supports back to
-    Dart 2.0.
-  * Switched from using part/part of to re-exporting the underlying
-    libraries. We weren't making use of private symbols across files
-    within lib/src. This improves readability by keeping imports with
-    the code that's using them. It also allows for cross-imports within
-    lib/src if necessary.
+    https://github.com/google/quiver-dart/pull/359. Set literals are only
+    supported starting in Dart 2.2, but Quiver supports back to Dart 2.0.
+  * Switched from using part/part of to re-exporting the underlying libraries.
+    We weren't making use of private symbols across files within lib/src. This
+    improves readability by keeping imports with the code that's using them. It
+    also allows for cross-imports within lib/src if necessary.
 
 #### 2.1.3 - 2020-02-28
 
