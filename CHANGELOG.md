@@ -6,6 +6,8 @@
     checked mode did is now done in the type system itself.
   * BREAKING CHANGE: Remove `doWhileAsync`. This was deprecated in 2.1.1.
     Existing callers should migrate to `Future.doWhile()`.
+  * BREAKING CHANGE: Remove IO library. This was deprecated in 2.1.4.
+  * BREAKING CHANGE: Remove mirrors library. This was deprecated in 2.1.4.
   * Deprecate `checkNotNull`. Users of this function should migrate to
     `ArgumentError.checkNotNull`. This will be removed in 4.0.0.
   * Deprecate `firstNonNull`. Users of this function should migrate to
