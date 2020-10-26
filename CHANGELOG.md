@@ -1,5 +1,9 @@
 #### dev
 
+  * Fix: Eliminate a set literal inadvertently introduced in
+    https://github.com/google/quiver-dart/pull/359. Set literals are
+    only supported starting in Dart 2.2, but Quiver supports back to
+    Dart 2.0.
   * Switched from using part/part of to re-exporting the underlying
     libraries. We weren't making use of private symbols across files
     within lib/src. This improves readability by keeping imports with
