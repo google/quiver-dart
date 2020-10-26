@@ -10,6 +10,16 @@
     `File(path).resolveSymbolicLinksSync`. This will be removed in 3.0.0.
   * Deprecate `visitDirectory`. This will be removed in 3.0.0. The source can be
     copied under the terms of the Apache 2.0 license.
+  * Deprecate mirrors library. This will be removed in 3.0.0. This library was
+    written prior to Dart 1.0 and in the interim, mirrors have been found to be
+    problematic for production code.  The primary Dart runtimes today are
+    Flutter and the web. Flutter disables dart:mirrors altogether. On the web,
+    the use of mirrors disables tree-shaking since in theory almost any symbol
+    could be used reflectively; this can't be solved through static analysis --
+    one could imagine the situation where a user of a web app inputs the name of
+    a method to be reflectively invoked at runtime. Users of this code can
+    rewrite this code, or copy it into their own projects under the terms of the
+    Apache 2.0 license.
   * Fix: Eliminate a set literal inadvertently introduced in
     https://github.com/google/quiver-dart/pull/359. Set literals are only
     supported starting in Dart 2.2, but Quiver supports back to Dart 2.0.

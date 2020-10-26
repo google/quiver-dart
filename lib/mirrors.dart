@@ -17,14 +17,17 @@ library quiver.mirrors;
 import 'dart:mirrors';
 
 /// Returns the qualified name of [t].
+@Deprecated('Will be removed in 3.0.0')
 Symbol getTypeName(Type t) => reflectClass(t).qualifiedName;
 
 /// Returns true if [o] implements [type].
+@Deprecated('Will be removed in 3.0.0')
 bool implements(Object o, Type type) =>
     classImplements(reflect(o).type, reflectClass(type));
 
 /// Returns true if the class represented by [classMirror] implements the class
 /// represented by [interfaceMirror].
+@Deprecated('Will be removed in 3.0.0')
 bool classImplements(ClassMirror classMirror, ClassMirror interfaceMirror) {
   if (classMirror == null) return false;
   if (classMirror.qualifiedName == interfaceMirror.qualifiedName) return true;
@@ -39,6 +42,7 @@ bool classImplements(ClassMirror classMirror, ClassMirror interfaceMirror) {
 ///
 /// Note that it's not possible to tell if there's an implementation via
 /// noSuchMethod().
+@Deprecated('Will be removed in 3.0.0')
 DeclarationMirror getDeclaration(ClassMirror classMirror, Symbol name) {
   if (classMirror.declarations.containsKey(name)) {
     return classMirror.declarations[name];
@@ -59,6 +63,7 @@ DeclarationMirror getDeclaration(ClassMirror classMirror, Symbol name) {
 }
 
 /// Closurizes a method reflectively.
+@Deprecated('Will be removed in 3.0.0')
 class Method /* implements Function */ {
   Method(this.mirror, this.symbol);
 
