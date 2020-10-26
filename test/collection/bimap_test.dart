@@ -26,8 +26,8 @@ void main() {
 
   group('HashBiMap', () {
     /*late*/ BiMap<String, int> map;
-    final String k1 = 'k1', k2 = 'k2', k3 = 'k3';
-    final int v1 = 1, v2 = 2, v3 = 3;
+    const String k1 = 'k1', k2 = 'k2', k3 = 'k3';
+    const int v1 = 1, v2 = 2, v3 = 3;
 
     setUp(() {
       map = HashBiMap();
@@ -278,11 +278,11 @@ void main() {
     });
 
     test('should add entries', () {
-      map.addEntries([MapEntry<String, int>(k1, v1)]);
+      map.addEntries(const [MapEntry<String, int>(k1, v1)]);
       expect(map[k1], equals(v1));
       expect(map.inverse[v1], equals(k1));
 
-      map.inverse.addEntries([MapEntry<int, String>(v2, k2)]);
+      map.inverse.addEntries(const [MapEntry<int, String>(v2, k2)]);
       expect(map[k2], equals(v2));
       expect(map.inverse[v2], equals(k2));
     });
