@@ -19,10 +19,10 @@ import 'package:test/test.dart';
 
 void main() {
   group('expectEquals', () {
-    _ValidTestObject reference;
-    _ValidTestObject equalObject1;
-    _ValidTestObject equalObject2;
-    _ValidTestObject notEqualObject1;
+    /*late*/ _ValidTestObject reference;
+    /*late*/ _ValidTestObject equalObject1;
+    /*late*/ _ValidTestObject equalObject2;
+    /*late*/ _ValidTestObject notEqualObject1;
 
     setUp(() {
       reference = _ValidTestObject(1, 2);
@@ -64,7 +64,7 @@ void main() {
     test('Test after adding multiple instances at once with a null', () {
       try {
         expect({
-          'bad group': [reference, equalObject1, null]
+          'bad group': <dynamic>[reference, equalObject1, null]
         }, areEqualityGroups);
         fail('Should fail with null group');
       } catch (e) {
