@@ -54,12 +54,12 @@ void main() {
 }
 
 void expectGlob(String pattern,
-    {List<String> matches, List<String> nonMatches}) {
+    {List<String> matches = const [], List<String> nonMatches = const []}) {
   var glob = Glob(pattern);
   for (final str in matches) {
     expect(glob.hasMatch(str), true);
     expect(glob.allMatches(str).map((m) => m.input), [str]);
-    var match = glob.matchAsPrefix(str);
+    Match match = glob.matchAsPrefix(str)/*!*/;
     expect(match.start, 0);
     expect(match.end, str.length);
   }
