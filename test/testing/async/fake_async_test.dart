@@ -114,7 +114,7 @@ void main() {
 
         test('should call timers at their scheduled time', () {
           FakeAsync().run((async) {
-            DateTime calledAt;
+            DateTime/*?*/ calledAt;
             var periodicCalledAt = <DateTime>[];
             Timer(elapseBy ~/ 2, () {
               calledAt = async.getClock(initialTime).now();
@@ -227,7 +227,7 @@ void main() {
 
         test('should pass the periodic timer itself to callbacks', () {
           FakeAsync().run((async) {
-            Timer passedTimer;
+            Timer/*?*/ passedTimer;
             Timer periodic = Timer.periodic(elapseBy, (timer) {
               passedTimer = timer;
             });
@@ -238,7 +238,7 @@ void main() {
 
         test('should call microtasks before advancing time', () {
           FakeAsync().run((async) {
-            DateTime calledAt;
+            DateTime/*?*/ calledAt;
             scheduleMicrotask(() {
               calledAt = async.getClock(initialTime).now();
             });
@@ -262,7 +262,7 @@ void main() {
         test('should increase negative duration timers to zero duration', () {
           FakeAsync().run((async) {
             var negativeDuration = const Duration(days: -1);
-            DateTime calledAt;
+            DateTime/*?*/ calledAt;
             Timer(negativeDuration, () {
               calledAt = async.getClock(initialTime).now();
             });
@@ -317,7 +317,7 @@ void main() {
 
         test('should work with Future.delayed', () {
           FakeAsync().run((async) {
-            int result;
+            int/*?*/ result;
             Future.delayed(elapseBy, () => result = 5);
             async.elapse(elapseBy);
             expect(result, 5);
@@ -327,7 +327,7 @@ void main() {
         test('should work with Future.timeout', () {
           FakeAsync().run((async) {
             var completer = Completer();
-            TimeoutException timeout;
+            TimeoutException/*?*/ timeout;
             completer.future.timeout(elapseBy ~/ 2).catchError((err) {
               timeout = err;
             });
@@ -648,7 +648,7 @@ void main() {
         return FakeAsync().run((async) {
           var timeout = const Duration(minutes: 1);
           int counter = 0;
-          Timer timer;
+          Timer/*?*/ timer;
           timer = Timer(timeout, () {
             counter++;
             expect(timer.isActive, isFalse,

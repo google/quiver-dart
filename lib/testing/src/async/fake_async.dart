@@ -129,7 +129,7 @@ abstract class FakeAsync {
 
 class _FakeAsync implements FakeAsync {
   Duration _elapsed = Duration.zero;
-  Duration _elapsingTo;
+  Duration/*?*/ _elapsingTo;
   final Queue<Function> _microtasks = Queue();
   final Set<_FakeTimer> _timers = Set<_FakeTimer>();
 
@@ -146,8 +146,8 @@ class _FakeAsync implements FakeAsync {
       throw StateError('Cannot elapse until previous elapse is complete.');
     }
     _elapsingTo = _elapsed + duration;
-    _drainTimersWhile((_FakeTimer next) => next._nextCall <= _elapsingTo);
-    _elapseTo(_elapsingTo);
+    _drainTimersWhile((_FakeTimer next) => next._nextCall <= _elapsingTo/*!*/);
+    _elapseTo(_elapsingTo/*!*/);
     _elapsingTo = null;
   }
 
@@ -157,7 +157,7 @@ class _FakeAsync implements FakeAsync {
       throw ArgumentError('Cannot call elapse with negative duration');
     }
     _elapsed += duration;
-    if (_elapsingTo != null && _elapsed > _elapsingTo) {
+    if (_elapsingTo != null && _elapsed > _elapsingTo/*!*/) {
       _elapsingTo = _elapsed;
     }
   }
@@ -195,13 +195,13 @@ class _FakeAsync implements FakeAsync {
   dynamic run(callback(FakeAsync self)) {
     _zone ??= Zone.current.fork(specification: _zoneSpec);
     dynamic result;
-    _zone.runGuarded(() {
+    _zone/*!*/.runGuarded(() {
       result = callback(this);
     });
     return result;
   }
 
-  Zone _zone;
+  Zone/*?*/ _zone;
 
   @override
   int get periodicTimerCount =>
@@ -226,8 +226,8 @@ class _FakeAsync implements FakeAsync {
 
   void _drainTimersWhile(bool predicate(_FakeTimer timer)) {
     _drainMicrotasks();
-    _FakeTimer next;
-    while ((next = _getNextTimer()) != null && predicate(next)) {
+    _FakeTimer/*?*/ next;
+    while ((next = _getNextTimer()) != null && predicate(next/*!*/)) {
       _runTimer(next);
       _drainMicrotasks();
     }
@@ -245,7 +245,7 @@ class _FakeAsync implements FakeAsync {
     return timer;
   }
 
-  _FakeTimer _getNextTimer() {
+  _FakeTimer/*?*/ _getNextTimer() {
     return _timers.isEmpty
         ? null
         : _timers.reduce((t1, t2) => t1._nextCall <= t2._nextCall ? t1 : t2);
@@ -286,7 +286,7 @@ class _FakeTimer implements Timer {
   final bool _isPeriodic;
   final _FakeAsync _time;
   final StackTrace _creationStackTrace;
-  Duration _nextCall;
+  /*late*/ Duration _nextCall;
 
   // TODO(yjbanov): In browser JavaScript, timers can only run every 4
   // milliseconds once sufficiently nested:

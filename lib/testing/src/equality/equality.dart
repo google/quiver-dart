@@ -77,12 +77,12 @@ class _EqualityGroupMatcher extends Matcher {
           Map matchState, bool verbose) =>
       mismatchDescription.add(' ${matchState[failureReason]}');
 
-  void _verifyEqualityGroups(Map<String, List> equalityGroups, Map matchState) {
+  void _verifyEqualityGroups(Map<String/*?*/, List/*?*/>/*?*/ equalityGroups, Map matchState) {
     if (equalityGroups == null) {
       throw MatchError('Equality Group must not be null');
     }
     final equalityGroupsCopy = <String, List>{};
-    equalityGroups.forEach((String groupName, List group) {
+    equalityGroups.forEach((String/*?*/ groupName, List/*?*/ group) {
       if (groupName == null) {
         throw MatchError('Group name must not be null');
       }
@@ -185,7 +185,7 @@ class _EqualityGroupMatcher extends Matcher {
 
   _Item _createItem(
           Map<String, List> equalityGroups, String groupName, int itemNumber) =>
-      _Item(equalityGroups[groupName][itemNumber], groupName, itemNumber);
+      _Item(equalityGroups[groupName]/*!*/[itemNumber], groupName, itemNumber);
 }
 
 class _NotAnInstance {
@@ -196,7 +196,7 @@ class _NotAnInstance {
 class _Item {
   _Item(this.value, this.groupName, this.itemNumber);
 
-  final Object value;
+  final Object/*?*/ value;
   final String groupName;
   final int itemNumber;
 
@@ -206,7 +206,7 @@ class _Item {
 
 class MatchError extends Error {
   /// The [message] describes the match error.
-  MatchError([this.message]);
+  MatchError([this.message = '']);
 
   final String message;
 
