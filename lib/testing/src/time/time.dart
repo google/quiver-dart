@@ -24,8 +24,8 @@ class FakeStopwatch implements Stopwatch {
         _stop = null;
 
   final Now _now;
-  int _start;
-  int _stop;
+  int/*?*/ _start;
+  int/*?*/ _stop;
 
   @override
   int frequency;
@@ -36,7 +36,7 @@ class FakeStopwatch implements Stopwatch {
     if (_start == null) {
       _start = _now();
     } else {
-      _start = _now() - (_stop - _start);
+      _start = _now() - (_stop/*!*/ - _start/*!*/);
       _stop = null;
     }
   }
@@ -61,7 +61,7 @@ class FakeStopwatch implements Stopwatch {
     if (_start == null) {
       return 0;
     }
-    return (_stop == null) ? (_now() - _start) : (_stop - _start);
+    return (_stop == null) ? (_now() - _start/*!*/) : (_stop/*!*/ - _start/*!*/);
   }
 
   @override
