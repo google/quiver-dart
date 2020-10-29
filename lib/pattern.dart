@@ -31,14 +31,14 @@ String escapeRegex(String str) => str.splitMapJoin(_specialChars,
 /// Returns a [Pattern] that matches against every pattern in [include] and
 /// returns all the matches. If the input string matches against any pattern in
 /// [exclude] no matches are returned.
-Pattern matchAny(Iterable<Pattern> include, {Iterable<Pattern> exclude}) =>
+Pattern matchAny(Iterable<Pattern> include, {Iterable<Pattern>/*?*/ exclude}) =>
     _MultiPattern(include, exclude: exclude);
 
 class _MultiPattern extends Pattern {
   _MultiPattern(this.include, {this.exclude});
 
   final Iterable<Pattern> include;
-  final Iterable<Pattern> exclude;
+  final Iterable<Pattern>/*?*/ exclude;
 
   @override
   Iterable<Match> allMatches(String str, [int start = 0]) {
@@ -47,7 +47,7 @@ class _MultiPattern extends Pattern {
       var matches = pattern.allMatches(str, start);
       if (_hasMatch(matches)) {
         if (exclude != null) {
-          for (final excludePattern in exclude) {
+          for (final excludePattern in exclude/*!*/) {
             if (_hasMatch(excludePattern.allMatches(str, start))) {
               return [];
             }
@@ -60,9 +60,13 @@ class _MultiPattern extends Pattern {
   }
 
   @override
-  Match matchAsPrefix(String str, [int start = 0]) {
-    return allMatches(str)
-        .firstWhere((match) => match.start == start, orElse: () => null);
+  Match/*?*/ matchAsPrefix(String str, [int start = 0]) {
+    for (final match in allMatches(str)) {
+      if (match.start == start) {
+        return match;
+      }
+    }
+    return null;
   }
 }
 
@@ -97,7 +101,7 @@ class Glob implements Pattern {
       regex.allMatches(str, start);
 
   @override
-  Match matchAsPrefix(String string, [int start = 0]) =>
+  Match/*?*/ matchAsPrefix(String string, [int start = 0]) =>
       regex.matchAsPrefix(string, start);
 
   bool hasMatch(String str) => regex.hasMatch(str);
@@ -109,7 +113,7 @@ class Glob implements Pattern {
   int get hashCode => pattern.hashCode;
 
   @override
-  bool operator ==(other) => other is Glob && pattern == other.pattern;
+  bool operator ==(Object other) => other is Glob && pattern == other.pattern;
 }
 
 RegExp _regexpFromGlobPattern(String pattern) {
