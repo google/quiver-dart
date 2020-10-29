@@ -53,7 +53,7 @@ abstract class DelegatingQueue<E> extends DelegatingIterable<E>
   void clear() => delegate.clear();
 
   @override
-  bool remove(Object object) => delegate.remove(object);
+  bool remove(Object/*?*/ object) => delegate.remove(object);
 
   @override
   E removeFirst() => delegate.removeFirst();
