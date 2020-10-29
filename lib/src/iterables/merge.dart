@@ -24,10 +24,14 @@ import 'dart:collection';
 ///
 /// If any of the [iterables] contain null elements, an exception will be
 /// thrown.
-Iterable<T> merge<T>(Iterable<Iterable<T>> iterables, [Comparator<T> compare]) {
-  if (iterables.isEmpty) return const <Null>[];
-  if (iterables.every((i) => i.isEmpty)) return const <Null>[];
-  return _Merge<T>(iterables, compare ?? Comparable.compare);
+Iterable<T> merge<T>(Iterable<Iterable<T>> iterables, [Comparator<T>/*?*/ compare]) {
+  if (iterables.isEmpty) return <T>[];
+  if (iterables.every((i) => i.isEmpty)) return <T>[];
+  return _Merge<T>(iterables, compare ?? _compareAny);
+}
+
+int _compareAny<T>(T a, T b) {
+  return Comparable.compare(a as Comparable, b as Comparable);
 }
 
 class _Merge<T> extends IterableBase<T> {
@@ -66,12 +70,12 @@ class _MergeIterator<T> implements Iterator<T> {
 
   final List<_IteratorPeeker<T>> _peekers;
   final Comparator<T> _compare;
-  T _current;
+  T/*?*/ _current;
 
   @override
   bool moveNext() {
     // Pick the peeker that's peeking at the puniest piece
-    _IteratorPeeker<T> minIter;
+    _IteratorPeeker<T>/*?*/ minIter;
     for (final p in _peekers) {
       if (p._hasCurrent) {
         if (minIter == null || _compare(p.current, minIter.current) < 0) {
@@ -89,5 +93,7 @@ class _MergeIterator<T> implements Iterator<T> {
   }
 
   @override
-  T get current => _current;
+  T get current {
+    return _current /*as T*/;
+  }
 }

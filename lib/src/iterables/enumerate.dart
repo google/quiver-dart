@@ -76,10 +76,12 @@ class EnumerateIterator<V> extends Iterator<IndexedValue<V>> {
 
   final Iterator<V> _iterator;
   int _index = 0;
-  IndexedValue<V> _current;
+  IndexedValue<V>/*?*/ _current;
 
   @override
-  IndexedValue<V> get current => _current;
+  IndexedValue<V> get current {
+    return _current /*as IndexedValue<V>*/;
+  }
 
   @override
   bool moveNext() {
