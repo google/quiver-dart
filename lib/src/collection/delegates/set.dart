@@ -45,28 +45,28 @@ abstract class DelegatingSet<E> extends DelegatingIterable<E>
   void clear() => delegate.clear();
 
   @override
-  bool containsAll(Iterable<Object> other) => delegate.containsAll(other);
+  bool containsAll(Iterable<Object/*?*/> other) => delegate.containsAll(other);
 
   @override
-  Set<E> difference(Set<Object> other) => delegate.difference(other);
+  Set<E> difference(Set<Object/*?*/> other) => delegate.difference(other);
 
   @override
-  Set<E> intersection(Set<Object> other) => delegate.intersection(other);
+  Set<E> intersection(Set<Object/*?*/> other) => delegate.intersection(other);
 
   @override
-  E lookup(Object object) => delegate.lookup(object);
+  E/*?*/ lookup(Object/*?*/ object) => delegate.lookup(object);
 
   @override
-  bool remove(Object value) => delegate.remove(value);
+  bool remove(Object/*?*/ value) => delegate.remove(value);
 
   @override
-  void removeAll(Iterable<Object> elements) => delegate.removeAll(elements);
+  void removeAll(Iterable<Object/*?*/> elements) => delegate.removeAll(elements);
 
   @override
   void removeWhere(bool test(E element)) => delegate.removeWhere(test);
 
   @override
-  void retainAll(Iterable<Object> elements) => delegate.retainAll(elements);
+  void retainAll(Iterable<Object/*?*/> elements) => delegate.retainAll(elements);
 
   @override
   void retainWhere(bool test(E element)) => delegate.retainWhere(test);
