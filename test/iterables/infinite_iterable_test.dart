@@ -35,7 +35,7 @@ class NaturalNumberIterator implements Iterator<int> {
 
 void main() {
   group('InfiniteIterable', () {
-    NaturalNumberIterable it;
+    /*late*/ NaturalNumberIterable it;
 
     setUp(() {
       it = NaturalNumberIterable();

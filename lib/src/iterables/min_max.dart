@@ -18,9 +18,9 @@
 /// The compare function must act as a [Comparator]. If [compare] is omitted,
 /// [Comparable.compare] is used. If [i] contains null elements, an exception
 /// will be thrown.
-T max<T>(Iterable<T> i, [Comparator<T> compare]) {
+T/*?*/ max<T>(Iterable<T> i, [Comparator<T>/*?*/ compare]) {
   if (i.isEmpty) return null;
-  final Comparator<T> _compare = compare ?? Comparable.compare;
+  final Comparator<T> _compare = compare ?? _compareAny;
   return i.reduce((a, b) => _compare(a, b) > 0 ? a : b);
 }
 
@@ -30,9 +30,9 @@ T max<T>(Iterable<T> i, [Comparator<T> compare]) {
 /// The compare function must act as a [Comparator]. If [compare] is omitted,
 /// [Comparable.compare] is used. If [i] contains null elements, an exception
 /// will be thrown.
-T min<T>(Iterable<T> i, [Comparator<T> compare]) {
+T/*?*/ min<T>(Iterable<T> i, [Comparator<T>/*?*/ compare]) {
   if (i.isEmpty) return null;
-  final Comparator<T> _compare = compare ?? Comparable.compare;
+  final Comparator<T> _compare = compare ?? _compareAny;
   return i.reduce((a, b) => _compare(a, b) < 0 ? a : b);
 }
 
@@ -47,9 +47,9 @@ T min<T>(Iterable<T> i, [Comparator<T> compare]) {
 ///
 /// If [i] is empty, an [Extent] is returned with [:null:] values for [:min:]
 /// and [:max:], since there are no valid values for them.
-Extent<T> extent<T>(Iterable<T> i, [Comparator<T> compare]) {
+Extent<T> extent<T>(Iterable<T> i, [Comparator<T>/*?*/ compare]) {
   if (i.isEmpty) return Extent(null, null);
-  final Comparator<T> _compare = compare ?? Comparable.compare;
+  final Comparator<T> _compare = compare ?? _compareAny;
   var iterator = i.iterator;
   var hasNext = iterator.moveNext();
   if (!hasNext) return Extent(null, null);
@@ -65,6 +65,10 @@ Extent<T> extent<T>(Iterable<T> i, [Comparator<T> compare]) {
 class Extent<T> {
   Extent(this.min, this.max);
 
-  final T min;
-  final T max;
+  final T/*?*/ min;
+  final T/*?*/ max;
+}
+
+int _compareAny<T>(T a, T b) {
+  return Comparable.compare(a as Comparable, b as Comparable);
 }
