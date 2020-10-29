@@ -16,6 +16,8 @@ import 'infinite_iterable.dart';
 
 /// Returns an infinite [Iterable] of [num]s, starting from [start] and
 /// increasing by [step].
+///
+/// Calling [Iterator.current] before [Iterator.moveNext] throws [StateError].
 Iterable<num> count([num start = 0, num step = 1]) => _Count(start, step);
 
 class _Count extends InfiniteIterable<num> {
@@ -34,14 +36,16 @@ class _CountIterator implements Iterator<num> {
   _CountIterator(this._start, this._step);
 
   final num _start, _step;
-  num _current;
+  num/*?*/ _current;
 
   @override
-  num get current => _current;
+  num get current {
+    return _current /*as num*/;
+  }
 
   @override
   bool moveNext() {
-    _current = (_current == null) ? _start : _current + _step;
+    _current = (_current == null) ? _start : _current/*!*/ + _step;
     return true;
   }
 }

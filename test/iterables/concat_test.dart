@@ -40,6 +40,7 @@ void main() {
           [1, 2, 3, -1, -2, -3]);
     });
 
+    // TODO(cbracken): Delete post NNBD migration.
     test('should throw for null input', () {
       expect(() => concat(null), throwsNoSuchMethodError);
     });

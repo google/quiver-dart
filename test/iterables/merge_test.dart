@@ -48,7 +48,7 @@ void main() {
 
     test('should honor the comparator', () {
       var a = ['c', 'b', 'a'];
-      expect(merge([a, a], (x, y) => -x.compareTo(y)),
+      expect(merge([a, a], (String x, String y) => -x.compareTo(y)),
           ['c', 'c', 'b', 'b', 'a', 'a']);
     });
 
@@ -58,6 +58,7 @@ void main() {
       expect(merge([<String>[], a]), ['a', 'b', 'c']);
     });
 
+    // TODO(cbracken): delete this after non-null by default migration.
     test('should throw on null elements', () {
       var a = ['a', null, 'c'];
       var b = ['a', 'b', 'c'];
@@ -75,7 +76,7 @@ void main() {
     test('should handle max(a) < min(b) case', () {
       var a = <String>['a', 'b'];
       var b = <String>['c', 'd'];
-      expect(max(a).compareTo(min(b)) < 0, isTrue); // test the test
+      expect(max(a)/*!*/.compareTo(min(b)/*!*/) < 0, isTrue); // test the test
       expect(merge([a, b]), ['a', 'b', 'c', 'd']);
     });
 
