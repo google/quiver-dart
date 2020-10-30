@@ -14,7 +14,7 @@
 
 library quiver.collection.delegates.map_test;
 
-import 'package:quiver/collection.dart';
+import 'package:quiver/src/collection/delegates/map.dart';
 import 'package:test/test.dart';
 
 class MyMap extends DelegatingMap<String, int> {

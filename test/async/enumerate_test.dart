@@ -16,8 +16,8 @@ library quiver.async.enumerate_test;
 
 import 'dart:async';
 
+import 'package:quiver/src/async/enumerate.dart';
 import 'package:test/test.dart';
-import 'package:quiver/async.dart';
 
 void main() {
   group('enumerate', () {

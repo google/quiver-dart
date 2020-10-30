@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:quiver/iterables.dart';
+import 'package:quiver/src/iterables/infinite_iterable.dart';
 import 'package:test/test.dart';
 
 class NaturalNumberIterable extends InfiniteIterable<int> {

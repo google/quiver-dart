@@ -14,8 +14,8 @@
 
 library quiver.iterables.range_test;
 
+import 'package:quiver/src/iterables/range.dart';
 import 'package:test/test.dart';
-import 'package:quiver/iterables.dart';
 
 void main() {
   group('range', () {

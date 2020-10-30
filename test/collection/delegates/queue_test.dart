@@ -16,7 +16,7 @@ library quiver.collection.delegates.queue_test;
 
 import 'dart:collection' show Queue;
 
-import 'package:quiver/collection.dart';
+import 'package:quiver/src/collection/delegates/queue.dart';
 import 'package:test/test.dart';
 
 class MyQueue extends DelegatingQueue<String> {

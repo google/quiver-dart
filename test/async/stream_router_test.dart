@@ -16,8 +16,8 @@ library quiver.async.stream_router_test;
 
 import 'dart:async';
 
+import 'package:quiver/src/async/stream_router.dart';
 import 'package:test/test.dart';
-import 'package:quiver/async.dart';
 
 void main() {
   group('StreamRouter', () {

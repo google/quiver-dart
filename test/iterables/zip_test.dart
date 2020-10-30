@@ -14,8 +14,9 @@
 
 library quiver.iterables.zip_test;
 
+import 'package:quiver/src/iterables/range.dart';
+import 'package:quiver/src/iterables/zip.dart';
 import 'package:test/test.dart';
-import 'package:quiver/iterables.dart';
 
 void main() {
   group('zip', () {

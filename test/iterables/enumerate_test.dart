@@ -14,8 +14,8 @@
 
 library quiver.iterables.enumerate_test;
 
+import 'package:quiver/src/iterables/enumerate.dart';
 import 'package:test/test.dart';
-import 'package:quiver/iterables.dart';
 
 void main() {
   group('enumerate', () {

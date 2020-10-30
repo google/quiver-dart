@@ -14,7 +14,7 @@
 
 library quiver.collection.multimap_test;
 
-import 'package:quiver/collection.dart';
+import 'package:quiver/src/collection/multimap.dart';
 import 'package:test/test.dart';
 
 void main() {

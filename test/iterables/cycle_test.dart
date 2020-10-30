@@ -14,8 +14,8 @@
 
 library quiver.iterables.cycle_test;
 
+import 'package:quiver/src/iterables/cycle.dart';
 import 'package:test/test.dart';
-import 'package:quiver/iterables.dart';
 
 void main() {
   group('cycle', () {

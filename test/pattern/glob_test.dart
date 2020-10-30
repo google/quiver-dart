@@ -14,8 +14,8 @@
 
 library quiver.patttern.glob_test;
 
-import 'package:test/test.dart';
 import 'package:quiver/pattern.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('Glob', () {

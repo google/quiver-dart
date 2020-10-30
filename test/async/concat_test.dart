@@ -16,8 +16,8 @@ library quiver.async.concat_test;
 
 import 'dart:async';
 
+import 'package:quiver/src/async/concat.dart';
 import 'package:test/test.dart';
-import 'package:quiver/async.dart';
 
 void main() {
   group('concat', () {
