@@ -12,16 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 import 'dart:collection';
 
 /// A bi-directional map whose key-value pairs form a one-to-one
 /// correspondence.  BiMaps support an `inverse` property which gives access to
 /// an inverted view of the map, such that there is a mapping (v, k) for each
 /// pair (k, v) in the original map. Since a one-to-one key-value invariant
-/// applies, it is an error to insert duplicate values into this map. It is
-/// also an error to insert null keys or values into this map.
+/// applies, it is an error to insert duplicate values into this map.
 abstract class BiMap<K, V> implements Map<K, V> {
   /// Creates a BiMap instance with the default implementation.
   factory BiMap() => HashBiMap();
@@ -47,15 +44,15 @@ abstract class BiMap<K, V> implements Map<K, V> {
 
 /// A hash-table based implementation of BiMap.
 class HashBiMap<K, V> implements BiMap<K, V> {
-  HashBiMap() : this._from(HashMap(), HashMap());
+  HashBiMap() : this._from(HashMap<K, V>(), HashMap<V, K>());
   HashBiMap._from(this._map, this._inverse);
 
   final Map<K, V> _map;
   final Map<V, K> _inverse;
-  BiMap<V, K> _cached;
+  BiMap<V, K>? _cached;
 
   @override
-  V operator [](Object key) => _map[key];
+  V? operator [](Object? key) => _map[key];
 
   @override
   void operator []=(K key, V value) {
@@ -71,10 +68,10 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   void addAll(Map<K, V> other) => other.forEach((k, v) => _add(k, v, false));
 
   @override
-  bool containsKey(Object key) => _map.containsKey(key);
+  bool containsKey(Object? key) => _map.containsKey(key);
 
   @override
-  bool containsValue(Object value) => _inverse.containsKey(value);
+  bool containsValue(Object? value) => _inverse.containsKey(value);
 
   @override
   void forEach(void f(K key, V value)) => _map.forEach(f);
@@ -119,14 +116,14 @@ class HashBiMap<K, V> implements BiMap<K, V> {
 
   @override
   V putIfAbsent(K key, V ifAbsent()) {
-    var value = _map[key];
-    if (value != null) return value;
-    if (!_map.containsKey(key)) return _add(key, ifAbsent(), false);
-    return null;
+    if (containsKey(key)) {
+      return _map[key]!;
+    }
+    return _add(key, ifAbsent(), false);
   }
 
   @override
-  V remove(Object key) {
+  V? remove(Object? key) {
     _inverse.remove(_map[key]);
     return _map.remove(key);
   }
@@ -138,7 +135,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   }
 
   @override
-  V update(K key, V update(V value), {V ifAbsent()}) {
+  V update(K key, V update(V value), {V ifAbsent()?}) {
     var value = _map[key];
     if (value != null) {
       return _add(key, update(value), true);
@@ -153,7 +150,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   @override
   void updateAll(V update(K key, V value)) {
     for (final key in keys) {
-      _add(key, update(key, _map[key]), true);
+      _add(key, update(key, _map[key]!), true);
     }
   }
 
@@ -164,11 +161,8 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   }
 
   V _add(K key, V value, bool replace) {
-    // TODO(cbracken): Remove post-NNBD. https://github.com/google/quiver-dart/issues/612
-    ArgumentError.checkNotNull(key);
-    ArgumentError.checkNotNull(value);
     var oldValue = _map[key];
-    if (oldValue == value) return value;
+    if (containsKey(key) && oldValue == value) return value;
     if (_inverse.containsKey(value)) {
       if (!replace) throw ArgumentError('Mapping for $value exists');
       _map.remove(_inverse[value]);
