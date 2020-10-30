@@ -14,8 +14,8 @@
 
 library quiver.iterables.property_iterable_test;
 
+import 'package:quiver/src/iterables/generating_iterable.dart';
 import 'package:test/test.dart';
-import 'package:quiver/iterables.dart';
 
 void main() {
   group('GeneratingIterable', () {

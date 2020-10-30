@@ -14,11 +14,11 @@
 
 library quiver.async.countdown_timer_test;
 
-import 'package:test/test.dart';
-import 'package:quiver/async.dart';
-import 'package:quiver/time.dart';
+import 'package:quiver/src/async/countdown_timer.dart';
 import 'package:quiver/testing/async.dart';
 import 'package:quiver/testing/time.dart';
+import 'package:quiver/time.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('CountdownTimer', () {

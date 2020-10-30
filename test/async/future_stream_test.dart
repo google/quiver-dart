@@ -16,8 +16,8 @@ library quiver.async.future_stream_test;
 
 import 'dart:async';
 
+import 'package:quiver/src/async/future_stream.dart';
 import 'package:test/test.dart';
-import 'package:quiver/async.dart';
 
 void main() {
   group('FutureStream', () {

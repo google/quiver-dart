@@ -14,7 +14,7 @@
 
 library quiver.collection.bimap_test;
 
-import 'package:quiver/collection.dart';
+import 'package:quiver/src/collection/bimap.dart';
 import 'package:test/test.dart';
 
 void main() {
