@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 library quiver.collection.utils_test;
 
 import 'package:quiver/src/collection/utils.dart';
@@ -22,15 +20,12 @@ import 'package:test/test.dart';
 void main() {
   group('listsEqual', () {
     test('return true for equal lists', () {
-      expect(listsEqual(null, null), isTrue);
       expect(listsEqual([], []), isTrue);
       expect(listsEqual([1], [1]), isTrue);
       expect(listsEqual(['a', 'b'], ['a', 'b']), isTrue);
     });
 
-    test('return false for non-equal lists', () {
-      expect(listsEqual(null, []), isFalse);
-      expect(listsEqual([], null), isFalse);
+    test('return false for unequal lists', () {
       expect(listsEqual([1], [2]), isFalse);
       expect(listsEqual([1], []), isFalse);
       expect(listsEqual([], [1]), isFalse);
@@ -39,14 +34,11 @@ void main() {
 
   group('listMap', () {
     test('return true for equal maps', () {
-      expect(mapsEqual(null, null), isTrue);
       expect(mapsEqual({}, {}), isTrue);
       expect(mapsEqual({'a': 1}, {'a': 1}), isTrue);
     });
 
-    test('return false for non-equal maps', () {
-      expect(mapsEqual(null, {}), isFalse);
-      expect(mapsEqual({}, null), isFalse);
+    test('return false for unequal maps', () {
       expect(mapsEqual({'a': 1}, {'a': 2}), isFalse);
       expect(mapsEqual({'a': 1}, {'b': 1}), isFalse);
       expect(mapsEqual({'a': 1}, {'a': 1, 'b': 2}), isFalse);
@@ -56,15 +48,12 @@ void main() {
 
   group('setsEqual', () {
     test('return true for equal sets', () {
-      expect(setsEqual(null, null), isTrue);
       expect(setsEqual(Set(), Set()), isTrue);
       expect(setsEqual(Set.from([1]), Set.from([1])), isTrue);
       expect(setsEqual(Set.from(['a', 'b']), Set.from(['a', 'b'])), isTrue);
     });
 
-    test('return false for non-equal sets', () {
-      expect(setsEqual(null, Set()), isFalse);
-      expect(setsEqual(Set(), null), isFalse);
+    test('return false for unequal sets', () {
       expect(setsEqual(Set.from([1]), Set.from([2])), isFalse);
       expect(setsEqual(Set.from([1]), Set()), isFalse);
       expect(setsEqual(Set(), Set.from([1])), isFalse);
