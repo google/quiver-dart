@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 import 'dart:collection';
 
 import 'package:quiver/iterables.dart' show GeneratingIterable;
@@ -29,34 +27,35 @@ import 'package:quiver/iterables.dart' show GeneratingIterable;
 /// MRU position.
 abstract class LruMap<K, V> implements Map<K, V> {
   /// Creates a [LruMap] instance with the default implementation.
-  factory LruMap({int maximumSize}) = LinkedLruHashMap<K, V>;
+  factory LruMap({int? maximumSize}) = LinkedLruHashMap<K, V>;
 
   /// Maximum size of the [Map]. If [length] exceeds this value at any time, n
   /// entries accessed the earliest are removed, where n is [length] -
   /// [maximumSize].
-  int maximumSize;
+  int get maximumSize;
+  set maximumSize(int size);
 }
 
 /// Simple implementation of a linked-list entry that contains a [key] and
 /// [value].
 class _LinkedEntry<K, V> {
-  _LinkedEntry([this.key, this.value]);
+  _LinkedEntry(this.key, this.value);
 
   K key;
   V value;
 
-  _LinkedEntry<K, V> next;
-  _LinkedEntry<K, V> previous;
+  _LinkedEntry<K, V>? next;
+  _LinkedEntry<K, V>? previous;
 }
 
 /// A linked hash-table based implementation of [LruMap].
 class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   /// Create a new LinkedLruHashMap with a [maximumSize].
-  factory LinkedLruHashMap({int maximumSize}) =>
+  factory LinkedLruHashMap({int? maximumSize}) =>
       LinkedLruHashMap._fromMap(HashMap<K, _LinkedEntry<K, V>>(),
           maximumSize: maximumSize);
 
-  LinkedLruHashMap._fromMap(this._entries, {int maximumSize})
+  LinkedLruHashMap._fromMap(this._entries, {int? maximumSize})
       // This pattern is used instead of a default value because we want to
       // be able to respect null values coming in from MapCache.lru.
       : _maximumSize = maximumSize ?? _DEFAULT_MAXIMUM_SIZE;
@@ -67,8 +66,8 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
 
   int _maximumSize;
 
-  _LinkedEntry<K, V> _head;
-  _LinkedEntry<K, V> _tail;
+  _LinkedEntry<K, V>? _head;
+  _LinkedEntry<K, V>? _tail;
 
   /// Adds all key-value pairs of [other] to this map.
   ///
@@ -103,10 +102,10 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   }
 
   @override
-  bool containsKey(Object key) => _entries.containsKey(key);
+  bool containsKey(Object? key) => _entries.containsKey(key);
 
   @override
-  bool containsValue(Object value) => values.contains(value);
+  bool containsValue(Object? value) => values.contains(value);
 
   @override
   Iterable<MapEntry<K, V>> get entries =>
@@ -136,7 +135,10 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
 
   /// Creates an [Iterable] around the entries of the map.
   Iterable<_LinkedEntry<K, V>> _iterable() {
-    return GeneratingIterable<_LinkedEntry<K, V>>(() => _head, (n) => n.next);
+    if (_head == null) {
+      return const Iterable.empty();
+    }
+    return GeneratingIterable<_LinkedEntry<K, V>>(() => _head!, (n) => n.next);
   }
 
   /// The keys of [this] - in order of MRU to LRU.
@@ -164,7 +166,8 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
 
   @override
   set maximumSize(int maximumSize) {
-    if (maximumSize == null) throw ArgumentError.notNull('maximumSize');
+    // TODO(cbracken): Remove when mixed-mode execution is unsupported.
+    ArgumentError.checkNotNull(maximumSize, 'maximumSize');
     while (length > maximumSize) {
       _removeLru();
     }
@@ -196,7 +199,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   /// unsupported; use [keys] or [values] if you need information about entries
   /// without modifying their position.
   @override
-  V operator [](Object key) {
+  V? operator [](Object? key) {
     final entry = _entries[key];
     if (entry != null) {
       _promoteEntry(entry);
@@ -224,24 +227,24 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   }
 
   @override
-  V remove(Object key) {
+  V? remove(Object? key) {
     final entry = _entries.remove(key);
-    if (entry != null) {
-      if (entry == _head && entry == _tail) {
-        _head = _tail = null;
-      } else if (entry == _head) {
-        _head = _head.next;
-        _head?.previous = null;
-      } else if (entry == _tail) {
-        _tail = _tail.previous;
-        _tail?.next = null;
-      } else {
-        entry.previous.next = entry.next;
-        entry.next.previous = entry.previous;
-      }
-      return entry.value;
+    if (entry == null) {
+      return null;
     }
-    return null;
+    if (entry == _head && entry == _tail) {
+      _head = _tail = null;
+    } else if (entry == _head) {
+      _head = _head!.next;
+      _head?.previous = null;
+    } else if (entry == _tail) {
+      _tail = _tail!.previous;
+      _tail?.next = null;
+    } else {
+      entry.previous!.next = entry.next;
+      entry.next!.previous = entry.previous;
+    }
+    return entry.value;
   }
 
   @override
@@ -284,10 +287,10 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   }
 
   @override
-  V update(K key, V update(V value), {V ifAbsent()}) {
+  V update(K key, V update(V value), {V ifAbsent()?}) {
     V newValue;
     if (containsKey(key)) {
-      newValue = update(this[key]);
+      newValue = update(this[key]!);
     } else {
       if (ifAbsent == null) {
         throw ArgumentError.value(key, 'key', 'Key not in map');
@@ -323,7 +326,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
 
     if (entry.previous != null) {
       // If already existed in the map, link previous to next.
-      entry.previous.next = entry.next;
+      entry.previous!.next = entry.next;
 
       // If this was the tail element, assign a new tail.
       if (_tail == entry) {
@@ -332,12 +335,12 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
     }
     // If this entry is not the end of the list then link the next entry to the previous entry.
     if (entry.next != null) {
-      entry.next.previous = entry.previous;
+      entry.next!.previous = entry.previous;
     }
 
     // Replace head with this element.
     if (_head != null) {
-      _head.previous = entry;
+      _head!.previous = entry;
     }
     entry.previous = null;
     entry.next = _head;
@@ -368,10 +371,10 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   /// Removes the LRU position, shifting the linked list if necessary.
   void _removeLru() {
     // Remove the tail from the internal map.
-    _entries.remove(_tail.key);
+    _entries.remove(_tail!.key);
 
     // Remove the tail element itself.
-    _tail = _tail.previous;
+    _tail = _tail!.previous;
     _tail?.next = null;
 
     // If we removed the last element, clear the head too.
