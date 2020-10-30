@@ -14,9 +14,9 @@
 
 // TODO(cbracken): Eliminate once firstNonNull is deleted in Quiver 4.0.0.
 // ignore_for_file: deprecated_member_use_from_same_package
-library quiver.core_test;
+library quiver.core.utils_test;
 
-import 'package:quiver/core.dart';
+import 'package:quiver/src/core/utils.dart';
 import 'package:test/test.dart';
 
 void main() {
