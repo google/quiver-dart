@@ -14,9 +14,9 @@
 
 // @dart = 2.9
 
-library quiver.collection.collection_test;
+library quiver.collection.utils_test;
 
-import 'package:quiver/collection.dart';
+import 'package:quiver/src/collection/utils.dart';
 import 'package:test/test.dart';
 
 void main() {
