@@ -39,5 +39,5 @@ void main() {
 }
 
 class Node {
-  Node/*?*/ parent;
+  Node? parent;
 }

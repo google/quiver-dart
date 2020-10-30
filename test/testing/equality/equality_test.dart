@@ -19,10 +19,10 @@ import 'package:test/test.dart';
 
 void main() {
   group('expectEquals', () {
-    /*late*/ _ValidTestObject reference;
-    /*late*/ _ValidTestObject equalObject1;
-    /*late*/ _ValidTestObject equalObject2;
-    /*late*/ _ValidTestObject notEqualObject1;
+    late _ValidTestObject reference;
+    late _ValidTestObject equalObject1;
+    late _ValidTestObject equalObject2;
+    late _ValidTestObject notEqualObject1;
 
     setUp(() {
       reference = _ValidTestObject(1, 2);

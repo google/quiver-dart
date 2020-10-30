@@ -59,15 +59,6 @@ void main() {
       expect(merge([<String>[], a]), ['a', 'b', 'c']);
     });
 
-    // TODO(cbracken): delete this after non-null by default migration.
-    test('should throw on null elements', () {
-      var a = ['a', null, 'c'];
-      var b = ['a', 'b', 'c'];
-      void nop(String s) {}
-      expect(() => merge([a, b]).forEach(nop), throwsNoSuchMethodError);
-      expect(() => merge([b, a]).forEach(nop), throwsNoSuchMethodError);
-    }, tags: ['fails-on-dartdevc', 'fails-on-dart2js']);
-
     test('should handle zig-zag case', () {
       var a = ['a', 'a', 'd', 'f'];
       var b = ['b', 'c', 'g', 'g'];
@@ -77,7 +68,7 @@ void main() {
     test('should handle max(a) < min(b) case', () {
       var a = <String>['a', 'b'];
       var b = <String>['c', 'd'];
-      expect(max(a)/*!*/.compareTo(min(b)/*!*/) < 0, isTrue); // test the test
+      expect(max(a)!.compareTo(min(b)!) < 0, isTrue); // test the test
       expect(merge([a, b]), ['a', 'b', 'c', 'd']);
     });
 

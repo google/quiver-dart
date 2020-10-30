@@ -26,7 +26,7 @@ abstract class DelegatingMap<K, V> implements Map<K, V> {
   Map<K, V> get delegate;
 
   @override
-  V/*?*/ operator [](Object/*?*/ key) => delegate[key];
+  V? operator [](Object? key) => delegate[key];
 
   @override
   void operator []=(K key, V value) {
@@ -54,13 +54,13 @@ abstract class DelegatingMap<K, V> implements Map<K, V> {
   void clear() => delegate.clear();
 
   @override
-  bool containsKey(Object/*?*/ key) => delegate.containsKey(key);
+  bool containsKey(Object? key) => delegate.containsKey(key);
 
   @override
-  bool containsValue(Object/*?*/ value) => delegate.containsValue(value);
+  bool containsValue(Object? value) => delegate.containsValue(value);
 
   @override
-  Iterable<Null> get entries {
+  Iterable<MapEntry<K, V>> get entries {
     // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     // Change Iterable<Null> to Iterable<MapEntry<K, V>> when
     // the MapEntry class has been added.
@@ -94,7 +94,7 @@ abstract class DelegatingMap<K, V> implements Map<K, V> {
   V putIfAbsent(K key, V ifAbsent()) => delegate.putIfAbsent(key, ifAbsent);
 
   @override
-  V/*?*/ remove(Object/*?*/ key) => delegate.remove(key);
+  V? remove(Object? key) => delegate.remove(key);
 
   @override
   void removeWhere(bool test(K key, V value)) {
@@ -103,7 +103,7 @@ abstract class DelegatingMap<K, V> implements Map<K, V> {
   }
 
   @override
-  V update(K key, V update(V value), {V ifAbsent()/*?*/}) {
+  V update(K key, V update(V value), {V ifAbsent()?}) {
     // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     throw UnimplementedError('update');
   }

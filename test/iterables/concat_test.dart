@@ -40,21 +40,6 @@ void main() {
           [1, 2, 3, -1, -2, -3]);
     });
 
-    // TODO(cbracken): Delete post NNBD migration.
-    test('should throw for null input', () {
-      expect(() => concat(null), throwsNoSuchMethodError);
-    });
-
-    test('should throw if any input is null', () {
-      expect(
-          () => concat([
-                [1, 2],
-                null,
-                [3, 4]
-              ]).toList(),
-          throwsNoSuchMethodError);
-    });
-
     test('should reflect changes in the inputs', () {
       var a = [1, 2];
       var b = [4, 5];

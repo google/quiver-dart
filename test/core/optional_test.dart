@@ -34,7 +34,7 @@ void main() {
     });
 
     test('ifPresent should execute only if present', () {
-      int value;
+      int? value;
       Optional<int>.of(7).ifPresent((v) {
         value = v;
       });
@@ -46,7 +46,7 @@ void main() {
     });
 
     test('isAbsent should execute only if absent', () {
-      int value;
+      int? value;
       Optional<int>.of(7).ifAbsent(() {
         value = 7;
       });

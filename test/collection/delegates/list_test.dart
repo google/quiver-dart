@@ -17,21 +17,21 @@ library quiver.collection.delegates.list_test;
 import 'package:quiver/src/collection/delegates/list.dart';
 import 'package:test/test.dart';
 
-class MyList extends DelegatingList<String> {
+class MyList<T> extends DelegatingList<T> {
   MyList(this._delegate);
 
-  final List<String> _delegate;
+  final List<T> _delegate;
 
   @override
-  List<String> get delegate => _delegate;
+  List<T> get delegate => _delegate;
 }
 
 void main() {
   group('DelegatingList', () {
-    /*late*/ DelegatingList<String> delegatingList;
+    late DelegatingList<String> delegatingList;
 
     setUp(() {
-      delegatingList = MyList(['a', 'b', 'cc']);
+      delegatingList = MyList<String>(['a', 'b', 'cc']);
     });
 
     test('[]', () {
@@ -71,8 +71,11 @@ void main() {
     });
 
     test('fillRange', () {
-      delegatingList.fillRange(0, 2);
-      expect(delegatingList, equals([null, null, 'cc']));
+      DelegatingList<String?> nullableDelegatingList =
+          MyList<String?>(['a', 'b', 'cc']);
+      nullableDelegatingList.fillRange(0, 2);
+      expect(nullableDelegatingList, equals([null, null, 'cc']));
+
       delegatingList.fillRange(0, 2, 'd');
       expect(delegatingList, equals(['d', 'd', 'cc']));
     });

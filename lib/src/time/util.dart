@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'package:meta/meta.dart';
-
 /// Days in a month. This array uses 1-based month numbers, i.e. January is
 /// the 1-st element in the array, not the 0-th.
 const _daysInMonth = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -51,8 +49,8 @@ bool isLeapYear(int year) =>
 /// month back takes us to February 28 (or 29 during a leap year), as February
 /// doesn't have 31-st date.
 int clampDayOfMonth({
-  @required int year,
-  @required int month,
-  @required int day,
+  required int year,
+  required int month,
+  required int day,
 }) =>
     day.clamp(1, daysInMonth(year, month));

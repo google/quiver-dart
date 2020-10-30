@@ -22,7 +22,7 @@
 /// if provided. [step] can be negative, in which case the sequence counts down
 /// from the starting point and [stop] must be less than the starting point so
 /// that it becomes the lower bound.
-Iterable<num> range(num startOrStop, [num/*?*/ stop, num/*?*/ step]) sync* {
+Iterable<num> range(num startOrStop, [num? stop, num? step]) sync* {
   final start = stop == null ? 0 : startOrStop;
   stop ??= startOrStop;
   step ??= 1;

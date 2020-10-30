@@ -25,7 +25,7 @@ void expectDate(DateTime date, int y, [int m = 1, int d = 1]) {
 
 void main() {
   group('clock', () {
-    Clock subject;
+    late Clock subject;
 
     setUp(() {
       subject = Clock.fixed(DateTime(2013));
