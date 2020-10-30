@@ -71,11 +71,11 @@ T checkNotNull<T>(T reference, {message}) {
 /// Throws a [StateError] if the given [expression] is `false`.
 void checkState(bool expression, {message}) {
   if (!expression) {
-    throw StateError(_resolveMessage(message, 'failed precondition')/*!*/);
+    throw StateError(_resolveMessage(message, 'failed precondition')!);
   }
 }
 
-String/*?*/ _resolveMessage(message, String/*?*/ defaultMessage) {
+String? _resolveMessage(message, String? defaultMessage) {
   if (message is Function) message = message();
   if (message == null) return defaultMessage;
   return message.toString();

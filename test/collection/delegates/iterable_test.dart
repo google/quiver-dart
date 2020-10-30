@@ -28,7 +28,7 @@ class MyIterable extends DelegatingIterable<String> {
 
 void main() {
   group('DelegatingIterable', () {
-    /*late*/ DelegatingIterable<String> delegatingIterable;
+    late DelegatingIterable<String> delegatingIterable;
 
     setUp(() {
       delegatingIterable = MyIterable(['a', 'b', 'cc']);
@@ -69,7 +69,8 @@ void main() {
     });
 
     test('fold', () {
-      expect(delegatingIterable.fold('z', (p, e) => p + e), equals('zabcc'));
+      expect(delegatingIterable.fold('z', (String p, String e) => p + e),
+          equals('zabcc'));
     });
 
     test('forEach', () {
@@ -97,7 +98,6 @@ void main() {
 
     test('forEach', () {
       final it = delegatingIterable.iterator;
-      expect(it.current, isNull);
       expect(it.moveNext(), isTrue);
       expect(it.current, equals('a'));
       expect(it.moveNext(), isTrue);
@@ -105,7 +105,6 @@ void main() {
       expect(it.moveNext(), isTrue);
       expect(it.current, equals('cc'));
       expect(it.moveNext(), isFalse);
-      expect(it.current, isNull);
     });
 
     test('join', () {

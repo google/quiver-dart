@@ -35,7 +35,7 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   }
 
   @override
-  bool contains(Object/*?*/ element) => delegate.contains(element);
+  bool contains(Object? element) => delegate.contains(element);
 
   @override
   E elementAt(int index) => delegate.elementAt(index);
@@ -50,7 +50,7 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   E get first => delegate.first;
 
   @override
-  E firstWhere(bool test(E element), {E orElse()/*?*/}) =>
+  E firstWhere(bool test(E element), {E orElse()?}) =>
       delegate.firstWhere(test, orElse: orElse);
 
   @override
@@ -79,7 +79,7 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   E get last => delegate.last;
 
   @override
-  E lastWhere(bool test(E element), {E orElse()/*?*/}) =>
+  E lastWhere(bool test(E element), {E orElse()?}) =>
       delegate.lastWhere(test, orElse: orElse);
 
   @override
@@ -95,7 +95,7 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   E get single => delegate.single;
 
   @override
-  E singleWhere(bool test(E element), {E orElse()/*?*/}) =>
+  E singleWhere(bool test(E element), {E orElse()?}) =>
       delegate.singleWhere(test, orElse: orElse);
 
   @override

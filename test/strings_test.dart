@@ -141,11 +141,6 @@ void main() {
       expect(loop('ab', 0, -6), 'bababa');
     });
 
-    // TODO(cbracken): Delete this test during NNBD migration.
-    test('should throw on null', () {
-      expect(() => loop(null, 6, 8), throwsArgumentError);
-    });
-
     // Corner cases
     test('should throw on empty', () {
       expect(() => loop('', 6, 8), throwsArgumentError);

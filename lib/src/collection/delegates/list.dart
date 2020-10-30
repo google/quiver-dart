@@ -61,7 +61,7 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
   void clear() => delegate.clear();
 
   @override
-  void fillRange(int start, int end, [E/*?*/ fillValue]) =>
+  void fillRange(int start, int end, [E? fillValue]) =>
       delegate.fillRange(start, end, fillValue);
 
   @override
@@ -94,11 +94,11 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
   }
 
   @override
-  int lastIndexOf(E element, [int/*?*/ start]) =>
+  int lastIndexOf(E element, [int? start]) =>
       delegate.lastIndexOf(element, start);
 
   @override
-  int lastIndexWhere(bool test(E element), [int/*?*/ start]) =>
+  int lastIndexWhere(bool test(E element), [int? start]) =>
       delegate.lastIndexWhere(test, start);
 
   @override
@@ -107,7 +107,7 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
   }
 
   @override
-  bool remove(Object/*?*/ value) => delegate.remove(value);
+  bool remove(Object? value) => delegate.remove(value);
 
   @override
   E removeAt(int index) => delegate.removeAt(index);
@@ -141,11 +141,11 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
       delegate.setRange(start, end, iterable, skipCount);
 
   @override
-  void shuffle([Random/*?*/ random]) => delegate.shuffle(random);
+  void shuffle([Random? random]) => delegate.shuffle(random);
 
   @override
-  void sort([int compare(E a, E b)/*?*/]) => delegate.sort(compare);
+  void sort([int compare(E a, E b)?]) => delegate.sort(compare);
 
   @override
-  List<E> sublist(int start, [int/*?*/ end]) => delegate.sublist(start, end);
+  List<E> sublist(int start, [int? end]) => delegate.sublist(start, end);
 }

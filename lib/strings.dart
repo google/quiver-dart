@@ -16,7 +16,7 @@ library quiver.strings;
 
 /// Returns [true] if [s] is either null, empty or is solely made of whitespace
 /// characters (as defined by [String.trim]).
-bool isBlank(String/*?*/ s) => s == null || s.trim().isEmpty;
+bool isBlank(String? s) => s == null || s.trim().isEmpty;
 
 /// Returns [true] if [s] is neither null, empty nor is solely made of whitespace
 /// characters.
@@ -24,13 +24,13 @@ bool isBlank(String/*?*/ s) => s == null || s.trim().isEmpty;
 /// See also:
 ///
 ///  * [isBlank]
-bool isNotBlank(String/*?*/ s) => s != null && s.trim().isNotEmpty;
+bool isNotBlank(String? s) => s != null && s.trim().isNotEmpty;
 
 /// Returns [true] if [s] is either null or empty.
-bool isEmpty(String/*?*/ s) => s == null || s.isEmpty;
+bool isEmpty(String? s) => s == null || s.isEmpty;
 
 /// Returns [true] if [s] is a not empty string.
-bool isNotEmpty(String/*?*/ s) => s != null && s.isNotEmpty;
+bool isNotEmpty(String? s) => s != null && s.isNotEmpty;
 
 /// Returns a string with characters from the given [s] in reverse order.
 ///
@@ -38,7 +38,7 @@ bool isNotEmpty(String/*?*/ s) => s != null && s.isNotEmpty;
 /// sequences including zero-width joiners, etc. this function is unsafe to
 /// use. No replacement is provided.
 String _reverse(String s) {
-  if (s == null || s == '') return s;
+  if (s == '') return s;
   StringBuffer sb = StringBuffer();
   var runes = s.runes.iterator..reset(s.length);
   while (runes.movePrevious()) {
@@ -67,10 +67,7 @@ String _reverse(String s) {
 /// loop('ab', 0, 6) == 'ababab'
 /// loop('test.txt', -3) == 'txt'
 /// loop('ldwor', -3, 2) == 'world'
-String loop(String s, int from, [int/*?*/ to]) {
-  // TODO(cbracken): Remove post-NNBD. https://github.com/google/quiver-dart/issues/612
-  ArgumentError.checkNotNull(s);
-  ArgumentError.checkNotNull(from);
+String loop(String s, int from, [int? to]) {
   if (s.isEmpty) {
     throw ArgumentError('Input string cannot be empty');
   }
@@ -136,10 +133,7 @@ bool isWhitespace(int rune) =>
 ///
 /// If there are an odd number of characters to pad, then the right will be
 /// padded with one more than the left.
-String center(String/*?*/ input, int width, String fill) {
-  // TODO(cbracken): Remove post-NNBD. https://github.com/google/quiver-dart/issues/612
-  ArgumentError.checkNotNull(width);
-  ArgumentError.checkNotNull(fill);
+String center(String? input, int width, String fill) {
   if (fill.isEmpty) {
     throw ArgumentError('fill cannot be empty');
   }
@@ -155,7 +149,7 @@ String center(String/*?*/ input, int width, String fill) {
 
 /// Returns `true` if [a] and [b] are equal after being converted to lower
 /// case, or are both null.
-bool equalsIgnoreCase(String/*?*/ a, String/*?*/ b) =>
+bool equalsIgnoreCase(String? a, String? b) =>
     (a == null && b == null) ||
     (a != null && b != null && a.toLowerCase() == b.toLowerCase());
 

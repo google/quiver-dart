@@ -36,16 +36,16 @@ class _CountIterator implements Iterator<num> {
   _CountIterator(this._start, this._step);
 
   final num _start, _step;
-  num/*?*/ _current;
+  num? _current;
 
   @override
   num get current {
-    return _current /*as num*/;
+    return _current as num;
   }
 
   @override
   bool moveNext() {
-    _current = (_current == null) ? _start : _current/*!*/ + _step;
+    _current = (_current == null) ? _start : _current! + _step;
     return true;
   }
 }

@@ -35,17 +35,17 @@ while (( "$#" )); do
   dartanalyzer) echo
     echo -e '\033[1mTASK: dartanalyzer\033[22m'
     echo -e 'dartanalyzer --fatal-warnings .'
-    dartanalyzer --lints --fatal-warnings --fatal-infos . || EXIT_CODE=$?
+    dartanalyzer --enable-experiment=non-nullable --lints --fatal-warnings --fatal-infos . || EXIT_CODE=$?
     ;;
   vm_test) echo
     echo -e '\033[1mTASK: vm_test\033[22m'
     echo -e 'pub run test -p vm'
-    pub run test -p vm -r expanded || EXIT_CODE=$?
+    pub run --enable-experiment=non-nullable test -p vm -r expanded || EXIT_CODE=$?
     ;;
   dart2js_test) echo
     echo -e '\033[1mTASK: dart2js_test\033[22m'
     echo -e 'pub run test -p chrome -x fails-on-dart2js'
-    pub run test -p chrome -x fails-on-dart2js -r expanded || EXIT_CODE=$?
+    pub run --enable-experiment=non-nullable test -p chrome -x fails-on-dart2js -r expanded || EXIT_CODE=$?
     ;;
   dartdevc_test) echo
     echo -e '\033[1mTASK: dartdevc_test\033[22m'
