@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// @dart = 2.9
+
 library quiver.async.stream_router_test;
 
 import 'dart:async';

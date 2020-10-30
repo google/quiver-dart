@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// @dart = 2.9
+
 import 'dart:async';
 
 /// Splits a [Stream] of events into multiple Streams based on a set of
