@@ -59,7 +59,7 @@ void expectGlob(String pattern,
   for (final str in matches) {
     expect(glob.hasMatch(str), true);
     expect(glob.allMatches(str).map((m) => m.input), [str]);
-    Match match = glob.matchAsPrefix(str)/*!*/;
+    Match match = glob.matchAsPrefix(str)!;
     expect(match.start, 0);
     expect(match.end, str.length);
   }

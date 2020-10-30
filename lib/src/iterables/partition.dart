@@ -37,7 +37,7 @@ class _PartitionIterator<T> implements Iterator<List<T>> {
 
   final Iterator<T> _iterator;
   final int _size;
-  List<T>/*?*/ _current;
+  List<T>? _current;
 
   @override
   List<T> get current {
@@ -45,7 +45,7 @@ class _PartitionIterator<T> implements Iterator<List<T>> {
     if (_current == null) {
       throw StateError('Must call moveNext before current');
     }
-    return _current /*as List<T>*/;
+    return _current as List<T>;
   }
 
   @override

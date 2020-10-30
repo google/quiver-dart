@@ -47,14 +47,14 @@ abstract class InfiniteIterable<T> extends IterableBase<T> {
   String join([String separator = '']) => throw UnsupportedError('join');
 
   @override
-  T lastWhere(bool test(T value), {T orElse()/*?*/}) =>
+  T lastWhere(bool test(T value), {T orElse()?}) =>
       throw UnsupportedError('lastWhere');
 
   @override
   T reduce(T combine(T value, T element)) => throw UnsupportedError('reduce');
 
   @override
-  T singleWhere(bool test(T value), {T orElse()/*?*/}) =>
+  T singleWhere(bool test(T value), {T orElse()?}) =>
       throw UnsupportedError('singleWhere');
 
   @override

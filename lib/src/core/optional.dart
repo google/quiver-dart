@@ -19,7 +19,7 @@ import 'dart:collection';
 /// Use Optional as an alternative to allowing fields, parameters or return
 /// values to be null. It signals that a value is not required and provides
 /// convenience methods for dealing with the absent case.
-class Optional<T> extends IterableBase<T/*!*/> {
+class Optional<T> extends IterableBase<T> {
   /// Constructs an empty Optional.
   const Optional.absent() : _value = null;
 
@@ -27,16 +27,18 @@ class Optional<T> extends IterableBase<T/*!*/> {
   ///
   /// Throws [ArgumentError] if [value] is null.
   Optional.of(T value) : _value = value {
-    // TODO(cbracken): Remove post-NNBD. https://github.com/google/quiver-dart/issues/612
+    // Disallow null even if an Optional<T?> is declared. This is most likely
+    // to happen accidentally if transform is inadvertently passed a function
+    // that returns a nullable type.
     ArgumentError.checkNotNull(value);
   }
 
   /// Constructs an Optional of the given [value].
   ///
   /// If [value] is null, returns [absent()].
-  const Optional.fromNullable(T/*?*/ value) : _value = value;
+  const Optional.fromNullable(T? value) : _value = value;
 
-  final T/*?*/ _value;
+  final T? _value;
 
   /// True when this optional contains a value.
   bool get isPresent => _value != null;
@@ -47,17 +49,17 @@ class Optional<T> extends IterableBase<T/*!*/> {
   /// Gets the Optional value.
   ///
   /// Throws [StateError] if [value] is null.
-  T/*!*/ get value {
+  T get value {
     if (_value == null) {
       throw StateError('value called on absent Optional.');
     }
-    return _value/*!*/;
+    return _value!;
   }
 
   /// Executes a function if the Optional value is present.
-  void ifPresent(void ifPresent(T/*!*/ value)) {
+  void ifPresent(void ifPresent(T value)) {
     if (isPresent) {
-      ifPresent(_value/*!*/);
+      ifPresent(_value!);
     }
   }
 
@@ -74,23 +76,21 @@ class Optional<T> extends IterableBase<T/*!*/> {
   ///
   /// Throws [ArgumentError] if [defaultValue] is null.
   T or(T defaultValue) {
-    // TODO(cbracken): Remove post-NNBD. https://github.com/google/quiver-dart/issues/612
-    ArgumentError.checkNotNull(defaultValue);
     return _value ?? defaultValue;
   }
 
   /// Gets the Optional value, or [null] if there is none.
-  T/*?*/ get orNull => _value;
+  T? get orNull => _value;
 
   /// Transforms the Optional value.
   ///
   /// If the Optional is [absent()], returns [absent()] without applying the transformer.
   ///
   /// The transformer must not return [null]. If it does, an [ArgumentError] is thrown.
-  Optional<S> transform<S>(S transformer(T/*!*/ value)) {
+  Optional<S> transform<S>(S transformer(T value)) {
     return _value == null
         ? Optional<S>.absent()
-        : Optional<S>.of(transformer(_value/*!*/));
+        : Optional<S>.of(transformer(_value!));
   }
 
   /// Transforms the Optional value.
@@ -98,15 +98,15 @@ class Optional<T> extends IterableBase<T/*!*/> {
   /// If the Optional is [absent()], returns [absent()] without applying the transformer.
   ///
   /// Returns [absent()] if the transformer returns [null].
-  Optional<S> transformNullable<S>(S/*?*/ transformer(T/*!*/ value)) {
+  Optional<S> transformNullable<S>(S? transformer(T value)) {
     return _value == null
         ? Optional<S>.absent()
-        : Optional<S>.fromNullable(transformer(_value/*!*/));
+        : Optional<S>.fromNullable(transformer(_value!));
   }
 
   @override
-  Iterator<T/*!*/> get iterator =>
-      isPresent ? <T/*!*/>[_value/*!*/].iterator : Iterable<T>.empty().iterator;
+  Iterator<T> get iterator =>
+      isPresent ? <T>[_value!].iterator : Iterable<T>.empty().iterator;
 
   /// Delegates to the underlying [value] hashCode.
   @override

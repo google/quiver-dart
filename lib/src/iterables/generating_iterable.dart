@@ -15,7 +15,7 @@
 import 'dart:collection';
 
 typedef _Initial<T> = T Function();
-typedef _Next<T> = T/*?*/ Function(T value);
+typedef _Next<T> = T? Function(T value);
 
 Iterable generate(initial(), next(o)) => GeneratingIterable(initial, next);
 
@@ -58,20 +58,20 @@ class _GeneratingIterator<T> implements Iterator<T> {
   _GeneratingIterator(this.object, this.next);
 
   final _Next<T> next;
-  T/*?*/ object;
+  T? object;
   bool started = false;
 
   @override
   T get current {
     final cur = started ? object : null;
-    return cur /*as T*/;
+    return cur as T;
   }
 
   @override
   bool moveNext() {
     if (object == null) return false;
     if (started) {
-      object = next(object/*!*/);
+      object = next(object!);
     } else {
       started = true;
     }

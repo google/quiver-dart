@@ -32,7 +32,7 @@ void main() {
     });
 
     group('failure', () {
-      void checkArgumentShouldFail(Function f, [String/*?*/ expectedMessage]) {
+      void checkArgumentShouldFail(Function f, [String? expectedMessage]) {
         try {
           f();
           fail('Should have thrown an ArgumentError');
@@ -81,7 +81,7 @@ void main() {
     });
 
     group('failure', () {
-      void checkStateShouldFail(Function f, [String/*?*/ expectedMessage]) {
+      void checkStateShouldFail(Function f, [String? expectedMessage]) {
         expectedMessage ??= 'failed precondition';
         try {
           f();
@@ -126,7 +126,7 @@ void main() {
     });
 
     group('failure', () {
-      void checkNotNullShouldFail(Function f, [String/*?*/ expectedMessage]) {
+      void checkNotNullShouldFail(Function f, [String? expectedMessage]) {
         expectedMessage ??= 'null pointer';
         try {
           f();
@@ -175,7 +175,7 @@ void main() {
 
     group('failure', () {
       void checkListIndexShouldFail(int index, int size,
-          [message, String/*?*/ expectedMessage]) {
+          [message, String? expectedMessage]) {
         try {
           checkListIndex(index, size, message: message);
           fail('Should have thrown a RangeError');
