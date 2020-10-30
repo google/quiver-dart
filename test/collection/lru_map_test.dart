@@ -14,7 +14,7 @@
 
 library quiver.collection.lru_map_test;
 
-import 'package:quiver/collection.dart';
+import 'package:quiver/src/collection/lru_map.dart';
 import 'package:test/test.dart';
 
 void main() {

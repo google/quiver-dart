@@ -14,7 +14,7 @@
 
 import 'dart:convert' show latin1, utf8;
 
-import 'package:quiver/async.dart';
+import 'package:quiver/src/async/string.dart';
 import 'package:test/test.dart';
 
 void main() {

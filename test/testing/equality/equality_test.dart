@@ -14,7 +14,7 @@
 
 library quiver.testing.util.equalstester;
 
-import 'package:quiver/testing/equality.dart';
+import 'package:quiver/testing/src/equality/equality.dart';
 import 'package:test/test.dart';
 
 void main() {

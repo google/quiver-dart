@@ -14,8 +14,8 @@
 
 library quiver.iterables.partition_test;
 
+import 'package:quiver/src/iterables/partition.dart';
 import 'package:test/test.dart';
-import 'package:quiver/iterables.dart';
 
 void main() {
   group('partition', () {

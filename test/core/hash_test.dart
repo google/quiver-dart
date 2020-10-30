@@ -14,7 +14,7 @@
 
 library quiver.core.hash_test;
 
-import 'package:quiver/core.dart';
+import 'package:quiver/src/core/hash.dart';
 import 'package:test/test.dart';
 
 void main() {

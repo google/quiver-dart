@@ -16,7 +16,7 @@ library quiver.collection.delegates.set_test;
 
 import 'dart:collection' show LinkedHashSet;
 
-import 'package:quiver/collection.dart';
+import 'package:quiver/src/collection/delegates/set.dart';
 import 'package:test/test.dart';
 
 class MySet extends DelegatingSet<String> {

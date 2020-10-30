@@ -14,8 +14,8 @@
 
 library quiver.iterables.concat_test;
 
+import 'package:quiver/src/iterables/concat.dart';
 import 'package:test/test.dart';
-import 'package:quiver/iterables.dart';
 
 void main() {
   group('concat', () {

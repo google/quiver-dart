@@ -14,7 +14,7 @@
 
 library quiver.collection.delegates.list_test;
 
-import 'package:quiver/collection.dart';
+import 'package:quiver/src/collection/delegates/list.dart';
 import 'package:test/test.dart';
 
 class MyList extends DelegatingList<String> {

@@ -14,8 +14,8 @@
 
 library quiver.iterables.count_test;
 
+import 'package:quiver/src/iterables/count.dart';
 import 'package:test/test.dart';
-import 'package:quiver/iterables.dart';
 
 void main() {
   group('count', () {

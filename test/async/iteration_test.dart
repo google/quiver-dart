@@ -16,8 +16,8 @@ library quiver.async.iteration_test;
 
 import 'dart:async';
 
+import 'package:quiver/src/async/iteration.dart';
 import 'package:test/test.dart';
-import 'package:quiver/async.dart';
 
 void main() {
   group('reduceAsync', () {

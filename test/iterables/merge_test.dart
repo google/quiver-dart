@@ -14,8 +14,9 @@
 
 library quiver.iterables.merge_test;
 
+import 'package:quiver/src/iterables/merge.dart';
+import 'package:quiver/src/iterables/min_max.dart';
 import 'package:test/test.dart';
-import 'package:quiver/iterables.dart';
 
 void main() {
   group('merge', () {

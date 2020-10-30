@@ -17,8 +17,8 @@ library quiver.async.collect_test;
 import 'dart:async';
 import 'dart:math';
 
+import 'package:quiver/src/async/collect.dart';
 import 'package:test/test.dart';
-import 'package:quiver/async.dart';
 
 void main() {
   group('collect', () {
