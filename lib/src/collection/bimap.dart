@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// @dart = 2.9
+
 import 'dart:collection';
 
 /// A bi-directional map whose key-value pairs form a one-to-one
