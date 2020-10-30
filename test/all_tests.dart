@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// @dart = 2.9
+
 library quiver.all_tests;
 
 import 'async/all_tests.dart' as async;
