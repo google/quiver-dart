@@ -40,27 +40,26 @@ class _ConcatStream<T> extends Stream<T> {
   final Iterable<Stream<T>> _streams;
 
   @override
-  StreamSubscription<T> listen(void onData(T data),
-      {Function onError, void onDone(), bool cancelOnError}) {
+  StreamSubscription<T> listen(void onData(T data)/*?*/,
+      {Function/*?*/ onError, void onDone()/*?*/, bool/*?*/ cancelOnError}) {
     cancelOnError = true == cancelOnError;
-    StreamSubscription<T> currentSubscription;
-    StreamController<T> controller;
+    StreamSubscription<T>/*?*/ currentSubscription;
+    StreamController<T>/*?*/ controller;
     final iterator = _streams.iterator;
 
-    void nextStream() {
-      bool hasNext;
+    void nextStream(StreamController<T> controller) {
+      /*late*/ bool hasNext;
       try {
         hasNext = iterator.moveNext();
       } catch (e, s) {
-        controller
-          ..addError(e, s)
-          ..close();
+        controller.addError(e, s);
+        controller.close();
         return;
       }
       if (hasNext) {
         currentSubscription = iterator.current.listen(controller.add,
             onError: controller.addError,
-            onDone: nextStream,
+            onDone: () => nextStream(controller),
             cancelOnError: cancelOnError);
       } else {
         controller.close();
@@ -77,7 +76,7 @@ class _ConcatStream<T> extends Stream<T> {
       onCancel: () => currentSubscription?.cancel(),
     );
 
-    nextStream();
+    nextStream(controller);
 
     return controller.stream.listen(onData,
         onError: onError, onDone: onDone, cancelOnError: cancelOnError);
