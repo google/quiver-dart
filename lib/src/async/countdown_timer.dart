@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 import 'dart:async';
 
 /// A simple countdown timer that fires events in regular increments until a
@@ -29,7 +27,7 @@ class CountdownTimer extends Stream<CountdownTimer> {
   /// [stopwatch] is for testing purposes. If you're using CountdownTimer and
   /// need to control time in a test, pass a mock or a fake. See [FakeAsync]
   /// and [FakeStopwatch].
-  CountdownTimer(Duration duration, this.increment, {Stopwatch stopwatch})
+  CountdownTimer(Duration duration, this.increment, {Stopwatch? stopwatch})
       : _duration = duration,
         _stopwatch = stopwatch ?? Stopwatch(),
         _controller = StreamController<CountdownTimer>.broadcast(sync: true) {
@@ -45,11 +43,11 @@ class CountdownTimer extends Stream<CountdownTimer> {
   /// The duration between timer events.
   final Duration increment;
   final StreamController<CountdownTimer> _controller;
-  Timer _timer;
+  late final Timer _timer;
 
   @override
-  StreamSubscription<CountdownTimer> listen(void onData(CountdownTimer event),
-          {Function onError, void onDone(), bool cancelOnError}) =>
+  StreamSubscription<CountdownTimer> listen(void onData(CountdownTimer event)?,
+          {Function? onError, void onDone()?, bool? cancelOnError}) =>
       _controller.stream.listen(onData, onError: onError, onDone: onDone);
 
   Duration get elapsed => _stopwatch.elapsed;
