@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 library quiver.async.iteration_test;
 
 import 'dart:async';
@@ -25,9 +23,9 @@ void main() {
   group('reduceAsync', () {
     test('should reduce iterable', () {
       var items = [];
-      return reduceAsync([1, 2, 3], 0, (v, e) {
+      return reduceAsync([1, 2, 3], 0, (int v, int e) {
         items.add(e);
-        return Future(() => v + e);
+        return Future<int>(() => v + e);
       }).then((r) {
         expect(items, [1, 2, 3]);
         expect(r, 6);
@@ -71,18 +69,12 @@ void main() {
     });
 
     test('should validate maxTasks', () {
-      expect(() => forEachAsync([], (i) => null, maxTasks: null),
+      expect(() => forEachAsync([], (i) async {}, maxTasks: 0),
           throwsArgumentError);
-      expect(() => forEachAsync([], (i) => null, maxTasks: 0),
-          throwsArgumentError);
-    });
-
-    test('should validate iterable', () {
-      expect(() => forEachAsync(null, (i) => null), throwsArgumentError);
     });
 
     test('should complete when given no work', () {
-      return forEachAsync([], (i) => null);
+      return forEachAsync([], (i) async {});
     });
   });
 }
