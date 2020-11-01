@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 import 'dart:async';
 
 /// A Stream that will emit the same values as the stream returned by [future]
@@ -39,8 +37,8 @@ class FutureStream<T> extends Stream<T> {
       // Since [controller] is synchronous, it's likely that emitting an error
       // will cause it to be cancelled before we call close.
       if (_controller != null) {
-        _controller.addError(e, stackTrace);
-        _controller.close();
+        _controller?.addError(e, stackTrace);
+        _controller?.close();
       }
       _controller = null;
     });
@@ -56,31 +54,31 @@ class FutureStream<T> extends Stream<T> {
 
   static T _identity<T>(T t) => t;
 
-  Future<Stream<T>> _future;
-  StreamController<T> _controller;
-  StreamSubscription<T> _subscription;
+  late final Future<Stream<T>> _future;
+  StreamController<T>? _controller;
+  StreamSubscription<T>? _subscription;
 
   void _onListen() {
     _future.then((stream) {
       if (_controller == null) return;
-      _subscription = stream.listen(_controller.add,
-          onError: _controller.addError, onDone: _controller.close);
+      _subscription = stream.listen(_controller!.add,
+          onError: _controller!.addError, onDone: _controller!.close);
     });
   }
 
   void _onCancel() {
-    if (_subscription != null) _subscription.cancel();
+    _subscription?.cancel();
     _subscription = null;
     _controller = null;
   }
 
   @override
-  StreamSubscription<T> listen(void onData(T event),
-      {Function onError, void onDone(), bool cancelOnError}) {
-    return _controller.stream.listen(onData,
+  StreamSubscription<T> listen(void onData(T event)?,
+      {Function? onError, void onDone()?, bool? cancelOnError}) {
+    return _controller!.stream.listen(onData,
         onError: onError, onDone: onDone, cancelOnError: cancelOnError);
   }
 
   @override
-  bool get isBroadcast => _controller.stream.isBroadcast;
+  bool get isBroadcast => _controller?.stream.isBroadcast ?? false;
 }
