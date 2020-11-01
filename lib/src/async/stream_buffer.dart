@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 import 'dart:async';
 
 /// Underflow errors happen when the socket feeding a buffer is finished while
@@ -22,7 +20,7 @@ class UnderflowError extends Error {
   /// The [message] describes the underflow.
   UnderflowError([this.message]);
 
-  final String message;
+  final String? message;
 
   @override
   String toString() {
@@ -58,11 +56,11 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
   int _counter = 0; // sum(_chunks[*].length) - _offset
   final List<T> _chunks = [];
   final List<_ReaderInWaiting<List<T>>> _readers = [];
-  StreamSubscription<List<T>> _sub;
+  StreamSubscription<List<T>>? _sub;
 
   final bool _throwOnError;
 
-  Stream _currentStream;
+  Stream<List<T>>? _currentStream;
 
   int _limit = 0;
 
@@ -70,9 +68,9 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
     _limit = limit;
     if (_sub != null) {
       if (!limited || _counter < limit) {
-        _sub.resume();
+        _sub!.resume();
       } else {
-        _sub.pause();
+        _sub!.pause();
       }
     }
   }
@@ -86,7 +84,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
 
   List<T> _consume(int size) {
     var follower = 0;
-    var ret = List<T>(size);
+    var ret = List<T?>.filled(size, null);
     var leftToRead = size;
     while (leftToRead > 0) {
       var chunk = _chunks.first;
@@ -94,7 +92,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
       var subsize = leftToRead > listCap ? listCap : leftToRead;
       if (chunk is List) {
         ret.setRange(follower, follower + subsize,
-            chunk.getRange(_offset, _offset + subsize));
+            chunk.getRange(_offset, _offset + subsize).cast<T>());
       } else {
         ret[follower] = chunk;
       }
@@ -107,10 +105,10 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
         _chunks.removeAt(0);
       }
     }
-    if (limited && _sub.isPaused && _counter < limit) {
-      _sub.resume();
+    if (limited && _sub!.isPaused && _counter < limit) {
+      _sub!.resume();
     }
-    return ret;
+    return ret.cast<T>();
   }
 
   /// Read fully [size] bytes from the stream and return in the future.
@@ -124,7 +122,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
     // If we have enough data to consume and there are no other readers, then
     // we can return immediately.
     if (size <= buffered && _readers.isEmpty) {
-      return Future.value(_consume(size));
+      return Future<List<T>>.value(_consume(size));
     }
     final completer = Completer<List<T>>();
     _readers.add(_ReaderInWaiting<List<T>>(size, completer));
@@ -134,16 +132,15 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
   @override
   Future addStream(Stream<List<T>> stream) {
     var lastStream = _currentStream ?? stream;
-    if (_sub != null) {
-      _sub.cancel();
-    }
+    _sub?.cancel();
     _currentStream = stream;
+
     final streamDone = Completer<Null>();
     _sub = stream.listen((items) {
       _chunks.addAll(items);
       _counter += items is List ? items.length : 1;
       if (limited && _counter >= limit) {
-        _sub.pause();
+        _sub!.pause();
       }
 
       while (_readers.isNotEmpty && _readers.first.size <= _counter) {
@@ -162,7 +159,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
     return streamDone.future;
   }
 
-  void _closed(e, [StackTrace stack]) {
+  void _closed(e, [StackTrace? stack]) {
     for (final reader in _readers) {
       if (!reader.completer.isCompleted) {
         reader.completer.completeError(e, stack);
@@ -173,12 +170,9 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
 
   @override
   Future close() {
-    Future ret;
-    if (_sub != null) {
-      ret = _sub.cancel();
-      _sub = null;
-    }
-    return ret ?? Future.value();
+    final Future? ret = _sub?.cancel();
+    _sub = null;
+    return ret ?? Future.value(null);
   }
 }
 
