@@ -64,17 +64,17 @@ void main() {
     });
 
     test('or should return present and replace absent', () {
-      expect(const Optional<int>.fromNullable(7).or(13), 7);
+      expect(Optional<int>.of(7).or(13), 7);
       expect(const Optional<int>.fromNullable(null).or(13), 13);
     });
 
     test('orNull should return value if present or null if absent', () {
-      expect(const Optional<int>.fromNullable(7).orNull, isNotNull);
+      expect(Optional<int>.of(7).orNull, isNotNull);
       expect(const Optional<int>.fromNullable(null).orNull, isNull);
     });
 
     test('transform should return transformed value or absent', () {
-      expect(const Optional<int>.fromNullable(7).transform((a) => a + 1),
+      expect(Optional<int>.of(7).transform((a) => a + 1),
           equals(Optional<int>.of(8)));
       expect(
           const Optional<int>.fromNullable(null)
@@ -83,15 +83,8 @@ void main() {
           isFalse);
     });
 
-    test('transform should throw ArgumentError if transformed value is null',
-        () {
-      expect(() => const Optional<int>.fromNullable(7).transform((_) => null),
-          throwsArgumentError);
-    });
-
     test('transformNullable should return transformed value or absent', () {
-      expect(
-          const Optional<int>.fromNullable(7).transformNullable((a) => a + 1),
+      expect(Optional<int>.of(7).transformNullable((a) => a + 1),
           equals(Optional<int>.of(8)));
       expect(
           const Optional<int>.fromNullable(null)
@@ -102,10 +95,9 @@ void main() {
 
     test('transformNullable should return absent if transformed value is null',
         () {
-      expect(
-          const Optional<int>.fromNullable(7)
-              .transformNullable((_) => null)
-              .isPresent,
+      String? maybeToString(int i) => null;
+
+      expect(Optional<int>.of(7).transformNullable(maybeToString).isPresent,
           isFalse);
     });
 
