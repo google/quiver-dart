@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 import 'dart:async';
 
 /// An asynchronous callback that returns a value.
@@ -42,7 +40,7 @@ Future<S> _reduceAsync<S, T>(
 
 /// Schedules calls to [action] for each element in [iterable]. No more than
 /// [maxTasks] calls to [action] will be pending at once.
-Future<Null> forEachAsync<T>(Iterable<T> iterable, AsyncAction<Null, T> action,
+Future<void> forEachAsync<T>(Iterable<T> iterable, AsyncAction<void, T> action,
     {int maxTasks = 1}) {
   // TODO(cbracken): Remove post-NNBD. https://github.com/google/quiver-dart/issues/612
   ArgumentError.checkNotNull(iterable);
@@ -53,7 +51,7 @@ Future<Null> forEachAsync<T>(Iterable<T> iterable, AsyncAction<Null, T> action,
 
   if (iterable.isEmpty) return Future.value();
 
-  var completer = Completer<Null>();
+  var completer = Completer<void>();
   var iterator = iterable.iterator;
   int pending = 0;
   bool failed = false;
