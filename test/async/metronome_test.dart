@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 library quiver.time.clock_test;
 
 import 'package:quiver/src/async/metronome.dart';

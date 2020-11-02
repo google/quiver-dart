@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 import 'dart:async';
 
 import 'package:quiver/time.dart';
@@ -56,7 +54,7 @@ class Metronome extends Stream<DateTime> {
       : this._(interval, clock: clock, anchor: _epoch);
 
   Metronome.periodic(Duration interval,
-      {Clock clock = const Clock(), DateTime anchor})
+      {Clock clock = const Clock(), DateTime? anchor})
       : this._(interval, clock: clock, anchor: anchor);
 
   Metronome._(this.interval, {this.clock = const Clock(), this.anchor})
@@ -65,7 +63,7 @@ class Metronome extends Stream<DateTime> {
     _controller = StreamController<DateTime>.broadcast(
         sync: true,
         onCancel: () {
-          _timer.cancel();
+          _timer!.cancel();
         },
         onListen: () {
           _startTimer(clock.now());
@@ -76,10 +74,10 @@ class Metronome extends Stream<DateTime> {
 
   final Clock clock;
   final Duration interval;
-  final DateTime anchor;
+  final DateTime? anchor;
 
-  Timer _timer;
-  StreamController<DateTime> _controller;
+  Timer? _timer;
+  late final StreamController<DateTime> _controller;
   final int _intervalMs;
   final int _anchorMs;
 
@@ -87,8 +85,8 @@ class Metronome extends Stream<DateTime> {
   bool get isBroadcast => true;
 
   @override
-  StreamSubscription<DateTime> listen(void onData(DateTime event),
-          {Function onError, void onDone(), bool cancelOnError}) =>
+  StreamSubscription<DateTime> listen(void onData(DateTime event)?,
+          {Function? onError, void onDone()?, bool? cancelOnError}) =>
       _controller.stream.listen(onData,
           onError: onError, onDone: onDone, cancelOnError: cancelOnError);
 
