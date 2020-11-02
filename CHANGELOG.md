@@ -15,6 +15,12 @@
     nullable. As before, values in the map must be unique and
     ArgumentError is thrown on attempts to add a key-value pair whose
     value is already in the map.
+  * BREAKING CHANGE: `TreeSet.first` and `TreeSet.last` now throw
+    StateError if no element exists, as specified by the Set API
+    contract both with null safety enabled or disabled.
+  * BREAKING CHANGE: `TreeSet` iterators now throw if `Iterator.current`
+    is called before `moveNext` is called, or after `moveNext` has
+    returned false when running with null safety enabled.
   * Deprecate `checkNotNull`. Users of this function should migrate to
     `ArgumentError.checkNotNull`. This will be removed in 4.0.0.
   * Deprecate `firstNonNull`. Users of this function should migrate to
