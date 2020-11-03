@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 import 'dart:math' show Random;
 
 /// An associative container that maps a key to multiple values.
@@ -32,20 +30,20 @@ abstract class Multimap<K, V> {
       {K key(element), V value(element)}) = ListMultimap<K, V>.fromIterable;
 
   /// Returns whether this multimap contains the given [value].
-  bool containsValue(Object value);
+  bool containsValue(Object? value);
 
   /// Returns whether this multimap contains the given [key].
-  bool containsKey(Object key);
+  bool containsKey(Object? key);
 
   /// Returns whether this multimap contains the given association between [key]
   /// and [value].
-  bool contains(Object key, Object value);
+  bool contains(Object? key, Object? value);
 
   /// Returns the values for the given [key]. An empty iterable is returned if
   /// [key] is not mapped. The returned collection is a view on the multimap.
   /// Updates to the collection modify the multimap and likewise, modifications
   /// to the multimap are reflected in the returned collection.
-  Iterable<V> operator [](Object key);
+  Iterable<V> operator [](Object? key);
 
   /// Adds an association from the given key to the given value.
   void add(K key, V value);
@@ -62,11 +60,11 @@ abstract class Multimap<K, V> {
 
   /// Removes the association between the given [key] and [value]. Returns
   /// `true` if the association existed, `false` otherwise.
-  bool remove(Object key, V value);
+  bool remove(Object? key, V? value);
 
   /// Removes the association for the given [key]. Returns the collection of
   /// removed values, or an empty iterable if [key] was unmapped.
-  Iterable<V> removeAll(Object key);
+  Iterable<V> removeAll(Object? key);
 
   /// Removes all entries of this multimap that satisfy the given [predicate].
   void removeWhere(bool predicate(K key, V value));
@@ -112,7 +110,7 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
   /// association from [key](e) to [value](e). [key] and [value] each default
   /// to the identity function.
   _BaseMultimap.fromIterable(Iterable iterable,
-      {K key(element), V value(element)}) {
+      {K key(element)?, V value(element)?}) {
     key ??= _id;
     value ??= _id;
     for (final element in iterable) {
@@ -128,32 +126,32 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
   void _add(C iterable, V value);
   void _addAll(C iterable, Iterable<V> value);
   void _clear(C iterable);
-  bool _remove(C iterable, Object value);
+  bool _remove(C iterable, V? value);
   void _removeWhere(C iterable, K key, bool predicate(K key, V value));
-  Iterable<V> _wrap(Object key, C iterable);
+  Iterable<V> _wrap(Object? key, C iterable);
 
   @override
-  bool containsValue(Object value) => values.contains(value);
+  bool containsValue(Object? value) => values.contains(value);
   @override
-  bool containsKey(Object key) => _map.keys.contains(key);
+  bool containsKey(Object? key) => _map.keys.contains(key);
   @override
-  bool contains(Object key, Object value) => _map[key]?.contains(value) == true;
+  bool contains(Object? key, Object? value) => _map[key]?.contains(value) == true;
 
   @override
-  Iterable<V> operator [](Object key) {
+  Iterable<V> operator [](Object? key) {
     return _wrap(key, _map[key] ?? _create());
   }
 
   @override
   void add(K key, V value) {
-    _map.putIfAbsent(key, _create);
-    _add(_map[key], value);
+    C collection = _map.putIfAbsent(key, _create);
+    _add(collection, value);
   }
 
   @override
   void addValues(K key, Iterable<V> values) {
-    _map.putIfAbsent(key, _create);
-    _addAll(_map[key], values);
+    C collection = _map.putIfAbsent(key, _create);
+    _addAll(collection, values);
   }
 
   /// Adds all associations of [other] to this multimap.
@@ -168,15 +166,15 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
   void addAll(Multimap<K, V> other) => other.forEachKey(addValues);
 
   @override
-  bool remove(Object key, V value) {
+  bool remove(Object? key, V? value) {
     if (!_map.containsKey(key)) return false;
-    bool removed = _remove(_map[key], value);
-    if (removed && _map[key].isEmpty) _map.remove(key);
+    bool removed = _remove(_map[key]!, value);
+    if (removed && _map[key]!.isEmpty) _map.remove(key);
     return removed;
   }
 
   @override
-  Iterable<V> removeAll(Object key) {
+  Iterable<V> removeAll(Object? key) {
     // Cast to dynamic to remove warnings
     var values = _map.remove(key) as dynamic;
     var retValues = _create() as dynamic;
@@ -190,16 +188,17 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
   @override
   void removeWhere(bool predicate(K key, V value)) {
     final emptyKeys = Set<K>();
-    _map.forEach((K key, Iterable<V> values) {
+    // TODO(cbracken): iterate over entries
+    _map.forEach((K key, C values) {
       _removeWhere(values, key, predicate);
-      if (_map[key].isEmpty) emptyKeys.add(key);
+      if (_map[key]!.isEmpty) emptyKeys.add(key);
     });
     emptyKeys.forEach(_map.remove);
   }
 
   @override
   void clear() {
-    _map.forEach((K key, Iterable<V> value) => _clear(value));
+    _map.forEach((K key, C value) => _clear(value));
     _map.clear();
   }
 
@@ -237,7 +236,7 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
   /// adds an association from [key](e) to [value](e). [key] and [value] each
   /// default to the identity function.
   ListMultimap.fromIterable(Iterable iterable,
-      {K key(element), V value(element)})
+      {K key(element)?, V value(element)?})
       : super.fromIterable(iterable, key: key, value: value);
 
   @override
@@ -252,17 +251,17 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
   @override
   void _clear(List<V> iterable) => iterable.clear();
   @override
-  bool _remove(List<V> iterable, Object value) => iterable.remove(value);
+  bool _remove(List<V> iterable, V? value) => iterable.remove(value);
   @override
   void _removeWhere(List<V> iterable, K key, bool predicate(K key, V value)) =>
       iterable.removeWhere((value) => predicate(key, value));
   @override
-  List<V> _wrap(Object key, List<V> iterable) =>
+  List<V> _wrap(Object? key, List<V> iterable) =>
       _WrappedList(_map, key, iterable);
   @override
-  List<V> operator [](Object key) => super[key];
+  List<V> operator [](Object? key) => super[key] as List<V>;
   @override
-  List<V> removeAll(Object key) => super.removeAll(key);
+  List<V> removeAll(Object? key) => super.removeAll(key) as List<V>;
   @override
   Map<K, List<V>> asMap() => _WrappedMap<K, V, List<V>>(this);
 }
@@ -276,7 +275,7 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
   /// adds an association from [key](e) to [value](e). [key] and [value] each
   /// default to the identity function.
   SetMultimap.fromIterable(Iterable iterable,
-      {K key(element), V value(element)})
+      {K key(element)?, V value(element)?})
       : super.fromIterable(iterable, key: key, value: value);
 
   @override
@@ -291,17 +290,17 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
   @override
   void _clear(Set<V> iterable) => iterable.clear();
   @override
-  bool _remove(Set<V> iterable, Object value) => iterable.remove(value);
+  bool _remove(Set<V> iterable, V? value) => iterable.remove(value);
   @override
   void _removeWhere(Set<V> iterable, K key, bool predicate(K key, V value)) =>
       iterable.removeWhere((value) => predicate(key, value));
   @override
-  Set<V> _wrap(Object key, Iterable<V> iterable) =>
+  Set<V> _wrap(Object? key, Set<V> iterable) =>
       _WrappedSet(_map, key, iterable);
   @override
-  Set<V> operator [](Object key) => super[key];
+  Set<V> operator [](Object? key) => super[key] as Set<V>;
   @override
-  Set<V> removeAll(Object key) => super.removeAll(key);
+  Set<V> removeAll(Object? key) => super.removeAll(key) as Set<V>;
   @override
   Map<K, Set<V>> asMap() => _WrappedMap<K, V, Set<V>>(this);
 }
@@ -313,7 +312,7 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   final _BaseMultimap<K, V, C> _multimap;
 
   @override
-  C operator [](Object key) => _multimap[key];
+  C? operator [](Object? key) => _multimap[key] as C; // Always non-null.
 
   @override
   void operator []=(K key, C value) {
@@ -333,9 +332,9 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   @override
   void clear() => _multimap.clear();
   @override
-  bool containsKey(Object key) => _multimap.containsKey(key);
+  bool containsKey(Object? key) => _multimap.containsKey(key);
   @override
-  bool containsValue(Object value) => _multimap.containsValue(value);
+  bool containsValue(Object? value) => _multimap.containsValue(value);
   @override
   void forEach(void f(K key, C value)) => _multimap.forEachKey(f);
   @override
@@ -347,9 +346,9 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   @override
   int get length => _multimap.length;
   @override
-  C remove(Object key) => _multimap.removeAll(key);
+  C? remove(Object? key) => _multimap.removeAll(key) as C; // Always non-null.
   @override
-  Iterable<C> get values => _multimap._groupedValues;
+  Iterable<C> get values => _multimap._groupedValues as Iterable<C>;
 
   @override
   Map<K2, V2> cast<K2, V2>() {
@@ -370,7 +369,7 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
       _multimap._map.map(transform);
 
   @override
-  C update(K key, C update(C value), {C ifAbsent()}) {
+  C update(K key, C update(C value), {C ifAbsent()?}) {
     throw UnsupportedError('Update unsupported on map view');
   }
 
@@ -382,8 +381,9 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   @override
   void removeWhere(bool test(K key, C value)) {
     var keysToRemove = <K>[];
+    // TODO(cbracken): iterate over entries.
     for (final key in keys) {
-      if (test(key, this[key])) keysToRemove.add(key);
+      if (test(key, this[key] as C)) keysToRemove.add(key);
     }
     keysToRemove.forEach(_multimap.removeAll);
   }
@@ -427,7 +427,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   }
 
   @override
-  bool contains(Object element) {
+  bool contains(Object? element) {
     _syncDelegate();
     return _delegate.contains(element);
   }
@@ -457,7 +457,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   }
 
   @override
-  V firstWhere(bool test(V element), {V orElse()}) {
+  V firstWhere(bool test(V element), {V orElse()?}) {
     _syncDelegate();
     return _delegate.firstWhere(test, orElse: orElse);
   }
@@ -511,7 +511,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   }
 
   @override
-  V lastWhere(bool test(V element), {V orElse()}) {
+  V lastWhere(bool test(V element), {V orElse()?}) {
     _syncDelegate();
     return _delegate.lastWhere(test, orElse: orElse);
   }
@@ -541,7 +541,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   }
 
   @override
-  V singleWhere(bool test(V element), {V orElse()}) {
+  V singleWhere(bool test(V element), {V orElse()?}) {
     _syncDelegate();
     return _delegate.singleWhere(test, orElse: orElse);
   }
@@ -603,7 +603,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
 
 class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
     implements List<V> {
-  _WrappedList(Map<K, Iterable<V>> map, K key, List<V> delegate)
+  _WrappedList(Map<K, List<V>> map, K key, List<V> delegate)
       : super(map, key, delegate);
 
   @override
@@ -657,7 +657,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  void fillRange(int start, int end, [V fillValue]) {
+  void fillRange(int start, int end, [V? fillValue]) {
     _syncDelegate();
     _delegate.fillRange(start, end, fillValue);
   }
@@ -709,13 +709,13 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  int lastIndexOf(V element, [int start]) {
+  int lastIndexOf(V element, [int? start]) {
     _syncDelegate();
     return _delegate.lastIndexOf(element, start);
   }
 
   @override
-  int lastIndexWhere(bool test(V element), [int start]) {
+  int lastIndexWhere(bool test(V element), [int? start]) {
     _syncDelegate();
     return _delegate.lastIndexWhere(test, start);
   }
@@ -729,7 +729,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  bool remove(Object value) {
+  bool remove(Object? value) {
     _syncDelegate();
     bool removed = _delegate.remove(value);
     if (_delegate.isEmpty) _map.remove(_key);
@@ -798,19 +798,19 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 
   @override
-  void shuffle([Random random]) {
+  void shuffle([Random? random]) {
     _syncDelegate();
     _delegate.shuffle(random);
   }
 
   @override
-  void sort([int compare(V a, V b)]) {
+  void sort([int compare(V a, V b)?]) {
     _syncDelegate();
     _delegate.sort(compare);
   }
 
   @override
-  List<V> sublist(int start, [int end]) {
+  List<V> sublist(int start, [int? end]) {
     _syncDelegate();
     return _delegate.sublist(start, end);
   }
@@ -818,7 +818,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
 
 class _WrappedSet<K, V> extends _WrappedIterable<K, V, Set<V>>
     implements Set<V> {
-  _WrappedSet(Map<K, Iterable<V>> map, K key, Iterable<V> delegate)
+  _WrappedSet(Map<K, Set<V>> map, K key, Set<V> delegate)
       : super(map, key, delegate);
 
   @override
@@ -852,31 +852,31 @@ class _WrappedSet<K, V> extends _WrappedIterable<K, V, Set<V>>
   }
 
   @override
-  bool containsAll(Iterable<Object> other) {
+  bool containsAll(Iterable<Object?> other) {
     _syncDelegate();
     return _delegate.containsAll(other);
   }
 
   @override
-  Set<V> difference(Set<Object> other) {
+  Set<V> difference(Set<Object?> other) {
     _syncDelegate();
     return _delegate.difference(other);
   }
 
   @override
-  Set<V> intersection(Set<Object> other) {
+  Set<V> intersection(Set<Object?> other) {
     _syncDelegate();
     return _delegate.intersection(other);
   }
 
   @override
-  V lookup(Object object) {
+  V? lookup(Object? object) {
     _syncDelegate();
     return _delegate.lookup(object);
   }
 
   @override
-  bool remove(Object value) {
+  bool remove(Object? value) {
     _syncDelegate();
     bool removed = _delegate.remove(value);
     if (_delegate.isEmpty) _map.remove(_key);
@@ -884,7 +884,7 @@ class _WrappedSet<K, V> extends _WrappedIterable<K, V, Set<V>>
   }
 
   @override
-  void removeAll(Iterable<Object> elements) {
+  void removeAll(Iterable<Object?> elements) {
     _syncDelegate();
     _delegate.removeAll(elements);
     if (_delegate.isEmpty) _map.remove(_key);
@@ -898,7 +898,7 @@ class _WrappedSet<K, V> extends _WrappedIterable<K, V, Set<V>>
   }
 
   @override
-  void retainAll(Iterable<Object> elements) {
+  void retainAll(Iterable<Object?> elements) {
     _syncDelegate();
     _delegate.retainAll(elements);
     if (_delegate.isEmpty) _map.remove(_key);
