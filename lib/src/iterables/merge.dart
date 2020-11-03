@@ -24,7 +24,8 @@ import 'dart:collection';
 ///
 /// If any of the [iterables] contain null elements, an exception will be
 /// thrown.
-Iterable<T> merge<T>(Iterable<Iterable<T>> iterables, [Comparator<T>? compare]) {
+Iterable<T> merge<T>(Iterable<Iterable<T>> iterables,
+    [Comparator<T>? compare]) {
   if (iterables.isEmpty) return <T>[];
   if (iterables.every((i) => i.isEmpty)) return <T>[];
   return _Merge<T>(iterables, compare ?? _compareAny);

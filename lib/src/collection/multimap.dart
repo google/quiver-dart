@@ -135,7 +135,8 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
   @override
   bool containsKey(Object? key) => _map.keys.contains(key);
   @override
-  bool contains(Object? key, Object? value) => _map[key]?.contains(value) == true;
+  bool contains(Object? key, Object? value) =>
+      _map[key]?.contains(value) == true;
 
   @override
   Iterable<V> operator [](Object? key) {
