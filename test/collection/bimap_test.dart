@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 library quiver.collection.bimap_test;
 
 import 'package:quiver/src/collection/bimap.dart';
@@ -27,7 +25,7 @@ void main() {
   });
 
   group('HashBiMap', () {
-    /*late*/ BiMap<String, int> map;
+    late BiMap<String, int> map;
     const String k1 = 'k1', k2 = 'k2', k3 = 'k3';
     const int v1 = 1, v2 = 2, v3 = 3;
 
@@ -42,14 +40,26 @@ void main() {
       expect(map.inverse.isNotEmpty, false);
     });
 
-    test('should throw when adding a null key or value', () {
-      expect(() => map[null] = v1, throwsA(isA<ArgumentError>()));
-      expect(() => map[k1] = null, throwsA(isA<ArgumentError>()));
+    test('should support null keys', () {
+      final map = BiMap<String?, int>();
+      map[null] = 5;
+      expect(map.isEmpty, false);
+      expect(map.containsKey(null), true);
+      expect(map.containsValue(5), true);
+      expect(map.keys, contains(null));
+
+      expect(map.inverse.containsKey(5), true);
+      expect(map.inverse.containsValue(null), true);
+      expect(map.inverse.keys, contains(5));
     });
 
-    test('should throw when adding a null key or value via its inverse', () {
-      expect(() => map.inverse[null] = k1, throwsA(isA<ArgumentError>()));
-      expect(() => map.inverse[v1] = null, throwsA(isA<ArgumentError>()));
+    test('should support null values', () {
+      final map = BiMap<String, int?>();
+      map[k1] = null;
+      expect(map.isEmpty, false);
+      expect(map.containsKey(k1), true);
+      expect(map.containsValue(null), true);
+      expect(map[k1], isNull);
     });
 
     test('should not be empty after adding a mapping', () {
@@ -121,7 +131,15 @@ void main() {
 
     test('should throw on overwriting unmapped keys with a mapped value', () {
       map[k1] = v1;
-      expect(() => map[k2] = v1, throwsA(isA<ArgumentError>()));
+      expect(() => map[k2] = v1, throwsArgumentError);
+      expect(map.containsKey(k2), false);
+      expect(map.inverse.containsValue(k2), false);
+    });
+
+    test('should throw on overwriting unmapped keys with a mapped null value', () {
+      final map = BiMap<String, int?>();
+      map[k1] = null;
+      expect(() => map[k2] = null, throwsArgumentError);
       expect(map.containsKey(k2), false);
       expect(map.inverse.containsValue(k2), false);
     });
@@ -130,7 +148,17 @@ void main() {
         'should throw on overwriting unmapped keys with a mapped value via inverse',
         () {
       map[k1] = v1;
-      expect(() => map.inverse[v2] = k1, throwsA(isA<ArgumentError>()));
+      expect(() => map.inverse[v2] = k1, throwsArgumentError);
+      expect(map.containsValue(v2), false);
+      expect(map.inverse.containsKey(v2), false);
+    });
+
+    test(
+        'should throw on overwriting unmapped keys with a mapped null value via inverse',
+        () {
+      final map = BiMap<String?, int>();
+      map[null] = v1;
+      expect(() => map.inverse[v2] = null, throwsArgumentError);
       expect(map.containsValue(v2), false);
       expect(map.inverse.containsKey(v2), false);
     });

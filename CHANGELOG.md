@@ -10,6 +10,11 @@
   * BREAKING CHANGE: Remove mirrors library. This was deprecated in 2.1.4.
   * BREAKING CHANGE: forEachAsync now returns Future<void> instead of
     Future<Null>.
+  * BREAKING CHANGE: BiMap no longer throws ArgumentError on insertion
+    of a null key or value, if the corresponding K or V type is
+    nullable. As before, values in the map must be unique and
+    ArgumentError is thrown on attempts to add a key-value pair whose
+    value is already in the map.
   * Deprecate `checkNotNull`. Users of this function should migrate to
     `ArgumentError.checkNotNull`. This will be removed in 4.0.0.
   * Deprecate `firstNonNull`. Users of this function should migrate to
