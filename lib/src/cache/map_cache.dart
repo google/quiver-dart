@@ -12,33 +12,36 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 import 'dart:async';
 import 'dart:collection';
 
-import 'package:quiver/collection.dart' show LruMap;
+import 'package:quiver/src/collection/lru_map.dart' show LruMap;
 
 import 'cache.dart';
 
 /// A [Cache] that's backed by a [Map].
 class MapCache<K, V> implements Cache<K, V> {
   /// Creates a new [MapCache], optionally using [map] as the backing [Map].
-  MapCache({Map<K, V> map}) : _map = map ?? HashMap<K, V>();
+  MapCache({Map<K, V>? map}) : _map = map ?? HashMap<K, V>();
 
   /// Creates a new [MapCache], using [LruMap] as the backing [Map].
-  /// Optionally specify [maximumSize].
-  factory MapCache.lru({int maximumSize}) {
+  ///
+  /// When [maximumSize] is specified, the cache is limited to the specified
+  /// number of pairs, otherwise it is limited to 100.
+  factory MapCache.lru({int? maximumSize}) {
+    // TODO(cbracken): inline the default value here for readability.
+    // https://github.com/google/quiver-dart/issues/653
     return MapCache<K, V>(map: LruMap(maximumSize: maximumSize));
   }
 
   final Map<K, V> _map;
 
-  /// Map of outstanding ifAbsent calls used to prevent concurrent loads of the same key.
+  /// Map of outstanding ifAbsent calls used to prevent concurrent loads of the
+  /// same key.
   final _outstanding = <K, FutureOr<V>>{};
 
   @override
-  Future<V> get(K key, {Loader<K, V> ifAbsent}) async {
+  Future<V?> get(K key, {Loader<K, V>? ifAbsent}) async {
     if (_map.containsKey(key)) {
       return _map[key];
     }
@@ -64,12 +67,12 @@ class MapCache<K, V> implements Cache<K, V> {
   }
 
   @override
-  Future<Null> set(K key, V value) async {
+  Future<void> set(K key, V value) async {
     _map[key] = value;
   }
 
   @override
-  Future<Null> invalidate(K key) async {
+  Future<void> invalidate(K key) async {
     _map.remove(key);
   }
 }

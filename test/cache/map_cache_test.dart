@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 library quiver.cache.map_cache_test;
 
 import 'dart:async';
@@ -23,7 +21,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('MapCache', () {
-    /*late*/ MapCache<String, String> cache;
+    late MapCache<String, String> cache;
 
     setUp(() {
       cache = MapCache<String, String>();
