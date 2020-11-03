@@ -28,9 +28,7 @@ while (( "$#" )); do
   dartfmt) echo
     echo -e '\033[1mTASK: dartfmt\033[22m'
     echo -e 'dartfmt -n --set-exit-if-changed .'
-    # TODO(cbracken): Re-enable when build_packages have NNBD releases.
-    # https://github.com/google/quiver-dart/issues/634
-    #dartfmt -n --set-exit-if-changed . || EXIT_CODE=$?
+    dartfmt -n --set-exit-if-changed . || EXIT_CODE=$?
     ;;
   dartanalyzer) echo
     echo -e '\033[1mTASK: dartanalyzer\033[22m'

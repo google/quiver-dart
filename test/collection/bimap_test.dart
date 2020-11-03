@@ -136,7 +136,8 @@ void main() {
       expect(map.inverse.containsValue(k2), false);
     });
 
-    test('should throw on overwriting unmapped keys with a mapped null value', () {
+    test('should throw on overwriting unmapped keys with a mapped null value',
+        () {
       final map = BiMap<String, int?>();
       map[k1] = null;
       expect(() => map[k2] = null, throwsArgumentError);

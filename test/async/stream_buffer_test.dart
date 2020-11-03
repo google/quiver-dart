@@ -88,7 +88,9 @@ void main() {
     test('underflows when asked to', () async {
       StreamBuffer<int> buf = StreamBuffer(throwOnError: true);
       Future<List<int>> futureBytes = buf.read(4);
-      Stream.fromIterable([[1, 2, 3]]).pipe(buf);
+      Stream.fromIterable([
+        [1, 2, 3]
+      ]).pipe(buf);
       try {
         List<int> bytes = await futureBytes;
         fail('should not have gotten bytes: $bytes');

@@ -77,7 +77,8 @@ class _EqualityGroupMatcher extends Matcher {
           Map matchState, bool verbose) =>
       mismatchDescription.add(' ${matchState[failureReason]}');
 
-  void _verifyEqualityGroups(Map<String?, List?>? equalityGroups, Map matchState) {
+  void _verifyEqualityGroups(
+      Map<String?, List?>? equalityGroups, Map matchState) {
     if (equalityGroups == null) {
       throw MatchError('Equality Group must not be null');
     }
