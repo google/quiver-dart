@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 library quiver.async.stream_buffer_test;
 
 import 'dart:async';
@@ -87,21 +85,16 @@ void main() {
       });
     });
 
-    test('underflows when asked to', () {
+    test('underflows when asked to', () async {
       StreamBuffer<int> buf = StreamBuffer(throwOnError: true);
-      dynamic error;
-      Future future = buf.read(4).then((bytes) {
+      Future<List<int>> futureBytes = buf.read(4);
+      Stream.fromIterable([[1, 2, 3]]).pipe(buf);
+      try {
+        List<int> bytes = await futureBytes;
         fail('should not have gotten bytes: $bytes');
-      }).catchError((e) {
-        error = e;
-      }).then((_) {
-        expect(error is UnderflowError, isTrue,
-            reason: '!UnderflowError: $error');
-      });
-      Stream.fromIterable([
-        [1, 2, 3]
-      ]).pipe(buf);
-      return future;
+      } catch (e) {
+        expect(e is UnderflowError, isTrue, reason: '!UnderflowError: $e');
+      }
     });
 
     test('accepts several streams', () async {
