@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 library quiver.collection.multimap_test;
 
 import 'package:quiver/src/collection/multimap.dart';
@@ -67,8 +65,8 @@ void main() {
   });
 
   group('Multimap asMap() view', () {
-    /*late*/ Multimap<String, String> mmap;
-    /*late*/ Map<String, Iterable<String>> map;
+    late Multimap<String, String> mmap;
+    late Map<String, Iterable<String>> map;
     setUp(() {
       mmap = Multimap()..add('k1', 'v1')..add('k1', 'v2')..add('k2', 'v3');
       map = mmap.asMap();
@@ -192,8 +190,8 @@ void main() {
       expect(map['k1'], ['v1', 'v2']);
     });
 
-    test('should support inserting multiple values for unmapped keys', () {
-      var map = ListMultimap<String, String>()..['k1'].length = 2;
+    test('should support growing underlying list for unmapped keys', () {
+      var map = ListMultimap<String, String?>()..['k1'].length = 2;
       expect(map['k1'], [null, null]);
     });
 
@@ -1049,7 +1047,8 @@ class Pair<T> {
   final T y;
 
   @override
-  bool operator ==(other) {
+  bool operator ==(Object other) {
+    if (other is! Pair<T>) return false;
     if (x != other.x) return false;
     return equals(y).matches(other.y, {});
   }
