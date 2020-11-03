@@ -12,17 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 library quiver.collection.treeset_test;
 
 import 'package:quiver/src/collection/treeset.dart';
 import 'package:test/test.dart';
 
+/// Matcher that verifies an [Error] is thrown.
+final throwsError = throwsA(isA<Error>());
+
 void main() {
   group('TreeSet', () {
     group('when empty', () {
-      /*late*/ TreeSet<num> tree;
+      late TreeSet<num> tree;
       setUp(() {
         tree = TreeSet<num>();
       });
@@ -32,20 +33,21 @@ void main() {
       test('has no element when iterating forward', () {
         var i = tree.iterator;
         expect(i.moveNext(), isFalse, reason: 'moveNext reports an element');
-        expect(i.current, isNull, reason: 'current returns an element');
+        expect(() => i.current, throwsError);
       });
       test('has no element when iterating backward', () {
         var i = tree.iterator;
         expect(i.movePrevious(), isFalse,
             reason: 'movePrevious reports an element');
-        expect(i.current, isNull, reason: 'current returns an element');
+        expect(() => i.current, throwsError);
       });
     });
 
     group('with [10, 20, 15]', () {
-      /*late*/ AvlTreeSet<num> tree;
+      late AvlTreeSet<num> tree;
       setUp(() {
-        tree = TreeSet<num>()..addAll([10, 20, 15]);
+        tree = TreeSet<num>() as AvlTreeSet<num>;
+        tree.addAll([10, 20, 15]);
       });
       test('lookup succeeds for inserted elements', () {
         expect(tree.lookup(10), equals(10), reason: 'missing 10');
@@ -53,23 +55,23 @@ void main() {
         expect(tree.lookup(20), equals(20), reason: 'missing 20');
       });
       test('order is correct', () {
-        AvlNode ten = tree.getNode(10);
-        AvlNode twenty = tree.getNode(20);
-        AvlNode fifteen = tree.getNode(15);
+        AvlNode ten = tree.getNode(10)!;
+        AvlNode twenty = tree.getNode(20)!;
+        AvlNode fifteen = tree.getNode(15)!;
         expect(ten.predecessor, isNull, reason: '10 is the smalled element');
         expect(ten.successor, equals(fifteen), reason: '15 should follow 10');
-        expect(ten.successor.successor, equals(twenty),
+        expect(ten.successor!.successor, equals(twenty),
             reason: '20 should follow 10');
 
         expect(twenty.successor, isNull, reason: '20 is the largest element');
         expect(twenty.predecessor, equals(fifteen), reason: '15 is before 20');
-        expect(twenty.predecessor.predecessor, equals(ten),
+        expect(twenty.predecessor!.predecessor, equals(ten),
             reason: '10 is before 15');
       });
     });
 
     group('with repeated elements', () {
-      /*late*/ TreeSet<num> tree;
+      late TreeSet<num> tree;
       setUp(() {
         tree = TreeSet<num>()..addAll([10, 20, 15, 21, 30, 20]);
       });
@@ -85,7 +87,7 @@ void main() {
     });
 
     group('iteration', () {
-      /*late*/ TreeSet<num> tree;
+      late TreeSet<num> tree;
       setUp(() {
         tree = TreeSet<num>()..addAll([10, 20, 15, 21, 30]);
       });
@@ -107,14 +109,14 @@ void main() {
       group('from', () {
         test('non-inserted midpoint works forward', () {
           var it = tree.fromIterator(19);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.moveNext(), isTrue, reason: 'moveNext() from spot works');
           expect(it.current, equals(20));
         });
 
         test('non-inserted midpoint works for movePrevious()', () {
           var it = tree.fromIterator(19);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.movePrevious(), isTrue,
               reason: 'movePrevious() from spot works');
           expect(it.current, equals(15));
@@ -122,14 +124,14 @@ void main() {
 
         test('non-inserted midpoint works reversed', () {
           var it = tree.fromIterator(19, reversed: true);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.moveNext(), isTrue, reason: 'moveNext() from spot works');
           expect(it.current, equals(15));
         });
 
         test('non-inserted midpoint works reversed, movePrevious()', () {
           var it = tree.fromIterator(19, reversed: true);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.movePrevious(), isTrue,
               reason: 'movePrevious() from spot works');
           expect(it.current, equals(20));
@@ -137,21 +139,21 @@ void main() {
 
         test('inserted midpoint works forward', () {
           var it = tree.fromIterator(20);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.moveNext(), isTrue, reason: 'moveNext() from spot works');
           expect(it.current, equals(20));
         });
 
         test('inserted midpoint works reversed', () {
           var it = tree.fromIterator(20, reversed: true);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.moveNext(), isTrue, reason: 'moveNext() from spot works');
           expect(it.current, equals(20));
         });
 
         test('after the set', () {
           var it = tree.fromIterator(100);
-          expect(it.current, isNull);
+          expect(() => it.current, throwsError);
           expect(it.moveNext(), isFalse, reason: 'not following items');
           expect(it.movePrevious(), isTrue, reason: 'backwards movement valid');
           expect(it.current, equals(30));
@@ -159,7 +161,7 @@ void main() {
 
         test('before the set', () {
           var it = tree.fromIterator(0);
-          expect(it.current, isNull);
+          expect(() => it.current, throwsError);
           expect(it.movePrevious(), isFalse, reason: 'not previous items');
           expect(it.moveNext(), isTrue, reason: 'forwards movement valid');
           expect(it.current, equals(10));
@@ -167,18 +169,18 @@ void main() {
 
         test('inserted midpoint, non-inclusive, works forward', () {
           var it = tree.fromIterator(20, inclusive: false);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.moveNext(), isTrue, reason: 'moveNext() from spot works');
           expect(it.current, equals(21));
         });
 
         test('inserted endpoint, non-inclusive, works forward', () {
           var it = tree.fromIterator(30, inclusive: false);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.moveNext(), isFalse, reason: 'moveNext() from spot works');
 
           it = tree.fromIterator(10, inclusive: false);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.moveNext(), isTrue, reason: 'moveNext() from spot works');
           expect(it.current, equals(15),
               reason: 'non-inclusive start should be 15');
@@ -186,12 +188,12 @@ void main() {
 
         test('inserted endpoint, non-inclusive, works backward', () {
           var it = tree.fromIterator(10, inclusive: false);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.movePrevious(), isFalse,
               reason: 'movePrevious() from spot is null');
 
           it = tree.fromIterator(30, inclusive: false);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.movePrevious(), isTrue,
               reason: 'moveNext() from spot works');
           expect(it.current, equals(21));
@@ -199,38 +201,38 @@ void main() {
 
         test('inserted midpoint, non-inclusive, reversed, works forward', () {
           var it = tree.fromIterator(20, inclusive: false, reversed: true);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.moveNext(), isTrue, reason: 'moveNext() from spot works');
           expect(it.current, equals(15));
         });
 
         test('inserted endpoint, non-inclusive, reversed, works forward', () {
           var it = tree.fromIterator(30, inclusive: false, reversed: true);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.moveNext(), isTrue, reason: 'moveNext() from spot works');
           expect(it.current, equals(21));
 
           it = tree.fromIterator(10, inclusive: false, reversed: true);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.moveNext(), isFalse, reason: 'moveNext() works');
         });
 
         test('inserted endpoint, non-inclusive, reversed, works backward', () {
           var it = tree.fromIterator(10, inclusive: false, reversed: true);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.movePrevious(), isTrue,
               reason: 'moveNext() from spot works');
           expect(it.current, equals(15));
 
           it = tree.fromIterator(30, inclusive: false, reversed: true);
-          expect(it.current, isNull, reason: 'iteration starts with null');
+          expect(() => it.current, throwsError);
           expect(it.movePrevious(), isFalse,
               reason: 'moveNext() from spot works');
         });
       });
 
       group('fails', () {
-        Iterator<num> it;
+        late Iterator<num> it;
         setUp(() => it = tree.iterator);
 
         test('after tree is cleared', () {
@@ -268,7 +270,7 @@ void main() {
       });
 
       group('still works', () {
-        /*late*/ Iterator<num> it;
+        late Iterator<num> it;
         setUp(() => it = tree.iterator);
 
         test('when removing non-existing element', () {
@@ -295,7 +297,7 @@ void main() {
     });
 
     group('removal', () {
-      /*late*/ TreeSet<num> tree;
+      late TreeSet<num> tree;
 
       test('remove from empty tree', () {
         tree = TreeSet();
@@ -369,12 +371,12 @@ void main() {
       /// we do not check the performance, only that the resulting math
       /// is equivilant to non-sorted sets.
 
-      /*late*/ TreeSet<num> tree;
-      /*late*/ List<num> expectedUnion;
-      /*late*/ List<num> expectedIntersection;
-      /*late*/ List<num> expectedDifference;
-      /*late*/ Set<num> nonSortedTestSet;
-      /*late*/ TreeSet<num> sortedTestSet;
+      late TreeSet<num> tree;
+      late List<num> expectedUnion;
+      late List<num> expectedIntersection;
+      late List<num> expectedDifference;
+      late Set<num> nonSortedTestSet;
+      late TreeSet<num> sortedTestSet;
 
       setUp(() {
         tree = TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
@@ -415,103 +417,103 @@ void main() {
       /// NOTE: This is implementation specific testing for coverage.
       /// Users do not have access to [AvlNode] or [AvlTreeSet]
       test('RightLeftRotation', () {
-        AvlTreeSet<num> tree = TreeSet<num>();
+        AvlTreeSet<num> tree = TreeSet<num>() as AvlTreeSet<num>;
         tree.add(10);
         tree.add(20);
         tree.add(15);
 
-        AvlNode ten = tree.getNode(10);
-        AvlNode twenty = tree.getNode(20);
-        AvlNode fifteen = tree.getNode(15);
+        AvlNode ten = tree.getNode(10)!;
+        AvlNode twenty = tree.getNode(20)!;
+        AvlNode fifteen = tree.getNode(15)!;
 
         expect(ten.parent, equals(fifteen));
-        expect(ten.left, equals(null));
-        expect(ten.right, equals(null));
+        expect(ten.hasLeft, isFalse);
+        expect(ten.hasRight, isFalse);
         expect(ten.balance, equals(0));
 
         expect(twenty.parent, equals(fifteen));
-        expect(twenty.left, equals(null));
-        expect(twenty.right, equals(null));
+        expect(twenty.hasLeft, isFalse);
+        expect(twenty.hasRight, isFalse);
         expect(twenty.balance, equals(0));
 
-        expect(fifteen.parent, equals(null));
+        expect(fifteen.hasParent, isFalse);
         expect(fifteen.left, equals(ten));
         expect(fifteen.right, equals(twenty));
         expect(fifteen.balance, equals(0));
       });
       test('LeftRightRotation', () {
-        AvlTreeSet<num> tree = TreeSet<num>();
+        AvlTreeSet<num> tree = TreeSet<num>() as AvlTreeSet<num>;
         tree.add(30);
         tree.add(10);
         tree.add(20);
 
-        AvlNode thirty = tree.getNode(30);
-        AvlNode ten = tree.getNode(10);
-        AvlNode twenty = tree.getNode(20);
+        AvlNode thirty = tree.getNode(30)!;
+        AvlNode ten = tree.getNode(10)!;
+        AvlNode twenty = tree.getNode(20)!;
 
         expect(thirty.parent, equals(twenty));
-        expect(thirty.left, equals(null));
-        expect(thirty.right, equals(null));
+        expect(thirty.hasLeft, isFalse);
+        expect(thirty.hasRight, isFalse);
         expect(thirty.balance, equals(0));
 
         expect(ten.parent, equals(twenty));
-        expect(ten.left, equals(null));
-        expect(ten.right, equals(null));
+        expect(ten.hasLeft, isFalse);
+        expect(ten.hasRight, isFalse);
         expect(ten.balance, equals(0));
 
-        expect(twenty.parent, equals(null));
+        expect(twenty.hasParent, isFalse);
         expect(twenty.left, equals(ten));
         expect(twenty.right, equals(thirty));
         expect(twenty.balance, equals(0));
       });
 
       test('AVL-LeftRotation', () {
-        AvlTreeSet<num> tree = TreeSet<num>();
+        AvlTreeSet<num> tree = TreeSet<num>() as AvlTreeSet<num>;
         tree.add(1);
         tree.add(2);
         tree.add(3);
 
-        AvlNode one = tree.getNode(1);
-        AvlNode two = tree.getNode(2);
-        AvlNode three = tree.getNode(3);
+        AvlNode one = tree.getNode(1)!;
+        AvlNode two = tree.getNode(2)!;
+        AvlNode three = tree.getNode(3)!;
 
         expect(one.parent, equals(two));
-        expect(one.left, equals(null));
-        expect(one.right, equals(null));
+        expect(one.hasLeft, isFalse);
+        expect(one.hasRight, isFalse);
         expect(one.balance, equals(0));
 
         expect(three.parent, equals(two));
-        expect(three.left, equals(null));
-        expect(three.right, equals(null));
+        expect(three.hasLeft, isFalse);
+        expect(three.hasRight, isFalse);
         expect(three.balance, equals(0));
 
-        expect(two.parent, equals(null));
+        expect(two.hasParent, isFalse);
         expect(two.left, equals(one));
         expect(two.right, equals(three));
         expect(two.balance, equals(0));
       });
 
       test('AVL-RightRotation', () {
-        AvlTreeSet<num> tree = TreeSet<num>();
+        AvlTreeSet<num> tree = TreeSet<num>() as AvlTreeSet<num>;
         tree.add(3);
         tree.add(2);
         tree.add(1);
 
-        AvlNode one = tree.getNode(1);
-        AvlNode two = tree.getNode(2);
-        AvlNode three = tree.getNode(3);
+        AvlNode one = tree.getNode(1)!;
+        AvlNode two = tree.getNode(2)!;
+        AvlNode three = tree.getNode(3)!;
 
         expect(one.parent, equals(two));
-        expect(one.left, equals(null));
-        expect(one.right, equals(null));
+        expect(one.hasLeft, isFalse);
+        expect(one.hasRight, isFalse);
         expect(one.balance, equals(0));
 
         expect(three.parent, equals(two));
-        expect(three.left, equals(null));
-        expect(three.right, equals(null));
+        expect(three.hasLeft, isFalse);
+        expect(three.hasRight, isFalse);
         expect(three.balance, equals(0));
 
-        expect(two.parent, equals(null));
+        expect(two.hasParent, isFalse);
         expect(two.left, equals(one));
         expect(two.right, equals(three));
         expect(two.balance, equals(0));
@@ -519,10 +521,10 @@ void main() {
     });
 
     group('nearest search', () {
-      /*late*/ TreeSet<num> tree;
+      late TreeSet<num> tree;
       setUp(() {
         tree = TreeSet<num>(comparator: (num left, num right) {
-          return left - right;
+          return left - right as int;
         })
           ..addAll([300, 200, 100]);
       });
