@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 library quiver.collection.all_tests;
 
 import 'bimap_test.dart' as bimap;
