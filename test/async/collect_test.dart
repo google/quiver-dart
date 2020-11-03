@@ -31,9 +31,11 @@ void main() {
       var events = [];
       var done = Completer<List<dynamic>>();
 
-      collect(futures).listen(events.add, onError: (i) {
-        events.add('e$i');
-      }, onDone: () =>  done.complete([]));
+      collect(futures).listen(events.add,
+          onError: (i) {
+            events.add('e$i');
+          },
+          onDone: () => done.complete([]));
       return Future.wait(futures).catchError((_) => done.future).then((_) {
         expect(events, [0, 'e1', 2, 'e3', 4]);
       });

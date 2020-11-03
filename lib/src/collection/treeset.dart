@@ -124,7 +124,8 @@ abstract class _TreeNode<V> {
     if (node.hasRight) {
       return node.right.minimumNode;
     }
-    while (node.hasParent && node.parent.hasRight && node == node.parent.right) {
+    while (
+        node.hasParent && node.parent.hasRight && node == node.parent.right) {
       node = node.parent;
     }
     return node.hasParent ? node.parent : null;
@@ -151,7 +152,8 @@ abstract class _TreeNode<V> {
 ///           Ronald L. Rivest, Clifford Stein.
 ///        chapter 13.2
 class AvlTreeSet<V> extends TreeSet<V> {
-  AvlTreeSet({Comparator<V> comparator = _defaultCompare}) : super._(comparator);
+  AvlTreeSet({Comparator<V> comparator = _defaultCompare})
+      : super._(comparator);
 
   int _length = 0;
   AvlNode<V>? _root;
@@ -721,7 +723,8 @@ class AvlTreeSet<V> extends TreeSet<V> {
     // Default: nearest absolute value
     // Fell off the tree looking for the exact match; now we need
     // to find the nearest element.
-    x = (compare < 0 ? previous.predecessor : previous.successor) as AvlNode<V>?;
+    x = (compare < 0 ? previous.predecessor : previous.successor)
+        as AvlNode<V>?;
     if (x == null) {
       return previous;
     }
