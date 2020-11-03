@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// @dart = 2.9
-
 import 'dart:async';
 
 /// Splits a [Stream] of events into multiple Streams based on a set of
@@ -40,7 +38,7 @@ class StreamRouter<T> {
   }
 
   final Stream<T> _incoming;
-  StreamSubscription<T> _subscription;
+  late final StreamSubscription<T> _subscription;
 
   final List<_Route<T>> _routes = <_Route<T>>[];
   final StreamController<T> _defaultController =
@@ -63,9 +61,13 @@ class StreamRouter<T> {
   }
 
   void _handle(T event) {
-    var route =
-        _routes.firstWhere((r) => r.predicate(event), orElse: () => null);
-    var controller = (route != null) ? route.controller : _defaultController;
+    StreamController<T> controller = _defaultController;
+    for (final _Route<T> route in _routes) {
+      if (route.predicate(event)) {
+        controller = route.controller;
+        break;
+      }
+    }
     controller.add(event);
   }
 }
