@@ -20,12 +20,15 @@ import 'package:test/test.dart';
 void main() {
   group('listsEqual', () {
     test('return true for equal lists', () {
+      expect(listsEqual(null, null), isTrue);
       expect(listsEqual([], []), isTrue);
       expect(listsEqual([1], [1]), isTrue);
       expect(listsEqual(['a', 'b'], ['a', 'b']), isTrue);
     });
 
     test('return false for unequal lists', () {
+      expect(listsEqual(null, []), isFalse);
+      expect(listsEqual([], null), isFalse);
       expect(listsEqual([1], [2]), isFalse);
       expect(listsEqual([1], []), isFalse);
       expect(listsEqual([], [1]), isFalse);
