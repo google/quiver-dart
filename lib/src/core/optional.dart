@@ -19,7 +19,10 @@ import 'dart:collection';
 /// Use Optional as an alternative to allowing fields, parameters or return
 /// values to be null. It signals that a value is not required and provides
 /// convenience methods for dealing with the absent case.
-class Optional<T extends Object> extends IterableBase<T> {
+//
+// TODO(cbracken): Consider making this Optional<T extends Object>.
+// See: https://github.com/google/quiver-dart/issues/666
+class Optional<T> extends IterableBase<T> {
   /// Constructs an empty Optional.
   const Optional.absent() : _value = null;
 
