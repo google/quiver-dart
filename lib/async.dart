@@ -19,7 +19,6 @@ export 'src/async/concat.dart';
 export 'src/async/countdown_timer.dart';
 export 'src/async/enumerate.dart';
 export 'src/async/future_stream.dart';
-export 'src/async/iteration.dart';
 export 'src/async/metronome.dart';
 export 'src/async/stream_buffer.dart';
 export 'src/async/stream_router.dart';
