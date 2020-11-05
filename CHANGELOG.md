@@ -1,3 +1,10 @@
+#### 2.1.5 - 2020-11-05
+
+  * Deprecate `forEachAsync`, `reduceAsync`. Existing callers should
+    migrate to `Future.forEach`. Migration examples have been added to
+    the documentation for these methods. This will be removed in Quiver
+    3.0.0.
+
 #### 2.1.4+1 - 2020-10-26
 
   * Fix: Add dart:async import to async/string.dart. Stream wasn't
