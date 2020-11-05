@@ -28,6 +28,25 @@ typedef AsyncCombiner<T, E> = Future<T> Function(T previous, E e);
 ///
 /// The Future returned completes to [true] if the entire iterable was
 /// processed, otherwise [false].
+///
+/// This is deprecated and will be removed in Quiver 3.0.0. It can be replaced
+/// by [Future.doWhile]. For example:
+///
+///     List<int> myList = ...
+///     await doWhileAsync(myList, (int i) {
+///       return i != 5;
+///     });
+///
+/// can be replaced by the following code:
+///
+///     List<int> myList = ...
+///     Iterator<int> it = myList.iterator;
+///     await Future.doWhile(() {
+///       if (it.moveNext()) {
+///         return it.current != 5;
+///       }
+///       return false;
+///     });
 @Deprecated('Use Future.doWhile from dart:async. Will be removed in 3.0.0.')
 Future<bool> doWhileAsync<T>(
         Iterable<T> iterable, AsyncAction<bool, T> action) =>
@@ -47,6 +66,23 @@ Future<bool> _doWhileAsync<T>(
 /// the collection using the provided [combine] function. Similar to
 /// [Iterable.reduce], except that [combine] is an async function that returns
 /// a [Future].
+///
+/// This is deprecated and will be removed in Quiver 3.0.0. It can be replaced
+/// with [Future.forEach] as follows:
+///
+///     List<int> myList = ...
+///     int sum = await reduceAsync(myList, 0, (int a, int b) {
+///       return a + b;
+///     });
+///
+/// can be replaced by the following code:
+///
+///     List<int> myList = ...
+///     int sum = 0;
+///     await Future.forEach(myList, (int i) {
+///       sum += i;
+///     });
+@Deprecated('Use Future.doWhile from dart:async. Will be removed in 3.0.0.')
 Future<S> reduceAsync<S, T>(
         Iterable<T> iterable, S initialValue, AsyncCombiner<S, T> combine) =>
     _reduceAsync(iterable.iterator, initialValue, combine);
@@ -62,6 +98,26 @@ Future<S> _reduceAsync<S, T>(
 
 /// Schedules calls to [action] for each element in [iterable]. No more than
 /// [maxTasks] calls to [action] will be pending at once.
+///
+/// This is deprecated and will be removed in Quiver 3.0.0. When the [maxTasks]
+/// argument is left defaulted, it can be replaced with [Future.forEach] as
+/// follows:
+///
+///     List<int> myList = ...
+///     await forEachAsync(myList, (int i) {
+///       // do something
+///     });
+///
+/// can be replaced by the following code:
+///
+///     List<int> myList = ...
+///     await Future.forEach(myList, (int i) {
+///       // do something
+///     });
+///
+/// In cases where [maxTasks] is specified, package:pool is recommended.
+/// See: https://pub.dev/packages/pool
+@Deprecated('Use Future.forEach or package:pool. Will be removed in 3.0.0.')
 Future<Null> forEachAsync<T>(Iterable<T> iterable, AsyncAction<Null, T> action,
     {int maxTasks = 1}) {
   if (maxTasks == null || maxTasks < 1) {
