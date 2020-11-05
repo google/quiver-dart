@@ -19,7 +19,6 @@ import 'concat_test.dart' as concat;
 import 'countdown_timer_test.dart' as countdown_timer;
 import 'enumerate_test.dart' as enumerate;
 import 'future_stream_test.dart' as future_stream;
-import 'iteration_test.dart' as iteration;
 import 'metronome_test.dart' as metronome;
 import 'stream_buffer_test.dart' as stream_buffer;
 import 'stream_router_test.dart' as stream_router;
@@ -32,7 +31,6 @@ void main() {
   enumerate.main();
   future_stream.main();
   metronome.main();
-  iteration.main();
   stream_buffer.main();
   stream_router.main();
   string.main();
