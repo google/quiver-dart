@@ -1,3 +1,7 @@
+#### 3.0.0-nullsafety.3
+
+  * Eliminate dependency on package:meta.
+
 #### 3.0.0-nullsafety.2 - 2020-11-05
 
   * BREAKING CHANGE: This version requires Dart SDK 2.12.0-0 or later.

@@ -55,9 +55,9 @@ void main() {
         expect(tree.lookup(20), equals(20), reason: 'missing 20');
       });
       test('order is correct', () {
-        AvlNode ten = tree.getNode(10)!;
-        AvlNode twenty = tree.getNode(20)!;
-        AvlNode fifteen = tree.getNode(15)!;
+        AvlNode ten = debugGetNode(tree, 10)!;
+        AvlNode twenty = debugGetNode(tree, 20)!;
+        AvlNode fifteen = debugGetNode(tree, 15)!;
         expect(ten.predecessor, isNull, reason: '10 is the smalled element');
         expect(ten.successor, equals(fifteen), reason: '15 should follow 10');
         expect(ten.successor!.successor, equals(twenty),
@@ -422,9 +422,9 @@ void main() {
         tree.add(20);
         tree.add(15);
 
-        AvlNode ten = tree.getNode(10)!;
-        AvlNode twenty = tree.getNode(20)!;
-        AvlNode fifteen = tree.getNode(15)!;
+        AvlNode ten = debugGetNode(tree, 10)!;
+        AvlNode twenty = debugGetNode(tree, 20)!;
+        AvlNode fifteen = debugGetNode(tree, 15)!;
 
         expect(ten.parent, equals(fifteen));
         expect(ten.hasLeft, isFalse);
@@ -447,9 +447,9 @@ void main() {
         tree.add(10);
         tree.add(20);
 
-        AvlNode thirty = tree.getNode(30)!;
-        AvlNode ten = tree.getNode(10)!;
-        AvlNode twenty = tree.getNode(20)!;
+        AvlNode thirty = debugGetNode(tree, 30)!;
+        AvlNode ten = debugGetNode(tree, 10)!;
+        AvlNode twenty = debugGetNode(tree, 20)!;
 
         expect(thirty.parent, equals(twenty));
         expect(thirty.hasLeft, isFalse);
@@ -473,9 +473,9 @@ void main() {
         tree.add(2);
         tree.add(3);
 
-        AvlNode one = tree.getNode(1)!;
-        AvlNode two = tree.getNode(2)!;
-        AvlNode three = tree.getNode(3)!;
+        AvlNode one = debugGetNode(tree, 1)!;
+        AvlNode two = debugGetNode(tree, 2)!;
+        AvlNode three = debugGetNode(tree, 3)!;
 
         expect(one.parent, equals(two));
         expect(one.hasLeft, isFalse);
@@ -499,9 +499,9 @@ void main() {
         tree.add(2);
         tree.add(1);
 
-        AvlNode one = tree.getNode(1)!;
-        AvlNode two = tree.getNode(2)!;
-        AvlNode three = tree.getNode(3)!;
+        AvlNode one = debugGetNode(tree, 1)!;
+        AvlNode two = debugGetNode(tree, 2)!;
+        AvlNode three = debugGetNode(tree, 3)!;
 
         expect(one.parent, equals(two));
         expect(one.hasLeft, isFalse);
