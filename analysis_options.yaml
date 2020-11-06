@@ -1,10 +1,6 @@
 analyzer:
-  # ENABLE strong-mode:
-  # ENABLE   implicit-dynamic: false
-
   enable-experiment:
     - non-nullable
-
   errors:
     # treat missing required parameters as a warning (not a hint)
     missing_required_param: warning
