@@ -23,5 +23,5 @@ export 'src/collection/delegates/queue.dart';
 export 'src/collection/delegates/set.dart';
 export 'src/collection/lru_map.dart';
 export 'src/collection/multimap.dart';
-export 'src/collection/treeset.dart';
+export 'src/collection/treeset.dart' hide debugGetNode, AvlNode;
 export 'src/collection/utils.dart';

@@ -14,8 +14,6 @@
 
 import 'dart:collection';
 
-import 'package:meta/meta.dart' show visibleForTesting;
-
 int _defaultCompare(a, b) {
   return a.compareTo(b);
 }
@@ -878,9 +876,10 @@ class AvlTreeSet<V> extends TreeSet<V> {
     }
     return set;
   }
+}
 
-  @visibleForTesting
-  AvlNode<V>? getNode(V object) => _getNode(object);
+AvlNode<V>? debugGetNode<V>(AvlTreeSet<V> treeset, V object) {
+  return treeset._getNode(object);
 }
 
 typedef _IteratorMove = bool Function();
@@ -1010,7 +1009,6 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
 }
 
 /// Private class used to track element insertions in the [TreeSet].
-@visibleForTesting
 class AvlNode<V> extends _TreeNode<V> {
   AvlNode({required V object}) : super(object: object);
 
