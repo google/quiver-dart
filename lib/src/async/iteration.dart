@@ -18,7 +18,7 @@ import 'dart:async';
 typedef AsyncAction<T, E> = Future<T> Function(E e);
 
 /// An asynchronous funcuntion that combines an element [e] with a previous
-/// value [previous], for use with [reduceAsync].
+/// value [previous].
 typedef AsyncCombiner<T, E> = Future<T> Function(T previous, E e);
 
 /// Calls [action] for each item in [iterable] in turn, waiting for the Future
