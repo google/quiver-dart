@@ -1,4 +1,8 @@
-#### 3.0.0-nullsafety
+#### 3.0.0-nullsafety.1 - 2020-11-05
+
+  * Enable non-nullable experiment in `analysis_options.yaml`.
+
+#### 3.0.0-nullsafety - 2020-11-05
 
   * BREAKING CHANGE: This verion requires Dart SDK 2.10.0 or later.
   * BREAKING CHANGE: Remove `assertCheckedMode`. This was deprecated in 2.1.2.
