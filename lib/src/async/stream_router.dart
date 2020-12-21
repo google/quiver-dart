@@ -48,8 +48,9 @@ class StreamRouter<T> {
   /// method, and not sent to any other router streams.
   Stream<T> route(bool predicate(T event)) {
     _Route route;
-    var controller = StreamController<T>.broadcast(onCancel: () {
+    var controller = StreamController<T>.broadcast(onCancel: () async {
       _routes.remove(route);
+      await route.controller.close();
     });
     route = _Route(predicate, controller);
     _routes.add(route);
