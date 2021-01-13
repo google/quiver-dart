@@ -655,7 +655,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   /// See [IterableBase.last]
   @override
   V get last {
-    _TreeNode<V>? max = _root?.minimumNode;
+    _TreeNode<V>? max = _root?.maximumNode;
     if (max != null) {
       return max.object;
     }

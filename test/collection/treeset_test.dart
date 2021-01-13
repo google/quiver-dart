@@ -70,6 +70,26 @@ void main() {
       });
     });
 
+    group('First & Last', () {
+      test('for num tree', () {
+        var tree = TreeSet<num>();
+        tree.add(1);
+        tree.add(2);
+        tree.add(3);
+        expect(tree.first, 1);
+        expect(tree.last, 3);
+      });
+
+      test('for String tree', () {
+        var tree = TreeSet<String>();
+        tree.add('abc');
+        tree.add('aaa');
+        tree.add('zzz');
+        expect(tree.first, 'aaa');
+        expect(tree.last, 'zzz');
+      });
+    });
+
     group('with repeated elements', () {
       late TreeSet<num> tree;
       setUp(() {
