@@ -1,6 +1,9 @@
-#### 3.0.0-nullsafety.3
+#### 3.0.0-nullsafety.3 - 2021-01-15
 
   * Eliminate dependency on package:meta.
+  * Fix: `TreeSet.last` was incorrectly returning the minimum node (same
+    value as `TreeSet.first`). It now correctly returns the maximum
+    node.
 
 #### 3.0.0-nullsafety.2 - 2020-11-05
 
