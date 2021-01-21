@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import 'dart:async';
-
 /// Returns a stream of completion events for the input [futures].
 ///
 /// Successfully completed futures yield data events, while futures completed
