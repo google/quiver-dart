@@ -14,8 +14,6 @@
 
 library quiver.async.stream_buffer_test;
 
-import 'dart:async';
-
 import 'package:quiver/src/async/stream_buffer.dart';
 import 'package:test/test.dart';
 
