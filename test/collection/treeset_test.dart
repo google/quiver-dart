@@ -389,7 +389,7 @@ void main() {
     group('set math', () {
       /// NOTE: set math with sorted sets should have a performance benefit;
       /// we do not check the performance, only that the resulting math
-      /// is equivilant to non-sorted sets.
+      /// is equivalent to non-sorted sets.
 
       late TreeSet<num> tree;
       late List<num> expectedUnion;
@@ -433,7 +433,7 @@ void main() {
               equals(expectedDifference)));
     });
 
-    group('AVL implementaiton', () {
+    group('AVL implementation', () {
       /// NOTE: This is implementation specific testing for coverage.
       /// Users do not have access to [AvlNode] or [AvlTreeSet]
       test('RightLeftRotation', () {

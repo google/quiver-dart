@@ -691,7 +691,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
   }
 
   /// Search the tree for the matching element, or the 'nearest' node.
-  /// NOTE: [BinaryTree.comparator] needs to have finer granulatity than -1,0,1
+  /// NOTE: [BinaryTree.comparator] needs to have finer granularity than -1,0,1
   /// in order for this to return something that's meaningful.
   AvlNode<V>? _searchNearest(V? element,
       {TreeSearch option = TreeSearch.NEAREST}) {
@@ -902,7 +902,7 @@ class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
     }
 
     state = WALK;
-    // Else we've got an anchor we have to worry about initalizing from.
+    // Else we've got an anchor we have to worry about initializing from.
     // This isn't known till the caller actually performs a previous/next.
     _moveNext = () {
       _current = tree._searchNearest(anchorObject,

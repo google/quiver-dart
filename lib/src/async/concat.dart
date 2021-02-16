@@ -14,7 +14,7 @@
 
 import 'dart:async';
 
-/// Returns the concatentation of the input streams.
+/// Returns the concatenation of the input streams.
 ///
 /// When the returned stream is listened to, the [streams] are iterated through
 /// asynchronously, forwarding all events (both data and error) for the current

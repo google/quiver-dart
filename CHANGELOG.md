@@ -1,21 +1,6 @@
-#### 3.0.0-nullsafety.3 - 2021-01-15
+#### 3.0.0 - 2021-02-16
 
-  * Eliminate dependency on package:meta.
-  * Fix: `TreeSet.last` was incorrectly returning the minimum node (same
-    value as `TreeSet.first`). It now correctly returns the maximum
-    node.
-
-#### 3.0.0-nullsafety.2 - 2020-11-05
-
-  * BREAKING CHANGE: This version requires Dart SDK 2.12.0-0 or later.
-
-#### 3.0.0-nullsafety.1 - 2020-11-05
-
-  * Enable non-nullable experiment in `analysis_options.yaml`.
-
-#### 3.0.0-nullsafety - 2020-11-05
-
-  * BREAKING CHANGE: This verion requires Dart SDK 2.10.0 or later.
+  * BREAKING CHANGE: This version requires Dart SDK 2.12.0 or later.
   * BREAKING CHANGE: Remove `assertCheckedMode`. This was deprecated in 2.1.2.
     Checked mode no longer exists in Dart 2.0 since the vast majority of what
     checked mode did is now done in the type system itself.
@@ -41,6 +26,10 @@
   * Deprecate `firstNonNull`. Users of this function should migrate to
     `var v = o1 ?? o2 ?? o3 ?? o4; ArgumentError.checkNotNull(v);`. This will be
     removed in 4.0.0
+  * Eliminate dependency on package:meta.
+  * Fix: `TreeSet.last` was incorrectly returning the minimum node (same
+    value as `TreeSet.first`). It now correctly returns the maximum
+    node.
 
 #### 2.1.5 - 2020-11-05
 
@@ -341,7 +330,7 @@
 #### 0.20.0 - 2014-12-10
    * Multimap: better `toString()` on returned collections.
    * Multimap: Bugfix: support edits on empty value collections.
-   * Multimap: Added missing return statment in `fold`.
+   * Multimap: Added missing return statement in `fold`.
    * Added isEmpty() in `strings`.
    * Added max SDK constraint <2.0.0
    * Minor updates to README.md.

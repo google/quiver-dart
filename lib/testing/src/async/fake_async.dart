@@ -46,7 +46,7 @@ abstract class FakeAsync {
   /// [elapseBlocking].
   ///
   /// The returned clock starts at [initialTime], and calls to [elapse] and
-  /// [elapseBlocking] advance the clock, even if they occured before the call
+  /// [elapseBlocking] advance the clock, even if they occurred before the call
   /// to this method.
   ///
   /// The clock can be passed as a dependency to the unit under test.

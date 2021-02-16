@@ -29,7 +29,7 @@ class _Count extends InfiniteIterable<num> {
   Iterator<num> get iterator => _CountIterator(start, step);
 
   // TODO(justin): return an infinite list for toList() and a special Set
-  // implmentation for toSet()?
+  // implementation for toSet()?
 }
 
 class _CountIterator implements Iterator<num> {
