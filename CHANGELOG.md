@@ -27,9 +27,6 @@
     `var v = o1 ?? o2 ?? o3 ?? o4; ArgumentError.checkNotNull(v);`. This will be
     removed in 4.0.0
   * Eliminate dependency on package:meta.
-  * Fix: `TreeSet.last` was incorrectly returning the minimum node (same
-    value as `TreeSet.first`). It now correctly returns the maximum
-    node.
 
 #### 2.1.5 - 2020-11-05
 
