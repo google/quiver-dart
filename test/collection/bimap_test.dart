@@ -87,7 +87,7 @@ void main() {
       expect(map.inverse[v2], k2);
     });
 
-    test('should contain mappings added via its invese', () {
+    test('should contain mappings added via its inverse', () {
       map.inverse[v1] = k1;
       map.inverse[v2] = k2;
       expect(map[k1], v1);

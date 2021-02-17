@@ -19,7 +19,7 @@ All submissions, including submissions by project members, require review.
 
 ### Contribution Guidelines
 
-We welcome your pull requests, issue reports and enhacement requests. To make
+We welcome your pull requests, issue reports and enhancement requests. To make
 the process as smooth as possible, we request the following:
 
    * Sign the [CLA][cla] (see above) before sending your pull request.

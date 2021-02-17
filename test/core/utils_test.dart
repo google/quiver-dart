@@ -37,7 +37,7 @@ void main() {
       expect(firstNonNull(null, null, null, 4), 4);
     });
 
-    test('should throw if all argumentsare null', () {
+    test('should throw if all arguments are null', () {
       expect(() => firstNonNull(null, null, null, null), throwsArgumentError);
     });
   });

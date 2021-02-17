@@ -126,7 +126,7 @@ bool isWhitespace(int rune) =>
 /// characters on the left and right from [fill].  On the right, characters are
 /// selected from [fill] starting at the end so that the last character in
 /// [fill] is the last character in the result. [fill] is repeated if
-/// neccessary to pad.
+/// necessary to pad.
 ///
 /// Returns [input] if `input.length` is equal to or greater than width.
 /// [input] can be `null` and is treated as an empty string.

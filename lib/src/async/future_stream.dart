@@ -26,7 +26,7 @@ import 'dart:async';
 ///
 /// # Example
 ///
-/// This class is useful when you need to retreive some object via a `Future`,
+/// This class is useful when you need to retrieve some object via a `Future`,
 /// then return a `Stream` from that object:
 ///
 ///     var futureOfStream = getResource().then((resource) => resource.stream);

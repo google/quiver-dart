@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/// Returns the concatentation of the input iterables.
+/// Returns the concatenation of the input iterables.
 ///
 /// The returned iterable is a lazily-evaluated view on the input iterables.
 Iterable<T> concat<T>(Iterable<Iterable<T>> iterables) =>

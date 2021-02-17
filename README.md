@@ -31,7 +31,7 @@ as a socket.
 `FutureStream` turns a `Future<Stream>` into a `Stream` which emits the same
 events as the stream returned from the future.
 
-`StreamRouter` splits a Stream into mulltiple streams based on a set of
+`StreamRouter` splits a Stream into multiple streams based on a set of
 predicates.
 
 `CountdownTimer` is a simple countdown timer that fires events in regular
@@ -58,12 +58,12 @@ might have eviction policies.
 
 ## [quiver.check][]
 
-`checkArgument` throws `ArgumentError` if the specifed argument check expression
+`checkArgument` throws `ArgumentError` if the specified argument check expression
 is false.
 
 `checkListIndex` throws `RangeError` if the specified index is out of bounds.
 
-`checkState` throws `StateError` if the specifed state check expression is
+`checkState` throws `StateError` if the specified state check expression is
 false.
 
 [quiver.check]: https://pub.dev/documentation/quiver/latest/quiver.check/quiver.check-library.html
