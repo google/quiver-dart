@@ -498,7 +498,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
       y.right._parent = y;
       y._balanceFactor = node._balanceFactor;
 
-      y._parent = node.parent;
+      y._parent = node._parent;
       if (_root == node) {
         _root = y;
       } else if (node.parent._left == node) {
