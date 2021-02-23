@@ -1,3 +1,8 @@
+#### 3.0.1-dev
+
+  * Fix: Eliminate null check error on removal of root node of
+    `AVLTree`.
+
 #### 3.0.0 - 2021-02-16
 
   * BREAKING CHANGE: This version requires Dart SDK 2.12.0 or later.

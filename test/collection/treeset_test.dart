@@ -340,6 +340,13 @@ void main() {
         expect(tree.toList(), equals([15, 21]));
       });
 
+      test('remove root', () {
+        tree = TreeSet()
+          ..addAll([1, 3, 5, 6, 2, 4])
+          ..removeAll([1, 3]);
+        expect(tree.toList(), equals([2, 4, 5, 6]));
+      });
+
       test('removeAll from tree', () {
         tree = TreeSet()..addAll([10, 20, 15, 21, 30, 20]);
         tree.removeAll([42]);
