@@ -1,7 +1,9 @@
-#### 3.0.1-dev
+#### 3.0.1 - 2021-04-06
 
   * Fix: Eliminate null check error on removal of root node of
     `AVLTree`.
+  * Fix: Eliminate null check in partition internal iterator `current` getter.
+  * Minor documentation typo corrections.
 
 #### 3.0.0 - 2021-02-16
 

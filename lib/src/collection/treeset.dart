@@ -886,7 +886,7 @@ typedef _IteratorMove = bool Function();
 
 /// This iterator either starts at the beginning or end (see [TreeSet.iterator]
 /// and [TreeSet.reverseIterator]) or from an anchor point in the set (see
-/// [TreeSet.fromIterator]). When using fromIterator, the inital anchor point
+/// [TreeSet.fromIterator]). When using fromIterator, the initial anchor point
 /// is included in the first movement (either [moveNext] or [movePrevious]) but
 /// can optionally be excluded in the constructor.
 class _AvlTreeIterator<V> implements BidirectionalIterator<V> {
