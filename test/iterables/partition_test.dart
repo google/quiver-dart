@@ -33,7 +33,7 @@ void main() {
       expect(it.moveNext(), isTrue);
       expect(it.current, equals([1, 2, 3]));
       expect(it.moveNext(), isFalse);
-      expect(() => it.current, throwsStateError);
+      expect(() => it.current, throwsError);
     });
 
     test('should return one partition if partition size == input size', () {
@@ -41,7 +41,7 @@ void main() {
       expect(it.moveNext(), isTrue);
       expect(it.current, equals([1, 2, 3, 4, 5]));
       expect(it.moveNext(), isFalse);
-      expect(() => it.current, throwsStateError);
+      expect(() => it.current, throwsError);
     });
 
     test(
@@ -53,7 +53,9 @@ void main() {
       expect(it.moveNext(), isTrue);
       expect(it.current, equals([4, 5]));
       expect(it.moveNext(), isFalse);
-      expect(() => it.current, throwsStateError);
+      expect(() => it.current, throwsError);
     });
   });
 }
+
+final throwsError = throwsA(const TypeMatcher<Error>());

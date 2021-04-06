@@ -41,10 +41,6 @@ class _PartitionIterator<T> implements Iterator<List<T>> {
 
   @override
   List<T> get current {
-    // TODO(cbracken): remove post NNBD migration.
-    if (_current == null) {
-      throw StateError('Must call moveNext before current');
-    }
     return _current as List<T>;
   }
 
