@@ -14,8 +14,8 @@
 
 library quiver.strings;
 
-import 'package:quiver/strings.dart';
 import 'package:quiver/string_extensions.dart';
+import 'package:quiver/strings.dart';
 import 'package:test/test.dart' hide isEmpty, isNotEmpty;
 
 void main() {
@@ -140,7 +140,7 @@ void main() {
     });
     test('should be circular over many loops starting mid-way loops away', () {
       expect(loop('ab', 5, 13), 'babababa');
-      expect('ab'.loop( 5, 13), 'babababa');
+      expect('ab'.loop(5, 13), 'babababa');
     });
     test('should default to end of string', () {
       expect(loop('hello', 3), 'lo');
@@ -217,7 +217,7 @@ void main() {
       expect('abc'.center(6, '012345'), '0abc45');
 
       expect(center('abc', 9, '01'), '010abc101');
-        expect('abc'.center(9, '01'), '010abc101');
+      expect('abc'.center(9, '01'), '010abc101');
     });
 
     test('should handle null and empty inputs', () {
