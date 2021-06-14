@@ -41,7 +41,7 @@ abstract class InfiniteIterable<T> extends IterableBase<T> {
       throw UnsupportedError('fold');
 
   @override
-  void forEach(void f(T element)) => throw UnsupportedError('forEach');
+  void forEach(void action(T element)) => throw UnsupportedError('forEach');
 
   @override
   String join([String separator = '']) => throw UnsupportedError('join');
