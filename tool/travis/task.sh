@@ -32,8 +32,8 @@ while (( "$#" )); do
     ;;
   dartanalyzer) echo
     echo -e '\033[1mTASK: dartanalyzer\033[22m'
-    echo -e 'dartanalyzer --fatal-warnings .'
-    dartanalyzer --lints --fatal-warnings --fatal-infos . || EXIT_CODE=$?
+    echo -e 'dart analyze --fatal-warnings --fatal-infos .'
+    dart analyze --fatal-warnings --fatal-infos . || EXIT_CODE=$?
     ;;
   vm_test) echo
     echo -e '\033[1mTASK: vm_test\033[22m'
