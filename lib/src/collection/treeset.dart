@@ -835,7 +835,9 @@ class AvlTreeSet<V> extends TreeSet<V> {
     }
 
     // Non-optimized version.
-    return set..addAll(this)..addAll(other);
+    return set
+      ..addAll(this)
+      ..addAll(other);
   }
 
   /// See [Set.difference]

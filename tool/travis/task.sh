@@ -27,8 +27,8 @@ while (( "$#" )); do
   case $TASK in
   dartfmt) echo
     echo -e '\033[1mTASK: dartfmt\033[22m'
-    echo -e 'dartfmt -n --set-exit-if-changed .'
-    dartfmt -n --set-exit-if-changed . || EXIT_CODE=$?
+    echo -e 'dart format --set-exit-if-changed -o none .'
+    dart format --set-exit-if-changed -o none . || EXIT_CODE=$?
     ;;
   dartanalyzer) echo
     echo -e '\033[1mTASK: dartanalyzer\033[22m'

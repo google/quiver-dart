@@ -69,7 +69,9 @@ void main() {
           [5]
         ]);
       });
-      controller..add(4)..add(5);
+      controller
+        ..add(4)
+        ..add(5);
       router.close();
       return future;
     });

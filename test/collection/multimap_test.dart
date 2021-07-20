@@ -68,7 +68,10 @@ void main() {
     late Multimap<String, String> mmap;
     late Map<String, Iterable<String>> map;
     setUp(() {
-      mmap = Multimap()..add('k1', 'v1')..add('k1', 'v2')..add('k2', 'v3');
+      mmap = Multimap()
+        ..add('k1', 'v1')
+        ..add('k1', 'v2')
+        ..add('k2', 'v3');
       map = mmap.asMap();
     });
 
@@ -160,7 +163,10 @@ void main() {
     test('should return the number of keys as length', () {
       var map = ListMultimap<String, String>();
       expect(map.length, 0);
-      map..add('k1', 'v1')..add('k1', 'v2')..add('k2', 'v3');
+      map
+        ..add('k1', 'v1')
+        ..add('k1', 'v2')
+        ..add('k2', 'v3');
       expect(map.length, 2);
     });
 
@@ -214,7 +220,9 @@ void main() {
     });
 
     test('should support adding duplicate values for a key', () {
-      var map = ListMultimap<String, String>()..add('k', 'v1')..add('k', 'v1');
+      var map = ListMultimap<String, String>()
+        ..add('k', 'v1')
+        ..add('k', 'v1');
       expect(map['k'], ['v1', 'v1']);
     });
 
@@ -293,31 +301,41 @@ void main() {
     });
 
     test('should return an ordered list of values', () {
-      var map = ListMultimap<String, String>()..add('k', 'v1')..add('k', 'v2');
+      var map = ListMultimap<String, String>()
+        ..add('k', 'v1')
+        ..add('k', 'v2');
       expect(map['k'], ['v1', 'v2']);
     });
 
     test('should reflect changes to underlying list', () {
-      var map = ListMultimap<String, String>()..add('k', 'v1')..add('k', 'v2');
+      var map = ListMultimap<String, String>()
+        ..add('k', 'v1')
+        ..add('k', 'v2');
       map['k'].add('v3');
       map['k'].remove('v2');
       expect(map['k'], ['v1', 'v3']);
     });
 
     test('should return whether it contains a key', () {
-      var map = ListMultimap<String, String>()..add('k', 'v1')..add('k', 'v2');
+      var map = ListMultimap<String, String>()
+        ..add('k', 'v1')
+        ..add('k', 'v2');
       expect(map.containsKey('j'), false);
       expect(map.containsKey('k'), true);
     });
 
     test('should return whether it contains a value', () {
-      var map = ListMultimap<String, String>()..add('k', 'v1')..add('k', 'v2');
+      var map = ListMultimap<String, String>()
+        ..add('k', 'v1')
+        ..add('k', 'v2');
       expect(map.containsValue('v0'), false);
       expect(map.containsValue('v1'), true);
     });
 
     test('should return whether it contains a key/value association', () {
-      var map = ListMultimap<String, String>()..add('k', 'v1')..add('k', 'v2');
+      var map = ListMultimap<String, String>()
+        ..add('k', 'v1')
+        ..add('k', 'v2');
       expect(map.contains('k', 'v0'), false);
       expect(map.contains('f', 'v1'), false);
       expect(map.contains('k', 'v1'), true);
@@ -615,7 +633,10 @@ void main() {
     test('should return the number of keys as length', () {
       var map = SetMultimap<String, String>();
       expect(map.length, 0);
-      map..add('k1', 'v1')..add('k1', 'v2')..add('k2', 'v3');
+      map
+        ..add('k1', 'v1')
+        ..add('k1', 'v2')
+        ..add('k2', 'v3');
       expect(map.length, 2);
     });
 
@@ -653,7 +674,9 @@ void main() {
     });
 
     test('should not support adding duplicate values for a key', () {
-      var map = SetMultimap<String, String>()..add('k', 'v1')..add('k', 'v1');
+      var map = SetMultimap<String, String>()
+        ..add('k', 'v1')
+        ..add('k', 'v1');
       expect(map['k'], ['v1']);
     });
 
@@ -739,25 +762,33 @@ void main() {
     });
 
     test('should return an ordered list of values', () {
-      var map = SetMultimap<String, String>()..add('k', 'v1')..add('k', 'v2');
+      var map = SetMultimap<String, String>()
+        ..add('k', 'v1')
+        ..add('k', 'v2');
       expect(map['k'], unorderedEquals(['v1', 'v2']));
     });
 
     test('should reflect changes to underlying set', () {
-      var map = SetMultimap<String, String>()..add('k', 'v1')..add('k', 'v2');
+      var map = SetMultimap<String, String>()
+        ..add('k', 'v1')
+        ..add('k', 'v2');
       map['k'].add('v3');
       map['k'].remove('v2');
       expect(map['k'], unorderedEquals(['v1', 'v3']));
     });
 
     test('should return whether it contains a key', () {
-      var map = SetMultimap<String, String>()..add('k', 'v1')..add('k', 'v2');
+      var map = SetMultimap<String, String>()
+        ..add('k', 'v1')
+        ..add('k', 'v2');
       expect(map.containsKey('j'), false);
       expect(map.containsKey('k'), true);
     });
 
     test('should return whether it contains a value', () {
-      var map = SetMultimap<String, String>()..add('k', 'v1')..add('k', 'v2');
+      var map = SetMultimap<String, String>()
+        ..add('k', 'v1')
+        ..add('k', 'v2');
       expect(map.containsValue('v0'), false);
       expect(map.containsValue('v1'), true);
     });
@@ -791,7 +822,9 @@ void main() {
     test(
         'should remove a key when all associated values are removed '
         'via the underlying iterable.removeAll', () {
-      var map = SetMultimap<String, String>()..add('k1', 'v1')..add('k1', 'v2');
+      var map = SetMultimap<String, String>()
+        ..add('k1', 'v1')
+        ..add('k1', 'v2');
       map['k1'].removeAll(['v1', 'v2']);
       expect(map.containsKey('k1'), false);
     });
