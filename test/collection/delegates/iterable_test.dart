@@ -49,7 +49,7 @@ void main() {
     });
 
     test('every', () {
-      expect(delegatingIterable.every((e) => e is String), isTrue);
+      expect(delegatingIterable.every((e) => true), isTrue);
       expect(delegatingIterable.every((e) => e == 'b'), isFalse);
     });
 

@@ -138,7 +138,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
     final streamDone = Completer<Null>();
     _sub = stream.listen((items) {
       _chunks.addAll(items);
-      _counter += items is List ? items.length : 1;
+      _counter += items.length;
       if (limited && _counter >= limit) {
         _sub!.pause();
       }
