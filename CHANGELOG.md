@@ -1,3 +1,9 @@
+#### 3.0.1+1 - 2021-10-14
+
+  * Add documentation to `Optional` suggesting that adding new uses be avoided
+    and existing uses should be migrated to nullable types in codebases where
+    non-null by default has been enabled.
+
 #### 3.0.1 - 2021-04-06
 
   * Fix: Eliminate null check error on removal of root node of
