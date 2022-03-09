@@ -1,3 +1,7 @@
+#### 3.0.1+2 - 2022-03-09
+
+  * Remove broken references to the defunct mirrors library.
+
 #### 3.0.1+1 - 2021-10-14
 
   * Add documentation to `Optional` suggesting that adding new uses be avoided
