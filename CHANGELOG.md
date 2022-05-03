@@ -1,3 +1,9 @@
+#### 3.1.0 - 2022-05-03
+
+  * Fix: Make Cache.get ifAbsent parameter nullable. The parameter was always
+    optional; this just corrects the type.
+  * Fix: Remove documentation links to the (previously removed) mirrors library.
+
 #### 3.0.1+2 - 2022-03-09
 
   * Remove broken references to the defunct mirrors library.
