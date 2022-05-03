@@ -5,6 +5,8 @@ description: >-
 repository: https://github.com/google/quiver-dart
 version: 3.0.1+2
 
+# When updating SDK lower bound, also update .github/workflows/dart.yml to test
+# against the new lower bound.
 environment:
   sdk: '>=2.12.0-0 <3.0.0'
 
