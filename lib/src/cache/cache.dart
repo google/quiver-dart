@@ -31,7 +31,7 @@ abstract class Cache<K, V> {
   ///
   /// If [ifAbsent] is specified and no value is associated with the key, a
   /// mapping is added and the value is returned. Otherwise, returns null.
-  Future<V?> get(K key, {Loader<K, V> ifAbsent});
+  Future<V?> get(K key, {Loader<K, V>? ifAbsent});
 
   /// Sets the value associated with [key]. The Future completes when the
   /// operation is complete.
