@@ -52,6 +52,12 @@ void main() {
       });
     });
 
+    test('should return null if no value and no ifAbsent handler', () {
+      return cache.get('foo').then((value) {
+        expect(value, isNull);
+      });
+    });
+
     test('should load a value given a synchronous loader', () {
       return cache.get('foo', ifAbsent: (k) => k + k).then((value) {
         expect(value, 'foofoo');
