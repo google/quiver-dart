@@ -2,6 +2,7 @@
 
   * Expose `TreeIterator` for iterating `TreeSet` instead of using
     `BidirectionalIterator`.
+
 #### 3.1.0 - 2022-05-03
 
   * Fix: Make Cache.get ifAbsent parameter nullable. The parameter was always
