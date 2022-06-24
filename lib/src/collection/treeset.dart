@@ -40,11 +40,11 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
   @override
   bool get isNotEmpty => length != 0;
 
-  /// Returns an [TreeIterator] that iterates over this tree.
+  /// Returns a [TreeIterator] that iterates over this tree.
   @override
   TreeIterator<V> get iterator;
 
-  /// Returns an [TreeIterator] that iterates over this tree, in
+  /// Returns a [TreeIterator] that iterates over this tree, in
   /// reverse.
   TreeIterator<V> get reverseIterator;
 
