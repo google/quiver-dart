@@ -440,7 +440,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
     ++_modCount;
     --_length;
 
-    // note: if you read wikipedia, it _states remove the node if its a leaf,
+    // note: if you read wikipedia, it states remove the node if its a leaf,
     // otherwise, replace it with its predecessor or successor. We're not.
     if (!node.hasRight || !node.right.hasLeft) {
       // simple solutions
