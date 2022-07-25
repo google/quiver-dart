@@ -71,7 +71,6 @@ linter:
     - flutter_style_todos
     - hash_and_equals
     - implementation_imports
-    # - invariant_booleans # too many false positives: https://github.com/dart-lang/linter/issues/811
     - iterable_contains_unrelated_type
     # - join_return_with_assignment # not yet tested
     - library_names
