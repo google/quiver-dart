@@ -47,8 +47,13 @@ class StreamRouter<T> {
   /// Events that match [predicate] are sent to the stream created by this
   /// method, and not sent to any other router streams.
   Stream<T> route(bool predicate(T event)) {
-    var controller = StreamController<T>.broadcast();
-    _routes.add(_Route(predicate, controller));
+    _Route<T> route;
+    var controller = StreamController<T>.broadcast(onCancel: () async {
+      _routes.remove(route);
+      await route.controller.close();
+    });
+    route = _Route<T>(predicate, controller);
+    _routes.add(route);
     return controller.stream;
   }
 
