@@ -41,8 +41,8 @@ import 'package:quiver/time.dart';
 ///
 /// Example anchored in the future (now = 2014-05-05 20:06:00.123)
 ///
-///     new IsochronousStream.periodic(aMillisecond * 100,
-///         anchorMs: DateTime.parse("2014-05-05 21:07:00"))
+///     new Metronome.periodic(aMillisecond * 100,
+///             anchor: DateTime.parse("2014-05-05 21:07:00"))
 ///         .listen(print);
 ///
 ///     2014-05-04 20:06:00.223
