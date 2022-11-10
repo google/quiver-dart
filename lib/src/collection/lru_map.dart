@@ -58,9 +58,9 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   LinkedLruHashMap._fromMap(this._entries, {int? maximumSize})
       // This pattern is used instead of a default value because we want to
       // be able to respect null values coming in from MapCache.lru.
-      : _maximumSize = maximumSize ?? _DEFAULT_MAXIMUM_SIZE;
+      : _maximumSize = maximumSize ?? _defaultMaximumSize;
 
-  static const _DEFAULT_MAXIMUM_SIZE = 100;
+  static const _defaultMaximumSize = 100;
 
   final Map<K, _LinkedEntry<K, V>> _entries;
 
@@ -116,7 +116,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   ///
   /// Calling `action` must not add or remove keys from the map.
   @override
-  void forEach(void action(K key, V value)) {
+  void forEach(void Function(K key, V value) action) {
     var head = _head;
     while (head != null) {
       action(head.key, head.value);
@@ -154,7 +154,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   Iterable<V> get values => _iterable().map((e) => e.value);
 
   @override
-  Map<K2, V2> map<K2, V2>(Object transform(K key, V value)) {
+  Map<K2, V2> map<K2, V2>(Object Function(K key, V value) transform) {
     // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     // Change Object to MapEntry<K2, V2> when
     // the MapEntry class has been added.
@@ -182,7 +182,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   /// MRU position. If this causes [length] to exceed [maximumSize], then the
   /// LRU position is removed.
   @override
-  V putIfAbsent(K key, V ifAbsent()) {
+  V putIfAbsent(K key, V Function() ifAbsent) {
     final entry =
         _entries.putIfAbsent(key, () => _createEntry(key, ifAbsent()));
     if (length > maximumSize) {
@@ -248,7 +248,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   }
 
   @override
-  void removeWhere(bool test(K key, V value)) {
+  void removeWhere(bool Function(K key, V value) test) {
     var keysToRemove = <K>[];
     _entries.forEach((key, entry) {
       if (test(key, entry.value)) keysToRemove.add(key);
@@ -287,10 +287,10 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   }
 
   @override
-  V update(K key, V update(V value), {V ifAbsent()?}) {
+  V update(K key, V Function(V value) update, {V Function()? ifAbsent}) {
     V newValue;
     if (containsKey(key)) {
-      newValue = update(this[key]!);
+      newValue = update(this[key] as V);
     } else {
       if (ifAbsent == null) {
         throw ArgumentError.value(key, 'key', 'Key not in map');
@@ -310,7 +310,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   }
 
   @override
-  void updateAll(V update(K key, V value)) {
+  void updateAll(V Function(K key, V value) update) {
     _entries.forEach((key, entry) {
       var newValue = _createEntry(key, update(key, entry.value));
       _entries[key] = newValue;

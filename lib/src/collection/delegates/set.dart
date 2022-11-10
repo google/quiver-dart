@@ -63,13 +63,13 @@ abstract class DelegatingSet<E> extends DelegatingIterable<E>
   void removeAll(Iterable<Object?> elements) => delegate.removeAll(elements);
 
   @override
-  void removeWhere(bool test(E element)) => delegate.removeWhere(test);
+  void removeWhere(bool Function(E element) test) => delegate.removeWhere(test);
 
   @override
   void retainAll(Iterable<Object?> elements) => delegate.retainAll(elements);
 
   @override
-  void retainWhere(bool test(E element)) => delegate.retainWhere(test);
+  void retainWhere(bool Function(E element) test) => delegate.retainWhere(test);
 
   @override
   Set<E> union(Set<E> other) => delegate.union(other);

@@ -71,12 +71,15 @@ abstract class TreeSet<V> extends IterableBase<V> implements Set<V> {
 /// Controls the results for [TreeSet.searchNearest]()
 enum TreeSearch {
   /// If result not found, always chose the smaller element
+  // ignore: constant_identifier_names
   LESS_THAN,
 
   /// If result not found, chose the nearest based on comparison
+  // ignore: constant_identifier_names
   NEAREST,
 
   /// If result not found, always chose the greater element
+  // ignore: constant_identifier_names
   GREATER_THAN
 }
 
@@ -619,7 +622,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
 
   /// See [Set.retainWhere]
   @override
-  void retainWhere(bool test(V element)) {
+  void retainWhere(bool Function(V element) test) {
     List<V> chosen = [];
     for (final target in this) {
       if (test(target)) {
@@ -632,7 +635,7 @@ class AvlTreeSet<V> extends TreeSet<V> {
 
   /// See [Set.removeWhere]
   @override
-  void removeWhere(bool test(V element)) {
+  void removeWhere(bool Function(V element) test) {
     List<V> damned = [];
     for (final target in this) {
       if (test(target)) {
@@ -891,8 +894,8 @@ typedef _IteratorMove = bool Function();
 /// is included in the first movement (either [moveNext] or [movePrevious]) but
 /// can optionally be excluded in the constructor.
 class TreeIterator<V>
-    // ignore: deprecated_member_use
     implements
+        // ignore: deprecated_member_use
         BidirectionalIterator<V> {
   TreeIterator._(this.tree,
       {this.reversed = false, this.inclusive = true, V? anchorObject})
@@ -900,13 +903,13 @@ class TreeIterator<V>
         _modCountGuard = tree._modCount {
     if (_anchorObject == null || tree.isEmpty) {
       // If the anchor is far left or right, we're just a normal iterator.
-      _state = reversed ? _RIGHT : _LEFT;
+      _state = reversed ? _right : _left;
       _moveNext = reversed ? _movePreviousNormal : _moveNextNormal;
       _movePrevious = reversed ? _moveNextNormal : _movePreviousNormal;
       return;
     }
 
-    _state = _WALK;
+    _state = _walk;
     // Else we've got an anchor we have to worry about initializing from.
     // This isn't known till the caller actually performs a previous/next.
     _moveNext = () {
@@ -915,12 +918,12 @@ class TreeIterator<V>
       _moveNext = reversed ? _movePreviousNormal : _moveNextNormal;
       _movePrevious = reversed ? _moveNextNormal : _movePreviousNormal;
       if (_current == null) {
-        _state = reversed ? _LEFT : _RIGHT;
-      } else if (tree.comparator(_current!.object, _anchorObject!) == 0 &&
+        _state = reversed ? _left : _right;
+      } else if (tree.comparator(_current!.object, _anchorObject as V) == 0 &&
           !inclusive) {
         _moveNext();
       }
-      return _state == _WALK;
+      return _state == _walk;
     };
 
     _movePrevious = () {
@@ -929,18 +932,18 @@ class TreeIterator<V>
       _moveNext = reversed ? _movePreviousNormal : _moveNextNormal;
       _movePrevious = reversed ? _moveNextNormal : _movePreviousNormal;
       if (_current == null) {
-        _state = reversed ? _RIGHT : _LEFT;
-      } else if (tree.comparator(_current!.object, _anchorObject!) == 0 &&
+        _state = reversed ? _right : _left;
+      } else if (tree.comparator(_current!.object, _anchorObject as V) == 0 &&
           !inclusive) {
         _movePrevious();
       }
-      return _state == _WALK;
+      return _state == _walk;
     };
   }
 
-  static const _LEFT = -1;
-  static const _WALK = 0;
-  static const _RIGHT = 1;
+  static const _left = -1;
+  static const _walk = 0;
+  static const _right = 1;
 
   final bool reversed;
   final AvlTreeSet<V> tree;
@@ -960,7 +963,7 @@ class TreeIterator<V>
     // to avoid a hard breaking change, we return "null as V" in that case so
     // that if strong checking is not enabled or V is nullable, the existing
     // behavior is preserved.
-    if (_state == _WALK && _current != null) {
+    if (_state == _walk && _current != null) {
       return _current?.object as V;
     }
     return null as V;
@@ -976,19 +979,19 @@ class TreeIterator<V>
     if (_modCountGuard != tree._modCount) {
       throw ConcurrentModificationError(tree);
     }
-    if (_state == _RIGHT || tree.isEmpty) return false;
+    if (_state == _right || tree.isEmpty) return false;
     switch (_state) {
-      case _LEFT:
+      case _left:
         _current = tree._root!.minimumNode;
-        _state = _WALK;
+        _state = _walk;
         return true;
-      case _WALK:
+      case _walk:
       default:
         _current = _current!.successor;
         if (_current == null) {
-          _state = _RIGHT;
+          _state = _right;
         }
-        return _state == _WALK;
+        return _state == _walk;
     }
   }
 
@@ -996,26 +999,26 @@ class TreeIterator<V>
     if (_modCountGuard != tree._modCount) {
       throw ConcurrentModificationError(tree);
     }
-    if (_state == _LEFT || tree.isEmpty) return false;
+    if (_state == _left || tree.isEmpty) return false;
     switch (_state) {
-      case _RIGHT:
+      case _right:
         _current = tree._root!.maximumNode;
-        _state = _WALK;
+        _state = _walk;
         return true;
-      case _WALK:
+      case _walk:
       default:
         _current = _current!.predecessor;
         if (_current == null) {
-          _state = _LEFT;
+          _state = _left;
         }
-        return _state == _WALK;
+        return _state == _walk;
     }
   }
 }
 
 /// Private class used to track element insertions in the [TreeSet].
 class AvlNode<V> extends _TreeNode<V> {
-  AvlNode({required V object}) : super(object: object);
+  AvlNode({required super.object});
 
   AvlNode<V>? _left;
   AvlNode<V>? _right;

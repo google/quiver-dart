@@ -35,7 +35,7 @@ class CountdownTimer extends Stream<CountdownTimer> {
     _stopwatch.start();
   }
 
-  static const _THRESHOLD_MS = 4;
+  static const _thresholdMS = 4;
 
   final Duration _duration;
   final Stopwatch _stopwatch;
@@ -46,8 +46,11 @@ class CountdownTimer extends Stream<CountdownTimer> {
   late final Timer _timer;
 
   @override
-  StreamSubscription<CountdownTimer> listen(void onData(CountdownTimer event)?,
-          {Function? onError, void onDone()?, bool? cancelOnError}) =>
+  StreamSubscription<CountdownTimer> listen(
+          void Function(CountdownTimer event)? onData,
+          {Function? onError,
+          void Function()? onDone,
+          bool? cancelOnError}) =>
       _controller.stream.listen(onData, onError: onError, onDone: onDone);
 
   Duration get elapsed => _stopwatch.elapsed;
@@ -66,7 +69,7 @@ class CountdownTimer extends Stream<CountdownTimer> {
     var t = remaining;
     _controller.add(this);
     // timers may have a 4ms resolution
-    if (t.inMilliseconds < _THRESHOLD_MS) {
+    if (t.inMilliseconds < _thresholdMS) {
       cancel();
     }
   }

@@ -42,7 +42,7 @@ class _MultiPattern extends Pattern {
 
   @override
   Iterable<Match> allMatches(String str, [int start = 0]) {
-    final _allMatches = <Match>[];
+    final allMatches = <Match>[];
     for (final pattern in include) {
       var matches = pattern.allMatches(str, start);
       if (_hasMatch(matches)) {
@@ -53,10 +53,10 @@ class _MultiPattern extends Pattern {
             }
           }
         }
-        _allMatches.addAll(matches);
+        allMatches.addAll(matches);
       }
     }
-    return _allMatches;
+    return allMatches;
   }
 
   @override

@@ -18,7 +18,7 @@ typedef Now = int Function();
 /// A [Stopwatch] implementation that gets the current time in microseconds
 /// via a user-supplied function.
 class FakeStopwatch implements Stopwatch {
-  FakeStopwatch(int now(), this.frequency)
+  FakeStopwatch(int Function() now, this.frequency)
       : _now = now,
         _start = null,
         _stop = null;

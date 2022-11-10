@@ -62,8 +62,8 @@ abstract class DelegatingQueue<E> extends DelegatingIterable<E>
   E removeLast() => delegate.removeLast();
 
   @override
-  void removeWhere(bool test(E element)) => delegate.removeWhere(test);
+  void removeWhere(bool Function(E element) test) => delegate.removeWhere(test);
 
   @override
-  void retainWhere(bool test(E element)) => delegate.retainWhere(test);
+  void retainWhere(bool Function(E element) test) => delegate.retainWhere(test);
 }
