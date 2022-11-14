@@ -290,7 +290,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   V update(K key, V Function(V value) update, {V Function()? ifAbsent}) {
     V newValue;
     if (containsKey(key)) {
-      newValue = update(this[key] as V);
+      newValue = update(this[key]!);
     } else {
       if (ifAbsent == null) {
         throw ArgumentError.value(key, 'key', 'Key not in map');

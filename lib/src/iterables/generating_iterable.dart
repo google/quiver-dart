@@ -65,14 +65,14 @@ class _GeneratingIterator<T> implements Iterator<T> {
   @override
   T get current {
     final cur = started ? object : null;
-    return cur as T;
+    return cur!;
   }
 
   @override
   bool moveNext() {
     if (object == null) return false;
     if (started) {
-      object = next(object as T);
+      object = next(object!);
     } else {
       started = true;
     }

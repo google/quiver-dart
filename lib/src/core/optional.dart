@@ -62,7 +62,7 @@ class Optional<T> extends IterableBase<T> {
   /// Executes a function if the Optional value is present.
   void ifPresent(void Function(T value) ifPresent) {
     if (isPresent) {
-      ifPresent(_value as T);
+      ifPresent(_value!);
     }
   }
 
@@ -93,7 +93,7 @@ class Optional<T> extends IterableBase<T> {
   Optional<S> transform<S extends Object>(S Function(T value) transformer) {
     return _value == null
         ? Optional<S>.absent()
-        : Optional<S>.of(transformer(_value as T));
+        : Optional<S>.of(transformer(_value!));
   }
 
   /// Transforms the Optional value.
@@ -105,12 +105,12 @@ class Optional<T> extends IterableBase<T> {
       S? Function(T value) transformer) {
     return _value == null
         ? Optional<S>.absent()
-        : Optional<S>.fromNullable(transformer(_value as T));
+        : Optional<S>.fromNullable(transformer(_value!));
   }
 
   @override
   Iterator<T> get iterator =>
-      isPresent ? <T>[_value as T].iterator : Iterable<T>.empty().iterator;
+      isPresent ? <T>[_value!].iterator : Iterable<T>.empty().iterator;
 
   /// Delegates to the underlying [value] hashCode.
   @override

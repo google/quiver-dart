@@ -151,7 +151,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   @override
   void updateAll(V Function(K key, V value) update) {
     for (final key in keys) {
-      _add(key, update(key, _map[key] as V), true);
+      _add(key, update(key, _map[key]!), true);
     }
   }
 

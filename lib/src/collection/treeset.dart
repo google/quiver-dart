@@ -919,7 +919,7 @@ class TreeIterator<V>
       _movePrevious = reversed ? _moveNextNormal : _movePreviousNormal;
       if (_current == null) {
         _state = reversed ? _left : _right;
-      } else if (tree.comparator(_current!.object, _anchorObject as V) == 0 &&
+      } else if (tree.comparator(_current!.object, _anchorObject!) == 0 &&
           !inclusive) {
         _moveNext();
       }
@@ -933,7 +933,7 @@ class TreeIterator<V>
       _movePrevious = reversed ? _moveNextNormal : _movePreviousNormal;
       if (_current == null) {
         _state = reversed ? _right : _left;
-      } else if (tree.comparator(_current!.object, _anchorObject as V) == 0 &&
+      } else if (tree.comparator(_current!.object, _anchorObject!) == 0 &&
           !inclusive) {
         _movePrevious();
       }
