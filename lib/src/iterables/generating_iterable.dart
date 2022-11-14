@@ -14,9 +14,6 @@
 
 import 'dart:collection';
 
-typedef _Initial<T> = T Function();
-typedef _Next<T> = T? Function(T value);
-
 Iterable generate(Function() initial, Function(dynamic) next) =>
     GeneratingIterable(initial, next);
 
@@ -48,8 +45,8 @@ Iterable generate(Function() initial, Function(dynamic) next) =>
 class GeneratingIterable<T> extends IterableBase<T> {
   GeneratingIterable(this._initial, this._next);
 
-  final _Initial<T> _initial;
-  final _Next<T> _next;
+  final T Function() _initial;
+  final T? Function(T value) _next;
 
   @override
   Iterator<T> get iterator => _GeneratingIterator(_initial(), _next);
@@ -58,7 +55,7 @@ class GeneratingIterable<T> extends IterableBase<T> {
 class _GeneratingIterator<T> implements Iterator<T> {
   _GeneratingIterator(this.object, this.next);
 
-  final _Next<T> next;
+  final T? Function(T value) next;
   T? object;
   bool started = false;
 

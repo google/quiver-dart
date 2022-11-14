@@ -886,8 +886,6 @@ AvlNode<V>? debugGetNode<V>(AvlTreeSet<V> treeset, V object) {
   return treeset._getNode(object);
 }
 
-typedef _IteratorMove = bool Function();
-
 /// This iterator either starts at the beginning or end (see [TreeSet.iterator]
 /// and [TreeSet.reverseIterator]) or from an anchor point in the set (see
 /// [TreeSet.fromIterator]). When using fromIterator, the initial anchor point
@@ -951,8 +949,8 @@ class TreeIterator<V>
   final V? _anchorObject;
   final bool inclusive;
 
-  late _IteratorMove _moveNext;
-  late _IteratorMove _movePrevious;
+  late bool Function() _moveNext;
+  late bool Function() _movePrevious;
 
   late int _state;
   _TreeNode<V>? _current;

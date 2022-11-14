@@ -72,11 +72,9 @@ class StreamRouter<T> {
   }
 }
 
-typedef _Predicate<T> = bool Function(T event);
-
 class _Route<T> {
   _Route(this.predicate, this.controller);
 
-  final _Predicate<T> predicate;
+  final bool Function(T event) predicate;
   final StreamController<T> controller;
 }

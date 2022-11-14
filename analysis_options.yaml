@@ -3,7 +3,7 @@ include: package:lints/recommended.yaml
 
 analyzer:
   errors:
-    # TODO(kevmoo): file an issue on list for this?
+    # TODO(kevmoo): see https://github.com/dart-lang/linter/issues/3844
     null_check_on_nullable_type_parameter: ignore
 
 linter:
