@@ -68,7 +68,7 @@ abstract class DelegatingMap<K, V> implements Map<K, V> {
   }
 
   @override
-  void forEach(void f(K key, V value)) => delegate.forEach(f);
+  void forEach(void Function(K key, V value) f) => delegate.forEach(f);
 
   @override
   bool get isEmpty => delegate.isEmpty;
@@ -83,7 +83,7 @@ abstract class DelegatingMap<K, V> implements Map<K, V> {
   int get length => delegate.length;
 
   @override
-  Map<K2, V2> map<K2, V2>(Object transform(K key, V value)) {
+  Map<K2, V2> map<K2, V2>(Object Function(K key, V value) transform) {
     // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     // Change Object to MapEntry<K2, V2> when
     // the MapEntry class has been added.
@@ -91,25 +91,26 @@ abstract class DelegatingMap<K, V> implements Map<K, V> {
   }
 
   @override
-  V putIfAbsent(K key, V ifAbsent()) => delegate.putIfAbsent(key, ifAbsent);
+  V putIfAbsent(K key, V Function() ifAbsent) =>
+      delegate.putIfAbsent(key, ifAbsent);
 
   @override
   V? remove(Object? key) => delegate.remove(key);
 
   @override
-  void removeWhere(bool test(K key, V value)) {
+  void removeWhere(bool Function(K key, V value) test) {
     // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     throw UnimplementedError('removeWhere');
   }
 
   @override
-  V update(K key, V update(V value), {V ifAbsent()?}) {
+  V update(K key, V Function(V value) update, {V Function()? ifAbsent}) {
     // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     throw UnimplementedError('update');
   }
 
   @override
-  void updateAll(V update(K key, V value)) {
+  void updateAll(V Function(K key, V value) update) {
     // TODO(cbracken): Dart 2.0 requires this method to be implemented.
     throw UnimplementedError('updateAll');
   }

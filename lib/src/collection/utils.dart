@@ -63,7 +63,7 @@ bool setsEqual(Set? a, Set? b) {
 /// evaluates to true.
 ///
 /// Returns -1 if there are no items where [predicate] evaluates to true.
-int indexOf<T>(Iterable<T> elements, bool predicate(T element)) {
+int indexOf<T>(Iterable<T> elements, bool Function(T element) predicate) {
   if (elements is List<T>) {
     for (int i = 0; i < elements.length; i++) {
       if (predicate(elements[i])) return i;

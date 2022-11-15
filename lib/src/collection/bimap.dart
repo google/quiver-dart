@@ -74,7 +74,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   bool containsValue(Object? value) => _inverse.containsKey(value);
 
   @override
-  void forEach(void f(K key, V value)) => _map.forEach(f);
+  void forEach(void Function(K key, V value) f) => _map.forEach(f);
 
   @override
   bool get isEmpty => _map.isEmpty;
@@ -111,11 +111,12 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   Iterable<MapEntry<K, V>> get entries => _map.entries;
 
   @override
-  Map<K2, V2> map<K2, V2>(MapEntry<K2, V2> transform(K key, V value)) =>
+  Map<K2, V2> map<K2, V2>(
+          MapEntry<K2, V2> Function(K key, V value) transform) =>
       _map.map(transform);
 
   @override
-  V putIfAbsent(K key, V ifAbsent()) {
+  V putIfAbsent(K key, V Function() ifAbsent) {
     if (containsKey(key)) {
       return _map[key]!;
     }
@@ -129,13 +130,13 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   }
 
   @override
-  void removeWhere(bool test(K key, V value)) {
+  void removeWhere(bool Function(K key, V value) test) {
     _inverse.removeWhere((v, k) => test(k, v));
     _map.removeWhere(test);
   }
 
   @override
-  V update(K key, V update(V value), {V ifAbsent()?}) {
+  V update(K key, V Function(V value) update, {V Function()? ifAbsent}) {
     var value = _map[key];
     if (value != null) {
       return _add(key, update(value), true);
@@ -148,7 +149,7 @@ class HashBiMap<K, V> implements BiMap<K, V> {
   }
 
   @override
-  void updateAll(V update(K key, V value)) {
+  void updateAll(V Function(K key, V value) update) {
     for (final key in keys) {
       _add(key, update(key, _map[key]!), true);
     }

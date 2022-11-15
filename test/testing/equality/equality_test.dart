@@ -191,8 +191,8 @@ void main() {
       try {
         expect({
           'broken symmetry': [
-            named('foo')..addPeers(['bar']),
-            named('bar')
+            _named('foo')..addPeers(['bar']),
+            _named('bar')
           ]
         }, areEqualityGroups);
         fail('should fail because symmetry is broken');
@@ -208,9 +208,9 @@ void main() {
       try {
         expect({
           'transitivity broken': [
-            named('foo')..addPeers(['bar', 'baz']),
-            named('bar')..addPeers(['foo']),
-            named('baz')..addPeers(['foo'])
+            _named('foo')..addPeers(['bar', 'baz']),
+            _named('bar')..addPeers(['foo']),
+            _named('baz')..addPeers(['foo'])
           ]
         }, areEqualityGroups);
         fail('should fail because transitivity is broken');
@@ -226,7 +226,7 @@ void main() {
     test('Unequal Objects In EqualityGroup', () {
       try {
         expect({
-          'unequal objects': [named('foo'), named('bar')]
+          'unequal objects': [_named('foo'), _named('bar')]
         }, areEqualityGroups);
         fail('should fail because of unequal objects in the same equality '
             'group');
@@ -242,12 +242,12 @@ void main() {
       try {
         expect({
           'transitivity one': [
-            named('foo')..addPeers(['bar']),
-            named('bar')..addPeers(['foo', 'x'])
+            _named('foo')..addPeers(['bar']),
+            _named('bar')..addPeers(['foo', 'x'])
           ],
           'transitivity two': [
-            named('baz')..addPeers(['x']),
-            named('x')..addPeers(['baz', 'bar'])
+            _named('baz')..addPeers(['x']),
+            _named('x')..addPeers(['baz', 'bar'])
           ]
         }, areEqualityGroups);
         fail('should fail because transitivity is broken');
@@ -263,10 +263,10 @@ void main() {
     test('EqualityGroups', () {
       expect({
         'valid groups one': [
-          named('foo')..addPeers(['bar']),
-          named('bar')..addPeers(['foo'])
+          _named('foo')..addPeers(['bar']),
+          _named('bar')..addPeers(['foo'])
         ],
-        'valid groups two': [named('baz'), named('baz')]
+        'valid groups two': [_named('baz'), _named('baz')]
       }, areEqualityGroups);
     });
   });
@@ -291,7 +291,7 @@ class _ValidTestObject {
 
   @override
   bool operator ==(Object o) {
-    if (!(o is _ValidTestObject)) {
+    if (o is! _ValidTestObject) {
       return false;
     }
     final _ValidTestObject other = o;
@@ -337,7 +337,7 @@ class _InconsistentHashCodeObject {
 
   @override
   bool operator ==(Object o) {
-    if (!(o is _InconsistentHashCodeObject)) {
+    if (o is! _InconsistentHashCodeObject) {
       return false;
     }
     final _InconsistentHashCodeObject other = o;
@@ -361,7 +361,7 @@ class _InvalidHashCodeObject {
 
   @override
   bool operator ==(Object o) {
-    if (!(o is _InvalidHashCodeObject)) {
+    if (o is! _InvalidHashCodeObject) {
       return false;
     }
     final _InvalidHashCodeObject other = o;
@@ -371,12 +371,12 @@ class _InvalidHashCodeObject {
   }
 }
 
-_NamedObject named(String name) => _NamedObject(name);
+_NamedObject _named(String name) => _NamedObject(name);
 
 class _NamedObject {
   _NamedObject(this.name);
 
-  final Set<String> peerNames = Set();
+  final Set<String> peerNames = {};
   final String name;
 
   void addPeers(List<String> names) {

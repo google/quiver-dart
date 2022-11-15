@@ -20,8 +20,8 @@
 /// will be thrown.
 T? max<T>(Iterable<T> i, [Comparator<T>? compare]) {
   if (i.isEmpty) return null;
-  final Comparator<T> _compare = compare ?? _compareAny;
-  return i.reduce((a, b) => _compare(a, b) > 0 ? a : b);
+  final Comparator<T> compare0 = compare ?? _compareAny;
+  return i.reduce((a, b) => compare0(a, b) > 0 ? a : b);
 }
 
 /// Returns the minimum value in [i], according to the order specified by the
@@ -32,8 +32,8 @@ T? max<T>(Iterable<T> i, [Comparator<T>? compare]) {
 /// will be thrown.
 T? min<T>(Iterable<T> i, [Comparator<T>? compare]) {
   if (i.isEmpty) return null;
-  final Comparator<T> _compare = compare ?? _compareAny;
-  return i.reduce((a, b) => _compare(a, b) < 0 ? a : b);
+  final Comparator<T> compare0 = compare ?? _compareAny;
+  return i.reduce((a, b) => compare0(a, b) < 0 ? a : b);
 }
 
 /// Returns the minimum and maximum values in [i], according to the order
@@ -49,15 +49,15 @@ T? min<T>(Iterable<T> i, [Comparator<T>? compare]) {
 /// and [:max:], since there are no valid values for them.
 Extent<T> extent<T>(Iterable<T> i, [Comparator<T>? compare]) {
   if (i.isEmpty) return Extent(null, null);
-  final Comparator<T> _compare = compare ?? _compareAny;
+  final Comparator<T> compare0 = compare ?? _compareAny;
   var iterator = i.iterator;
   var hasNext = iterator.moveNext();
   if (!hasNext) return Extent(null, null);
   var max = iterator.current;
   var min = iterator.current;
   while (iterator.moveNext()) {
-    if (_compare(max, iterator.current) < 0) max = iterator.current;
-    if (_compare(min, iterator.current) > 0) min = iterator.current;
+    if (compare0(max, iterator.current) < 0) max = iterator.current;
+    if (compare0(min, iterator.current) > 0) min = iterator.current;
   }
   return Extent(min, max);
 }

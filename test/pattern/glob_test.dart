@@ -22,7 +22,7 @@ void main() {
     test('should match "*" against sequences of word chars', () {
       expectGlob('*.html', matches: [
         'a.html',
-        '_-\a.html',
+        '_-a.html',
         r'^$*?.html',
         '()[]{}.html',
         '↭.html',

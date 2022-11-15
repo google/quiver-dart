@@ -77,7 +77,7 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
   int indexOf(E element, [int start = 0]) => delegate.indexOf(element, start);
 
   @override
-  int indexWhere(bool test(E element), [int start = 0]) =>
+  int indexWhere(bool Function(E element) test, [int start = 0]) =>
       delegate.indexWhere(test, start);
 
   @override
@@ -98,7 +98,7 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
       delegate.lastIndexOf(element, start);
 
   @override
-  int lastIndexWhere(bool test(E element), [int? start]) =>
+  int lastIndexWhere(bool Function(E element) test, [int? start]) =>
       delegate.lastIndexWhere(test, start);
 
   @override
@@ -119,14 +119,14 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
   void removeRange(int start, int end) => delegate.removeRange(start, end);
 
   @override
-  void removeWhere(bool test(E element)) => delegate.removeWhere(test);
+  void removeWhere(bool Function(E element) test) => delegate.removeWhere(test);
 
   @override
   void replaceRange(int start, int end, Iterable<E> iterable) =>
       delegate.replaceRange(start, end, iterable);
 
   @override
-  void retainWhere(bool test(E element)) => delegate.retainWhere(test);
+  void retainWhere(bool Function(E element) test) => delegate.retainWhere(test);
 
   @override
   Iterable<E> get reversed => delegate.reversed;
@@ -144,7 +144,7 @@ abstract class DelegatingList<E> extends DelegatingIterable<E>
   void shuffle([Random? random]) => delegate.shuffle(random);
 
   @override
-  void sort([int compare(E a, E b)?]) => delegate.sort(compare);
+  void sort([int Function(E a, E b)? compare]) => delegate.sort(compare);
 
   @override
   List<E> sublist(int start, [int? end]) => delegate.sublist(start, end);
