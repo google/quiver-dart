@@ -1,11 +1,6 @@
 # https://dart.dev/guides/language/analysis-options
 include: package:lints/recommended.yaml
 
-analyzer:
-  errors:
-    # TODO(kevmoo): see https://github.com/dart-lang/linter/issues/3844
-    null_check_on_nullable_type_parameter: ignore
-
 linter:
   rules:
     - always_declare_return_types

@@ -67,9 +67,10 @@ class _GeneratingIterator<T> implements Iterator<T> {
 
   @override
   bool moveNext() {
-    if (object == null) return false;
+    final obj = object;
+    if (obj == null) return false;
     if (started) {
-      object = next(object!);
+      object = next(obj);
     } else {
       started = true;
     }
