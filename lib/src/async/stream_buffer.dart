@@ -135,7 +135,7 @@ class StreamBuffer<T> implements StreamConsumer<List<T>> {
     _sub?.cancel();
     _currentStream = stream;
 
-    final streamDone = Completer<Null>();
+    final streamDone = Completer<void>();
     _sub = stream.listen((items) {
       _chunks.addAll(items);
       _counter += items.length;

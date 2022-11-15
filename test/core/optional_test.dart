@@ -103,18 +103,18 @@ void main() {
 
     test('hashCode should allow optionals to be in hash sets', () {
       expect(
-          Set.from([
+          {
             Optional<int>.of(7),
             Optional<int>.of(8),
             const Optional<int>.absent()
-          ]),
-          equals(Set.from([
+          },
+          equals({
             Optional<int>.of(7),
             Optional<int>.of(8),
             const Optional<int>.absent()
-          ])));
-      expect(Set.from([Optional<int>.of(7), Optional<int>.of(8)]),
-          isNot(equals(Set.from([Optional<int>.of(7), Optional<int>.of(9)]))));
+          }));
+      expect({Optional<int>.of(7), Optional<int>.of(8)},
+          isNot(equals({Optional<int>.of(7), Optional<int>.of(9)})));
     });
 
     test('== should compare by value', () {

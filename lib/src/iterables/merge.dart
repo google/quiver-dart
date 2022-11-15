@@ -95,6 +95,6 @@ class _MergeIterator<T> implements Iterator<T> {
 
   @override
   T get current {
-    return _current as T;
+    return _current!;
   }
 }
