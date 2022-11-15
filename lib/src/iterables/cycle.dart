@@ -36,9 +36,9 @@ class _Cycle<T> extends InfiniteIterable<T> {
 }
 
 class _CycleIterator<T> implements Iterator<T> {
-  _CycleIterator(Iterable<T> _iterable)
-      : _iterable = _iterable,
-        _iterator = _iterable.iterator;
+  _CycleIterator(Iterable<T> iterable)
+      : _iterable = iterable,
+        _iterator = iterable.iterator;
 
   final Iterable<T> _iterable;
   Iterator<T> _iterator;

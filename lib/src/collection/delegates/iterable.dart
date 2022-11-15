@@ -26,7 +26,7 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   Iterable<E> get delegate;
 
   @override
-  bool any(bool test(E element)) => delegate.any(test);
+  bool any(bool Function(E element) test) => delegate.any(test);
 
   @override
   Iterable<T> cast<T>() {
@@ -41,27 +41,28 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   E elementAt(int index) => delegate.elementAt(index);
 
   @override
-  bool every(bool test(E element)) => delegate.every(test);
+  bool every(bool Function(E element) test) => delegate.every(test);
 
   @override
-  Iterable<T> expand<T>(Iterable<T> f(E element)) => delegate.expand(f);
+  Iterable<T> expand<T>(Iterable<T> Function(E element) f) =>
+      delegate.expand(f);
 
   @override
   E get first => delegate.first;
 
   @override
-  E firstWhere(bool test(E element), {E orElse()?}) =>
+  E firstWhere(bool Function(E element) test, {E Function()? orElse}) =>
       delegate.firstWhere(test, orElse: orElse);
 
   @override
-  T fold<T>(T initialValue, T combine(T previousValue, E element)) =>
+  T fold<T>(T initialValue, T Function(T previousValue, E element) combine) =>
       delegate.fold(initialValue, combine);
 
   @override
   Iterable<E> followedBy(Iterable<E> other) => delegate.followedBy(other);
 
   @override
-  void forEach(void f(E element)) => delegate.forEach(f);
+  void forEach(void Function(E element) f) => delegate.forEach(f);
 
   @override
   bool get isEmpty => delegate.isEmpty;
@@ -79,36 +80,38 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   E get last => delegate.last;
 
   @override
-  E lastWhere(bool test(E element), {E orElse()?}) =>
+  E lastWhere(bool Function(E element) test, {E Function()? orElse}) =>
       delegate.lastWhere(test, orElse: orElse);
 
   @override
   int get length => delegate.length;
 
   @override
-  Iterable<T> map<T>(T f(E e)) => delegate.map(f);
+  Iterable<T> map<T>(T Function(E e) f) => delegate.map(f);
 
   @override
-  E reduce(E combine(E value, E element)) => delegate.reduce(combine);
+  E reduce(E Function(E value, E element) combine) => delegate.reduce(combine);
 
   @override
   E get single => delegate.single;
 
   @override
-  E singleWhere(bool test(E element), {E orElse()?}) =>
+  E singleWhere(bool Function(E element) test, {E Function()? orElse}) =>
       delegate.singleWhere(test, orElse: orElse);
 
   @override
   Iterable<E> skip(int n) => delegate.skip(n);
 
   @override
-  Iterable<E> skipWhile(bool test(E value)) => delegate.skipWhile(test);
+  Iterable<E> skipWhile(bool Function(E value) test) =>
+      delegate.skipWhile(test);
 
   @override
   Iterable<E> take(int n) => delegate.take(n);
 
   @override
-  Iterable<E> takeWhile(bool test(E value)) => delegate.takeWhile(test);
+  Iterable<E> takeWhile(bool Function(E value) test) =>
+      delegate.takeWhile(test);
 
   @override
   List<E> toList({bool growable = true}) => delegate.toList(growable: growable);
@@ -117,7 +120,7 @@ abstract class DelegatingIterable<E> implements Iterable<E> {
   Set<E> toSet() => delegate.toSet();
 
   @override
-  Iterable<E> where(bool test(E element)) => delegate.where(test);
+  Iterable<E> where(bool Function(E element) test) => delegate.where(test);
 
   @override
   Iterable<T> whereType<T>() {

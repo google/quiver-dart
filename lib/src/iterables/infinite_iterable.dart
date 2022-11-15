@@ -34,27 +34,30 @@ abstract class InfiniteIterable<T> extends IterableBase<T> {
   T get single => throw StateError('single');
 
   @override
-  bool every(bool test(T element)) => throw UnsupportedError('every');
+  bool every(bool Function(T element) test) => throw UnsupportedError('every');
 
   @override
-  T1 fold<T1>(T1 initialValue, T1 combine(T1 previousValue, T element)) =>
+  T1 fold<T1>(
+          T1 initialValue, T1 Function(T1 previousValue, T element) combine) =>
       throw UnsupportedError('fold');
 
   @override
-  void forEach(void action(T element)) => throw UnsupportedError('forEach');
+  void forEach(void Function(T element) action) =>
+      throw UnsupportedError('forEach');
 
   @override
   String join([String separator = '']) => throw UnsupportedError('join');
 
   @override
-  T lastWhere(bool test(T value), {T orElse()?}) =>
+  T lastWhere(bool Function(T value) test, {T Function()? orElse}) =>
       throw UnsupportedError('lastWhere');
 
   @override
-  T reduce(T combine(T value, T element)) => throw UnsupportedError('reduce');
+  T reduce(T Function(T value, T element) combine) =>
+      throw UnsupportedError('reduce');
 
   @override
-  T singleWhere(bool test(T value), {T orElse()?}) =>
+  T singleWhere(bool Function(T value) test, {T Function()? orElse}) =>
       throw UnsupportedError('singleWhere');
 
   @override

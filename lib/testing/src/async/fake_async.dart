@@ -92,7 +92,7 @@ abstract class FakeAsync {
   ///
   /// Calls [callback] with `this` as argument and returns the result returned
   /// by [callback].
-  dynamic run(callback(FakeAsync self));
+  dynamic run(Function(FakeAsync self) callback);
 
   /// Runs all remaining microtasks, including those scheduled as a result of
   /// running them, until there are no more microtasks scheduled.
@@ -131,7 +131,7 @@ class _FakeAsync implements FakeAsync {
   Duration _elapsed = Duration.zero;
   Duration? _elapsingTo;
   final Queue<Function> _microtasks = Queue();
-  final Set<_FakeTimer> _timers = Set<_FakeTimer>();
+  final Set<_FakeTimer> _timers = <_FakeTimer>{};
 
   @override
   Clock getClock(DateTime initialTime) =>
@@ -189,10 +189,10 @@ class _FakeAsync implements FakeAsync {
 
   @override
   List<String> get pendingTimersDebugInfo =>
-      _timers.map((timer) => '${timer.debugInfo}').toList(growable: false);
+      _timers.map((timer) => timer.debugInfo).toList(growable: false);
 
   @override
-  dynamic run(callback(FakeAsync self)) {
+  dynamic run(Function(FakeAsync self) callback) {
     _zone ??= Zone.current.fork(specification: _zoneSpec);
     dynamic result;
     _zone!.runGuarded(() {
@@ -224,7 +224,7 @@ class _FakeAsync implements FakeAsync {
         _microtasks.add(microtask);
       });
 
-  void _drainTimersWhile(bool predicate(_FakeTimer timer)) {
+  void _drainTimersWhile(bool Function(_FakeTimer timer) predicate) {
     _drainMicrotasks();
     _FakeTimer? next;
     while ((next = _getNextTimer()) != null && predicate(next!)) {

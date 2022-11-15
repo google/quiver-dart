@@ -410,7 +410,7 @@ void main() {
         expectedUnion = [10, 15, 18, 20, 21, 22, 30];
         expectedIntersection = [10, 15];
         expectedDifference = [20, 21, 30];
-        nonSortedTestSet = Set.from([10, 18, 22, 15]);
+        nonSortedTestSet = {10, 18, 22, 15};
         sortedTestSet = TreeSet()..addAll(nonSortedTestSet);
       });
 

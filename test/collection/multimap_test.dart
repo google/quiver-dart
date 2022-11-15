@@ -436,7 +436,7 @@ void main() {
     });
 
     test('should call removeWhere with all {key, value} pairs', () {
-      Set s = Set();
+      Set s = {};
       ListMultimap<String, String>()
         ..add('k1', 'v1')
         ..add('k1', 'v2')
@@ -572,7 +572,7 @@ void main() {
     });
 
     test('should support iteration over all {key, value} pairs', () {
-      Set s = Set();
+      Set s = {};
       ListMultimap<String, String>()
         ..add('k1', 'v1')
         ..add('k1', 'v2')
@@ -872,7 +872,7 @@ void main() {
     });
 
     test('should call removeWhere with all {key, value} pairs', () {
-      Set s = Set();
+      Set s = {};
       SetMultimap<String, String>()
         ..add('k1', 'v1')
         ..add('k1', 'v2')
@@ -1035,7 +1035,7 @@ void main() {
     });
 
     test('should support iteration over all {key, value} pairs', () {
-      Set s = Set();
+      Set s = {};
       SetMultimap<String, String>()
         ..add('k1', 'v1')
         ..add('k1', 'v2')

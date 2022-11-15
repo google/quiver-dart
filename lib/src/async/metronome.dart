@@ -85,8 +85,8 @@ class Metronome extends Stream<DateTime> {
   bool get isBroadcast => true;
 
   @override
-  StreamSubscription<DateTime> listen(void onData(DateTime event)?,
-          {Function? onError, void onDone()?, bool? cancelOnError}) =>
+  StreamSubscription<DateTime> listen(void Function(DateTime event)? onData,
+          {Function? onError, void Function()? onDone, bool? cancelOnError}) =>
       _controller.stream.listen(onData,
           onError: onError, onDone: onDone, cancelOnError: cancelOnError);
 

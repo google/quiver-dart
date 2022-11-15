@@ -2,6 +2,7 @@
 
   * Expose `TreeIterator` for iterating `TreeSet` instead of using
     `BidirectionalIterator`.
+  * Require Dart 2.17
 
 #### 3.1.0 - 2022-05-03
 
