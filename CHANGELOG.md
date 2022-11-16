@@ -1,6 +1,5 @@
 #### 3.2.0-dev
 
-  * Explicitly disallow a `nullable` type argument for `Optional`.
   * Expose `TreeIterator` for iterating `TreeSet` instead of using
     `BidirectionalIterator`.
   * Require Dart 2.17
