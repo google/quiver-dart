@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// ignore_for_file: null_check_on_nullable_type_parameter
+
 import 'dart:collection';
 
 /// A value that might be absent.
@@ -23,7 +25,7 @@ import 'dart:collection';
 /// With the introduction of non-null by default in Dart SDK 2.12, developers
 /// should avoid adding more uses of this type. Existing users should migrate
 /// away from the `Optional` type to types marked nullable: `T?`.
-class Optional<T extends Object> extends IterableBase<T> {
+class Optional<T> extends IterableBase<T> {
   /// Constructs an empty Optional.
   const Optional.absent() : _value = null;
 
@@ -90,7 +92,7 @@ class Optional<T extends Object> extends IterableBase<T> {
   /// If the Optional is [absent()], returns [absent()] without applying the transformer.
   ///
   /// The transformer must not return [null]. If it does, an [ArgumentError] is thrown.
-  Optional<S> transform<S extends Object>(S Function(T value) transformer) {
+  Optional<S> transform<S>(S Function(T value) transformer) {
     return _value == null
         ? Optional<S>.absent()
         : Optional<S>.of(transformer(_value!));
@@ -101,8 +103,7 @@ class Optional<T extends Object> extends IterableBase<T> {
   /// If the Optional is [absent()], returns [absent()] without applying the transformer.
   ///
   /// Returns [absent()] if the transformer returns [null].
-  Optional<S> transformNullable<S extends Object>(
-      S? Function(T value) transformer) {
+  Optional<S> transformNullable<S>(S? Function(T value) transformer) {
     return _value == null
         ? Optional<S>.absent()
         : Optional<S>.fromNullable(transformer(_value!));
