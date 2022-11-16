@@ -23,7 +23,7 @@ import 'dart:collection';
 /// With the introduction of non-null by default in Dart SDK 2.12, developers
 /// should avoid adding more uses of this type. Existing users should migrate
 /// away from the `Optional` type to types marked nullable: `T?`.
-class Optional<T> extends IterableBase<T> {
+class Optional<T extends Object> extends IterableBase<T> {
   /// Constructs an empty Optional.
   const Optional.absent() : _value = null;
 

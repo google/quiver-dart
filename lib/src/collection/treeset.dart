@@ -899,7 +899,9 @@ class TreeIterator<V>
       {this.reversed = false, this.inclusive = true, V? anchorObject})
       : _anchorObject = anchorObject,
         _modCountGuard = tree._modCount {
-    if (_anchorObject == null || tree.isEmpty) {
+    final anchor = _anchorObject;
+
+    if (anchor == null || tree.isEmpty) {
       // If the anchor is far left or right, we're just a normal iterator.
       _state = reversed ? _right : _left;
       _moveNext = reversed ? _movePreviousNormal : _moveNextNormal;
@@ -911,28 +913,26 @@ class TreeIterator<V>
     // Else we've got an anchor we have to worry about initializing from.
     // This isn't known till the caller actually performs a previous/next.
     _moveNext = () {
-      _current = tree._searchNearest(_anchorObject,
+      _current = tree._searchNearest(anchor,
           option: reversed ? TreeSearch.LESS_THAN : TreeSearch.GREATER_THAN);
       _moveNext = reversed ? _movePreviousNormal : _moveNextNormal;
       _movePrevious = reversed ? _moveNextNormal : _movePreviousNormal;
       if (_current == null) {
         _state = reversed ? _left : _right;
-      } else if (tree.comparator(_current!.object, _anchorObject!) == 0 &&
-          !inclusive) {
+      } else if (tree.comparator(_current!.object, anchor) == 0 && !inclusive) {
         _moveNext();
       }
       return _state == _walk;
     };
 
     _movePrevious = () {
-      _current = tree._searchNearest(_anchorObject,
+      _current = tree._searchNearest(anchor,
           option: reversed ? TreeSearch.GREATER_THAN : TreeSearch.LESS_THAN);
       _moveNext = reversed ? _movePreviousNormal : _moveNextNormal;
       _movePrevious = reversed ? _moveNextNormal : _movePreviousNormal;
       if (_current == null) {
         _state = reversed ? _right : _left;
-      } else if (tree.comparator(_current!.object, _anchorObject!) == 0 &&
-          !inclusive) {
+      } else if (tree.comparator(_current!.object, anchor) == 0 && !inclusive) {
         _movePrevious();
       }
       return _state == _walk;
