@@ -28,5 +28,12 @@ void main() {
           nthDayOnNthWeekOfAMonth(DateTime.friday, 2, DateTime.july, 2022);
       expectDate(calculatedDate, 2022, 7, 8);
     });
+
+    test('should return the date of friday from 2nd last week of feb of 2022',
+        () {
+      final calculatedDate = lastNthDayOnNthWeekOfAMonth(
+          DateTime.friday, 2, DateTime.february, 2022);
+      expectDate(calculatedDate, 2022, 2, 26);
+    });
   });
 }
