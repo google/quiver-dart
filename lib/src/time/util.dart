@@ -54,3 +54,27 @@ int clampDayOfMonth({
   required int day,
 }) =>
     day.clamp(1, daysInMonth(year, month));
+
+///return the day which is xth [weekDay] from yth [week] of zth [month] of a [year]
+///eg. DateTime.Friday from 2nd week of DateTime.july of a 2022 year.
+/// [weekDay] ranges from 1 to 7. 1 = monday and 7 = sunday.
+/// [week] ranges from 1 to 4 or 5 month depending upon the month.
+/// [month] ranges from 1 to 12. 1 is january and 12 is december.
+/// [year] the year in which you are calculating
+/// if the number of week is more than the weeks in specific month day will be from another month
+DateTime nthDayOnNthWeekOfAMonth(
+  int weekDay,
+  int week,
+  int month,
+  int year,
+) {
+  final firstDateOfMonth = DateTime(year, month, 1);
+  return firstDateOfMonth.add(
+    Duration(
+      days: 7 * (week - 1) +
+          ((firstDateOfMonth.weekday > weekDay ? 7 : 0) +
+              weekDay -
+              firstDateOfMonth.weekday),
+    ),
+  );
+}
