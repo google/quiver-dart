@@ -3,8 +3,8 @@
   * Deprecate `Optional`. With the introduction of non-null by default in Dart
     SDK 2.12, existing users should migrate to non-nullable types. This type
     will be removed in Quiver 4.0.0.
-  * Expose `TreeIterator` for iterating `TreeSet` instead of using
-    `BidirectionalIterator`.
+  * Make `TreeIterator` not implement deprecated `BidirectionalIterator`.
+    The `movePrevious` method still exists on `TreeIterator`.
   * Require Dart 2.17
 
 #### 3.1.0 - 2022-05-03
