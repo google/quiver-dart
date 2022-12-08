@@ -967,7 +967,6 @@ class TreeIterator<V> implements Iterator<V> {
   @override
   bool moveNext() => _moveNext();
 
-  @override
   bool movePrevious() => _movePrevious();
 
   bool _moveNextNormal() {
