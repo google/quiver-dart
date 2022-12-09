@@ -891,10 +891,7 @@ AvlNode<V>? debugGetNode<V>(AvlTreeSet<V> treeset, V object) {
 /// [TreeSet.fromIterator]). When using fromIterator, the initial anchor point
 /// is included in the first movement (either [moveNext] or [movePrevious]) but
 /// can optionally be excluded in the constructor.
-class TreeIterator<V>
-    implements
-        // ignore: deprecated_member_use
-        BidirectionalIterator<V> {
+class TreeIterator<V> implements Iterator<V> {
   TreeIterator._(this.tree,
       {this.reversed = false, this.inclusive = true, V? anchorObject})
       : _anchorObject = anchorObject,
@@ -970,7 +967,6 @@ class TreeIterator<V>
   @override
   bool moveNext() => _moveNext();
 
-  @override
   bool movePrevious() => _movePrevious();
 
   bool _moveNextNormal() {
