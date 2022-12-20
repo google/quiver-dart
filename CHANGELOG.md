@@ -1,4 +1,4 @@
-#### 3.2.0-dev
+#### 3.2.0
 
   * Deprecate `Optional`. With the introduction of non-null by default in Dart
     SDK 2.12, existing users should migrate to non-nullable types. This type
