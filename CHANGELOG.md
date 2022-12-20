@@ -1,3 +1,7 @@
+#### 3.2.1
+
+  * Un-deprecate `Optional`. Causing breaks.
+
 #### 3.2.0
 
   * Deprecate `Optional`. With the introduction of non-null by default in Dart
