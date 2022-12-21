@@ -141,13 +141,13 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
     return GeneratingIterable<_LinkedEntry<K, V>>(() => _head!, (n) => n.next);
   }
 
-  /// The keys of [this] - in order of MRU to LRU.
+  /// The keys of `this` - in order of MRU to LRU.
   ///
   /// The returned iterable does *not* have efficient `length` or `contains`.
   @override
   Iterable<K> get keys => _iterable().map((e) => e.key);
 
-  /// The values of [this] - in order of MRU to LRU.
+  /// The values of `this` - in order of MRU to LRU.
   ///
   /// The returned iterable does *not* have efficient `length` or `contains`.
   @override
@@ -359,7 +359,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   }
 
   /// If [entry] does not exist, inserts it into the backing map.  If it does,
-  /// replaces the existing [_LinkedEntry.value] with [entry.value].  Then, in
+  /// replaces the existing [_LinkedEntry.value] with `entry.value`.  Then, in
   /// either case, promotes [entry] to the MRU position.
   void _insertMru(_LinkedEntry<K, V> entry) {
     // Insert a new entry if necessary (only 1 hash lookup in entire function).

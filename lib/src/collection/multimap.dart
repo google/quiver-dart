@@ -83,10 +83,10 @@ abstract class Multimap<K, V> {
   /// It is an error to add or remove keys from the map during iteration.
   void forEach(void Function(K key, V value) f);
 
-  /// The keys of [this].
+  /// The keys of `this`.
   Iterable<K> get keys;
 
-  /// The values of [this].
+  /// The values of `this`.
   Iterable<V> get values;
 
   /// Returns a view of this multimap as a map.

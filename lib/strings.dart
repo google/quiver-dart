@@ -14,11 +14,11 @@
 
 library quiver.strings;
 
-/// Returns [true] if [s] is either null, empty or is solely made of whitespace
+/// Returns `true` if [s] is either null, empty or is solely made of whitespace
 /// characters (as defined by [String.trim]).
 bool isBlank(String? s) => s == null || s.trim().isEmpty;
 
-/// Returns [true] if [s] is neither null, empty nor is solely made of whitespace
+/// Returns `true` if [s] is neither null, empty nor is solely made of whitespace
 /// characters.
 ///
 /// See also:
@@ -26,10 +26,10 @@ bool isBlank(String? s) => s == null || s.trim().isEmpty;
 ///  * [isBlank]
 bool isNotBlank(String? s) => s != null && s.trim().isNotEmpty;
 
-/// Returns [true] if [s] is either null or empty.
+/// Returns `true` if [s] is either null or empty.
 bool isEmpty(String? s) => s == null || s.isEmpty;
 
-/// Returns [true] if [s] is a not empty string.
+/// Returns `true` if [s] is a not empty string.
 bool isNotEmpty(String? s) => s != null && s.isNotEmpty;
 
 /// Returns a string with characters from the given [s] in reverse order.
@@ -55,9 +55,9 @@ String _reverse(String s) {
 /// Then [loop] returns the sub-vector defined by the interval ([from], [to]).
 /// [from] is inclusive. [to] is exclusive.
 ///
-/// This method throws exceptions on [null] and empty strings.
+/// This method throws exceptions on `null` and empty strings.
 ///
-/// If [to] is omitted or is [null] the traversing ends at the end of the loop.
+/// If [to] is omitted or is `null` the traversing ends at the end of the loop.
 ///
 /// If [to] < [from], traverses [s] in the opposite direction.
 ///

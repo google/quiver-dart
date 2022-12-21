@@ -34,7 +34,7 @@ int daysInMonth(int year, int month) =>
 bool isLeapYear(int year) =>
     (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
 
-/// Takes a [date] that may be outside the allowed range of dates for a given
+/// Takes a date that may be outside the allowed range of dates for a given
 /// [month] in a given [year] and returns the closest date that is within the
 /// allowed range.
 ///

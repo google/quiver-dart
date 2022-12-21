@@ -28,7 +28,7 @@ import 'package:quiver/time.dart';
 ///
 /// To allow the unit under test to tell time, it can receive a [Clock] as a
 /// dependency, and default it to [const Clock()] in production, but then use
-/// [clock] in test code.
+/// [Clock] in test code.
 ///
 /// Example:
 ///
@@ -65,12 +65,12 @@ abstract class FakeAsync {
   /// Any Timers created within the zone used by [run] which are to expire
   /// at or before the new time after [duration] has elapsed are run.
   /// The microtask queue is processed surrounding each timer.  When a timer is
-  /// run, the [clock] will have been advanced by the timer's specified
+  /// run, the [Clock] will have been advanced by the timer's specified
   /// duration.  Calls to [elapseBlocking] from within these timers and
-  /// microtasks which cause the [clock] to elapse more than the specified
+  /// microtasks which cause the [Clock] to elapse more than the specified
   /// [duration], can cause more timers to expire and thus be called.
   ///
-  /// Once all expired timers are processed, the [clock] is advanced (if
+  /// Once all expired timers are processed, the [Clock] is advanced (if
   /// necessary) to the time this method was called + [duration].
   void elapse(Duration duration);
 
@@ -78,7 +78,7 @@ abstract class FakeAsync {
   /// expensive calls.
   ///
   /// Neither timers nor microtasks are run during this call.  Upon return, the
-  /// [clock] will have been advanced by [duration].
+  /// [Clock] will have been advanced by [duration].
   ///
   /// If [duration] is negative, throws an [ArgumentError].
   void elapseBlocking(Duration duration);

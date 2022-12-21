@@ -37,7 +37,7 @@ class IndexedValue<V> {
 }
 
 /// An [Iterable] of [IndexedValue]s where the nth value holds the nth
-/// element of [iterable] and its index. See [enumerate].
+/// element of [Iterable] and its index. See [enumerate].
 // This was inspired by MappedIterable internal to Dart collections.
 class EnumerateIterable<V> extends IterableBase<IndexedValue<V>> {
   EnumerateIterable(this._iterable);
