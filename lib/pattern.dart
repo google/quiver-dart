@@ -23,7 +23,7 @@ final _specialChars = RegExp(r'([\\\^\$\.\|\+\[\]\(\)\{\}])');
 /// Escapes special regex characters in [str] so that it can be used as a
 /// literal match inside of a [RegExp].
 ///
-/// The special characters are: \ ^ $ . | + [ ] ( ) { }
+/// The special characters are: `\ ^ $ . | + [ ] ( ) { }`
 /// as defined here: http://ecma-international.org/ecma-262/5.1/#sec-15.10
 String escapeRegex(String str) => str.splitMapJoin(_specialChars,
     onMatch: (Match m) => '\\${m.group(0)}', onNonMatch: (s) => s);

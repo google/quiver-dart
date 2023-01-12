@@ -22,7 +22,7 @@ import 'package:quiver/time.dart';
 /// delivered on or after the interval. If the system is busy for longer than
 /// two [interval]s, only one will be delivered.
 ///
-/// [anchor] defaults to [clock.now], which means the stream represents a
+/// [anchor] defaults to [Clock.now], which means the stream represents a
 /// self-correcting periodic timer. If anchor is the epoch, then the stream is
 /// synchronized to wall-clock time. It can be anchored anywhere in time, but
 /// this does not delay the first delivery.

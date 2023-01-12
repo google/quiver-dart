@@ -87,14 +87,14 @@ class Optional<T> extends IterableBase<T> {
     return _value ?? defaultValue;
   }
 
-  /// Gets the Optional value, or [null] if there is none.
+  /// Gets the Optional value, or `null` if there is none.
   T? get orNull => _value;
 
   /// Transforms the Optional value.
   ///
   /// If the Optional is [absent()], returns [absent()] without applying the transformer.
   ///
-  /// The transformer must not return [null]. If it does, an [ArgumentError] is thrown.
+  /// The transformer must not return `null`. If it does, an [ArgumentError] is thrown.
   Optional<S> transform<S>(S Function(T value) transformer) {
     return _value == null
         ? Optional<S>.absent()
@@ -105,7 +105,7 @@ class Optional<T> extends IterableBase<T> {
   ///
   /// If the Optional is [absent()], returns [absent()] without applying the transformer.
   ///
-  /// Returns [absent()] if the transformer returns [null].
+  /// Returns [absent()] if the transformer returns `null`.
   Optional<S> transformNullable<S>(S? Function(T value) transformer) {
     return _value == null
         ? Optional<S>.absent()
