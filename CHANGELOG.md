@@ -2,11 +2,12 @@
 
 - Fix a number of doc comment issues.
 
-## 3.2.1
+## 3.2.1 - 2022-12-20
 
-- Un-deprecate `Optional`. Causing breaks.
+- Un-deprecate `Optional`. Causing breaks with hints internally at Google. 
+  Need to remove all usages before we try to land again.
 
-## 3.2.0
+## 3.2.0 - 2022-12-20 (Retracted)
 
 - Deprecate `Optional`. With the introduction of non-null by default in Dart SDK
   2.12, existing users should migrate to non-nullable types. This type will be
