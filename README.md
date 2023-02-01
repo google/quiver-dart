@@ -209,3 +209,8 @@ current time.
 
 [quiver.testing.time]:
   https://pub.dev/documentation/quiver/latest/quiver.testing.time/quiver.testing.time-library.html
+
+## Publishing automation
+
+For information about our publishing automation and release process, see
+https://github.com/dart-lang/ecosystem/wiki/Publishing-automation.
