@@ -26,13 +26,11 @@ abstract class Multimap<K, V> {
   /// Constructs a new list-backed multimap. For each element e of [iterable],
   /// adds an association from [key](e) to [value](e). [key] and [value] each
   /// default to the identity function.
-  factory Multimap.fromIterable(Iterable iterable,
-      {K Function(dynamic)? key,
-      V Function(dynamic)? value}) = ListMultimap<K, V>.fromIterable;
+  factory Multimap.fromIterable(Iterable iterable, {K Function(dynamic)? key, V Function(dynamic)? value}) =
+      ListMultimap<K, V>.fromIterable;
 
   /// Constructs a new multimap with the same values as [other].
-  factory Multimap.fromMultimap(Multimap<K, V> other) =
-      ListMultimap<K, V>.fromMultimap;
+  factory Multimap.fromMultimap(Multimap<K, V> other) = ListMultimap<K, V>.fromMultimap;
 
   /// Returns whether this multimap contains the given [value].
   bool containsValue(Object? value);
@@ -107,15 +105,13 @@ abstract class Multimap<K, V> {
 }
 
 /// Abstract base class for multimap implementations.
-abstract class _BaseMultimap<K, V, C extends Iterable<V>>
-    implements Multimap<K, V> {
+abstract class _BaseMultimap<K, V, C extends Iterable<V>> implements Multimap<K, V> {
   _BaseMultimap();
 
   /// Constructs a new multimap. For each element e of [iterable], adds an
   /// association from [key](e) to [value](e). [key] and [value] each default
   /// to the identity function.
-  _BaseMultimap.fromIterable(Iterable iterable,
-      {K Function(dynamic)? key, V Function(dynamic)? value}) {
+  _BaseMultimap.fromIterable(Iterable iterable, {K Function(dynamic)? key, V Function(dynamic)? value}) {
     key ??= _id;
     value ??= _id;
     for (final element in iterable) {
@@ -145,8 +141,7 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
   @override
   bool containsKey(Object? key) => _map.keys.contains(key);
   @override
-  bool contains(Object? key, Object? value) =>
-      _map[key]?.contains(value) == true;
+  bool contains(Object? key, Object? value) => _map[key]?.contains(value) == true;
 
   @override
   Iterable<V> operator [](Object? key) {
@@ -246,8 +241,7 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
   /// Constructs a new list-backed multimap. For each element e of [iterable],
   /// adds an association from [key](e) to [value](e). [key] and [value] each
   /// default to the identity function.
-  ListMultimap.fromIterable(super.iterable, {super.key, super.value})
-      : super.fromIterable();
+  ListMultimap.fromIterable(super.iterable, {super.key, super.value}) : super.fromIterable();
 
   /// Constructs a new multimap with the same values as [other].
   ListMultimap.fromMultimap(super.other) : super.fromMultimap();
@@ -266,12 +260,10 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
   @override
   bool _remove(List<V> iterable, V? value) => iterable.remove(value);
   @override
-  void _removeWhere(
-          List<V> iterable, K key, bool Function(K key, V value) predicate) =>
+  void _removeWhere(List<V> iterable, K key, bool Function(K key, V value) predicate) =>
       iterable.removeWhere((value) => predicate(key, value));
   @override
-  List<V> _wrap(Object? key, List<V> iterable) =>
-      _WrappedList(_map, key, iterable);
+  List<V> _wrap(Object? key, List<V> iterable) => _WrappedList(_map, key, iterable);
   @override
   List<V> operator [](Object? key) => super[key] as List<V>;
   @override
@@ -288,8 +280,7 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
   /// Constructs a new set-backed multimap. For each element e of [iterable],
   /// adds an association from [key](e) to [value](e). [key] and [value] each
   /// default to the identity function.
-  SetMultimap.fromIterable(super.iterable, {super.key, super.value})
-      : super.fromIterable();
+  SetMultimap.fromIterable(super.iterable, {super.key, super.value}) : super.fromIterable();
 
   @override
   Set<V> _create() => <V>{};
@@ -305,12 +296,10 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
   @override
   bool _remove(Set<V> iterable, V? value) => iterable.remove(value);
   @override
-  void _removeWhere(
-          Set<V> iterable, K key, bool Function(K key, V value) predicate) =>
+  void _removeWhere(Set<V> iterable, K key, bool Function(K key, V value) predicate) =>
       iterable.removeWhere((value) => predicate(key, value));
   @override
-  Set<V> _wrap(Object? key, Set<V> iterable) =>
-      _WrappedSet(_map, key, iterable);
+  Set<V> _wrap(Object? key, Set<V> iterable) => _WrappedSet(_map, key, iterable);
   @override
   Set<V> operator [](Object? key) => super[key] as Set<V>;
   @override
@@ -379,9 +368,7 @@ class _WrappedMap<K, V, C extends Iterable<V>> implements Map<K, C> {
   }
 
   @override
-  Map<K2, C2> map<K2, C2>(
-          MapEntry<K2, C2> Function(K key, C value) transform) =>
-      _multimap._map.map(transform);
+  Map<K2, C2> map<K2, C2>(MapEntry<K2, C2> Function(K key, C value) transform) => _multimap._map.map(transform);
 
   @override
   C update(K key, C Function(C value) update, {C Function()? ifAbsent}) {
@@ -616,8 +603,7 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
   }
 }
 
-class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
-    implements List<V> {
+class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>> implements List<V> {
   _WrappedList(super.map, super.key, super.delegate);
 
   @override
@@ -830,8 +816,7 @@ class _WrappedList<K, V> extends _WrappedIterable<K, V, List<V>>
   }
 }
 
-class _WrappedSet<K, V> extends _WrappedIterable<K, V, Set<V>>
-    implements Set<V> {
+class _WrappedSet<K, V> extends _WrappedIterable<K, V, Set<V>> implements Set<V> {
   _WrappedSet(super.map, super.key, super.delegate);
 
   @override
