@@ -30,7 +30,7 @@ abstract class Multimap<K, V> {
       {K Function(dynamic)? key,
       V Function(dynamic)? value}) = ListMultimap<K, V>.fromIterable;
 
-  /// Constructs a new multimap with the same values as [other]
+  /// Constructs a new multimap with the same values as [other].
   factory Multimap.fromMultimap(Multimap<K, V> other) =
       ListMultimap<K, V>.fromMultimap;
 
@@ -123,7 +123,7 @@ abstract class _BaseMultimap<K, V, C extends Iterable<V>>
     }
   }
 
-  /// Constructs a new multimap with the same values as [other]
+  /// Constructs a new multimap with the same values as [other].
   _BaseMultimap.fromMultimap(Multimap<K, V> other) {
     addAll(other);
   }
@@ -249,7 +249,7 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
   ListMultimap.fromIterable(super.iterable, {super.key, super.value})
       : super.fromIterable();
 
-  /// Constructs a new multimap with the same values as [other]
+  /// Constructs a new multimap with the same values as [other].
   ListMultimap.fromMultimap(super.other) : super.fromMultimap();
 
   @override
