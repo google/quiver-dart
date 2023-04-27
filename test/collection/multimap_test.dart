@@ -64,6 +64,50 @@ void main() {
     }, tags: ['fails-on-dartdevc']);
   });
 
+  group('Multimap.fromMultimap', () {
+    late Multimap<String, String> mmap1;
+    late Multimap<String, String> mmap2;
+    setUp(() {
+      mmap1 = Multimap()
+        ..add('k1', 'v1')
+        ..add('k1', 'v2')
+        ..add('k2', 'v3');
+
+      mmap2 = Multimap.fromMultimap(mmap1);
+    });
+
+    test('should have different memory references', () {
+      expect(false, mmap1 == mmap2);
+    });
+
+    test('should have same keys', () {
+      var map1ContainsAllMap2Keys =
+          mmap1.keys.every((key) => mmap2.containsKey(key));
+      var map2ContainsAllMap1Keys =
+          mmap2.keys.every((key) => mmap1.containsKey(key));
+
+      expect(true, map1ContainsAllMap2Keys && map2ContainsAllMap1Keys);
+    });
+
+    test('should have same values', () {
+      var map1ContainsAllMap2Values =
+          mmap1.values.every((value) => mmap2.containsValue(value));
+      var map2ContainsAllMap1Values =
+          mmap2.values.every((value) => mmap1.containsValue(value));
+
+      expect(true, map1ContainsAllMap2Values && map2ContainsAllMap1Values);
+    });
+
+    test(
+        'removing the values from the original map should leave the copy intact',
+        () {
+      mmap1.remove('k1', 'v1');
+
+      expect(false, mmap1.contains('k1', 'v1'));
+      expect(true, mmap2.contains('k1', 'v1'));
+    });
+  });
+
   group('Multimap asMap() view', () {
     late Multimap<String, String> mmap;
     late Map<String, Iterable<String>> map;
