@@ -97,6 +97,13 @@ void main() {
 
       expect(true, map1ContainsAllMap2Values && map2ContainsAllMap1Values);
     });
+
+    test('removing the values from the original map should leave the copy intact', () {
+      mmap1.remove('k1', 'v1');
+
+      expect(false, mmap1.contains('k1', 'v1'));
+      expect(true, mmap2.contains('k1', 'v1'));
+    });
   });
 
   group('Multimap asMap() view', () {
