@@ -36,7 +36,8 @@ void main() {
 
     test('should allow setting value', () {
       var i = 0;
-      var map = Multimap<int, String>.fromIterable([1, 2, 1], value: (x) => '$x:${i++}');
+      var map = Multimap<int, String>.fromIterable([1, 2, 1],
+          value: (x) => '$x:${i++}');
       expect(map.asMap(), {
         1: ['1:0', '1:2'],
         2: ['2:1'],
@@ -44,7 +45,8 @@ void main() {
     });
 
     test('should allow setting key', () {
-      var map = Multimap<String, int>.fromIterable([1, 2, 1], key: (x) => '($x)');
+      var map =
+          Multimap<String, int>.fromIterable([1, 2, 1], key: (x) => '($x)');
       expect(map.asMap(), {
         '(1)': [1, 1],
         '(2)': [2],
@@ -53,7 +55,8 @@ void main() {
 
     test('should allow setting both key and value', () {
       var i = 0;
-      var map = Multimap<int, String>.fromIterable([1, 2, 1], key: (x) => -x, value: (x) => '$x:${i++}');
+      var map = Multimap<int, String>.fromIterable([1, 2, 1],
+          key: (x) => -x, value: (x) => '$x:${i++}');
       expect(map.asMap(), {
         -1: ['1:0', '1:2'],
         -2: ['2:1'],
@@ -78,20 +81,26 @@ void main() {
     });
 
     test('should have same keys', () {
-      var map1ContainsAllMap2Keys = mmap1.keys.every((key) => mmap2.containsKey(key));
-      var map2ContainsAllMap1Keys = mmap2.keys.every((key) => mmap1.containsKey(key));
+      var map1ContainsAllMap2Keys =
+          mmap1.keys.every((key) => mmap2.containsKey(key));
+      var map2ContainsAllMap1Keys =
+          mmap2.keys.every((key) => mmap1.containsKey(key));
 
       expect(true, map1ContainsAllMap2Keys && map2ContainsAllMap1Keys);
     });
 
     test('should have same values', () {
-      var map1ContainsAllMap2Values = mmap1.values.every((value) => mmap2.containsValue(value));
-      var map2ContainsAllMap1Values = mmap2.values.every((value) => mmap1.containsValue(value));
+      var map1ContainsAllMap2Values =
+          mmap1.values.every((value) => mmap2.containsValue(value));
+      var map2ContainsAllMap1Values =
+          mmap2.values.every((value) => mmap1.containsValue(value));
 
       expect(true, map1ContainsAllMap2Values && map2ContainsAllMap1Values);
     });
 
-    test('removing the values from the original map should leave the copy intact', () {
+    test(
+        'removing the values from the original map should leave the copy intact',
+        () {
       mmap1.remove('k1', 'v1');
 
       expect(false, mmap1.contains('k1', 'v1'));
@@ -115,15 +124,18 @@ void main() {
     });
 
     test('addEntries should throw UnsupportedError', () {
-      expect(() => map.addEntries(<MapEntry<String, List<String>>>[]), throwsUnsupportedError);
+      expect(() => map.addEntries(<MapEntry<String, List<String>>>[]),
+          throwsUnsupportedError);
     });
 
     test('update should throw UnsupportedError', () {
-      expect(() => map.update('k1', (_) => ['1', '2', '3']), throwsUnsupportedError);
+      expect(() => map.update('k1', (_) => ['1', '2', '3']),
+          throwsUnsupportedError);
     });
 
     test('updateAll should throw UnsupportedError', () {
-      expect(() => map.updateAll((_, __) => ['1', '2', '3']), throwsUnsupportedError);
+      expect(() => map.updateAll((_, __) => ['1', '2', '3']),
+          throwsUnsupportedError);
     });
 
     test('containsKey() should return false for missing key', () {
@@ -223,7 +235,8 @@ void main() {
     });
 
     test('should support inserting multiple values for unmapped keys', () {
-      var map = ListMultimap<String, String>()..['k1'].insertAll(0, ['v1', 'v2']);
+      var map = ListMultimap<String, String>()
+        ..['k1'].insertAll(0, ['v1', 'v2']);
       expect(map['k1'], ['v1', 'v2']);
     });
 
@@ -260,7 +273,8 @@ void main() {
     test(
         'should support adding duplicate values for a key when initialized '
         'from an iterable', () {
-      var map = ListMultimap<String, String>.fromIterable(['k', 'k'], value: (x) => 'v1');
+      var map = ListMultimap<String, String>.fromIterable(['k', 'k'],
+          value: (x) => 'v1');
       expect(map['k'], ['v1', 'v1']);
     });
 
@@ -475,7 +489,10 @@ void main() {
           s.add(Pair(k, v));
           return false;
         });
-      expect(s, unorderedEquals([Pair('k1', 'v1'), Pair('k1', 'v2'), Pair('k2', 'v3')]));
+      expect(
+          s,
+          unorderedEquals(
+              [Pair('k1', 'v1'), Pair('k1', 'v2'), Pair('k2', 'v3')]));
     });
 
     test(
@@ -605,7 +622,10 @@ void main() {
         ..add('k1', 'v2')
         ..add('k2', 'v3')
         ..forEach((k, v) => s.add(Pair(k, v)));
-      expect(s, unorderedEquals([Pair('k1', 'v1'), Pair('k1', 'v2'), Pair('k2', 'v3')]));
+      expect(
+          s,
+          unorderedEquals(
+              [Pair('k1', 'v1'), Pair('k1', 'v2'), Pair('k2', 'v3')]));
     });
 
     test('should support iteration over all {key, Iterable<value>} pairs', () {
@@ -620,7 +640,9 @@ void main() {
       expect(map['k2'], ['v3']);
     });
 
-    test('should support operations on empty map views without breaking delegate synchronization', () {
+    test(
+        'should support operations on empty map views without breaking delegate synchronization',
+        () {
       var mmap = ListMultimap<String, String>();
       List x = mmap['k1'];
       List y = mmap['k1'];
@@ -705,7 +727,8 @@ void main() {
     test(
         'should not support adding duplicate values for a key when '
         'initialized from an iterable', () {
-      var map = SetMultimap<String, String>.fromIterable(['k', 'k'], value: (x) => 'v1');
+      var map = SetMultimap<String, String>.fromIterable(['k', 'k'],
+          value: (x) => 'v1');
       expect(map['k'], ['v1']);
     });
 
@@ -902,7 +925,10 @@ void main() {
           s.add(Pair(k, v));
           return false;
         });
-      expect(s, unorderedEquals([Pair('k1', 'v1'), Pair('k1', 'v2'), Pair('k2', 'v3')]));
+      expect(
+          s,
+          unorderedEquals(
+              [Pair('k1', 'v1'), Pair('k1', 'v2'), Pair('k2', 'v3')]));
     });
 
     test(
@@ -1059,7 +1085,10 @@ void main() {
         ..add('k1', 'v2')
         ..add('k2', 'v3')
         ..forEach((k, v) => s.add(Pair(k, v)));
-      expect(s, unorderedEquals([Pair('k1', 'v1'), Pair('k1', 'v2'), Pair('k2', 'v3')]));
+      expect(
+          s,
+          unorderedEquals(
+              [Pair('k1', 'v1'), Pair('k1', 'v2'), Pair('k2', 'v3')]));
     });
 
     test('should support iteration over all {key, Iterable<value>} pairs', () {
