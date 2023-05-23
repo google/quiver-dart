@@ -39,10 +39,11 @@ class MapCache<K, V> implements Cache<K, V> {
     // TODO(cbracken): inline the default value here for readability.
     // https://github.com/google/quiver-dart/issues/653
     return MapCache<K, V>(
-        map: LruMap(
-      maximumSize: maximumSize,
-      onItemRemoved: onItemRemoved,
-    ));
+      map: LruMap(
+        maximumSize: maximumSize,
+        onItemRemoved: onItemRemoved,
+      ),
+    );
   }
 
   final Map<K, V> _map;
