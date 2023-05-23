@@ -27,7 +27,10 @@ import 'package:quiver/iterables.dart' show GeneratingIterable;
 /// MRU position.
 abstract class LruMap<K, V> implements Map<K, V> {
   /// Creates a [LruMap] instance with the default implementation.
-  factory LruMap({int? maximumSize}) = LinkedLruHashMap<K, V>;
+  factory LruMap({
+    int? maximumSize,
+    void Function(K, V)? onItemRemoved,
+  }) = LinkedLruHashMap<K, V>;
 
   /// Maximum size of the [Map]. If [length] exceeds this value at any time, n
   /// entries accessed the earliest are removed, where n is [length] -
@@ -51,20 +54,27 @@ class _LinkedEntry<K, V> {
 /// A linked hash-table based implementation of [LruMap].
 class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   /// Create a new LinkedLruHashMap with a [maximumSize].
-  factory LinkedLruHashMap({int? maximumSize}) =>
-      LinkedLruHashMap._fromMap(HashMap<K, _LinkedEntry<K, V>>(),
-          maximumSize: maximumSize);
+  factory LinkedLruHashMap(
+          {int? maximumSize, void Function(K, V)? onItemRemoved}) =>
+      LinkedLruHashMap._fromMap(
+        HashMap<K, _LinkedEntry<K, V>>(),
+        maximumSize: maximumSize,
+        onItemRemoved: onItemRemoved,
+      );
 
-  LinkedLruHashMap._fromMap(this._entries, {int? maximumSize})
+  LinkedLruHashMap._fromMap(this._entries,
+      {int? maximumSize, void Function(K, V)? onItemRemoved})
       // This pattern is used instead of a default value because we want to
       // be able to respect null values coming in from MapCache.lru.
-      : _maximumSize = maximumSize ?? _defaultMaximumSize;
+      : _maximumSize = maximumSize ?? _defaultMaximumSize,
+        _onItemRemoved = onItemRemoved;
 
   static const _defaultMaximumSize = 100;
 
   final Map<K, _LinkedEntry<K, V>> _entries;
 
   int _maximumSize;
+  final void Function(K, V)? _onItemRemoved;
 
   _LinkedEntry<K, V>? _head;
   _LinkedEntry<K, V>? _tail;
@@ -244,6 +254,9 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
       entry.previous!.next = entry.next;
       entry.next!.previous = entry.previous;
     }
+
+    _onItemRemoved?.call(entry.key, entry.value);
+
     return entry.value;
   }
 
@@ -371,7 +384,7 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
   /// Removes the LRU position, shifting the linked list if necessary.
   void _removeLru() {
     // Remove the tail from the internal map.
-    _entries.remove(_tail!.key);
+    final removedEntry = _entries.remove(_tail!.key)!;
 
     // Remove the tail element itself.
     _tail = _tail!.previous;
@@ -381,6 +394,8 @@ class LinkedLruHashMap<K, V> implements LruMap<K, V> {
     if (_tail == null) {
       _head = null;
     }
+
+    _onItemRemoved?.call(removedEntry.key, removedEntry.value);
   }
 }
 
