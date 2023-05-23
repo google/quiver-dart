@@ -25,6 +25,10 @@ import 'package:quiver/iterables.dart' show GeneratingIterable;
 /// the "used" ordering - as well as using [forEach]. Other types of access,
 /// including bracket, and [putIfAbsent], promotes the key-value pair to the
 /// MRU position.
+///
+/// [onItemRemoved] is called when an item is removed, either explicitly or
+/// when the [maximumSize] is exceeded. This is useful if you need to clean up
+/// resources when an item is removed.
 abstract class LruMap<K, V> implements Map<K, V> {
   /// Creates a [LruMap] instance with the default implementation.
   factory LruMap({

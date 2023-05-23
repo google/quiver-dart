@@ -28,6 +28,10 @@ class MapCache<K, V> implements Cache<K, V> {
   ///
   /// When [maximumSize] is specified, the cache is limited to the specified
   /// number of pairs, otherwise it is limited to 100.
+  ///
+  /// [onItemRemoved] is called when an item is removed, either explicitly or
+  /// when the [maximumSize] is exceeded. This is useful if you need to clean up
+  /// resources when an item is removed.
   factory MapCache.lru({
     int? maximumSize,
     void Function(K, V)? onItemRemoved,
