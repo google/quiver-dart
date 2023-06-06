@@ -1,6 +1,7 @@
 ## 3.2.2-dev
 
 - Fix a number of doc comment issues.
+- Re-deprecate `Optional` but provide more nuance to the documentation.
 
 ## 3.2.1 - 2022-12-20
 

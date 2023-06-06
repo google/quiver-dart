@@ -24,10 +24,11 @@ import 'dart:collection';
 ///
 /// With the introduction of non-null by default in Dart SDK 2.12, developers
 /// should avoid adding more uses of this type. Existing users should migrate
-/// away from the `Optional` type to types marked nullable: `T?`. This type
-/// will be removed in Quiver 4.0.0.
-// TODO(kevmoo): re-deprecate this once usage is removed from Flutter plugins
-//@Deprecated('Migrate to a non-nullable type. Will be removed in 4.0.0')
+/// away from the `Optional` type to types marked nullable: `T?`.
+/// 
+/// There are a small number of cases where this is the appropriate abstraction 
+/// and we therefore do not intend on removing this type.
+@Deprecated('Generally, migrate to a nullable type.')
 class Optional<T> extends IterableBase<T> {
   /// Constructs an empty Optional.
   const Optional.absent() : _value = null;
