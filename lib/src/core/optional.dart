@@ -18,16 +18,23 @@ import 'dart:collection';
 
 /// A value that might be absent.
 ///
-/// Use Optional as an alternative to allowing fields, parameters or return
-/// values to be null. It signals that a value is not required and provides
-/// convenience methods for dealing with the absent case.
+/// This class was written before Dart SDK 2.12 added first class support for
+/// non-nullable types. Where possible, it is strongly preferred to use those
+/// language features and to not use this class at all.
 ///
-/// With the introduction of non-null by default in Dart SDK 2.12, developers
-/// should avoid adding more uses of this type. Existing users should migrate
-/// away from the `Optional` type to types marked nullable: `T?`.
+/// Usually, `Optional<T>` should be migrated to `T?`.
 ///
-/// There are a small number of cases where this is the appropriate abstraction
-/// and we therefore do not intend on removing this type.
+/// However, code that already uses `Optional` can continue to use it if the
+/// cost of migration is considered too high. The class will not be removed.
+///
+/// Valid new use cases:
+///
+/// - if an API only accepts non-null values, you can use `Optional` as a
+///   general way to pass it values that mean "absent";
+/// - for a general way to represent "nested levels" of absent, such as
+///   `Optional<Optional<T>>`.
+///
+/// Both of these should be very rare.
 @Deprecated('Generally, migrate to a nullable type.')
 class Optional<T> extends IterableBase<T> {
   /// Constructs an empty Optional.
