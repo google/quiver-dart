@@ -163,3 +163,8 @@ int compareIgnoreCase(String a, String b) =>
 bool isLetters(String s){
    return RegExp(r'^[A-Za-z]+$').hasMatch(s);
 }
+
+/// Return true if [s] contains any letter. 
+bool isContainsLetter(String s) {
+  return RegExp(r'[A-Za-z]').hasMatch(s);
+}

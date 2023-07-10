@@ -227,4 +227,18 @@ void main() {
       expect(isLetters('ABC'), true);
     });
   });
+
+    group('isContainsLetter', () {
+    test('return false if string consists of only numbers', () {
+      expect(isContainsLetter('1233'), false);
+    });
+
+    test('return true if string contains number and letter', () {
+      expect(isContainsLetter('1A'), true);
+    });
+
+    test('return true if string consists of only letters', () {
+      expect(isContainsLetter('ABC'), true);
+    });
+  });
 }
