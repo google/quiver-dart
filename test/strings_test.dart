@@ -213,4 +213,18 @@ void main() {
       expect(compareIgnoreCase('abD', 'abc'), greaterThan(0));
     });
   });
+
+  group('isLetters', () {
+    test('should return false if string consists of only numbers', () {
+      expect(isLetters('1233'), false);
+    });
+
+    test('should return false if string contains a number', () {
+      expect(isLetters('1A'), false);
+    });
+
+    test('return true if string consists of only letters', () {
+      expect(isLetters('ABC'), true);
+    });
+  });
 }
