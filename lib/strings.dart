@@ -159,9 +159,9 @@ bool equalsIgnoreCase(String? a, String? b) =>
 int compareIgnoreCase(String a, String b) =>
     a.toLowerCase().compareTo(b.toLowerCase());
 
-/// if [s] is consists of only letters.
-bool isLetters(String s){
-   return RegExp(r'^[A-Za-z]+$').hasMatch(s);
+/// Return true if [s] is consists of only letters.
+bool isLetters(String s) {
+  return RegExp(r'^[A-Za-z]+$').hasMatch(s);
 }
 
 /// Return true if [s] contains any letter. 
