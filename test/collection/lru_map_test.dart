@@ -314,6 +314,43 @@ void main() {
         expect(lruMap.keys.toList(), ['B']);
       });
     });
+
+    group('notify removed items', () {
+      late LruMap<String, DisposableValue> lruMap;
+      late DisposableValue valueA, valueB, valueC;
+
+      setUp(() {
+        valueA = DisposableValue('Alpha');
+        valueB = DisposableValue('Beta');
+        valueC = DisposableValue('Charlie');
+
+        lruMap = LruMap(onItemRemoved: (k, v) {
+          v.dispose();
+        })
+          ..addAll({
+            'A': valueA,
+            'B': valueB,
+            'C': valueC,
+          });
+      });
+
+      test('explicit remove', () {
+        lruMap.remove('B');
+        expect(valueA.disposed, isFalse);
+        expect(valueB.disposed, isTrue);
+        expect(valueC.disposed, isFalse);
+      });
+
+      test('`maximumSize` exceeded', () {
+        lruMap.maximumSize = 1;
+        final valueD = DisposableValue('Delta');
+        lruMap['D'] = valueD;
+        expect(valueA.disposed, isTrue);
+        expect(valueB.disposed, isTrue);
+        expect(valueC.disposed, isTrue);
+        expect(valueD.disposed, isFalse);
+      });
+    });
   });
 
   group('LruMap builds an informative string representation', () {
@@ -342,4 +379,15 @@ void main() {
       expect(lruMap.toString(), equals('{B: {...}, A: Alpha}'));
     });
   });
+}
+
+class DisposableValue {
+  DisposableValue(this.value);
+
+  final String value;
+  bool disposed = false;
+
+  void dispose() {
+    disposed = true;
+  }
 }
