@@ -25,8 +25,8 @@ abstract class Multimap<K, V> {
 
   /// Constructs a new list-backed multimap.
   ///
-  /// For each element `e` of [iterable], adds an association from [key] to
-  /// [value]. [key] and [value] each default to the identity function.
+  /// For each element `e` of [iterable], adds an association from `key(e)` to
+  /// `value(e)`. [key] and [value] each default to the identity function.
   factory Multimap.fromIterable(Iterable iterable,
       {K Function(dynamic)? key,
       V Function(dynamic)? value}) = ListMultimap<K, V>.fromIterable;
@@ -246,8 +246,8 @@ class ListMultimap<K, V> extends _BaseMultimap<K, V, List<V>> {
 
   /// Constructs a new list-backed multimap.
   ///
-  /// For each element `e` of [iterable], adds an association from [key] to
-  /// [value]. [key] and [value] each default to the identity function.
+  /// For each element `e` of [iterable], adds an association from `key(e)` to
+  /// `value(e)`. [key] and [value] each default to the identity function.
   ListMultimap.fromIterable(super.iterable, {super.key, super.value})
       : super.fromIterable();
 
@@ -289,8 +289,8 @@ class SetMultimap<K, V> extends _BaseMultimap<K, V, Set<V>> {
 
   /// Constructs a new set-backed multimap.
   ///
-  /// For each element `e` of [iterable], adds an association from [key] to
-  /// [value]. [key] and [value] each default to the identity function.
+  /// For each element `e` of [iterable], adds an association from `key(e)` to
+  /// `value(e)`. [key] and [value] each default to the identity function.
   SetMultimap.fromIterable(super.iterable, {super.key, super.value})
       : super.fromIterable();
 
