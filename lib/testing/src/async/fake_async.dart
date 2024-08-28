@@ -27,7 +27,7 @@ import 'package:quiver/time.dart';
 /// simulated using [elapseBlocking].
 ///
 /// To allow the unit under test to tell time, it can receive a [Clock] as a
-/// dependency, and default it to [const Clock()] in production, but then use
+/// dependency, and default it to `const Clock()` in production, but then use
 /// [Clock] in test code.
 ///
 /// Example:
