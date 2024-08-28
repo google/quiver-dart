@@ -1,4 +1,4 @@
-## 3.2.2-dev
+## 3.2.2
 
 - Fix a number of doc comment issues.
 - Re-deprecate `Optional` but provide more nuance to the documentation.
