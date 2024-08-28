@@ -8,7 +8,7 @@ version: 3.2.2
 # When updating SDK lower bound, also update .github/workflows/dart.yml to test
 # against the new lower bound.
 environment:
-  sdk: '>=2.17.0 <3.0.0'
+  sdk: '>=2.17.0 <4.0.0'
 
 dependencies:
   matcher: ^0.12.10
