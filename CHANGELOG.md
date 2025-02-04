@@ -1,3 +1,7 @@
+## 3.2.3-wip
+
+- Deprecate all `hash` functions. Use functions in `Object` instead.
+
 ## 3.2.2
 
 - Fix a number of doc comment issues.
