@@ -12,6 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// ignore_for_file: deprecated_member_use_from_same_package
+
 library quiver.core.hash_test;
 
 import 'package:quiver/src/core/hash.dart';
