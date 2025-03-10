@@ -36,7 +36,7 @@ import 'dart:collection';
 ///
 /// Both of these should be very rare.
 @Deprecated('Generally, migrate to a nullable type.')
-class Optional<T> extends IterableBase<T> {
+class Optional<T extends Object> extends IterableBase<T> {
   /// Constructs an empty Optional.
   const Optional.absent() : _value = null;
 
@@ -103,7 +103,7 @@ class Optional<T> extends IterableBase<T> {
   /// If the Optional is [absent()], returns [absent()] without applying the transformer.
   ///
   /// The transformer must not return `null`. If it does, an [ArgumentError] is thrown.
-  Optional<S> transform<S>(S Function(T value) transformer) {
+  Optional<S> transform<S extends Object>(S Function(T value) transformer) {
     return _value == null
         ? Optional<S>.absent()
         : Optional<S>.of(transformer(_value!));
@@ -114,7 +114,8 @@ class Optional<T> extends IterableBase<T> {
   /// If the Optional is [absent()], returns [absent()] without applying the transformer.
   ///
   /// Returns [absent()] if the transformer returns `null`.
-  Optional<S> transformNullable<S>(S? Function(T value) transformer) {
+  Optional<S> transformNullable<S extends Object>(
+      S? Function(T value) transformer) {
     return _value == null
         ? Optional<S>.absent()
         : Optional<S>.fromNullable(transformer(_value!));
