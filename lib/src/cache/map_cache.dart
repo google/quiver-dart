@@ -28,10 +28,22 @@ class MapCache<K, V> implements Cache<K, V> {
   ///
   /// When [maximumSize] is specified, the cache is limited to the specified
   /// number of pairs, otherwise it is limited to 100.
-  factory MapCache.lru({int? maximumSize}) {
+  ///
+  /// [onItemRemoved] is called when an item is removed, either explicitly or
+  /// when the [maximumSize] is exceeded. This is useful if you need to clean up
+  /// resources when an item is removed.
+  factory MapCache.lru({
+    int? maximumSize,
+    void Function(K, V)? onItemRemoved,
+  }) {
     // TODO(cbracken): inline the default value here for readability.
     // https://github.com/google/quiver-dart/issues/653
-    return MapCache<K, V>(map: LruMap(maximumSize: maximumSize));
+    return MapCache<K, V>(
+      map: LruMap(
+        maximumSize: maximumSize,
+        onItemRemoved: onItemRemoved,
+      ),
+    );
   }
 
   final Map<K, V> _map;
