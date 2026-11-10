@@ -16,17 +16,12 @@
 /// [Pattern]s.
 library quiver.pattern;
 
-// From the PatternCharacter rule here:
-// http://ecma-international.org/ecma-262/5.1/#sec-15.10
-final _specialChars = RegExp(r'([\\\^\$\.\|\+\[\]\(\)\{\}])');
-
 /// Escapes special regex characters in [str] so that it can be used as a
 /// literal match inside of a [RegExp].
 ///
-/// The special characters are: `\ ^ $ . | + [ ] ( ) { }`
+/// The special characters are: `( ) [ ] { } * + ? . ^ $ |`
 /// as defined here: http://ecma-international.org/ecma-262/5.1/#sec-15.10
-String escapeRegex(String str) => str.splitMapJoin(_specialChars,
-    onMatch: (Match m) => '\\${m.group(0)}', onNonMatch: (s) => s);
+String escapeRegex(String str) => RegExp.escape(str);
 
 /// Returns a [Pattern] that matches against every pattern in [include] and
 /// returns all the matches. If the input string matches against any pattern in
@@ -115,6 +110,10 @@ class Glob implements Pattern {
   @override
   bool operator ==(Object other) => other is Glob && pattern == other.pattern;
 }
+
+// Sepcial characters excluding '*' and '?', which are handled separately
+// for Globs.
+final _specialChars = RegExp(r'([\\\^\$\.\|\+\[\]\(\)\{\}])');
 
 RegExp _regexpFromGlobPattern(String pattern) {
   var sb = StringBuffer();
