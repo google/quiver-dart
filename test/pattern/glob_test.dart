@@ -43,12 +43,43 @@ void main() {
       expectGlob('**/*.html',
           matches: ['/a.html', 'a/b.html', 'a/b/c.html', 'a/b/c.html/d.html'],
           nonMatches: ['a.html', 'a/b.html/c']);
+      expectGlob('a/**',
+          matches: ['a/', 'a/b', 'a/b/c.html'], nonMatches: ['a', 'ab/c']);
     });
 
     test('should match "?" a single word char', () {
       expectGlob('a?',
           matches: ['ab', 'a?', 'a↭', 'a\u21ad', 'a\\'],
           nonMatches: ['a', 'abc']);
+    });
+
+    test('should escape all non-wildcard regex special characters', () {
+      expectGlob('a+b/(c)[d]?.txt', matches: [
+        'a+b/(c)[d]1.txt',
+        'a+b/(c)[d]?.txt'
+      ], nonMatches: [
+        'aab/(c)[d]1.txt',
+        'a+b/c[d]1.txt',
+        'a+b/(c)d1.txt',
+        'a+b/(c)[d].txt',
+      ]);
+      expectGlob(r'a\d*',
+          matches: [r'a\d', r'a\d1'], nonMatches: ['a5', 'a51']);
+      expectGlob('^a', matches: ['^a'], nonMatches: ['a']);
+      expectGlob(r'a$', matches: [r'a$'], nonMatches: ['a']);
+      expectGlob('a|b', matches: ['a|b'], nonMatches: ['a', 'b']);
+      expectGlob('a{2}', matches: ['a{2}'], nonMatches: ['aa']);
+    });
+
+    test('should implement toString, equality, and hashCode', () {
+      final a = Glob('*.dart');
+      final b = Glob('*.dart');
+      final c = Glob('*.html');
+      expect(a.toString(), '*.dart');
+      expect(a, equals(b));
+      expect(a.hashCode, equals(b.hashCode));
+      expect(a, isNot(equals(c)));
+      expect(a, isNot(equals('*.dart')));
     });
   });
 }

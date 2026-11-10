@@ -1,6 +1,8 @@
 ## 3.2.3-wip
 
 - Deprecate all `hash` functions. Use functions in `Object` instead.
+- Fix: Escape `*` and `?` regex quantifiers in `escapeRegex` via
+  `RegExp.escape`.
 
 ## 3.2.2
 

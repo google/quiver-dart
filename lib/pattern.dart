@@ -19,7 +19,7 @@ library quiver.pattern;
 /// Escapes special regex characters in [str] so that it can be used as a
 /// literal match inside of a [RegExp].
 ///
-/// The special characters are: `( ) [ ] { } * + ? . ^ $ |`
+/// The special characters are: `( ) [ ] { } * + ? . ^ $ | \`
 /// as defined here: http://ecma-international.org/ecma-262/5.1/#sec-15.10
 String escapeRegex(String str) => RegExp.escape(str);
 
@@ -111,7 +111,7 @@ class Glob implements Pattern {
   bool operator ==(Object other) => other is Glob && pattern == other.pattern;
 }
 
-// Sepcial characters excluding '*' and '?', which are handled separately
+// Special characters excluding '*' and '?', which are handled separately
 // for Globs.
 final _specialChars = RegExp(r'([\\\^\$\.\|\+\[\]\(\)\{\}])');
 
