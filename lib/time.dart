@@ -14,6 +14,9 @@
 
 library quiver.time;
 
-export 'src/time/clock.dart';
+@Deprecated('Use package:clock/clock.dart instead.')
+export 'package:clock/clock.dart' show Clock;
+
+export 'src/time/clock.dart' hide Clock;
 export 'src/time/duration_unit_constants.dart';
 export 'src/time/util.dart';

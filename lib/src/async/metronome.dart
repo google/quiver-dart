@@ -14,7 +14,7 @@
 
 import 'dart:async';
 
-import 'package:quiver/time.dart';
+import 'package:clock/clock.dart';
 
 /// A stream of [DateTime] events at [interval]s centered on [anchor].
 ///

@@ -11,6 +11,8 @@ environment:
   sdk: '>=2.17.0 <4.0.0'
 
 dependencies:
+  # Temporary bridge until Clock is removed in 4.0.0.
+  clock: ^1.1.0
   matcher: ^0.12.10
 
 dev_dependencies:
