@@ -17,14 +17,89 @@ library quiver.pattern_test;
 import 'package:quiver/pattern.dart';
 import 'package:test/test.dart';
 
-const _specialChars = r'\^$.|+[](){}';
+const _specialChars = r'\^$.|+*?[](){}';
 
 void main() {
   group('escapeRegex', () {
-    test('should escape special characters', () {
+    test('should escape each special character as a valid literal RegExp', () {
       for (final c in _specialChars.split('')) {
         expect(escapeRegex(c), '\\$c');
+        final re = RegExp('^${escapeRegex(c)}\$');
+        expect(re.hasMatch(c), isTrue);
+        expect(re.hasMatch('a'), isFalse);
       }
+    });
+
+    test('should escape all special characters in a single string', () {
+      expect(
+        escapeRegex(_specialChars),
+        r'\\\^\$\.\|\+\*\?\[\]\(\)\{\}',
+      );
+      final re = RegExp('^${escapeRegex(_specialChars)}\$');
+      expect(re.hasMatch(_specialChars), isTrue);
+      expect(re.hasMatch('a'), isFalse);
+    });
+
+    test('should match strings containing * and ? quantifiers literally', () {
+      final starRe = RegExp('^${escapeRegex('a*b')}\$');
+      expect(starRe.hasMatch('a*b'), isTrue);
+      expect(starRe.hasMatch('b'), isFalse);
+      expect(starRe.hasMatch('ab'), isFalse);
+      expect(starRe.hasMatch('aaab'), isFalse);
+
+      final questionRe = RegExp('^${escapeRegex('a?b')}\$');
+      expect(questionRe.hasMatch('a?b'), isTrue);
+      expect(questionRe.hasMatch('ab'), isFalse);
+      expect(questionRe.hasMatch('b'), isFalse);
+
+      final repeatedRe = RegExp('^${escapeRegex('a**b??c.*?')}\$');
+      expect(repeatedRe.hasMatch('a**b??c.*?'), isTrue);
+      expect(repeatedRe.hasMatch('abc'), isFalse);
+    });
+
+    test('should prevent quantifier and alternation injection mid-pattern', () {
+      final starMidRe = RegExp('^user_${escapeRegex('*')}_v\\d+\$');
+      expect(starMidRe.hasMatch('user_*_v1'), isTrue);
+      expect(starMidRe.hasMatch('user_v1'), isFalse);
+      expect(starMidRe.hasMatch('user____v1'), isFalse);
+
+      final questionMidRe = RegExp('^user_${escapeRegex('?')}_v\\d+\$');
+      expect(questionMidRe.hasMatch('user_?_v1'), isTrue);
+      expect(questionMidRe.hasMatch('user_v1'), isFalse);
+      expect(questionMidRe.hasMatch('user__v1'), isFalse);
+
+      final altMidRe = RegExp('^user_${escapeRegex('a|admin')}_v\\d+\$');
+      expect(altMidRe.hasMatch('user_a|admin_v1'), isTrue);
+      expect(altMidRe.hasMatch('user_a'), isFalse);
+      expect(altMidRe.hasMatch('admin_v1'), isFalse);
+    });
+
+    test('should neutralize non-quantifier regex metacharacters and escapes',
+        () {
+      final dotPlusBraceRe = RegExp('^${escapeRegex('a.b+c{2}')}\$');
+      expect(dotPlusBraceRe.hasMatch('a.b+c{2}'), isTrue);
+      expect(dotPlusBraceRe.hasMatch('axbbcc'), isFalse);
+
+      final charClassEscapeRe = RegExp('^${escapeRegex(r'[ab]\d\w')}\$');
+      expect(charClassEscapeRe.hasMatch(r'[ab]\d\w'), isTrue);
+      expect(charClassEscapeRe.hasMatch('a5x'), isFalse);
+
+      final groupAnchorRe = RegExp('^${escapeRegex(r'(^ab$)')}\$');
+      final match = groupAnchorRe.firstMatch(r'(^ab$)');
+      expect(match, isNotNull);
+      expect(match!.groupCount, 0);
+      expect(groupAnchorRe.hasMatch('ab'), isFalse);
+    });
+
+    test('should leave non-special ASCII and Unicode characters unchanged', () {
+      expect(escapeRegex(''), '');
+      expect(
+        escapeRegex('abcXYZ019-_/:=!<>~@#%&;", \t\n\x00\x7f'),
+        'abcXYZ019-_/:=!<>~@#%&;", \t\n\x00\x7f',
+      );
+      expect(escapeRegex("'"), "'");
+      expect(escapeRegex('αβγ↭🎯'), 'αβγ↭🎯');
+      expect(escapeRegex('🎯*?'), r'🎯\*\?');
     });
   });
 

@@ -1,6 +1,8 @@
 ## 3.2.3-wip
 
 - Deprecate all `hash` functions. Use functions in `Object` instead.
+- Fix: Escape `*` and `?` regex quantifiers in `escapeRegex` via
+  `RegExp.escape`.
 - Implement `whereType` on `SetMultimap` value sets.
 - Execute `FakeAsync` microtasks in the `Zone` in which they were scheduled.
 
