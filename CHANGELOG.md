@@ -1,6 +1,8 @@
 ## 3.2.3-wip
 
 - Deprecate all `hash` functions. Use functions in `Object` instead.
+- Re-export `Clock` from `package:clock` and deprecate exporting it from
+  `package:quiver/time.dart`.
 
 ## 3.2.2
 
