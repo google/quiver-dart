@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-@Deprecated("Use 'package:clock/clock.dart' instead.")
+library quiver.time.clock;
+
+@Deprecated('Use package:clock/clock.dart instead.')
 export 'package:clock/clock.dart' show Clock;
 
 /// Returns current time.
