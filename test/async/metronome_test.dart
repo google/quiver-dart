@@ -14,6 +14,7 @@
 
 library quiver.time.clock_test;
 
+import 'package:clock/clock.dart';
 import 'package:quiver/src/async/metronome.dart';
 import 'package:quiver/testing/async.dart';
 import 'package:quiver/time.dart';

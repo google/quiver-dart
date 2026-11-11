@@ -3,6 +3,8 @@
 - Deprecate all `hash` functions. Use functions in `Object` instead.
 - Fix: Escape `*` and `?` regex quantifiers in `escapeRegex` via
   `RegExp.escape`.
+- Re-export `Clock` from `package:clock` and deprecate exporting it from
+  `package:quiver/time.dart` (with `dart fix` migration support).
 
 ## 3.2.2
 

@@ -12,9 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+// ignore_for_file: deprecated_export_use
+
 library quiver.time.clock_test;
 
+import 'package:clock/clock.dart' as pkg_clock;
 import 'package:quiver/src/time/clock.dart';
+import 'package:quiver/time.dart' as quiver_time;
 import 'package:test/test.dart';
 
 Clock from(int y, int m, int d) => Clock.fixed(DateTime(y, m, d));
@@ -215,6 +219,11 @@ void main() {
       expectDate(subject.yearsFromNow(6), 2019, 1, 1);
       expectDate(subject.yearsFromNow(30), 2043, 1, 1);
       expectDate(subject.yearsFromNow(1000), 3013, 1, 1);
+    });
+
+    test('re-exports Clock from package:clock', () {
+      expect(Clock, same(pkg_clock.Clock));
+      expect(quiver_time.Clock, same(pkg_clock.Clock));
     });
   });
 }

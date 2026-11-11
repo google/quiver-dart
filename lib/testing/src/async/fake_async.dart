@@ -15,7 +15,7 @@
 import 'dart:async';
 import 'dart:collection' show Queue;
 
-import 'package:quiver/time.dart';
+import 'package:clock/clock.dart';
 
 /// A mechanism to make time-dependent units testable.
 ///
