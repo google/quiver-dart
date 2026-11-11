@@ -1,6 +1,8 @@
 ## 3.2.3-wip
 
 - Deprecate all `hash` functions. Use functions in `Object` instead.
+- Implement `whereType` on `SetMultimap` value sets.
+- Execute `FakeAsync` microtasks in the `Zone` in which they were scheduled.
 
 ## 3.2.2
 

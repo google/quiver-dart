@@ -614,8 +614,8 @@ class _WrappedIterable<K, V, C extends Iterable<V>> implements Iterable<V> {
 
   @override
   Iterable<T> whereType<T>() {
-    // TODO(cbracken): Dart 2.0 requires this method to be implemented.
-    throw UnimplementedError('whereType');
+    _syncDelegate();
+    return _delegate.whereType<T>();
   }
 }
 

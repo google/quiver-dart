@@ -420,6 +420,20 @@ void main() {
           expect(log, [1]);
         });
       });
+
+      test('should run microtasks in the zone they were scheduled in', () {
+        late Zone fakeZone;
+        final async = FakeAsync()
+          ..run((_) {
+            fakeZone = Zone.current;
+          });
+        Zone? executedZone;
+        fakeZone.scheduleMicrotask(() {
+          executedZone = Zone.current;
+        });
+        async.flushMicrotasks();
+        expect(executedZone, same(fakeZone));
+      });
     });
 
     group('flushTimers', () {

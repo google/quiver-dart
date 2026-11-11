@@ -1114,6 +1114,15 @@ void main() {
       y.addAll(<String>['v2', 'v3']);
       expect(mmap['k1'], unorderedEquals(['v0', 'v1', 'v2', 'v3']));
     });
+
+    test('should filter values by type via whereType', () {
+      var map = SetMultimap<String, Object>()
+        ..add('k1', 1)
+        ..add('k1', 'two')
+        ..add('k1', 3);
+      expect(map['k1'].whereType<int>(), unorderedEquals([1, 3]));
+      expect(map['k2'].whereType<int>(), isEmpty);
+    });
   });
 }
 
