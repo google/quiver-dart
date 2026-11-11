@@ -20,7 +20,7 @@ library quiver.pattern;
 /// literal match inside of a [RegExp].
 ///
 /// The special characters are: `( ) [ ] { } * + ? . ^ $ | \`
-/// as defined here: http://ecma-international.org/ecma-262/5.1/#sec-15.10
+/// as defined here: https://262.ecma-international.org/5.1/#sec-15.10.1
 String escapeRegex(String str) => RegExp.escape(str);
 
 /// Returns a [Pattern] that matches against every pattern in [include] and
