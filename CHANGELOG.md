@@ -5,8 +5,7 @@
   `RegExp.escape`.
 - Re-export `Clock` from `package:clock` and deprecate exporting it from
   `package:quiver/time.dart` (with `dart fix` migration support).
-- Implement `whereType` on `SetMultimap` value sets.
-- Execute `FakeAsync` microtasks in the `Zone` in which they were scheduled.
+- Implement `whereType` on `Multimap` value collections.
 
 ## 3.2.2
 

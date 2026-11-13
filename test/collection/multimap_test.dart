@@ -659,6 +659,40 @@ void main() {
       w.insertAll(5, <String>['v5', 'v6']);
       expect(mmap['k1'], ['v0', 'v1', 'v2', 'v3', 'v4', 'v5', 'v6']);
     });
+
+    test('should filter values by type via whereType', () {
+      var map = ListMultimap<String, Object?>()
+        ..add('k1', 1)
+        ..add('k1', 'two')
+        ..add('k1', 2.5)
+        ..add('k1', null)
+        ..add('k1', 1)
+        ..add('onlyStrings', 'a');
+      expect(map['k1'].whereType<int>(), [1, 1]);
+      expect(map['k1'].whereType<num>(), [1, 2.5, 1]);
+      expect(map['k1'].whereType<int?>(), [1, null, 1]);
+      expect(map['onlyStrings'].whereType<int>(), isEmpty);
+      expect(map['unmapped'].whereType<int>(), isEmpty);
+    });
+
+    test('should sync empty and evicted views before filtering via whereType',
+        () {
+      var map = ListMultimap<String, Object>();
+      var view = map['k1'];
+      map
+        ..add('k1', 1)
+        ..add('k1', 'two')
+        ..add('k1', 3);
+      expect(view.whereType<int>(), [1, 3]);
+
+      map.removeAll('k1');
+      expect(view.whereType<int>(), isEmpty);
+
+      map
+        ..add('k1', 'four')
+        ..add('k1', 5);
+      expect(view.whereType<int>(), [5]);
+    });
   });
 
   group('SetMultimap', () {
@@ -1116,12 +1150,37 @@ void main() {
     });
 
     test('should filter values by type via whereType', () {
-      var map = SetMultimap<String, Object>()
+      var map = SetMultimap<String, Object?>()
+        ..add('k1', 1)
+        ..add('k1', 'two')
+        ..add('k1', 2.5)
+        ..add('k1', null)
+        ..add('k1', 3)
+        ..add('onlyStrings', 'a');
+      expect(map['k1'].whereType<int>(), unorderedEquals([1, 3]));
+      expect(map['k1'].whereType<num>(), unorderedEquals([1, 2.5, 3]));
+      expect(map['k1'].whereType<int?>(), unorderedEquals([1, null, 3]));
+      expect(map['onlyStrings'].whereType<int>(), isEmpty);
+      expect(map['unmapped'].whereType<int>(), isEmpty);
+    });
+
+    test('should sync empty and evicted views before filtering via whereType',
+        () {
+      var map = SetMultimap<String, Object>();
+      var view = map['k1'];
+      map
         ..add('k1', 1)
         ..add('k1', 'two')
         ..add('k1', 3);
-      expect(map['k1'].whereType<int>(), unorderedEquals([1, 3]));
-      expect(map['k2'].whereType<int>(), isEmpty);
+      expect(view.whereType<int>(), unorderedEquals([1, 3]));
+
+      map.removeAll('k1');
+      expect(view.whereType<int>(), isEmpty);
+
+      map
+        ..add('k1', 'four')
+        ..add('k1', 5);
+      expect(view.whereType<int>(), unorderedEquals([5]));
     });
   });
 }

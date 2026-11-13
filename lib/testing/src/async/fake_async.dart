@@ -220,8 +220,8 @@ class _FakeAsync implements FakeAsync {
       }, createPeriodicTimer:
               (_, __, ___, Duration duration, Function callback) {
         return _createTimer(duration, callback, true);
-      }, scheduleMicrotask: (_, __, Zone zone, void Function() microtask) {
-        _microtasks.add(zone.bindCallbackGuarded(microtask));
+      }, scheduleMicrotask: (_, __, ___, Function microtask) {
+        _microtasks.add(microtask);
       });
 
   void _drainTimersWhile(bool Function(_FakeTimer timer) predicate) {
