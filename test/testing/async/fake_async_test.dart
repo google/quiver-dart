@@ -420,6 +420,143 @@ void main() {
           expect(log, [1]);
         });
       });
+
+      test('should run microtasks in the zone they were scheduled in', () {
+        late Zone fakeZone;
+        final async = FakeAsync()
+          ..run((_) {
+            fakeZone = Zone.current;
+          });
+        Zone? directZone;
+        fakeZone.scheduleMicrotask(() {
+          directZone = Zone.current;
+        });
+        async.flushMicrotasks();
+        expect(directZone, same(fakeZone));
+
+        final observedValues = <Object?>[];
+        async.run((_) {
+          runZoned(() {
+            scheduleMicrotask(() {
+              observedValues.add(Zone.current[#tag]);
+            });
+          }, zoneValues: {#tag: 'flush'});
+          async.flushMicrotasks();
+
+          runZoned(() {
+            scheduleMicrotask(() {
+              observedValues.add(Zone.current[#tag]);
+            });
+          }, zoneValues: {#tag: 'elapse'});
+          async.elapse(Duration.zero);
+        });
+        expect(observedValues, ['flush', 'elapse']);
+
+        Stream<int> countStream() async* {
+          expect(Zone.current[#streamTag], 'generator');
+          yield 1;
+          expect(Zone.current[#streamTag], 'generator');
+          yield 2;
+        }
+
+        final events = <int>[];
+        late StreamSubscription<int> subscription;
+        async.run((_) {
+          runZoned(() {
+            subscription = countStream().listen(events.add);
+          }, zoneValues: {#streamTag: 'generator'});
+        });
+        async.flushMicrotasks();
+        expect(events, [1, 2]);
+        subscription.cancel();
+      });
+
+      test(
+          'should preserve Zone registerCallback and run protocol for '
+          'microtasks', () {
+        var registerCount = 0;
+        final log = <String>[];
+        late FakeAsync async;
+        late Zone fakeZone;
+        runZoned(() {
+          async = FakeAsync();
+          async.run((_) {
+            fakeZone = Zone.current;
+          });
+        },
+            zoneSpecification: ZoneSpecification(
+              registerCallback: <R>(self, parent, zone, f) {
+                final id = ++registerCount;
+                log.add('register:$id');
+                final registered = parent.registerCallback(zone, f);
+                return () {
+                  log.add('call:$id');
+                  return registered();
+                };
+              },
+              run: <R>(self, parent, zone, f) {
+                log.add('run');
+                return parent.run(zone, f);
+              },
+            ));
+
+        fakeZone.run(() {
+          log.clear();
+          scheduleMicrotask(() {
+            log.add('body:top');
+          });
+        });
+        expect(log, ['register:1']);
+        log.clear();
+
+        async.flushMicrotasks();
+        expect(log.sublist(log.length - 3), ['run', 'call:1', 'body:top']);
+        log.clear();
+
+        fakeZone.scheduleMicrotask(() {
+          log.add('body:direct');
+        });
+        expect(log, isEmpty);
+
+        async.flushMicrotasks();
+        expect(log, ['run', 'body:direct']);
+      });
+
+      test(
+          'should route uncaught microtask errors to the scheduled zone and '
+          'continue flushing', () {
+        final async = FakeAsync();
+        final errors = <Object>[];
+        final log = <String>[];
+        late Zone guardedFakeZone;
+        async.run((_) {
+          runZonedGuarded(() {
+            guardedFakeZone = Zone.current;
+          }, (error, _) {
+            errors.add(error);
+          });
+        });
+
+        guardedFakeZone.scheduleMicrotask(() {
+          log.add('first');
+          throw StateError('direct microtask error');
+        });
+        guardedFakeZone.run(() {
+          scheduleMicrotask(() {
+            log.add('second');
+            throw StateError('top-level microtask error');
+          });
+          scheduleMicrotask(() {
+            log.add('third');
+          });
+        });
+
+        async.flushMicrotasks();
+        expect(log, ['first', 'second', 'third']);
+        expect(errors, hasLength(2));
+        expect(errors[0], isA<StateError>());
+        expect(errors[1], isA<StateError>());
+      });
     });
 
     group('flushTimers', () {
