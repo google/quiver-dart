@@ -5,6 +5,7 @@
   `RegExp.escape`.
 - Re-export `Clock` from `package:clock` and deprecate exporting it from
   `package:quiver/time.dart` (with `dart fix` migration support).
+- Execute `FakeAsync` microtasks in the `Zone` in which they were scheduled.
 
 ## 3.2.2
 

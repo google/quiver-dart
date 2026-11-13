@@ -130,7 +130,7 @@ abstract class FakeAsync {
 class _FakeAsync implements FakeAsync {
   Duration _elapsed = Duration.zero;
   Duration? _elapsingTo;
-  final Queue<Function> _microtasks = Queue();
+  final Queue<void Function()> _microtasks = Queue();
   final Set<_FakeTimer> _timers = <_FakeTimer>{};
 
   @override
@@ -220,8 +220,8 @@ class _FakeAsync implements FakeAsync {
       }, createPeriodicTimer:
               (_, __, ___, Duration duration, Function callback) {
         return _createTimer(duration, callback, true);
-      }, scheduleMicrotask: (_, __, ___, Function microtask) {
-        _microtasks.add(microtask);
+      }, scheduleMicrotask: (_, __, Zone zone, void Function() microtask) {
+        _microtasks.add(() => zone.runGuarded(microtask));
       });
 
   void _drainTimersWhile(bool Function(_FakeTimer timer) predicate) {
