@@ -1,17 +1,17 @@
-# A CI configuration to auto-publish pub packages.
+# A CI configuration to publish package:quiver to pub.dev.
 
 name: Publish
 
 on:
-  pull_request:
-    branches: [ master ]
   push:
-    tags: [ 'v[0-9]+.[0-9]+.[0-9]+' ]
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
   publish:
     if: ${{ github.repository_owner == 'google' }}
-    uses: dart-lang/ecosystem/.github/workflows/publish.yaml@main
     permissions:
-      id-token: write # Required for authentication using OIDC
-      pull-requests: write # Required for writing the pull request note
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@40657d0d0732d6fd3809f5841380e7519e355b50 # main
+    with:
+      use-flutter: false
